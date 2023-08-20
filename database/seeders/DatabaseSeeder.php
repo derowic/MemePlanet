@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Notification;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,6 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(RoleSeeder::class);
+        $this->call(PermissionSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(TagSeeder::class);
+        $this->call(PostsSeeder::class);
+        $this->call(CommentsSeeder::class);
+        $this->call(LikeSeeder::class);
+        $this->call(FavouriteSeeder::class);
+        //$this->call(Notification::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

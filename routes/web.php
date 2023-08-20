@@ -5,9 +5,13 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\API\ExampleController;
+use App\Http\Controllers\API\PostController;
 
 Route::get('/api/get-data', [ExampleController::class, 'getData']);
 
+Route::get('/api/posts', [PostController::class, 'index']);
+
+Route::get('/posts', [PostController::class, 'index']);
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,6 +35,10 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/MemeGenerator', function () {
+    return Inertia::render('MemeGenerator');
+})->middleware(['auth', 'verified'])->name('MemeGenerator');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

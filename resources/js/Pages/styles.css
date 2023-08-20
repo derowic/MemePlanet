@@ -1,0 +1,40 @@
+.btn {
+    padding: 8px 12px;
+    border: 1px solid #d3d3d3;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+
+.count {
+    margin: 0 12px;
+}
+
+.normal-btn
+{
+    background-color: #ff9100;
+}
+
+.normal-btn:hover  {
+    background-color: #ffffff;
+}
+
+.add-btn
+{
+    background-color: #73ff00;
+}
+
+.add-btn:hover  {
+    background-color: #8fff33;
+}
+
+.delete-btn
+{
+    background-color: #fd392b;
+}
+
+.delete-btn:hover  {
+    background-color: #ff4c3f;
+}
+
+  
