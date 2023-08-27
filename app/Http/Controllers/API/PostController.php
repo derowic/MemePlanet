@@ -86,6 +86,30 @@ class PostController extends Controller
         //return view('posts.index', compact(['posts', 'search']));
     }
 
+    public function getComments(Request $request)
+    {
+        $postId = $request->id;
+
+        $comments = Post::with(['user', 'comments', 'comments.user', 'comments.replyTo'])
+            ->where('id', $postId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+/*
+        $perPage = 5;
+        $comments = Post::with(['user', 'comments', 'comments.user', 'comments.replyTo'])
+        ->orderBy('created_at', 'desc')
+        ->paginate($perPage);
+        */
+           
+
+        return response()->json([
+            'dane' => $comments,
+            'id' => $postId,
+            
+        ]);
+
+    }
+
     public function uploadImage(Request $request)
     {
         if ($request->hasFile('image')) {
