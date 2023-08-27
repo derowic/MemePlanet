@@ -17,6 +17,7 @@ class Comment extends Model
         'idPost',
         'idUser',
         'text',
+        'idParentComment',
 
     ];
 
@@ -28,5 +29,10 @@ class Comment extends Model
     public function post()
     {
         return $this->belongsTo(Post::class,'idPost');
+    }
+
+    public function replyTo()
+    {
+        return $this->belongsTo(User::class, 'idParentComment');
     }
 }

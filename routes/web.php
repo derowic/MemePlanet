@@ -10,8 +10,11 @@ use App\Http\Controllers\API\PostController;
 Route::get('/api/get-data', [ExampleController::class, 'getData']);
 
 Route::get('/api/posts', [PostController::class, 'index']);
+Route::post('/api/upload', [PostController::class, 'uploadImage']);
+Route::post('/api/like', [PostController::class, 'like']);
 
 Route::get('/posts', [PostController::class, 'index']);
+Route::post('/like', [PostController::class, 'like']);
 /*
 |--------------------------------------------------------------------------
 | Web Routes

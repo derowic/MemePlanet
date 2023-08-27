@@ -49,7 +49,13 @@ class PostController extends Controller
 
         $perPage = 5; // Ilość postów na stronę
         $posts = Post::with(['user'])->orderBy('created_at', 'desc')->with('user')->paginate($perPage);
-
+        
+        
+        //$posts = Post::with(['user', 'comments'])->orderBy('created_at', 'desc')->paginate($perPage);
+        $posts = Post::with(['user', 'comments', 'comments.user', 'comments.replyTo'])
+        ->orderBy('created_at', 'desc')
+        ->paginate($perPage);
+    
 
         /*
         return response()->json([
@@ -58,7 +64,7 @@ class PostController extends Controller
         */
 
        
-        $this->like();
+        
 
 
 
@@ -80,17 +86,53 @@ class PostController extends Controller
         //return view('posts.index', compact(['posts', 'search']));
     }
 
-    public function like()
+    public function uploadImage(Request $request)
     {
-        $user = auth()->user(); // Pobierz obiekt zalogowanego użytkownika
-        $myUserId = $user->id;  
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images'), $imageName);
+            
+            return response()->json([
+                'imageUrl' => '/images/' . $imageName,
+            ]);
+        }
 
+        return response()->json(['message' => 'No image uploaded.'], 400);
+    }
+
+
+    public function like(Request $request)
+    {
+        $like = $request->like;
+        $user = auth()->user();
+        $myUserId = $user->id;
         $article = Post::find(1);
-        $article->like(); // like the article for current user
+
+        if ($like === true) {
+            $article->like($myUserId);
+            
+        } else {
+            $article->unlike($myUserId);
+        }
+
+        return response()->json([
+            'like' => $article->likeCount ,
+
+        ]);
+
+       
+        
+        //
+       
+       // $article->unlike($myUserId); // pass in your own user id
+        //$article->unlike(0); // 
+        /*
+         // like the article for current user
         $article->like($myUserId); // pass in your own user id
         $article->like(0); // just add likes to the count, and don't track by user
 
-        $article->unlike(); // remove like from the article
+         // remove like from the article
         $article->unlike($myUserId); // pass in your own user id
         $article->unlike(0); // remove likes from the count -- does not check for user
 
@@ -104,8 +146,14 @@ class PostController extends Controller
         Post::whereLikedBy($myUserId) // find only articles where user liked them
             ->with('likeCounter') // highly suggested to allow eager load
             ->get();
+            */
+
+       
         
     }
+
+
+
 
 
 
