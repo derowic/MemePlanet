@@ -21,6 +21,7 @@ function CommentSection({ postId }) {
             });
 
             setComments(response.data.dane[0].comments);
+            console.log(response.data);
         } catch (error) {
             console.error(error);
         }

@@ -33,6 +33,6 @@ class Comment extends Model
 
     public function replyTo()
     {
-        return $this->belongsTo(User::class, 'idParentComment');
+        return $this->belongsTo(Comment::class, 'idParentComment');
     }
 }

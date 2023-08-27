@@ -90,7 +90,7 @@ class PostController extends Controller
     {
         $postId = $request->id;
 
-        $comments = Post::with(['user', 'comments', 'comments.user', 'comments.replyTo'])
+        $comments = Post::with(['user', 'comments', 'comments.user', 'comments.replyTo','comments.replyTo.user'])
             ->where('id', $postId)
             ->orderBy('created_at', 'desc')
             ->get();

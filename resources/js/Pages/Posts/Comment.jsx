@@ -62,8 +62,11 @@ const Comment = ({usedComments, comment, allComments, post, parentId }) => {
     return (
         <div className="comment mt-5">
 
-            {comment.reply_to ? <p> reply to: {comment.reply_to.name} user: {comment.user.name}  komentarz: {comment.text} </p> : <p> user: {comment.user.name}  komentarz: {comment.text} </p>}
-            <button onClick={() => sendComment(post,"","",parentId)}>rpeply</button>
+            {comment.reply_to ? 
+                <div className="ml-5"> reply to: {comment.reply_to.user.name} user: {comment.user.name}  komentarz: {comment.text} <button onClick={() => sendComment(post,"","",parentId)}>rpeply</button> </div> 
+                
+                : <div> user: {comment.user.name}  komentarz: {comment.text}  <button onClick={() => sendComment(post,"","",parentId)}>rpeply</button></div>}
+            
             {/*<CommentInput onSubmit={handleSubmitComment} />*/}
             {replies.length > 0 && (
                 
