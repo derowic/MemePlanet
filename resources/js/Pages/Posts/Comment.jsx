@@ -25,11 +25,15 @@ const sendComment = async (postId,text,parentId) => {
 
 const Comment = ({usedComments, comment, allComments, post, parentId, fetchComments }) => {
 
-    const [isHidden, setIsHidden] = useState(true);
+    
 
-    const toggleVisibility = () => {
-        setIsHidden(!isHidden);
+    const toggleRender = () => {
+        //setShouldRender(!shouldRender);
+        const element = document.getElementById(comment.id);
+        element.hidden = false;
+
     };
+
 
     const post2 = post;
  
@@ -96,25 +100,25 @@ const Comment = ({usedComments, comment, allComments, post, parentId, fetchComme
                     reply to: {comment.reply_to.user.name} 
                     user: {comment.user.name}  
                     komentarz: {comment.text}
-                    <button onClick={() => sendComment(post,"","",parentId)}> rpeply</button> 
+                    <button onClick={() => sendComment(post2,"","",parentId)}> rpeply</button> 
                     {/*<CommentInput onSubmit={(commentText) => handleSubmitComment(commentText, post, parentId, fetchComments)} />*/}
                     
-                    <CommentInput2 
-                        onSubmit={
-                            (commentText,post) => handleSubmitComment(commentText, post2, parentId, fetchComments)}  
-                        post={post}
-                    />
+                   
 
-                    <button onClick={toggleVisibility}>Toggle Visibility</button>
-                    {isHidden ? (
-                        <div hidden>
-                            <h1>TEST</h1>
-                        </div>
-                    ) : (
-                        <div>
-                            <h1>TEST</h1>
-                        </div>
-                    )} 
+                    
+
+                    <div>
+                        <button onClick={toggleRender}>Toggle Render</button>
+                        <div id={comment.id} hidden>
+                            This content will be conditionally rendered.
+                            <CommentInput2 
+                                onSubmit={
+                                    (commentText,post) => handleSubmitComment(commentText, post2, parentId, fetchComments)}  
+                                post={post}
+                            />
+                        </div> 
+                       
+                    </div>
                     
                     </div> 
                 
@@ -122,7 +126,7 @@ const Comment = ({usedComments, comment, allComments, post, parentId, fetchComme
                 <div> 
                     user: {comment.user.name}  
                     komentarz: {comment.text}  
-                    <button onClick={() => sendComment(post,"","",parentId)}> rpeply</button> 
+                    <button onClick={() => sendComment(post2,"","",parentId)}> rpeply</button> 
                     {/*<CommentInput onSubmit={(commentText) => handleSubmitComment(commentText, post, parentId, fetchComments)} />*/}
                     dodaj tutaj wyświetlanie od kogo i do kogo jest ot reply
                     <CommentInput2 
