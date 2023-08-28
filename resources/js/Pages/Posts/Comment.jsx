@@ -1,29 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CommentInput from './CommentInput';
+import CommentInput2 from './CommentInput2';
 
-const sendComment = async (postId,authorId,text,parentId) => {
+const sendComment = async (postId,text,parentId) => {
     console.log("id posta ",postId," parent id: ",parentId );
-    /*try {
-        const response = await axios.post('/api/like', {
-            idUser: authorId,
+    try {
+        const response = await axios.post('/api/addComment', {
             idPost: postId,
             idParentComment: parentId,
             text:text
         });
-        console.log('Dane zostały przesłane', response.data);
-        setCount(response.data.like);
+        console.log('Wiadomośc', response.data);
+        
         // Obsłuż odpowiedź serwera
     } catch (error) {
         console.error('Błąd przesyłania danych:', error);
         // Obsłuż błędy
     }
-    */
+    
 };
 
 //const usedComments = [];
 //console.log("inicjalizajc tablicy komentarzy  ");
 
-const Comment = ({usedComments, comment, allComments, post, parentId }) => {
+const Comment = ({usedComments, comment, allComments, post, parentId, fetchComments }) => {
+
+    const [isHidden, setIsHidden] = useState(true);
+
+    const toggleVisibility = () => {
+        setIsHidden(!isHidden);
+    };
+
+    const post2 = post;
  
     const getRepliesForComment = (comments, parentId) => {
 
@@ -45,6 +53,24 @@ const Comment = ({usedComments, comment, allComments, post, parentId }) => {
     }
 
     if (checkId(comment.id)) {
+        {/*replies.length > 0 && (
+                
+            <div className="replies">
+                {replies.map(reply => (
+                <Comment key={reply.id} 
+                    usedComments={usedComments}  
+                    comment={reply} 
+                    allComments={allComments} 
+                    post={post} 
+                    parentId={comment.id}
+                    fetchComments={fetchComments}
+                    />
+                
+                ))}
+            </div>
+                )*/}
+            
+            
         //tutaj nie pokazuje gdy ponownie renderuje chodzi o to ze sa zapisne i przy ponownym uzyciu jest 
         //traktowane jak juz wyswietlone
         return null; // Pomijaj renderowanie
@@ -54,25 +80,71 @@ const Comment = ({usedComments, comment, allComments, post, parentId }) => {
 
     usedComments.push(comment.id);
 
-    const handleSubmitComment = (comment) => {
+    const handleSubmitComment = async (commentText, postId, parentCommentId, fetchComments) => {
         // Tutaj możesz obsłużyć dodawanie komentarza, np. wysłać go na serwer
-        console.log('Dodano komentarz:', comment);
-      };
+        console.log('Dodano komentarz:', commentText, " ", postId, "", parentCommentId);
+        await sendComment(postId, commentText, parentCommentId);
+        //fetchComments(); // Wywołanie funkcji pobierającej komentarze
+    };
+    
 
     return (
         <div className="comment mt-5">
 
             {comment.reply_to ? 
-                <div className="ml-5"> reply to: {comment.reply_to.user.name} user: {comment.user.name}  komentarz: {comment.text} <button onClick={() => sendComment(post,"","",parentId)}>rpeply</button> </div> 
+                <div className="ml-5 " > 
+                    reply to: {comment.reply_to.user.name} 
+                    user: {comment.user.name}  
+                    komentarz: {comment.text}
+                    <button onClick={() => sendComment(post,"","",parentId)}> rpeply</button> 
+                    {/*<CommentInput onSubmit={(commentText) => handleSubmitComment(commentText, post, parentId, fetchComments)} />*/}
+                    
+                    <CommentInput2 
+                        onSubmit={
+                            (commentText,post) => handleSubmitComment(commentText, post2, parentId, fetchComments)}  
+                        post={post}
+                    />
+
+                    <button onClick={toggleVisibility}>Toggle Visibility</button>
+                    {isHidden ? (
+                        <div hidden>
+                            <h1>TEST</h1>
+                        </div>
+                    ) : (
+                        <div>
+                            <h1>TEST</h1>
+                        </div>
+                    )} 
+                    
+                    </div> 
                 
-                : <div> user: {comment.user.name}  komentarz: {comment.text}  <button onClick={() => sendComment(post,"","",parentId)}>rpeply</button></div>}
+                : 
+                <div> 
+                    user: {comment.user.name}  
+                    komentarz: {comment.text}  
+                    <button onClick={() => sendComment(post,"","",parentId)}> rpeply</button> 
+                    {/*<CommentInput onSubmit={(commentText) => handleSubmitComment(commentText, post, parentId, fetchComments)} />*/}
+                    dodaj tutaj wyświetlanie od kogo i do kogo jest ot reply
+                    <CommentInput2 
+                        onSubmit={
+                            (commentText,post) => handleSubmitComment(commentText, post2, parentId, fetchComments)}  
+                        post={post}
+                    />
+                
+                </div>}
             
             {/*<CommentInput onSubmit={handleSubmitComment} />*/}
             {replies.length > 0 && (
                 
             <div className="replies">
                 {replies.map(reply => (
-                <Comment key={reply.id} usedComments={usedComments}  comment={reply} allComments={allComments} post={post} parentId={comment.id}/>
+                    <Comment key={reply.id} 
+                        usedComments={usedComments}  
+                        comment={reply} 
+                        allComments={allComments} 
+                        post={post} parentId={comment.id} 
+                        fetchComments={fetchComments}
+                    />
                 
                 ))}
             </div>

@@ -10,7 +10,7 @@ use App\Models\Comment;
 use App\Models\Notification;
 
 
-class PostController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -86,120 +86,83 @@ class PostController extends Controller
         //return view('posts.index', compact(['posts', 'search']));
     }
 
-    
-
-    public function uploadImage(Request $request)
+    public function getComments(Request $request)
     {
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('images'), $imageName);
-            
-            return response()->json([
-                'imageUrl' => '/images/' . $imageName,
-            ]);
-        }
+        $postId = $request->id;
 
-        return response()->json(['message' => 'No image uploaded.'], 400);
-    }
-
-
-    public function like(Request $request)
-    {
-        $like = $request->like;
-        $user = auth()->user();
-        $myUserId = $user->id;
-        $article = Post::find(1);
-
-        if ($like === true) {
-            $article->like($myUserId);
-            
-        } else {
-            $article->unlike($myUserId);
-        }
+        $comments = Post::with(['user', 'comments', 'comments.user', 'comments.replyTo','comments.replyTo.user'])
+            ->where('id', $postId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        /*
+        $perPage = 5;
+        $comments = Post::with(['user', 'comments', 'comments.user', 'comments.replyTo'])
+        ->orderBy('created_at', 'desc')
+        ->paginate($perPage);
+        */
+           
 
         return response()->json([
-            'like' => $article->likeCount ,
-
+            'dane' => $comments,
+            'id' => $postId,
+            
         ]);
 
-       
-        
-        //
-       
-       // $article->unlike($myUserId); // pass in your own user id
-        //$article->unlike(0); // 
-        /*
-         // like the article for current user
-        $article->like($myUserId); // pass in your own user id
-        $article->like(0); // just add likes to the count, and don't track by user
-
-         // remove like from the article
-        $article->unlike($myUserId); // pass in your own user id
-        $article->unlike(0); // remove likes from the count -- does not check for user
-
-        $article->likeCount; // get count of likes
-
-        $article->likes; // Iterable Illuminate\Database\Eloquent\Collection of existing likes
-
-        $article->liked(); // check if currently logged in user liked the article
-        $article->liked($myUserId);
-
-        Post::whereLikedBy($myUserId) // find only articles where user liked them
-            ->with('likeCounter') // highly suggested to allow eager load
-            ->get();
-            */
-
-       
-        
     }
 
-
-
-
-
-
+    
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view(
-            'posts.create'
-        );
+        $com = new Comment();
+        
+        $com->idUser = auth()->user()->id;
+        $com->idPost = $request->idPost;
+        $com->idParentComment = $request->idParentComment;
+        $com->text = $request->text;
+        $com->created_at = now();
+        $com->updated_at = now();
+
+        $com->save();
+
+        
+        if ($com->save()) {
+            // Udało się zapisać rekord
+            return response()->json(['message' => 'Komentarz został utworzony'], 201);
+        } else {
+            // Wystąpił błąd podczas zapisu rekordu
+            return response()->json(['message' => 'Nie udało się utworzyć komentarza'], 500);
+        }
+
+        
+        
+
+        /*
+        if($request->responseTo != null)
+        {
+            $com->responseTo = $request->responseTo ;
+        }
+
+        if($request->responseTo != null)
+        {
+            $com->responseTo = $request->responseTo ;
+        }
+        */
+        
+        
+        
+
+
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            //'pathToImage' => 'required|mimes:jpg,png,jpeg|max:5048'
-        ]);
-
-         $title = $request->title;
-         $description = $request->description;
-
-        //  $newImageName = uniqid() . '-' . $request->title . '.' . $request->pathToImage->extension();
-        //  $pathToImage = $request->pathToImage->move(public_path('images'), $newImageName);
-        $pathToImage = $request->pathToImage;
-        //$pathToImage=$request->pathToImage->file('pathToImage')->store('posts');
-        $post = new Post();
         
-        $post->idUser = auth()->user()->id;
-        $post->title = $title;
-        $post->likes = 0;
-        $post->pathToImage = $pathToImage;
-        $post->description = $description;
-        $post->created_at = now();
-        $post->updated_at = now();
- 
-        $post->save();
-
-        return redirect('dashboard');
     }
 
     /**

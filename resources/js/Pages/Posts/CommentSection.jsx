@@ -9,6 +9,7 @@ function CommentSection({ postId }) {
     const [comments, setComments] = useState([]);
     const [isCommentVisible, setIsCommentVisible] = useState(true);
     const [usedComments, setUsedComments] = useState([]);
+    
 
     useEffect(() => {
         fetchComments();
@@ -24,6 +25,9 @@ function CommentSection({ postId }) {
             console.log(response.data);
         } catch (error) {
             console.error(error);
+        } finally 
+        {
+            setUsedComments([]);
         }
     };
 
@@ -43,6 +47,15 @@ function CommentSection({ postId }) {
         
     };
 
+    const updateCommentSection = async () =>
+    {
+        setUsedComments([]);
+        setComments([]);
+        await fetchComments();
+       
+        
+    }
+
     return (
         <div>
             <Button onClick={togglePanel}>
@@ -50,7 +63,7 @@ function CommentSection({ postId }) {
             </Button>
             <Drawer anchor="bottom" open={isOpen} onClose={togglePanel}>
                 <div className="panel-content">
-                    Dodatkowy panel
+                    Dodatkowy panel 
                     {/*isCommentVisible &&
                         comments.map(comment => (
                             <Comment
@@ -71,7 +84,9 @@ function CommentSection({ postId }) {
                             comment={comment} 
                             allComments={comments} 
                             post={postId} 
-                            parentId={comment.id} />
+                            parentId={comment.id}
+                            fetchComments={updateCommentSection}
+                             />
                     ))}
 
                 </div>
