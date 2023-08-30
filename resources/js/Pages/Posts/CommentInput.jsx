@@ -1,34 +1,38 @@
 import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 
-const CommentInput = ({ onSubmit }) => {
-  const [comment, setComment] = useState('');
+const CommentInput2 = ({ onSubmit, post }) => {
+    const [commentText, setCommentText] = useState('');
+    const [submittedComment, setSubmittedComment] = useState(null);
 
-  const handleCommentChange = (event) => {
-    setComment(event.target.value);
-  };
+    const handleInputChange = (event) => {
+        setCommentText(event.target.value);
+    };
 
-  const handleSubmit = () => {
-    onSubmit(comment);
-    setComment('');
-  };
+    const handleSubmit = () => {
+        console.log("id posta ",post);
+        onSubmit(commentText);
+        //setSubmittedComment(commentText + post);
+        setCommentText('');
+    };
 
-  return (
-    <div>
-      <TextField
-        label="Komentarz"
-        multiline
-        rows={4}
-        variant="outlined"
-        value={comment}
-        onChange={handleCommentChange}
-      />
-      <Button variant="contained" onClick={handleSubmit}>
-        Dodaj komentarz
-      </Button>
-    </div>
-  );
+    return (
+        <div>
+            {submittedComment ? (
+                <div>
+                    
+                </div>
+            ) : (
+                <div>
+                    <textarea
+                        value={commentText}
+                        onChange={handleInputChange}
+                        placeholder="Napisz komentarz..."
+                    />
+                    <button onClick={handleSubmit}>Dodaj komentarz</button>
+                </div>
+            )}
+        </div>
+    );
 };
 
-export default CommentInput;
+export default CommentInput2;

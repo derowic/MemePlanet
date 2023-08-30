@@ -8,7 +8,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Notification;
-
+use App\Models\Favourite;
 
 class PostController extends Controller
 {
@@ -17,33 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        /*
-        $search = $request['search'] ?? "";
-        
-        if ($search != "") {
-            // where
-            $posts = Post::where('title', 'LIKE', "%".$search."%")->orWhere('description', 'LIKE', "%".$search."%")->orderBy('created_at', 'desc')->with('user')->paginate(5);
-        } else {
-            $posts = Post::with(['user'])->orderBy('created_at', 'desc')->with('user')->paginate(5);
-        }
-        */
-        /*
-        $perPage = 5;
-        $posts = Post::with(['user'])->orderBy('created_at', 'desc')->with('user')->paginate($perPage);
-    
-        $user = auth()->user();
-        $roles = $user->roles->pluck('name'); // Przyjmuję, że role są zwracane jako kolekcja
-    
-        return response()->json([
-            'posts' => $posts,
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'roles' => $roles,
-            ],
-        ]);
-        */
+
         $user = auth()->user();
         $roles = $user->roles->pluck('name');
 
@@ -55,22 +29,15 @@ class PostController extends Controller
         $posts = Post::with(['user', 'comments', 'comments.user', 'comments.replyTo'])
         ->orderBy('created_at', 'desc')
         ->paginate($perPage);
-    
-
-        /*
-        return response()->json([
-            'posts' => $posts
-        ]);
-        */
-
-       
-        
-
 
 
         $user = auth()->user();
-        $roles = $user->roles->pluck('name'); // Przyjmuję, że role są zwracane jako kolekcja
-    
+        // Załóżmy, że użytkownik jest zalogowany
+        $favouriteRecords = $user->favourites;
+        // Możesz również przekazywać dodatkowe informacje związane z postami, używając relacji
+        $favouriteRecordsWithPosts = $user->favourites->pluck('idPost');
+
+
         return response()->json([
             'posts' => $posts,
             'user' => [
@@ -79,11 +46,8 @@ class PostController extends Controller
                 'email' => $user->email,
                 'roles' => $roles,
             ],
+            'fav' => $favouriteRecordsWithPosts
         ]);
-        
-        
-
-        //return view('posts.index', compact(['posts', 'search']));
     }
 
     
@@ -109,7 +73,7 @@ class PostController extends Controller
         $like = $request->like;
         $user = auth()->user();
         $myUserId = $user->id;
-        $article = Post::find(1);
+        $article = Post::find($request->id);
 
         if ($like === true) {
             $article->like($myUserId);
@@ -118,50 +82,18 @@ class PostController extends Controller
             $article->unlike($myUserId);
         }
 
+        Post::where('id', '=', $request->id)->update([
+            'likes' => $article->likeCount,
+           
+        ]); 
+
+
         return response()->json([
             'like' => $article->likeCount ,
 
         ]);
-
-       
-        
-        //
-       
-       // $article->unlike($myUserId); // pass in your own user id
-        //$article->unlike(0); // 
-        /*
-         // like the article for current user
-        $article->like($myUserId); // pass in your own user id
-        $article->like(0); // just add likes to the count, and don't track by user
-
-         // remove like from the article
-        $article->unlike($myUserId); // pass in your own user id
-        $article->unlike(0); // remove likes from the count -- does not check for user
-
-        $article->likeCount; // get count of likes
-
-        $article->likes; // Iterable Illuminate\Database\Eloquent\Collection of existing likes
-
-        $article->liked(); // check if currently logged in user liked the article
-        $article->liked($myUserId);
-
-        Post::whereLikedBy($myUserId) // find only articles where user liked them
-            ->with('likeCounter') // highly suggested to allow eager load
-            ->get();
-            */
-
-       
-        
     }
 
-
-
-
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view(
@@ -205,93 +137,76 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function addToFavourite(Request $request)
     {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        $data = Post::where('id', '=', $id)->first();
-        return view('posts.edit', compact('data'));
-    }
+        
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Post $post)
-    {
-        $id = $request->id;
-        $title = $request->title;
-        $description = $request->description;
-
-        Post::where('id', '=', $id)->update([
-            'title' => $title,
-            'description' => $description
-        ]); 
-
-        return redirect('posts');
-    }
-
-    public function one_post_view(int $id)
-    {
-        $post = Post::where('id', '=', $id)->first();
-        $comments = Comment::where('idPost', $id)->with('user')->orderBy('created_at', 'asc')->get();
-
-       
-     
-
-
-        return view('posts.one_post_view')
-            ->with('post', $post)
-            ->with('comments', $comments);
+        $favouriteRecord = Favourite::where('idUser', auth()->user()->id)
+            ->where('idPost',  $request->idPost)
+            ->first();
             
-    }
-    public function add_comment(Request $request)
-    {
-        
+            
 
-        //$pathToImage=$request->pathToImage->file('pathToImage')->store('posts');
-        $com = new Comment();
-        
-        $com->idUser = auth()->user()->id;
-        $com->idPost = $request->id;
-        $com->text = $request->comment;
-        $com->created_at = now();
-        $com->updated_at = now();
-
-        
-
-        
-        if($request->responseTo != null)
+        if($favouriteRecord == true)
         {
-            $com->responseTo = $request->responseTo ;
+            Favourite::find($favouriteRecord->id)->forceDelete();
+            return response()->json(
+            [
+                'message' => 'Delete favourite',
+                
+            ]);
+                
+        }
+        else
+        {
+            $tmp = new Favourite();
+            
+            $tmp->idUser = auth()->user()->id;
+            $tmp->idPost = $request->idPost;
+            
+            $tmp->created_at = now();
+            $tmp->updated_at = now();
+
+            $tmp->save();
+            if ($tmp->save()) {
+                // Udało się zapisać rekord
+                return response()->json(
+                    [
+                        'message' => 'Add to favourite: Success',
+                        'id' => $request->idPost
+                    ], 201);
+            }
+            else
+            {
+                return response()->json(
+                    [
+                        'message' => 'Add to favourite: Fail',
+                        'id' => $request->idPost
+                    ], 500);
+            
+            }
         }
         
-        
-        $com->save();
-
-
-        $com = new Notification();
-        //dd($request->post_author_id);
-        $com->idUser = $request->post_author_id;
-        $com->idPost = $request->id;
-        $com->seen = false;
-        $com->created_at = now();
-        $com->updated_at = now();
-        
-        $com->save();
-        
-        return redirect('posts/one_post_view/'.strval($request->id));
-        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function favourites()
+    {
+        $user = auth()->user();
+        // Załóżmy, że użytkownik jest zalogowany
+        $favouriteRecords = $user->favourites;
+        // Możesz również przekazywać dodatkowe informacje związane z postami, używając relacji
+        $favouriteRecordsWithPosts = $user->favourites()->with('post')->get();
+
+        return response()->json(
+        [
+            'fav' => $favouriteRecordsWithPosts,
+        ]);
+    }
+
+    
+
+    
     public function destroy($id)
     {   
         Post::find($id)->forceDelete();
@@ -306,21 +221,5 @@ class PostController extends Controller
         return redirect('posts');
     }
 
-    public function showUploadForm()
-    {
-        return view('upload');
-    }
-
-    public function upload(Request $request)
-    {
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
-
-            return 'Obrazek został przesłany i zapisany jako ' . $imageName;
-        }
-
-        return 'Brak obrazka do przesłania.';
-    }
+   
 }

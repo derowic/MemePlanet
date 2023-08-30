@@ -90,7 +90,7 @@ class CommentController extends Controller
     {
         $postId = $request->id;
 
-        $comments = Post::with(['user', 'comments', 'comments.user', 'comments.replyTo','comments.replyTo.user'])
+        $comments = Post::with([ 'comments', 'comments.user', 'comments.replyTo','comments.replyTo.user'])
             ->where('id', $postId)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -101,10 +101,11 @@ class CommentController extends Controller
         ->paginate($perPage);
         */
            
-
+        $user = auth()->user();
         return response()->json([
             'dane' => $comments,
             'id' => $postId,
+            'user' => $user,
             
         ]);
 
@@ -122,6 +123,7 @@ class CommentController extends Controller
         $com->idPost = $request->idPost;
         $com->idParentComment = $request->idParentComment;
         $com->text = $request->text;
+        $com->likes = 0;
         $com->created_at = now();
         $com->updated_at = now();
 
@@ -136,26 +138,63 @@ class CommentController extends Controller
             return response()->json(['message' => 'Nie udało się utworzyć komentarza'], 500);
         }
 
-        
-        
-
-        /*
-        if($request->responseTo != null)
-        {
-            $com->responseTo = $request->responseTo ;
-        }
-
-        if($request->responseTo != null)
-        {
-            $com->responseTo = $request->responseTo ;
-        }
-        */
-        
-        
-        
-
-
     }
+
+    public function like(Request $request)
+    {
+        $like = $request->like;
+        $user = auth()->user();
+        $myUserId = $user->id;
+        $article = Comment::find($request->id);
+
+        if ($like === true) {
+            $article->like($myUserId);
+            
+        } else {
+            $article->unlike($myUserId);
+        }
+
+        Comment::where('id', '=', $request->id)->update([
+            'likes' => $article->likeCount,
+           
+        ]);
+
+        return response()->json([
+            'like' => $article->likeCount ,
+
+        ]);
+
+       
+        
+        //
+       
+       // $article->unlike($myUserId); // pass in your own user id
+        //$article->unlike(0); // 
+        /*
+         // like the article for current user
+        $article->like($myUserId); // pass in your own user id
+        $article->like(0); // just add likes to the count, and don't track by user
+
+         // remove like from the article
+        $article->unlike($myUserId); // pass in your own user id
+        $article->unlike(0); // remove likes from the count -- does not check for user
+
+        $article->likeCount; // get count of likes
+
+        $article->likes; // Iterable Illuminate\Database\Eloquent\Collection of existing likes
+
+        $article->liked(); // check if currently logged in user liked the article
+        $article->liked($myUserId);
+
+        Post::whereLikedBy($myUserId) // find only articles where user liked them
+            ->with('likeCounter') // highly suggested to allow eager load
+            ->get();
+            */
+
+       
+        
+    }
+
 
     /**
      * Store a newly created resource in storage.

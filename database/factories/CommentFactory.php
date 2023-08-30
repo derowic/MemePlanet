@@ -26,6 +26,7 @@ class CommentFactory extends Factory
                 ->orderByRaw('RAND()')
                 ->first()->id, 
             'text'=>$this->faker->unique()->word(),
+            'likes' =>$this->faker->numberBetween(1,1000),
             'idParentComment' => null,
             'deleted_at' => null,  
             

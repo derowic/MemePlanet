@@ -12,13 +12,17 @@ Route::get('/api/get-data', [ExampleController::class, 'getData']);
 
 Route::get('/api/posts', [PostController::class, 'index']);
 Route::post('/api/upload', [PostController::class, 'uploadImage']);
-Route::post('/api/like', [PostController::class, 'like']);
+Route::post('/api/likePost', [PostController::class, 'like']);
+Route::post('/api/addToFavourite', [PostController::class, 'addToFavourite']);
+
 Route::post('/api/getComments', [CommentController::class, 'getComments']);
 Route::post('/api/addComment', [CommentController::class, 'create']);
+Route::post('/api/likeComment', [CommentController::class, 'like']);
 
 Route::get('/getComments', [PostController::class, 'getComments']);
 Route::get('/posts', [PostController::class, 'index']);
-Route::post('/like', [PostController::class, 'like']);
+Route::get('/like', [CommentController::class, 'like']);
+Route::get('/addToFavourite', [PostController::class, 'addToFavourite']);
 /*
 |--------------------------------------------------------------------------
 | Web Routes

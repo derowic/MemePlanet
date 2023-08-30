@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Favourite;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
@@ -40,6 +41,13 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class,'idPost');
     }
+
+    public function favourite()
+    {
+        return $this->belongsToMany(Favourite::class, 'idUser');
+    }
+
+
    
 
     

@@ -8,14 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+
 class Comment extends Model
 {
     use HasFactory;
+    use \Conner\Likeable\Likeable;
     
     protected $fillable=[
         
         'idPost',
         'idUser',
+        'likes',
         'text',
         'idParentComment',
 
