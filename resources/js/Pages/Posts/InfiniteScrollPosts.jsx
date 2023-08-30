@@ -77,6 +77,7 @@ return (
                   <div className="text-left text-xs mb-2">{post.user.name}</div>   
                   <div className="text-left text-xs mb-2">{post.text}</div>   
                   
+                  
                   <div className="flex flex-col items-center justify-end mt-2">
                     <img src="/images/4.jpg" alt="Opis obrazka" ></img>
                     <div className="flex">
@@ -85,6 +86,9 @@ return (
                         <Heart postId={post.id} fav={favs.find(fav => fav == post.id) !== undefined} />
                     </div>   
                   </div> 
+
+                  
+
                    
                   {<CommentSection postId={post.id}/>}
                  

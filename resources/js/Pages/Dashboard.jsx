@@ -34,17 +34,24 @@ export default function Dashboard({ auth }) {
                             
                         </div>
                         <div className=" w-1/4 p-4  "> {/* Blok po lewej */}
+
+                        
                          
                             
                         </div>
 
                         <div className="w-1/2 ">
+                        
+                            
+                                
                             <div className=" p-4 text-center dark:bg-gray-600 sm:rounded-lg"> 
                                 {/* Główny blok treści */}
                                 {/*<ExampleComponent /> */}
                                 <h2>Meme Planet  - memes and news</h2>
                                 <UploadPost />
                                 <InfiniteScrollPosts />
+                               
+
                             </div>
                         </div>
 

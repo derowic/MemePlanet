@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Drawer } from '@mui/material';
 import Comment from './Comment';
-import CommentInput2 from './CommentInput';
+import CommentInput from './CommentInput';
 import SendComment from './SendComment';
 import { userData } from "../GlobalData.js";
 import '../styles.css'; // Importuj plik ze stylami
@@ -130,14 +130,21 @@ function CommentSection({ postId }) {
             <Button onClick={togglePanel}>
                 <div className="text-white">Comment Section</div>
             </Button>
-            <Drawer anchor="bottom" open={isOpen} onClose={togglePanel}>
+            
+            <Drawer anchor="bottom" open={isOpen} onClose={togglePanel} className='items-center justify-center'>
+                
+                
                 <div className="panel-content bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-400 ">
-                    Comments 
-                    <CommentInput2 
-                        onSubmit={
-                            (commentText,post) => handleSubmitComment(commentText, postId, 0, fetchComments)}  
-                        post={postId}
-                    />
+                <div className="flex items-center justify-center">
+                    <div className="text-center text-lg">Comments</div>
+                </div>
+
+
+                <CommentInput
+                    onSubmit={
+                        (commentText,post) => handleSubmitComment(commentText, postId, 0, fetchComments)}  
+                    post={postId}
+                />
                     {/*isCommentVisible &&
                         comments.map(comment => (
                             <Comment
