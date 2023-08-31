@@ -148,30 +148,40 @@ const Comment = ({usedComments, comment, allComments, post, parentId, fetchComme
 
             
                 <div className="ml-5 mb-2 bg-white dark:bg-gray-800 sm:rounded-lg p-4" > 
-                    <div>user: {comment.user.name}</div>
-                    {comment.reply_to && <div> reply to: {comment.reply_to.user.name}</div> }
-                    
-                    komentarz: {comment.text}
-                    {/*<button onClick={() => sendComment(post2,"","",parentId)}> rpeply</button> */}
-                    {/*<CommentInput onSubmit={(commentText) => handleSubmitComment(commentText, post, parentId, fetchComments)} />*/}
-
-                    <div>
-                        <button onClick={toggleRender}>reply</button>
-                        <div id={comment.id} hidden>
-                            <CommentInput2 
-                                onSubmit={
-                                    (commentText,post) => handleSubmitComment(commentText, post2, comment.id, fetchComments,comment.user.name)}  
-                                post={post}
-                            />
-
+                    <div className='flex '>
+                        <div className='w-5/6'>
                             
-                        </div> 
-                       
-                    </div>  
+                            <div>user: {comment.user.name}</div>
+                            {comment.reply_to && <div> reply to: {comment.reply_to.user.name}</div> }
+                            
+                            komentarz: {comment.text}
+                            
+                                <div className=''>
+                                    <button onClick={toggleRender}>reply</button>
+                                    <div id={comment.id} hidden>
+                                        <CommentInput2 
+                                            onSubmit={
+                                                (commentText,post) => handleSubmitComment(commentText, post2, comment.id, fetchComments,comment.user.name)}  
+                                            post={post}
+                                        />  
+                                    </div> 
+                                
+                            </div>
+                        </div>
+                        <div className='w-1/6'>
+                            
+                            <div className="flex items-center justify-center">
+                                <div className="text-center text-lg">
+                                    <Like elementId={comment.id} elementType={"comment"} likes={comment.likes}/>
+                                </div>
+                            </div>
 
-                    <Like elementId={comment.id} elementType={"comment"} likes={comment.likes}/>
-                </div> 
+                        </div> 
+
+                    </div> 
+                   
                 
+                </div>     
                 
             
             {/*<CommentInput onSubmit={handleSubmitComment} />*/}

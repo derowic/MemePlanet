@@ -118,7 +118,7 @@ function CommentSection({ postId }) {
         element.appendChild(divElement0);
 
         //element.appendChild(<Like elementId={-1} elementType={"comment"} likes={0}/>);
-        toggleRender();
+        //toggleRender();
 
         
 
@@ -131,34 +131,20 @@ function CommentSection({ postId }) {
                 <div className="text-white">Comment Section</div>
             </Button>
             
-            <Drawer anchor="bottom" open={isOpen} onClose={togglePanel} className='items-center justify-center'>
+            <Drawer anchor="bottom" open={isOpen} onClose={togglePanel} className='items-center justify-center' >
                 
-                
-                <div className="panel-content bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-400 ">
-                <div className="flex items-center justify-center">
-                    <div className="text-center text-lg">Comments</div>
+                <div className="panel-content bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-400 " style={{ maxHeight: '75vh' }} >
+                <div className="flex items-center justify-center ">
+                    <div className="text-center text-lg ">Comments</div>
                 </div>
-
 
                 <CommentInput
                     onSubmit={
-                        (commentText,post) => handleSubmitComment(commentText, postId, 0, fetchComments)}  
+                        (commentText) => handleSubmitComment(commentText, postId, 0, fetchComments)}  
                     post={postId}
                 />
-                    {/*isCommentVisible &&
-                        comments.map(comment => (
-                            <Comment
-                                key={comment.id}
-                                usedComments={usedComments} 
-                                comment={comment}
-                                allComments={comments}
-                                post={postId}
-                                parentId={comment.id}
-                            />
-                        ))*/}
-                    <div id="comments">
+                    <div id="comments" className='dark:bg-gray-700'>
                         {comments.map(comment => (
-                            
                             <Comment 
                                 key={comment.id} 
                                 usedComments={usedComments} 
@@ -170,8 +156,6 @@ function CommentSection({ postId }) {
                                 />
                         ))}
                     </div>
-                   
-
                 </div>
             </Drawer>
         </div>
