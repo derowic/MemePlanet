@@ -1,34 +1,24 @@
 <?php
-namespace App\Models;
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
-use App\Models\Favourite;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
+    use \Conner\Likeable\Likeable;
     use HasFactory;
     use SoftDeletes;
 
-    use \Conner\Likeable\Likeable;
+    protected $fillable = [
 
-    protected $fillable=[
-        
-        
         'idUser',
         'title',
         'likes',
         'pathToImage',
         'description',
-        
-        
-        
 
     ];
 
@@ -39,16 +29,11 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class,'idPost');
+        return $this->hasMany(Comment::class, 'idPost');
     }
 
     public function favourite()
     {
         return $this->belongsToMany(Favourite::class, 'idUser');
     }
-
-
-   
-
-    
 }

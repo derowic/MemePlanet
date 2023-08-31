@@ -20,13 +20,13 @@ class LikeFactory extends Factory
     {
         return [
             //
-            'idParentElement'=>Post::select('id')
+            'idParentElement' => Post::select('id')
                 ->orderByRaw('RAND()')
                 ->first()->id,
-            'iduser'=>User::select('id')
+            'iduser' => User::select('id')
                 ->orderByRaw('RAND()')
-                ->first()->id, 
-            
+                ->first()->id,
+
         ];
     }
 }

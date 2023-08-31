@@ -1,12 +1,12 @@
 <?php
 
+use App\Http\Controllers\API\CommentController;
+use App\Http\Controllers\API\ExampleController;
+use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\API\ExampleController;
-use App\Http\Controllers\API\PostController;
-use App\Http\Controllers\API\CommentController;
 
 Route::get('/api/get-data', [ExampleController::class, 'getData']);
 
@@ -57,12 +57,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
 Route::get('/react', function () {
     return view('react');
 });
-
-
-
 
 require __DIR__.'/auth.php';

@@ -1,14 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\API;
-use App\Http\Controllers\Controller;
 
-use App\Models\Announcment;
-use App\Models\Post;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Notification;
-
+use App\Models\Post;
+use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
@@ -19,7 +17,7 @@ class CommentController extends Controller
     {
         /*
         $search = $request['search'] ?? "";
-        
+
         if ($search != "") {
             // where
             $posts = Post::where('title', 'LIKE', "%".$search."%")->orWhere('description', 'LIKE', "%".$search."%")->orderBy('created_at', 'desc')->with('user')->paginate(5);
@@ -30,10 +28,10 @@ class CommentController extends Controller
         /*
         $perPage = 5;
         $posts = Post::with(['user'])->orderBy('created_at', 'desc')->with('user')->paginate($perPage);
-    
+
         $user = auth()->user();
         $roles = $user->roles->pluck('name'); // Przyjmuję, że role są zwracane jako kolekcja
-    
+
         return response()->json([
             'posts' => $posts,
             'user' => [
@@ -49,13 +47,11 @@ class CommentController extends Controller
 
         $perPage = 5; // Ilość postów na stronę
         $posts = Post::with(['user'])->orderBy('created_at', 'desc')->with('user')->paginate($perPage);
-        
-        
+
         //$posts = Post::with(['user', 'comments'])->orderBy('created_at', 'desc')->paginate($perPage);
         $posts = Post::with(['user', 'comments', 'comments.user', 'comments.replyTo'])
-        ->orderBy('created_at', 'desc')
-        ->paginate($perPage);
-    
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage);
 
         /*
         return response()->json([
@@ -63,14 +59,9 @@ class CommentController extends Controller
         ]);
         */
 
-       
-        
-
-
-
         $user = auth()->user();
         $roles = $user->roles->pluck('name'); // Przyjmuję, że role są zwracane jako kolekcja
-    
+
         return response()->json([
             'posts' => $posts,
             'user' => [
@@ -80,8 +71,6 @@ class CommentController extends Controller
                 'roles' => $roles,
             ],
         ]);
-        
-        
 
         //return view('posts.index', compact(['posts', 'search']));
     }
@@ -90,7 +79,7 @@ class CommentController extends Controller
     {
         $postId = $request->id;
 
-        $comments = Post::with([ 'comments', 'comments.user', 'comments.replyTo','comments.replyTo.user'])
+        $comments = Post::with(['comments', 'comments.user', 'comments.replyTo', 'comments.replyTo.user'])
             ->where('id', $postId)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -100,25 +89,25 @@ class CommentController extends Controller
         ->orderBy('created_at', 'desc')
         ->paginate($perPage);
         */
-           
+
         $user = auth()->user();
+
         return response()->json([
             'dane' => $comments,
             'id' => $postId,
             'user' => $user,
-            
+
         ]);
 
     }
 
-    
     /**
      * Show the form for creating a new resource.
      */
     public function create(Request $request)
     {
         $com = new Comment();
-        
+
         $com->idUser = auth()->user()->id;
         $com->idPost = $request->idPost;
         $com->idParentComment = $request->idParentComment;
@@ -129,7 +118,6 @@ class CommentController extends Controller
 
         $com->save();
 
-        
         if ($com->save()) {
             // Udało się zapisać rekord
             return response()->json(['message' => 'Komentarz został utworzony'], 201);
@@ -149,27 +137,25 @@ class CommentController extends Controller
 
         if ($like === true) {
             $article->like($myUserId);
-            
+
         } else {
             $article->unlike($myUserId);
         }
 
         Comment::where('id', '=', $request->id)->update([
             'likes' => $article->likeCount,
-           
+
         ]);
 
         return response()->json([
-            'like' => $article->likeCount ,
+            'like' => $article->likeCount,
 
         ]);
 
-       
-        
         //
-       
-       // $article->unlike($myUserId); // pass in your own user id
-        //$article->unlike(0); // 
+
+        // $article->unlike($myUserId); // pass in your own user id
+        //$article->unlike(0); //
         /*
          // like the article for current user
         $article->like($myUserId); // pass in your own user id
@@ -191,17 +177,14 @@ class CommentController extends Controller
             ->get();
             */
 
-       
-        
     }
-
 
     /**
      * Store a newly created resource in storage.
      */
     public function store()
     {
-        
+
     }
 
     /**
@@ -218,6 +201,7 @@ class CommentController extends Controller
     public function edit($id)
     {
         $data = Post::where('id', '=', $id)->first();
+
         return view('posts.edit', compact('data'));
     }
 
@@ -232,8 +216,8 @@ class CommentController extends Controller
 
         Post::where('id', '=', $id)->update([
             'title' => $title,
-            'description' => $description
-        ]); 
+            'description' => $description,
+        ]);
 
         return redirect('posts');
     }
@@ -243,39 +227,29 @@ class CommentController extends Controller
         $post = Post::where('id', '=', $id)->first();
         $comments = Comment::where('idPost', $id)->with('user')->orderBy('created_at', 'asc')->get();
 
-       
-     
-
-
         return view('posts.one_post_view')
             ->with('post', $post)
             ->with('comments', $comments);
-            
+
     }
+
     public function add_comment(Request $request)
     {
-        
 
         //$pathToImage=$request->pathToImage->file('pathToImage')->store('posts');
         $com = new Comment();
-        
+
         $com->idUser = auth()->user()->id;
         $com->idPost = $request->id;
         $com->text = $request->comment;
         $com->created_at = now();
         $com->updated_at = now();
 
-        
-
-        
-        if($request->responseTo != null)
-        {
-            $com->responseTo = $request->responseTo ;
+        if ($request->responseTo != null) {
+            $com->responseTo = $request->responseTo;
         }
-        
-        
-        $com->save();
 
+        $com->save();
 
         $com = new Notification();
         //dd($request->post_author_id);
@@ -284,27 +258,28 @@ class CommentController extends Controller
         $com->seen = false;
         $com->created_at = now();
         $com->updated_at = now();
-        
+
         $com->save();
-        
+
         return redirect('posts/one_post_view/'.strval($request->id));
-        
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
-    {   
+    {
         Post::find($id)->forceDelete();
-  
+
         return back();
     }
 
-    public function softDeletePost(string $id) 
+    public function softDeletePost(string $id)
     {
-        $id = Post::find($id);     
+        $id = Post::find($id);
         $id->delete();
+
         return redirect('posts');
     }
 
@@ -317,10 +292,10 @@ class CommentController extends Controller
     {
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $imageName = time().'.'.$image->getClientOriginalExtension();
             $image->move(public_path('images'), $imageName);
 
-            return 'Obrazek został przesłany i zapisany jako ' . $imageName;
+            return 'Obrazek został przesłany i zapisany jako '.$imageName;
         }
 
         return 'Brak obrazka do przesłania.';

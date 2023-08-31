@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('idUser');
             $table->unsignedBigInteger('idElement');
-            $table->boolean('responseTo')->nullable();  
+            $table->boolean('responseTo')->nullable();
             $table->string('text')->unique();
-            $table->boolean('seen')->nullable();  
+            $table->boolean('seen')->nullable();
             $table->timestamps();
         });
     }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('idUser');
             $table->unsignedBigInteger('idPost');
             $table->timestamps();
-           
+
         });
     }
 

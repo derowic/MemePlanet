@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Factories;
+
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -19,17 +20,17 @@ class CommentFactory extends Factory
     {
         return [
             //
-            'idPost'=>Post::select('id')
+            'idPost' => Post::select('id')
                 ->orderByRaw('RAND()')
                 ->first()->id,
-            'iduser'=>User::select('id')
+            'iduser' => User::select('id')
                 ->orderByRaw('RAND()')
-                ->first()->id, 
-            'text'=>$this->faker->unique()->word(),
-            'likes' =>$this->faker->numberBetween(1,1000),
+                ->first()->id,
+            'text' => $this->faker->unique()->word(),
+            'likes' => $this->faker->numberBetween(1, 1000),
             'idParentComment' => null,
-            'deleted_at' => null,  
-            
+            'deleted_at' => null,
+
         ];
     }
 }

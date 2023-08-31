@@ -1,7 +1,7 @@
 <?php
 
 namespace Database\Factories;
-use App\Models\Notification;
+
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -20,15 +20,14 @@ class NotificationFactory extends Factory
     {
         return [
             //
-            'idPost'=>Post::select('id')
+            'idPost' => Post::select('id')
                 ->orderByRaw('RAND()')
                 ->first()->id,
-            'idUser'=>User::select('id')
+            'idUser' => User::select('id')
                 ->orderByRaw('RAND()')
-                ->first()->id, 
-            'seen'=>null,   
-            
-            
+                ->first()->id,
+            'seen' => null,
+
         ];
     }
 }

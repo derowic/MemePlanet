@@ -2,9 +2,10 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\User;
 use App\Models\Post;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
@@ -19,14 +20,14 @@ class FavouriteFactory extends Factory
     {
         return [
             //
-           
-            'idUser'=>User::select('id')
+
+            'idUser' => User::select('id')
                 ->orderByRaw('RAND()')
-                ->first()->id,  
-            'idPost'=>Post::select('id')
+                ->first()->id,
+            'idPost' => Post::select('id')
                 ->orderByRaw('RAND()')
-                ->first()->id,  
-            
+                ->first()->id,
+
         ];
     }
 }

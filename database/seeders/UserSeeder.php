@@ -4,11 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -29,8 +28,7 @@ class UserSeeder extends Seeder
         if (isset($adminRole)) {
             $admin->assignRole($adminRole);
         }
-        
-       
+
         for ($i = 1; $i <= 10; $i++) {
 
             $user = User::create([
@@ -41,7 +39,7 @@ class UserSeeder extends Seeder
                 'ban_to' => null,
                 'remember_token' => Str::random(10),
             ]);
-            
+
         }
 
     }

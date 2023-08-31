@@ -9,13 +9,10 @@ class Like extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
-        
+    protected $fillable = [
+
         'idParentElement',
         'idUser',
-        
 
     ];
-
-   
 }

@@ -9,15 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-use App\Models\Post;
-use App\Models\Comment;
-use App\Models\Like;
-use App\Models\Notification;
-use App\Models\Favourite;
-
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -75,6 +69,4 @@ class User extends Authenticatable
         //return $this->hasMany(Favourite::class,'idPost');
         return $this->hasMany(Favourite::class, 'idUser');
     }
-
-    
 }
