@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+
 const ImageUploadForm = ({ onImageUpload }) => {
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
@@ -71,6 +72,7 @@ const ImageUploadForm = ({ onImageUpload }) => {
       unHide();
       setSelectedCategory(null);
       setSelectedTags([]);
+      
     }
   };
 

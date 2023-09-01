@@ -48,7 +48,7 @@ export default function Dashboard({ auth }) {
                                 {/* Główny blok treści */}
                                 {/*<ExampleComponent /> */}
                                 <h2>Meme Planet  - memes and news</h2>
-                                <UploadPost />
+                                
                                 <InfiniteScrollPosts />
                                
 

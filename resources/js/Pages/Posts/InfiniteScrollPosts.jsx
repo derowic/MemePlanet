@@ -4,14 +4,13 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useTranslation } from 'react-i18next'; // Dodaj ten import
 import Like from './Like';
 import Heart from './Heart';
+import UploadPost from './UploadPost';
 //import Comment from './Comment';
 import CommentSection from './CommentSection';
 import { userData } from "../GlobalData.js";
 
-
 import '../styles.css'; // Importuj plik ze stylami
 import '../i18n';
-
 
 const InfiniteScrollPosts = () => {
   const { t,i18n } = useTranslation(); 
@@ -19,6 +18,15 @@ const InfiniteScrollPosts = () => {
   const [favs, setFavs] = useState([]);
   const [page, setPage] = useState(1);
   const [auth, setAuth] = useState({ user: null });
+  const [key, setKey] = useState(0);
+
+  const handleRefresh = () => {
+    //setKey(key + 1); // Zmiana klucza spowoduje ponowne renderowanie komponentu
+    setPosts([]); // Czyszczenie stanu postów
+    setPage(0);    // Resetowanie numeru strony
+    setKey(key + 1); // Zmiana klucza komponentu
+    fetchPosts();
+  };
   
 
   const fetchPosts = async () => {
@@ -28,15 +36,15 @@ const InfiniteScrollPosts = () => {
       setPage(prevPage => prevPage + 1);
       setAuth({ user: response.data.user });
       setFavs(prevFavs => [...prevFavs, ...response.data.fav]);
-      /*
-      console.log("dane: ",response.data); // Wyświetla całą odpowiedź
-      console.log("dane posta: ",response.data.posts); // Wyświetla zawartość tablicy posts
-      console.log("role : ",response.data.user.name); 
-      console.log("comments : ",response.data.posts.data[0].comments); 
-      console.log("id usera", response.data.fav);
-      */
-      userData.name = response.data.user.name;
       
+      
+      //console.log("dane: ",response.data); // Wyświetla całą odpowiedź
+      console.log("dane posta: ",response.data.posts); // Wyświetla zawartość tablicy posts
+      //console.log("role : ",response.data.user.name); 
+      //console.log("comments : ",response.data.posts.data[0].comments); 
+      //console.log("id usera", response.data.fav);
+      
+      userData.name = response.data.user.name;
     } catch (error) {
       console.error(error);
     }
@@ -45,16 +53,21 @@ const InfiniteScrollPosts = () => {
   const isAdmin = auth.user && auth.user.roles.includes('admin');
   //console.log("is admin: ",isAdmin);
   
-  const changeLanguageToPolish = () => {
-      i18n.changeLanguage('pl');
-    };
+  const changeLanguageToPolish = () => 
+  {
+    i18n.changeLanguage('pl');
+    
+  };
 
   useEffect(() => {
     fetchPosts();
   }, []);
 
 return (
+  
   <div>
+    <button className='bg-[#EEA243] hover:bg-[#FFC465] text-black font-bold py-2 px-4 rounded-lg border border-[#EEA243]' onClick={handleRefresh}>Odśwież</button>
+    <UploadPost fetchPosts={handleRefresh}/>
     <InfiniteScroll dataLength={posts.length} next={fetchPosts} hasMore={true} loader={<p>{t('loading')}</p>} endMessage={<p>{t('noMorePosts')}</p>} >
         
     {isAdmin && 
@@ -70,7 +83,8 @@ return (
     <ul>
       {
         posts.map(post => (
-          <li key={post.id}>
+          <li key={Math.random() }>{/**/}
+            {post.id}
       
             <div className="w-full flex b-green0 overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
                   

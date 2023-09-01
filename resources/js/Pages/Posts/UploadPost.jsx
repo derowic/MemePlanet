@@ -3,7 +3,7 @@ import ImageUploadForm from './ImageUploadForm';
 
 import axios from 'axios';
 
-const UploadPost = () => {
+const UploadPost = ({ fetchPosts }) => {
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
   const [imageUploaded, setImageUploaded] = useState(false);
 
@@ -21,6 +21,8 @@ const UploadPost = () => {
       setUploadedImageUrl(response.data.imageUrl);
       setImageUploaded(true);
       console.log('Obrazek przesłano pomyślnie!', response.data);
+      fetchPosts();
+      
     } catch (error) {
       console.error('Błąd przesyłania obrazka:', error);
       console.error(error);
