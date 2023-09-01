@@ -28,7 +28,7 @@ const CommentInput = ({ onSubmit, post }) => {
                         onChange={handleInputChange}
                         placeholder="Write Comment..." 
                         className="ml-5 w-3/4 bg-white-500
-                        text-gray 
+                        text-black 
                         font-bold 
                         py-2 px-4 
                         rounded-lg 
@@ -36,14 +36,14 @@ const CommentInput = ({ onSubmit, post }) => {
                     />
                     <button onClick={handleSubmit} 
                         className='
-                            bg-gray-500
-                            hover:bg-gray-600 
-                            text-white 
+                            bg-white-500
+                            hover:bg-white-600 
+                            text-black 
                             font-bold 
                             py-2 px-4 
                             rounded-lg 
                             border 
-                            border-gray-600'>
+                            border-white-600'>
                                 Add comment
                     </button>
                 </div>

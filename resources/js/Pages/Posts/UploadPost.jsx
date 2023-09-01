@@ -7,12 +7,17 @@ const UploadPost = () => {
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
   const [imageUploaded, setImageUploaded] = useState(false);
 
-  const handleImageUpload = async (image) => {
+  const handleImageUpload = async (image, title, text, category,tags) => {
     const formData = new FormData();
     formData.append('image', image);
+    formData.append('title', title);
+    formData.append('text', text);
+    formData.append('category', category);
+    formData.append('tags', tags);
 
     try {
       const response = await axios.post('/api/upload', formData);
+     
       setUploadedImageUrl(response.data.imageUrl);
       setImageUploaded(true);
       console.log('Obrazek przesłano pomyślnie!', response.data);
@@ -27,12 +32,12 @@ const UploadPost = () => {
       <h1>Image Upload and Display</h1>
       <ImageUploadForm onImageUpload={handleImageUpload} />
 
-      {imageUploaded && (
-        <>
-          {/* Tutaj umieść elementy, które mają się pokazać po załadowaniu obrazka */}
-          <h1>TESKT DO OBRZA</h1>
-        </>
-      )}
+        {imageUploaded && (
+          <>
+            {/* Tutaj umieść elementy, które mają się pokazać po załadowaniu obrazka */}
+            <h1>TESKT DO OBRZA</h1>
+          </>
+        )}
 
     </div>
   );

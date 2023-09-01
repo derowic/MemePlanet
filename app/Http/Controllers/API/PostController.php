@@ -26,7 +26,7 @@ class PostController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
-        $user = auth()->user();
+        
         // Załóżmy, że użytkownik jest zalogowany
         $favouriteRecords = $user->favourites;
         // Możesz również przekazywać dodatkowe informacje związane z postami, używając relacji
@@ -48,15 +48,46 @@ class PostController extends Controller
     {
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = time().'_'.$image->getClientOriginalName();
+            $imageName = auth()->user()->id.time().'_'.$image->getClientOriginalName();
             $image->move(public_path('images'), $imageName);
 
-            return response()->json([
-                'imageUrl' => '/images/'.$imageName,
-            ]);
+            $post = new Post();
+
+            $post->idUser = auth()->user()->id;
+            $post->title = $request->title;
+            $post->text = $request->text;
+            $post->likes = 0;
+            $post->idCategory = $request->category;
+            $post->idTags = $request->tags;
+            $post->pathToImage = $imageName;
+            $post->created_at = now();
+            $post->updated_at = now();
+
+            $post->save();
+
+            
+
+            if ($post->save()) {
+                // Udało się zapisać rekord
+                return response()->json([
+                    'imageUrl' => '/images/'.$imageName,
+                    'title' => $request->title,
+                    'text' => $request->text,
+                    'category' => $request->category,
+                    'tags' => $request->tags,
+                ],201);
+            } else {
+                // Wystąpił błąd podczas zapisu rekordu
+                return response()->json(['message' => 'Nie udało się utworzyć komentarza'], 500);
+            }
+    
+    
+            return response()->json(['message' => 'No image uploaded.'], 400);
         }
 
-        return response()->json(['message' => 'No image uploaded.'], 400);
+        
+
+      
     }
 
     public function like(Request $request)

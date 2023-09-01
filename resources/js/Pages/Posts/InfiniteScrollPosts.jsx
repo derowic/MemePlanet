@@ -28,11 +28,13 @@ const InfiniteScrollPosts = () => {
       setPage(prevPage => prevPage + 1);
       setAuth({ user: response.data.user });
       setFavs(prevFavs => [...prevFavs, ...response.data.fav]);
+      /*
       console.log("dane: ",response.data); // Wyświetla całą odpowiedź
       console.log("dane posta: ",response.data.posts); // Wyświetla zawartość tablicy posts
       console.log("role : ",response.data.user.name); 
       console.log("comments : ",response.data.posts.data[0].comments); 
       console.log("id usera", response.data.fav);
+      */
       userData.name = response.data.user.name;
       
     } catch (error) {
@@ -41,7 +43,7 @@ const InfiniteScrollPosts = () => {
   };
 
   const isAdmin = auth.user && auth.user.roles.includes('admin');
-  console.log("is admin: ",isAdmin);
+  //console.log("is admin: ",isAdmin);
   
   const changeLanguageToPolish = () => {
       i18n.changeLanguage('pl');
@@ -58,10 +60,10 @@ return (
     {isAdmin && 
     (
       <>
-          <button className="btn normal-btn" onClick={changeLanguageToPolish}>Change Language to Polish</button>
+          <button className="bg-[#EEA243] hover:bg-[#FFC465] text-black font-bold py-2 px-4 rounded-lg border border-[#EEA243]" onClick={changeLanguageToPolish}>Change Language to Polish</button>
 
           {t('adminOnly')}
-          <button className="btn add-btn">Przycisk widziany tylko przez admina</button>
+          <button className="bg-[#EEA243] hover:bg-[#FFC465] text-black font-bold py-2 px-4 rounded-lg border border-[#EEA243]">Przycisk widziany tylko przez admina</button>
           
       </>
     )}
@@ -70,8 +72,8 @@ return (
         posts.map(post => (
           <li key={post.id}>
       
-            <div className="flex bg-white dark:bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4">
-              {post.id }    
+            <div className="w-full flex b-green0 overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
+                  
               <div className="m-auto">
                   <h3 className="text-left font-semibold mb-2">{post.title}</h3>
                   <div className="text-left text-xs mb-2">{post.user.name}</div>   
@@ -79,7 +81,7 @@ return (
                   
                   
                   <div className="flex flex-col items-center justify-end mt-2">
-                    <img src="/images/4.jpg" alt="Opis obrazka" ></img>
+                    <img src={"/images/"+post.pathToImage} alt="Opis obrazka" className='w-full h-full'></img>
                     <div className="flex">
                         <Like elementId={post.id} elementType={"post"} likes={post.likes} />
                         {/*<Heart postId={post.id} fav={true}/>*/}

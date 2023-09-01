@@ -51,11 +51,11 @@ function Like({elementId, elementType, likes}) {
 
   return (
     <div className="mt-2">
-      <button className="btn add-btn" onClick={increment}>
+      <button className="bg-[#A7C957] mb-2 mr-2 hover:bg-[#C9EB79] text-white font-bold py-2 px-4 rounded-lg border border-[#A7C957]" onClick={increment}>
         <FaPlus />
       </button>
       <span className="count">{count}</span>
-      <button className="btn delete-btn" onClick={decrement}>
+      <button className="bg-[#6A994E] mb-2 mr-2 hover:bg-[#8CBB6F] text-white font-bold py-2 px-4 rounded-lg border border-[#6A994E]" onClick={decrement}>
         <FaMinus />
       </button>
     </div>

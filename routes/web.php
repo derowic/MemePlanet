@@ -3,6 +3,9 @@
 use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\ExampleController;
 use App\Http\Controllers\API\PostController;
+use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\TagController;
+
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -19,10 +22,16 @@ Route::post('/api/getComments', [CommentController::class, 'getComments']);
 Route::post('/api/addComment', [CommentController::class, 'create']);
 Route::post('/api/likeComment', [CommentController::class, 'like']);
 
+Route::post('/api/getCategories', [CategoryController::class, 'getCategories']);
+
+Route::post('/api/getTags', [TagController::class, 'getTags']);
+
 Route::get('/getComments', [PostController::class, 'getComments']);
 Route::get('/posts', [PostController::class, 'index']);
 Route::get('/like', [CommentController::class, 'like']);
 Route::get('/addToFavourite', [PostController::class, 'addToFavourite']);
+Route::get('/getCategories', [CategoryController::class, 'getCategories']);
+Route::get('/getTags', [TagController::class, 'getTags']);
 /*
 |--------------------------------------------------------------------------
 | Web Routes

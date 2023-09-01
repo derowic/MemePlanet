@@ -49,7 +49,7 @@ function CommentSection({ postId }) {
             });
 
             setComments(response.data.dane[0].comments);
-            console.log(response.data);
+            //console.log(response.data);
         } catch (error) {
             console.error(error);
         } finally 
@@ -97,11 +97,11 @@ function CommentSection({ postId }) {
         //const divElement = document.createElement(comment.id+"t");
 
         const divElement0 = document.createElement('div');
-        divElement0.className = 'mt-10 mb-10 ml-5 bg-white dark:bg-gray-700 border-l-2 border-gray-400 p-4';
+        divElement0.className = 'mt-10 mb-10 ml-5 bg-white dark:bg-white-700 border-l-2 border-white-400 p-4';
         
         const divElement = document.createElement('div');
         // Ustawianie atrybutów, klas, treści, itp. (opcjonalne)
-        divElement.className = 'ml-5 mb-2 bg-white dark:bg-gray-800 sm:rounded-lg p-4';
+        divElement.className = 'ml-5 mb-2 bg-white dark:bg-white-800 sm:rounded-lg p-4';
          // 
         const divElement2 = document.createElement('div');
         divElement2.textContent = "user: "+userData.name;
@@ -133,7 +133,7 @@ function CommentSection({ postId }) {
             
             <Drawer anchor="bottom" open={isOpen} onClose={togglePanel} className='items-center justify-center' >
                 
-                <div className="panel-content bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-400 " style={{ maxHeight: '75vh' }} >
+                <div className="panel-content bg-white dark:bg-white-700 text-black-500 dark:text-black-400 " style={{ maxHeight: '75vh' }} >
                 <div className="flex items-center justify-center ">
                     <div className="text-center text-lg ">Comments</div>
                 </div>
@@ -143,7 +143,7 @@ function CommentSection({ postId }) {
                         (commentText) => handleSubmitComment(commentText, postId, 0, fetchComments)}  
                     post={postId}
                 />
-                    <div id="comments" className='dark:bg-gray-700'>
+                    <div id="comments" className='dark:bg-white-700'>
                         {comments.map(comment => (
                             <Comment 
                                 key={comment.id} 

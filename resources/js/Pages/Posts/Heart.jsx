@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 
 const Heart = ({postId,fav}) => {
-  console.log("ULUBIONY ",fav);
+  //console.log("ULUBIONY ",fav);
   const [heart, setHeart] = useState(fav); // Początkowy stan: serce nie jest zalajkowane
 
   const addPostToFavourite = () => {
@@ -14,13 +14,13 @@ const Heart = ({postId,fav}) => {
 
   const setPostToFavourite = async (postId) => {
   
-    console.log("idpostaa: "+postId);
+    //console.log("idpostaa: "+postId);
     try {
         const response = await axios.post('/api/addToFavourite', {
             idPost: postId,
            
         });
-        console.log('Wiadomośc', response.data);
+        //console.log('Wiadomośc', response.data);
         
         // Obsłuż odpowiedź serwera
     } catch (error) {

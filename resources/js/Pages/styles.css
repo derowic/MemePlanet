@@ -21,20 +21,37 @@
 
 .add-btn
 {
-    background-color: #73ff00;
+    background-color: #4cc9f0;
 }
 
 .add-btn:hover  {
-    background-color: #8fff33;
+    background-color: #6ffbf2;
 }
 
 .delete-btn
 {
-    background-color: #fd392b;
+    background-color: #4895ef;
 }
 
 .delete-btn:hover  {
-    background-color: #ff4c3f;
+    background-color: #6ab7df;
 }
+
+.ms-mainBackGroudnd
+{
+    background-color: #231f20;/*#f7f9f9*/;/*#231f20*/;/* #480ca8;*//*#3a0ca3;*/
+    /* #a7c957;*/
+}
+
+.ms-mainElement
+{
+    background-color: #333333;/*#231f20;*//* #386641;*/
+}
+
+.b-border
+{
+    border: #78d5d7 solid 2.5px;
+}
+
 
   

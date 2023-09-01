@@ -34,20 +34,16 @@ const Comment = ({usedComments, comment, allComments, post, parentId, fetchComme
 
     const [comments, setComments] = useState([]);
     
-    const toggleRender = () => {
-        //setShouldRender(!shouldRender);
-        
+    const unHide = () => {
+        //setShouldRender(!shouldRender);  
         const element = document.getElementById(comment.id);
         element.hidden = !element.hidden;
-        
 
     };
-
 
     const post2 = post;
  
     const getRepliesForComment = (comments, parentId) => {
-
         return comments.filter(comment => comment.idParentComment === parentId);
     };
 
@@ -107,11 +103,11 @@ const Comment = ({usedComments, comment, allComments, post, parentId, fetchComme
         //const divElement = document.createElement(comment.id+"t");
 
         const divElement0 = document.createElement('div');
-        divElement0.className = 'mt-10 mb-10 ml-5 bg-white dark:bg-gray-700 border-l-2 border-gray-400 p-4';
+        divElement0.className = 'mt-10 mb-10 ml-5 bg-white dark:bg-white-700 border-l-2 border-white-400 p-4';
         
         const divElement = document.createElement('div');
         // Ustawianie atrybutów, klas, treści, itp. (opcjonalne)
-        divElement.className = 'ml-5 mb-2 bg-white dark:bg-gray-800 sm:rounded-lg p-4';
+        divElement.className = 'ml-5 mb-2 bg-white dark:bg-white-800 sm:rounded-lg p-4';
          // 
 
         const divElement2 = document.createElement('div');
@@ -133,7 +129,7 @@ const Comment = ({usedComments, comment, allComments, post, parentId, fetchComme
         element.appendChild(divElement0);
 
         //element.appendChild(<Like elementId={-1} elementType={"comment"} likes={0}/>);
-        toggleRender();
+        unHide();
 
         
 
@@ -144,10 +140,10 @@ const Comment = ({usedComments, comment, allComments, post, parentId, fetchComme
 
 
     return (
-        <div id={comment.id+"t"} className={" mt-10 mb-10 ml-5 bg-white dark:bg-gray-700 border-l-2 border-gray-400 p-4"}>
+        <div id={comment.id+"t"} className={" mt-10 mb-10 ml-5 bg-white dark:bg-white-700 border-l-2 border-white-400 p-4"}>
 
             
-                <div className="ml-5 mb-2 bg-white dark:bg-gray-800 sm:rounded-lg p-4" > 
+                <div className="ml-5 mb-2 bg-white dark:bg-white-800 sm:rounded-lg p-4" > 
                     <div className='flex '>
                         <div className='w-5/6'>
                             
@@ -157,7 +153,7 @@ const Comment = ({usedComments, comment, allComments, post, parentId, fetchComme
                             komentarz: {comment.text}
                             
                                 <div className=''>
-                                    <button onClick={toggleRender}>reply</button>
+                                    <button onClick={unHide}>reply</button>
                                     <div id={comment.id} hidden>
                                         <CommentInput2 
                                             onSubmit={

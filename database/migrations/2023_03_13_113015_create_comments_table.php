@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('idPost');
             $table->unsignedBigInteger('idParentComment')->nullable(); //jest parent Comment to
             //$table->boolean('responseTo')->nullable();
-            $table->string('text', 100);
+            $table->string('text', 100)->nullable();
             $table->integer('likes')->nullable();
             $table->softDeletes();
             //$table->unsignedBigInteger('responseTo')->nullable();
