@@ -36,4 +36,15 @@ class Post extends Model
     {
         return $this->belongsToMany(Favourite::class, 'idUser');
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'idCategory');
+    }
+
+    public function tags()
+    {
+        return $this->belongsTo(TagTable::class, 'idUser');
+    }
+
 }

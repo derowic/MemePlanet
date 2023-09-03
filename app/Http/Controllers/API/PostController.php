@@ -9,29 +9,23 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
 
+    public function index(Request $request)
+    {
+        
         $user = auth()->user();
         $roles = $user->roles->pluck('name');
-
-        $perPage = 5; // Ilość postów na stronę
+        
+        $perPage = 5;
         $posts = Post::with(['user'])->orderBy('created_at', 'desc')->with('user')->paginate($perPage);
-
-        //$posts = Post::with(['user', 'comments'])->orderBy('created_at', 'desc')->paginate($perPage);
-        $posts = Post::with(['user', 'comments', 'comments.user', 'comments.replyTo'])
+        $posts = Post::with(['user', 'comments', 'comments.user', 'comments.replyTo','category'])
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
-        
-        // Załóżmy, że użytkownik jest zalogowany
         $favouriteRecords = $user->favourites;
-        // Możesz również przekazywać dodatkowe informacje związane z postami, używając relacji
         $favouriteRecordsWithPosts = $user->favourites->pluck('idPost');
-
+        $successAttribute = trans('validation.attributes.success');
+        
         return response()->json([
             'posts' => $posts,
             'user' => [
@@ -41,6 +35,7 @@ class PostController extends Controller
                 'roles' => $roles,
             ],
             'fav' => $favouriteRecordsWithPosts,
+            'test' => $successAttribute
         ]);
     }
 
@@ -52,23 +47,19 @@ class PostController extends Controller
             $image->move(public_path('images'), $imageName);
 
             $post = new Post();
-
             $post->idUser = auth()->user()->id;
             $post->title = $request->title;
             $post->text = $request->text;
             $post->likes = 0;
             $post->idCategory = $request->category;
-            $post->idTags = $request->tags;
+            $post->idTags = "$request->tags";
             $post->pathToImage = $imageName;
             $post->created_at = now();
             $post->updated_at = now();
-
             $post->save();
 
-            
-
-            if ($post->save()) {
-                // Udało się zapisać rekord
+            if ($post->save()) 
+            {
                 return response()->json([
                     'imageUrl' => '/images/'.$imageName,
                     'title' => $request->title,
@@ -76,12 +67,13 @@ class PostController extends Controller
                     'category' => $request->category,
                     'tags' => $request->tags,
                 ],201);
-            } else {
-                // Wystąpił błąd podczas zapisu rekordu
-                return response()->json(['message' => 'Nie udało się utworzyć komentarza'], 500);
+            } 
+            else 
+            {
+            
+                return response()->json(['message' => 'Error'], 500);
             }
-    
-    
+
             return response()->json(['message' => 'No image uploaded.'], 400);
         }
 
@@ -117,9 +109,7 @@ class PostController extends Controller
 
     public function create()
     {
-        return view(
-            'posts.create'
-        );
+
     }
 
     /**
@@ -127,37 +117,9 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            //'pathToImage' => 'required|mimes:jpg,png,jpeg|max:5048'
-        ]);
 
-        $title = $request->title;
-        $description = $request->description;
-
-        //  $newImageName = uniqid() . '-' . $request->title . '.' . $request->pathToImage->extension();
-        //  $pathToImage = $request->pathToImage->move(public_path('images'), $newImageName);
-        $pathToImage = $request->pathToImage;
-        //$pathToImage=$request->pathToImage->file('pathToImage')->store('posts');
-        $post = new Post();
-
-        $post->idUser = auth()->user()->id;
-        $post->title = $title;
-        $post->likes = 0;
-        $post->pathToImage = $pathToImage;
-        $post->description = $description;
-        $post->created_at = now();
-        $post->updated_at = now();
-
-        $post->save();
-
-        return redirect('dashboard');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function addToFavourite(Request $request)
     {
 
@@ -185,16 +147,16 @@ class PostController extends Controller
 
             $tmp->save();
             if ($tmp->save()) {
-                // Udało się zapisać rekord
+             
                 return response()->json(
                     [
-                        'message' => 'Add to favourite: Success',
+                      
                         'id' => $request->idPost,
                     ], 201);
             } else {
                 return response()->json(
                     [
-                        'message' => 'Add to favourite: Fail',
+                       
                         'id' => $request->idPost,
                     ], 500);
 
@@ -206,29 +168,23 @@ class PostController extends Controller
     public function favourites()
     {
         $user = auth()->user();
-        // Załóżmy, że użytkownik jest zalogowany
         $favouriteRecords = $user->favourites;
-        // Możesz również przekazywać dodatkowe informacje związane z postami, używając relacji
         $favouriteRecordsWithPosts = $user->favourites()->with('post')->get();
 
         return response()->json(
-            [
-                'fav' => $favouriteRecordsWithPosts,
-            ]);
+        [
+            'fav' => $favouriteRecordsWithPosts,
+        ]);
     }
 
     public function destroy($id)
     {
-        Post::find($id)->forceDelete();
 
-        return back();
     }
 
     public function softDeletePost(string $id)
     {
-        $id = Post::find($id);
-        $id->delete();
-
-        return redirect('posts');
+        $post = Post::find($id);
+        $post->delete();
     }
 }

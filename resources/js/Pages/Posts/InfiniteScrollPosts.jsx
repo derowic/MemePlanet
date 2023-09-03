@@ -19,6 +19,7 @@ const InfiniteScrollPosts = () => {
   const [page, setPage] = useState(1);
   const [auth, setAuth] = useState({ user: null });
   const [key, setKey] = useState(0);
+  const [tags, setTags] = useState([]);
 
   const handleRefresh = () => {
     //setKey(key + 1); // Zmiana klucza spowoduje ponowne renderowanie komponentu
@@ -28,7 +29,6 @@ const InfiniteScrollPosts = () => {
     fetchPosts();
   };
   
-
   const fetchPosts = async () => {
     try {
       const response = await axios.get(`/api/posts?page=${page}`);
@@ -36,15 +36,23 @@ const InfiniteScrollPosts = () => {
       setPage(prevPage => prevPage + 1);
       setAuth({ user: response.data.user });
       setFavs(prevFavs => [...prevFavs, ...response.data.fav]);
-      
-      
-      //console.log("dane: ",response.data); // Wyświetla całą odpowiedź
-      console.log("dane posta: ",response.data.posts); // Wyświetla zawartość tablicy posts
+      console.log("dane: ",response.data); // Wyświetla całą odpowiedź
+      //console.log("dane posta: ",response.data.posts); // Wyświetla zawartość tablicy posts
       //console.log("role : ",response.data.user.name); 
       //console.log("comments : ",response.data.posts.data[0].comments); 
       //console.log("id usera", response.data.fav);
       
       userData.name = response.data.user.name;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchTags = async () => {
+    try {
+      const response = await axios.post(`/api/getTags`);
+      setTags(prevTags => [...prevTags, ...response.data.tags]);
+      console.log("dane tagów: ",response.data); // Wyświetla całą odpowiedź
     } catch (error) {
       console.error(error);
     }
@@ -61,7 +69,10 @@ const InfiniteScrollPosts = () => {
 
   useEffect(() => {
     fetchPosts();
+    fetchTags();
   }, []);
+
+ 
 
 return (
   
@@ -73,8 +84,9 @@ return (
     {isAdmin && 
     (
       <>
+        <div>
           <button className="bg-[#EEA243] hover:bg-[#FFC465] text-black font-bold py-2 px-4 rounded-lg border border-[#EEA243]" onClick={changeLanguageToPolish}>Change Language to Polish</button>
-
+          </div>
           {t('adminOnly')}
           <button className="bg-[#EEA243] hover:bg-[#FFC465] text-black font-bold py-2 px-4 rounded-lg border border-[#EEA243]">Przycisk widziany tylko przez admina</button>
           
@@ -85,15 +97,27 @@ return (
         posts.map(post => (
           <li key={Math.random() }>{/**/}
             {post.id}
-      
+            
             <div className="w-full flex b-green0 overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
                   
               <div className="m-auto">
                   <h3 className="text-left font-semibold mb-2">{post.title}</h3>
                   <div className="text-left text-xs mb-2">{post.user.name}</div>   
-                  <div className="text-left text-xs mb-2">{post.text}</div>   
-                  
-                  
+                  <div className="text-left text-xs ">{post.category.text}</div>  
+                  {post.idTags && 
+                    <div className="text-left text-xs  ">
+                      {post.idTags.split(' ').map(tagId => {
+                        const tag = tags.find(tag => tag.id === parseInt(tagId));
+                        return tag ? (
+                          <button key={tag.id} className="mr-2 px-1 py-1 sm:rounded-lg p-4 mt-4 border-2 border-[#bbb]">
+                            {tag.text}
+                          </button>
+                        ) : null;
+                      })}
+                    </div>
+                  }
+                  <div className="text-left text-xs mb-2 mt-2">{post.text}</div>   
+
                   <div className="flex flex-col items-center justify-end mt-2">
                     <img src={"/images/"+post.pathToImage} alt="Opis obrazka" className='w-full h-full'></img>
                     <div className="flex">
@@ -103,9 +127,6 @@ return (
                     </div>   
                   </div> 
 
-                  
-
-                   
                   {<CommentSection postId={post.id}/>}
                  
               </div>
