@@ -7,26 +7,6 @@ import SendComment from './SendComment';
 import { userData } from "../GlobalData.js";
 import '../styles.css'; // Importuj plik ze stylami
 
-/*
-const sendComment = async (postId,text,parentId) => {
-    console.log("id posta ",postId," parent id: ",parentId );
-    try {
-        const response = await axios.post('/api/addComment', {
-            idPost: postId,
-            idParentComment: parentId,
-            text:text
-        });
-        console.log('Wiadomośc', response.data);
-        
-        // Obsłuż odpowiedź serwera
-    } catch (error) {
-        console.error('Błąd przesyłania danych:', error);
-        // Obsłuż błędy
-    }
-    
-};
-*/
-
 function CommentSection({ postId }) {
     const [isOpen, setIsOpen] = useState(false);
     const [comments, setComments] = useState([]);
@@ -49,9 +29,8 @@ function CommentSection({ postId }) {
             });
 
             setComments(response.data.dane[0].comments);
-            //console.log(response.data);
         } catch (error) {
-            console.error(error);
+            console.error("CommentSection -> fetchComments error: ",error);
         } finally 
         {
             setUsedComments([]);
@@ -59,19 +38,8 @@ function CommentSection({ postId }) {
     };
 
     const togglePanel = () => {
-        
-        /*
-        console.log(isOpen,"open");
-        if(isOpen == false)
-        {
-            fetchComments();
-        }
-        */
         setUsedComments([]);
         setIsOpen(!isOpen);
-
-       
-        
     };
 
     const updateCommentSection = async () =>
@@ -84,25 +52,18 @@ function CommentSection({ postId }) {
     }
 
     const handleSubmitComment = async (commentText, postId, parentCommentId, fetchComments) => {
-        // Tutaj możesz obsłużyć dodawanie komentarza, np. wysłać go na serwer
-        console.log('Dodano komentarz:', commentText, " ", postId, "", parentCommentId);
         await SendComment(postId, commentText, parentCommentId);
         addComment(commentText);
-        //fetchComments(); // Wywołanie funkcji pobierającej komentarze odświeży komentarz i pokaże na nowo 
     };
 
     const addComment =(commentText) =>
     {
-        // Tworzenie elementu div
-        //const divElement = document.createElement(comment.id+"t");
-
         const divElement0 = document.createElement('div');
         divElement0.className = 'mt-10 mb-10 ml-5 bg-white dark:bg-white-700 border-l-2 border-white-400 p-4';
         
         const divElement = document.createElement('div');
-        // Ustawianie atrybutów, klas, treści, itp. (opcjonalne)
         divElement.className = 'ml-5 mb-2 bg-white dark:bg-white-800 sm:rounded-lg p-4';
-         // 
+
         const divElement2 = document.createElement('div');
         divElement2.textContent = "user: "+userData.name;
         divElement.appendChild(divElement2);
@@ -113,16 +74,9 @@ function CommentSection({ postId }) {
         
         const element = document.getElementById("comments");
         
-        // Dodawanie div do drzewa DOM
         divElement0.appendChild(divElement);
         element.appendChild(divElement0);
-
-        //element.appendChild(<Like elementId={-1} elementType={"comment"} likes={0}/>);
-        //toggleRender();
-
-        
-
-        
+ 
     }
 
     return (
@@ -138,22 +92,10 @@ function CommentSection({ postId }) {
                     <div className="text-center text-lg ">Comments</div>
                 </div>
 
-                <CommentInput
-                    onSubmit={
-                        (commentText) => handleSubmitComment(commentText, postId, 0, fetchComments)}  
-                    post={postId}
-                />
+                <CommentInput onSubmit={(commentText) => handleSubmitComment(commentText, postId, 0, fetchComments)}  post={postId}/>
                     <div id="comments" className='dark:bg-white-700'>
                         {comments.map(comment => (
-                            <Comment 
-                                key={comment.id} 
-                                usedComments={usedComments} 
-                                comment={comment} 
-                                allComments={comments} 
-                                post={postId} 
-                                parentId={comment.id}
-                                fetchComments={updateCommentSection}
-                                />
+                            <Comment key={comment.id} usedComments={usedComments} comment={comment} allComments={comments} post={postId} parentId={comment.id}fetchComments={updateCommentSection}/>
                         ))}
                     </div>
                 </div>

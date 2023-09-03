@@ -15,11 +15,9 @@ const ImageUploadForm = ({ onImageUpload }) => {
     try {
       const response = await axios.post(`/api/getCategories`);
       setCategories(prevCategories => [...prevCategories, ...response.data.categories]);
-      //console.log("dane kategorii: ",response.data); // Wyświetla całą odpowiedź
 
-     
     } catch (error) {
-      console.error(error);
+      console.error("ImageUploadForm -> fetchCategories error: ",error);
     }
   };
 
@@ -27,9 +25,9 @@ const ImageUploadForm = ({ onImageUpload }) => {
     try {
       const response = await axios.post(`/api/getTags`);
       setTags(prevTags => [...prevTags, ...response.data.tags]);
-      //console.log("dane kategorii: ",response.data); // Wyświetla całą odpowiedź
+
     } catch (error) {
-      console.error(error);
+      console.error("ImageUploadForm -> fetchTags: ",error);
     }
   };
 
@@ -63,12 +61,10 @@ const ImageUploadForm = ({ onImageUpload }) => {
       var tmp = "";
       for (const tag of selectedTags) {
         tmp+=tag+" ";
-        // Możesz wykonać bardziej zaawansowane operacje dla każdego tagu
       }
-      //console.log("tmp ",selectedCategory);
-      onImageUpload(image,title.value, text.value, selectedCategory,tmp); // Ta linia przesyła obrazek na backend
-      setPreviewImage(null); // Czyścimy podgląd obrazka
-      setImage(null); // Czyścimy stan z wybranym obrazkiem
+      onImageUpload(image,title.value, text.value, selectedCategory,tmp);
+      setPreviewImage(null); 
+      setImage(null); 
       unHide();
       setSelectedCategory(null);
       setSelectedTags([]);

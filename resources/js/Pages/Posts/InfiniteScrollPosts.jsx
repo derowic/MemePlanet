@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useTranslation } from 'react-i18next'; // Dodaj ten import
+import { useTranslation } from 'react-i18next'; 
 import Like from './Like';
 import Heart from './Heart';
 import UploadPost from './UploadPost';
-//import Comment from './Comment';
+
 import CommentSection from './CommentSection';
 import { userData } from "../GlobalData.js";
 
-import '../styles.css'; // Importuj plik ze stylami
+import '../styles.css'; 
 import '../i18n';
 
 const InfiniteScrollPosts = () => {
@@ -22,10 +22,9 @@ const InfiniteScrollPosts = () => {
   const [tags, setTags] = useState([]);
 
   const handleRefresh = () => {
-    //setKey(key + 1); // Zmiana klucza spowoduje ponowne renderowanie komponentu
-    setPosts([]); // Czyszczenie stanu postów
-    setPage(0);    // Resetowanie numeru strony
-    setKey(key + 1); // Zmiana klucza komponentu
+    setPosts([]); 
+    setPage(0);   
+    setKey(key + 1); 
     fetchPosts();
   };
   
@@ -36,15 +35,10 @@ const InfiniteScrollPosts = () => {
       setPage(prevPage => prevPage + 1);
       setAuth({ user: response.data.user });
       setFavs(prevFavs => [...prevFavs, ...response.data.fav]);
-      console.log("dane: ",response.data); // Wyświetla całą odpowiedź
-      //console.log("dane posta: ",response.data.posts); // Wyświetla zawartość tablicy posts
-      //console.log("role : ",response.data.user.name); 
-      //console.log("comments : ",response.data.posts.data[0].comments); 
-      //console.log("id usera", response.data.fav);
-      
+      console.log("dane: ",response.data); // fast reading data from posts
       userData.name = response.data.user.name;
     } catch (error) {
-      console.error(error);
+      console.error("InfiniteScrollPosts -> fetchPosts error: ",error);
     }
   };
 
@@ -52,14 +46,13 @@ const InfiniteScrollPosts = () => {
     try {
       const response = await axios.post(`/api/getTags`);
       setTags(prevTags => [...prevTags, ...response.data.tags]);
-      console.log("dane tagów: ",response.data); // Wyświetla całą odpowiedź
     } catch (error) {
-      console.error(error);
+      console.error("InfiniteScrollPosts -> fetchTags error: ",error);
     }
   };
 
   const isAdmin = auth.user && auth.user.roles.includes('admin');
-  //console.log("is admin: ",isAdmin);
+
   
   const changeLanguageToPolish = () => 
   {
@@ -112,7 +105,9 @@ return (
                           <button key={tag.id} className="mr-2 px-1 py-1 sm:rounded-lg p-4 mt-4 border-2 border-[#bbb]">
                             {tag.text}
                           </button>
-                        ) : null;
+                        ) 
+                        : 
+                        null;
                       })}
                     </div>
                   }
@@ -122,7 +117,6 @@ return (
                     <img src={"/images/"+post.path_to_image} alt="Opis obrazka" className='w-full h-full'></img>
                     <div className="flex">
                         <Like elementId={post.id} elementType={"post"} likes={post.likes} />
-                        {/*<Heart postId={post.id} fav={true}/>*/}
                         <Heart postId={post.id} fav={favs.find(fav => fav == post.id) !== undefined} />
                     </div>   
                   </div> 

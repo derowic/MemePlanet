@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import '../styles.css'; // Importuj plik ze stylami
+import '../styles.css'; 
 
 const SendComment = async (postId,text,parentId) => {
     console.log("id posta ",postId," parent id: ",parentId );
@@ -11,12 +11,11 @@ const SendComment = async (postId,text,parentId) => {
             parent_comment: parentId,
             text:text
         });
-        console.log('Wiadomośc', response.data);
-        
-        // Obsłuż odpowiedź serwera
-    } catch (error) {
-        console.error('Błąd przesyłania danych:', error);
-        // Obsłuż błędy
+
+    } 
+    catch (error) 
+    {
+        console.error('SendComment error: ', error);
     }
     
 };

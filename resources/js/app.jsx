@@ -6,13 +6,12 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
 import React from 'react';
-import ExampleComponent from './Pages/ExampleComponent';
+
 
 function App() {
     return (
         <div className="App">
             <h1>Przykład komunikacji z Laravel API</h1>
-            <ExampleComponent />
         </div>
     );
 }

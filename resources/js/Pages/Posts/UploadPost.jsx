@@ -20,12 +20,12 @@ const UploadPost = ({ fetchPosts }) => {
      
       setUploadedImageUrl(response.data.imageUrl);
       setImageUploaded(true);
-      console.log('Obrazek przesłano pomyślnie!', response.data);
+      
       fetchPosts();
       
     } catch (error) {
-      console.error('Błąd przesyłania obrazka:', error);
-      console.error(error);
+     
+      console.error("UploadPost error: ",error);
     }
   };
 
@@ -35,10 +35,7 @@ const UploadPost = ({ fetchPosts }) => {
       <ImageUploadForm onImageUpload={handleImageUpload} />
 
         {imageUploaded && (
-          <>
-            {/* Tutaj umieść elementy, które mają się pokazać po załadowaniu obrazka */}
             <h1>TESKT DO OBRZA</h1>
-          </>
         )}
 
     </div>

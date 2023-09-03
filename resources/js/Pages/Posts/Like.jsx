@@ -27,25 +27,24 @@ function Like({elementId, elementType, likes}) {
       {
         const response = await axios.post('/api/likePost', {
           like: tmp, 
-          id: elementId// Przesyłamy wartość zmiennej jako część ciała żądania
+          id: elementId
         });
-        console.log('Dane zostały przesłane', response.data);
+        
         setCount(response.data.like);
       }
       else if(elementType == "comment")
       {
         const response = await axios.post('/api/likeComment', {
           like: tmp, 
-          id: elementId// Przesyłamy wartość zmiennej jako część ciała żądania
+          id: elementId
         });
-        console.log('Dane zostały przesłane', response.data);
+      
         setCount(response.data.like);
       }
 
-      // Obsłuż odpowiedź serwera
     } catch (error) {
-      console.error('Błąd przesyłania danych:', error);
-      // Obsłuż błędy
+      console.error('Like -> like error: ', error);
+
     }
   };
 

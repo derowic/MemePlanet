@@ -9,9 +9,7 @@ const CommentInput = ({ onSubmit, post }) => {
     };
 
     const handleSubmit = () => {
-        console.log("id posta ",post);
         onSubmit(commentText);
-        //setSubmittedComment(commentText + post);
         setCommentText('');
     };
 
@@ -23,28 +21,9 @@ const CommentInput = ({ onSubmit, post }) => {
                 </div>
             ) : (
                 <div className='flex justify-center' > 
-                    <textarea
-                        value={commentText}
-                        onChange={handleInputChange}
-                        placeholder="Write Comment..." 
-                        className="ml-5 w-3/4 bg-white-500
-                        text-black 
-                        font-bold 
-                        py-2 px-4 
-                        rounded-lg 
-                        border"
-                    />
-                    <button onClick={handleSubmit} 
-                        className='
-                            bg-white-500
-                            hover:bg-white-600 
-                            text-black 
-                            font-bold 
-                            py-2 px-4 
-                            rounded-lg 
-                            border 
-                            border-white-600'>
-                                Add comment
+                    <textarea value={commentText} onChange={handleInputChange} placeholder="Write Comment..." className="ml-5 w-3/4 bg-white-500 text-black font-bold py-2 px-4 rounded-lg border"/>
+                    <button onClick={handleSubmit} className='bg-white-500hover:bg-white-600 text-black font-bold py-2 px-4 rounded-lg border border-white-600'>
+                        Add comment
                     </button>
                 </div>
             )}

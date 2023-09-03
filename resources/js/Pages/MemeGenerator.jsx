@@ -1,9 +1,6 @@
 import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import ExampleComponent from './ExampleComponent';
-import InfiniteScrollPosts from './Posts/InfiniteScrollPosts';
-
 export default function MemeGenerator({ auth }) {
     return (
         <AuthenticatedLayout
@@ -20,7 +17,7 @@ export default function MemeGenerator({ auth }) {
                             <div className="w-1/4 p-4"> {/* Blok po lewej */}
                                 <h3 className=" text-center font-semibold mb-2">Categories</h3>
                               
-                                {/* Tu możesz dodać dowolną treść */}
+                               
                             </div>
                             
                             <div className="w-1/2 p-4"> {/* Główny blok treści */}
@@ -31,7 +28,7 @@ export default function MemeGenerator({ auth }) {
                             
                             <div className="w-1/4 p-4"> {/* Blok po prawej */}
                                 <h3 className="text-center font-semibold mb-2">Popular</h3>
-                                {/* Tu możesz dodać dowolną treść */}
+                               
                             </div>
                         </div>
                     </div>
