@@ -94,7 +94,7 @@ return (
     <ul>
       {
         posts.map(post => (
-          <li key={Math.random() }>
+          <li key={post.id }>
 
             <div className="w-full flex bg-[#333333]  overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
                   

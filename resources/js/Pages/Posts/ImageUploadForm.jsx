@@ -68,7 +68,9 @@ const ImageUploadForm = ({ onImageUpload }) => {
       unHide();
       setSelectedCategory(null);
       setSelectedTags([]);
-      
+      clearImg();
+      title.value = "";
+      text.value = "";
     }
   };
 

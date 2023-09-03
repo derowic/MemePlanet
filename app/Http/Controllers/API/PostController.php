@@ -17,7 +17,7 @@ class PostController extends Controller
         $roles = $user->roles->pluck('name');
         
         $perPage = 5;
-        $posts = Post::with(['user'])->orderBy('created_at', 'desc')->with('user')->paginate($perPage);
+       
         $posts = Post::with(['user', 'comments', 'comments.user', 'comments.reply_to','category'])
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
