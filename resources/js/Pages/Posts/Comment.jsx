@@ -8,12 +8,12 @@ import 'react-quill/dist/quill.snow.css';
 import { userData } from "../GlobalData.js";
 
 /*
-const sendComment = async (postId,text,parentId) => {
-    console.log("id posta ",postId," parent id: ",parentId );
+const sendComment = async (postId,text,parent_id) => {
+    console.log("id posta ",postId," parent id: ",parent_id );
     try {
         const response = await axios.post('/api/addComment', {
             idPost: postId,
-            idParentComment: parentId,
+            idParentComment: parent_id,
             text:text
         });
         console.log('Wiadomośc', response.data);
@@ -30,7 +30,7 @@ const sendComment = async (postId,text,parentId) => {
 //const usedComments = [];
 //console.log("inicjalizajc tablicy komentarzy  ");
 
-const Comment = ({usedComments, comment, allComments, post, parentId, fetchComments }) => {
+const Comment = ({usedComments, comment, allComments, post, parent_id, fetchComments }) => {
 
     const [comments, setComments] = useState([]);
     
@@ -43,8 +43,8 @@ const Comment = ({usedComments, comment, allComments, post, parentId, fetchComme
 
     const post2 = post;
  
-    const getRepliesForComment = (comments, parentId) => {
-        return comments.filter(comment => comment.idParentComment === parentId);
+    const getRepliesForComment = (comments, parent_id) => {
+        return comments.filter(comment => comment.idParentComment === parent_id);
     };
 
     const replies = getRepliesForComment(allComments, comment.id);
@@ -71,7 +71,7 @@ const Comment = ({usedComments, comment, allComments, post, parentId, fetchComme
                     comment={reply} 
                     allComments={allComments} 
                     post={post} 
-                    parentId={comment.id}
+                    parent_id={comment.id}
                     fetchComments={fetchComments}
                     />
                 
@@ -189,7 +189,7 @@ const Comment = ({usedComments, comment, allComments, post, parentId, fetchComme
                         usedComments={usedComments}  
                         comment={reply} 
                         allComments={allComments} 
-                        post={post} parentId={comment.id} 
+                        post={post} parent_id={comment.id} 
                         fetchComments={fetchComments}
                     />
                 
