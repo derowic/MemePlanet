@@ -104,9 +104,9 @@ return (
                   <h3 className="text-left font-semibold mb-2">{post.title}</h3>
                   <div className="text-left text-xs mb-2">{post.user.name}</div>   
                   <div className="text-left text-xs ">{post.category.text}</div>  
-                  {post.idTags && 
+                  {post.tags && 
                     <div className="text-left text-xs  ">
-                      {post.idTags.split(' ').map(tagId => {
+                      {post.tags.split(' ').map(tagId => {
                         const tag = tags.find(tag => tag.id === parseInt(tagId));
                         return tag ? (
                           <button key={tag.id} className="mr-2 px-1 py-1 sm:rounded-lg p-4 mt-4 border-2 border-[#bbb]">
@@ -119,7 +119,7 @@ return (
                   <div className="text-left text-xs mb-2 mt-2">{post.text}</div>   
 
                   <div className="flex flex-col items-center justify-end mt-2">
-                    <img src={"/images/"+post.pathToImage} alt="Opis obrazka" className='w-full h-full'></img>
+                    <img src={"/images/"+post.path_to_image} alt="Opis obrazka" className='w-full h-full'></img>
                     <div className="flex">
                         <Like elementId={post.id} elementType={"post"} likes={post.likes} />
                         {/*<Heart postId={post.id} fav={true}/>*/}

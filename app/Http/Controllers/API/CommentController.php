@@ -18,7 +18,7 @@ class CommentController extends Controller
         
         $perPage = 5; 
         $posts = Post::with(['user'])->orderBy('created_at', 'desc')->with('user')->paginate($perPage);
-        $posts = Post::with(['user', 'comments', 'comments.user', 'comments.replyTo'])
+        $posts = Post::with(['user', 'comments', 'comments.user', 'comments.reply_to'])
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
@@ -41,7 +41,7 @@ class CommentController extends Controller
     {
         $postId = $request->id;
 
-        $comments = Post::with(['comments', 'comments.user', 'comments.replyTo', 'comments.replyTo.user'])
+        $comments = Post::with(['comments', 'comments.user', 'comments.reply_to', 'comments.reply_to.user'])
             ->where('id', $postId)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -61,9 +61,9 @@ class CommentController extends Controller
     {
         $com = new Comment();
 
-        $com->idUser = auth()->user()->id;
-        $com->idPost = $request->idPost;
-        $com->idParentComment = $request->idParentComment;
+        $com->user = auth()->user()->id;
+        $com->post = $request->post;
+        $com->parent_comment = $request->parent_comment;
         $com->text = $request->text;
         $com->likes = 0;
         $com->created_at = now();
@@ -112,30 +112,12 @@ class CommentController extends Controller
 
     }
 
-    public function show(string $id)
-    {
-       
-    }
 
     public function edit($id)
     {
 
     }
 
-    public function update(Request $request, Post $post)
-    {
-
-    }
-
-    public function one_post_view(int $id)
-    {
-
-    }
-
-    public function add_comment(Request $request)
-    {
-
-    }
 
     public function destroy($id)
     {
@@ -147,13 +129,4 @@ class CommentController extends Controller
 
     }
 
-    public function showUploadForm()
-    {
-
-    }
-
-    public function upload(Request $request)
-    {
-
-    }
 }

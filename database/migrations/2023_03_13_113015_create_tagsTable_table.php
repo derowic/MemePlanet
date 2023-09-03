@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tagsTable', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('idUser');
-            $table->unsignedBigInteger('idTag');
+            $table->unsignedBigInteger('user');
+            $table->unsignedBigInteger('tag');
             $table->timestamps();
 
         });

@@ -22,20 +22,20 @@ class PostFactory extends Factory
         return [
             //
 
-            'idUser' => User::select('id')
+            'user' => User::select('id')
                 ->orderByRaw('RAND()')
                 ->first()->id,
             'title' => $this->faker->text(25),
             'text' => $this->faker->text(100),
-            'idCategory' => Category::select('id')
+            'category' => Category::select('id')
                 ->orderByRaw('RAND()')
                 ->first()->id,
-            'idTags' => Tag::select('id')
+            'tags' => Tag::select('id')
                 ->orderByRaw('RAND()')
                 ->first()->id,
             'likes' => $this->faker->numberBetween(1, 1000),
             'dislikes' => $this->faker->numberBetween(1, 1000),
-            'pathToImage' => null,
+            'path_to_image' => null,
             'deleted_at' => null,
 
         ];

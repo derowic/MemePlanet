@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('idUser');
-            $table->unsignedBigInteger('idParentElement');
-            $table->boolean('likeTo')->nullable();
+            $table->unsignedBigInteger('user');
+            $table->unsignedBigInteger('parent_element');
+            $table->boolean('like_to')->nullable();
             $table->boolean('like')->nullable();
             $table->timestamps();
         });

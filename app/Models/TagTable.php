@@ -11,19 +11,19 @@ class TagTable extends Model
 
     protected $fillable = [
 
-        'idTag',
-        'idUser',
+        'tag',
+        'user',
 
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'idUser');
+        return $this->belongsTo(User::class, 'user');
     }
 
     public function tag()
     {
-        return $this->belongsTo(Tag::class, 'idTag');
+        return $this->belongsTo(Tag::class, 'tag');
     }
 
     /*

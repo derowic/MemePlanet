@@ -16,14 +16,14 @@ return new class extends Migration
 
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('idUser');
+            $table->unsignedBigInteger('user');
             $table->string('title', 25)->nullable();
             $table->string('text', 255)->nullable();
-            $table->unsignedBigInteger('idCategory');
-            $table->string('idTags', 255)->nullable();
+            $table->unsignedBigInteger('category');
+            $table->string('tags', 255)->nullable();
             $table->integer('likes')->nullable();
             $table->integer('dislikes')->nullable();
-            $table->string('pathToImage')->nullable();
+            $table->string('path_to_image')->nullable();
             $table->softDeletes();
             $table->timestamps();
 

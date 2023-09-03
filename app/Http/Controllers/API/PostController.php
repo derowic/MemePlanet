@@ -18,12 +18,12 @@ class PostController extends Controller
         
         $perPage = 5;
         $posts = Post::with(['user'])->orderBy('created_at', 'desc')->with('user')->paginate($perPage);
-        $posts = Post::with(['user', 'comments', 'comments.user', 'comments.replyTo','category'])
+        $posts = Post::with(['user', 'comments', 'comments.user', 'comments.reply_to','category'])
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
         $favouriteRecords = $user->favourites;
-        $favouriteRecordsWithPosts = $user->favourites->pluck('idPost');
+        $favouriteRecordsWithPosts = $user->favourites->pluck('post');
         $successAttribute = trans('validation.attributes.success');
         
         return response()->json([
@@ -42,18 +42,19 @@ class PostController extends Controller
     public function uploadImage(Request $request)
     {
         if ($request->hasFile('image')) {
+
             $image = $request->file('image');
             $imageName = auth()->user()->id.time().'_'.$image->getClientOriginalName();
             $image->move(public_path('images'), $imageName);
 
             $post = new Post();
-            $post->idUser = auth()->user()->id;
+            $post->user = auth()->user()->id;
             $post->title = $request->title;
             $post->text = $request->text;
             $post->likes = 0;
-            $post->idCategory = $request->category;
-            $post->idTags = "$request->tags";
-            $post->pathToImage = $imageName;
+            $post->category = $request->category;
+            $post->tags = $request->tags;
+            $post->path_to_image = $imageName;
             $post->created_at = now();
             $post->updated_at = now();
             $post->save();
@@ -77,9 +78,6 @@ class PostController extends Controller
             return response()->json(['message' => 'No image uploaded.'], 400);
         }
 
-        
-
-      
     }
 
     public function like(Request $request)
@@ -98,7 +96,6 @@ class PostController extends Controller
 
         Post::where('id', '=', $request->id)->update([
             'likes' => $article->likeCount,
-
         ]);
 
         return response()->json([
@@ -112,9 +109,7 @@ class PostController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
 
@@ -123,8 +118,8 @@ class PostController extends Controller
     public function addToFavourite(Request $request)
     {
 
-        $favouriteRecord = Favourite::where('idUser', auth()->user()->id)
-            ->where('idPost', $request->idPost)
+        $favouriteRecord = Favourite::where('user', auth()->user()->id)
+            ->where('post', $request->post)
             ->first();
 
         if ($favouriteRecord == true) {
@@ -139,8 +134,8 @@ class PostController extends Controller
         } else {
             $tmp = new Favourite();
 
-            $tmp->idUser = auth()->user()->id;
-            $tmp->idPost = $request->idPost;
+            $tmp->user = auth()->user()->id;
+            $tmp->post = $request->post;
 
             $tmp->created_at = now();
             $tmp->updated_at = now();
@@ -150,14 +145,13 @@ class PostController extends Controller
              
                 return response()->json(
                     [
-                      
-                        'id' => $request->idPost,
+                        'id' => $request->post,
                     ], 201);
             } else {
                 return response()->json(
                     [
                        
-                        'id' => $request->idPost,
+                        'id' => $request->post,
                     ], 500);
 
             }

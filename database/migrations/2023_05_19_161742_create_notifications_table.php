@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('idUser');
-            $table->unsignedBigInteger('idElement');
-            $table->boolean('responseTo')->nullable();
+            $table->unsignedBigInteger('user');
+            $table->unsignedBigInteger('element');
+            $table->boolean('response_to')->nullable();
             $table->string('text')->unique();
             $table->boolean('seen')->nullable();
             $table->timestamps();

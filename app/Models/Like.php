@@ -11,8 +11,8 @@ class Like extends Model
 
     protected $fillable = [
 
-        'idParentElement',
-        'idUser',
+        'parent_element',
+        'user',
 
     ];
 }

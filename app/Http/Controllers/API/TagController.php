@@ -19,9 +19,9 @@ class TagController extends Controller
 
     public function getComments(Request $request)
     {
-        $postId = $request->id;
+        $id_post = $request->id;
 
-        $comments = Post::with(['comments', 'comments.user', 'comments.replyTo', 'comments.replyTo.user'])
+        $comments = Post::with(['comments', 'comments.user', 'comments.reply_to', 'comments.reply_to.user'])
             ->where('id', $postId)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -30,7 +30,7 @@ class TagController extends Controller
 
         return response()->json([
             'dane' => $comments,
-            'id' => $postId,
+            'id' => $id_post,
             'user' => $user,
 
         ]);
@@ -40,9 +40,9 @@ class TagController extends Controller
     public function create(Request $request)
     {
         $com = new Comment();
-        $com->idUser = auth()->user()->id;
-        $com->idPost = $request->idPost;
-        $com->idParentComment = $request->idParentComment;
+        $com->user = auth()->user()->id;
+        $com->post = $request->post;
+        $com->iparent_comment = $request->parent_comment;
         $com->text = $request->text;
         $com->likes = 0;
         $com->created_at = now();

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('idUser');
-            $table->unsignedBigInteger('idPost');
-            $table->unsignedBigInteger('idParentComment')->nullable(); //jest parent Comment to
+            $table->unsignedBigInteger('user');
+            $table->unsignedBigInteger('post');
+            $table->unsignedBigInteger('parent_comment')->nullable(); //jest parent Comment to
             //$table->boolean('responseTo')->nullable();
             $table->string('text', 100)->nullable();
             $table->integer('likes')->nullable();

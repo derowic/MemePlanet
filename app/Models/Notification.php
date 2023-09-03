@@ -11,14 +11,14 @@ class Notification extends Model
 
     protected $fillable = [
 
-        'idElement',
-        'idUser',
+        'element',
+        'user',
         'seen',
 
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'idUser');
+        return $this->belongsTo(User::class, 'user');
     }
 }

@@ -21,10 +21,10 @@ class FavouriteFactory extends Factory
         return [
             //
 
-            'idUser' => User::select('id')
+            'user' => User::select('id')
                 ->orderByRaw('RAND()')
                 ->first()->id,
-            'idPost' => Post::select('id')
+            'post' => Post::select('id')
                 ->orderByRaw('RAND()')
                 ->first()->id,
 

@@ -14,37 +14,37 @@ class Post extends Model
 
     protected $fillable = [
 
-        'idUser',
+        'user',
         'title',
         'likes',
-        'pathToImage',
+        'path_to_image',
         'description',
 
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'idUser');
+        return $this->belongsTo(User::class, 'user');
     }
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'idPost');
+        return $this->hasMany(Comment::class, 'post');
     }
 
     public function favourite()
     {
-        return $this->belongsToMany(Favourite::class, 'idUser');
+        return $this->belongsToMany(Favourite::class, 'user');
     }
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'idCategory');
+        return $this->belongsTo(Category::class, 'category');
     }
 
     public function tags()
     {
-        return $this->belongsTo(TagTable::class, 'idUser');
+        return $this->belongsTo(TagTable::class, 'user');
     }
 
 }

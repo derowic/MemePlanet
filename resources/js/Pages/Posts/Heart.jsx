@@ -17,7 +17,7 @@ const Heart = ({postId,fav}) => {
     //console.log("idpostaa: "+postId);
     try {
         const response = await axios.post('/api/addToFavourite', {
-            idPost: postId,
+            post: postId,
            
         });
         //console.log('Wiadomośc', response.data);

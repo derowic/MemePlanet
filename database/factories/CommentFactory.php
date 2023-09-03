@@ -20,15 +20,15 @@ class CommentFactory extends Factory
     {
         return [
             //
-            'idPost' => Post::select('id')
+            'post' => Post::select('id')
                 ->orderByRaw('RAND()')
                 ->first()->id,
-            'iduser' => User::select('id')
+            'user' => User::select('id')
                 ->orderByRaw('RAND()')
                 ->first()->id,
             'text' => $this->faker->unique()->word(),
             'likes' => $this->faker->numberBetween(1, 1000),
-            'idParentComment' => null,
+            'parent_comment' => null,
             'deleted_at' => null,
 
         ];

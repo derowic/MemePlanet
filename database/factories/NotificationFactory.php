@@ -20,10 +20,10 @@ class NotificationFactory extends Factory
     {
         return [
             //
-            'idPost' => Post::select('id')
+            'post' => Post::select('id')
                 ->orderByRaw('RAND()')
                 ->first()->id,
-            'idUser' => User::select('id')
+            'user' => User::select('id')
                 ->orderByRaw('RAND()')
                 ->first()->id,
             'seen' => null,

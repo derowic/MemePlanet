@@ -12,26 +12,26 @@ class Comment extends Model
 
     protected $fillable = [
 
-        'idPost',
-        'idUser',
+        'post',
+        'user',
         'likes',
         'text',
-        'idParentComment',
+        'parent_comment',
 
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'idUser');
+        return $this->belongsTo(User::class, 'user');
     }
 
     public function post()
     {
-        return $this->belongsTo(Post::class, 'idPost');
+        return $this->belongsTo(Post::class, 'post');
     }
 
-    public function replyTo()
+    public function reply_to()
     {
-        return $this->belongsTo(Comment::class, 'idParentComment');
+        return $this->belongsTo(Comment::class, 'parent_comment');
     }
 }

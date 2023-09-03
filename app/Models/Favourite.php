@@ -11,19 +11,19 @@ class Favourite extends Model
 
     protected $fillable = [
 
-        'idPost',
-        'idUser',
+        'post',
+        'user',
 
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'idUser');
+        return $this->belongsTo(User::class, 'user');
     }
 
     public function post()
     {
-        return $this->belongsTo(Post::class, 'idPost');
+        return $this->belongsTo(Post::class, 'post');
     }
 
     /*
