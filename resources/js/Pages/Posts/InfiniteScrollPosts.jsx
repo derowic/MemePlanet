@@ -70,28 +70,33 @@ const InfiniteScrollPosts = () => {
 return (
   
   <div>
-    <button className='bg-[#EEA243] hover:bg-[#FFC465] text-black font-bold py-2 px-4 rounded-lg border border-[#EEA243]' onClick={handleRefresh}>Odśwież</button>
-    <UploadPost fetchPosts={handleRefresh}/>
+    <div className='bg-[#333333] rounded-lg p-4'>
+      <button className='bg-[#EEA243] hover:bg-[#FFC465] text-white font-bold py-2 px-4 rounded-lg border border-[#EEA243]' onClick={handleRefresh}>Odśwież</button>
+      <UploadPost fetchPosts={handleRefresh}/>
+    </div>
     <InfiniteScroll dataLength={posts.length} next={fetchPosts} hasMore={true} loader={<p>{t('loading')}</p>} endMessage={<p>{t('noMorePosts')}</p>} >
         
+    <div className='bg-[#333333] rounded-lg p-4 mt-2'>
     {isAdmin && 
     (
       <>
         <div>
-          <button className="bg-[#EEA243] hover:bg-[#FFC465] text-black font-bold py-2 px-4 rounded-lg border border-[#EEA243]" onClick={changeLanguageToPolish}>Change Language to Polish</button>
+          <button className="bg-[#EEA243] hover:bg-[#FFC465] text-white font-bold py-2 px-4 rounded-lg border border-[#EEA243]" onClick={changeLanguageToPolish}>Change Language to Polish</button>
           </div>
           {t('adminOnly')}
-          <button className="bg-[#EEA243] hover:bg-[#FFC465] text-black font-bold py-2 px-4 rounded-lg border border-[#EEA243]">Przycisk widziany tylko przez admina</button>
+          <button className="bg-[#EEA243] hover:bg-[#FFC465] text-white font-bold py-2 px-4 rounded-lg border border-[#EEA243]">Przycisk widziany tylko przez admina</button>
           
       </>
     )}
+    </div>    
+    
+
     <ul>
       {
         posts.map(post => (
-          <li key={Math.random() }>{/**/}
-            {post.id}
-            
-            <div className="w-full flex b-green0 overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
+          <li key={Math.random() }>
+
+            <div className="w-full flex bg-[#333333]  overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
                   
               <div className="m-auto">
                   <h3 className="text-left font-semibold mb-2">{post.title}</h3>

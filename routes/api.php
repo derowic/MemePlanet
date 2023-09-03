@@ -9,6 +9,7 @@ use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\TagController;
 
 
+
 Route::get('/api/posts', [PostController::class, 'index']);
 Route::post('/api/getTags', [TagController::class, 'getTags']);
 /*

@@ -59,10 +59,10 @@ function CommentSection({ postId }) {
     const addComment =(commentText) =>
     {
         const divElement0 = document.createElement('div');
-        divElement0.className = 'mt-10 mb-10 ml-5 bg-white dark:bg-white-700 border-l-2 border-white-400 p-4';
+        divElement0.className = 'mt-10 mb-10 ml-5 bg-[#333333] border-l-2 border-white-400 p-4';
         
         const divElement = document.createElement('div');
-        divElement.className = 'ml-5 mb-2 bg-white dark:bg-white-800 sm:rounded-lg p-4';
+        divElement.className = 'ml-5 mb-2 bg-[#333333] sm:rounded-lg p-4';
 
         const divElement2 = document.createElement('div');
         divElement2.textContent = "user: "+userData.name;
@@ -87,15 +87,15 @@ function CommentSection({ postId }) {
             
             <Drawer anchor="bottom" open={isOpen} onClose={togglePanel} className='items-center justify-center' >
                 
-                <div className="panel-content bg-white dark:bg-white-700 text-black-500 dark:text-black-400 " style={{ maxHeight: '75vh' }} >
-                <div className="flex items-center justify-center ">
-                    <div className="text-center text-lg ">Comments</div>
-                </div>
+                <div className="bg-[#333333] text-white " style={{ maxHeight: '75vh', minHeight: '75vh' }} >
+                    <div className="flex items-center justify-center ">
+                        <div className="text-center text-lg ">Comments</div>
+                    </div>
 
-                <CommentInput onSubmit={(commentText) => handleSubmitComment(commentText, postId, 0, fetchComments)}  post={postId}/>
-                    <div id="comments" className='dark:bg-white-700'>
+                    <CommentInput onSubmit={(commentText) => handleSubmitComment(commentText, postId, 0, fetchComments)}  post={postId}/>
+                    <div id="comments" className='bg-[#333333] dark:bg-white-700'>
                         {comments.map(comment => (
-                            <Comment key={comment.id} usedComments={usedComments} comment={comment} allComments={comments} post={postId} parentId={comment.id}fetchComments={updateCommentSection}/>
+                            <Comment key={comment.id} usedComments={usedComments} comment={comment} allComments={comments} post={postId} parentId={comment.id} fetchComments={updateCommentSection}/>
                         ))}
                     </div>
                 </div>

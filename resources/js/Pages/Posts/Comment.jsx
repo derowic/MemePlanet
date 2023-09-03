@@ -60,18 +60,21 @@ const Comment = ({usedComments, comment, allComments, post, parent_id, fetchComm
     const addComment =(commentText,replyToName) =>
     {
         const divElement0 = document.createElement('div');
-        divElement0.className = 'mt-10 mb-10 ml-5 bg-white dark:bg-white-700 border-l-2 border-white-400 p-4';
+        divElement0.className = 'mt-10 mb-10 ml-5 bg-[#333333] border-l-2 border-white-400 p-4';
         
         const divElement = document.createElement('div');
-        divElement.className = 'ml-5 mb-2 bg-white dark:bg-white-800 sm:rounded-lg p-4';
+        divElement.className = 'ml-5 mb-2 bg-[#333333] sm:rounded-lg p-4';
 
         const divElement2 = document.createElement('div');
         divElement2.textContent = "user: "+userData.name;
         divElement.appendChild(divElement2);
 
-        const divElement3 = document.createElement('div');
-        divElement3.textContent = "reply to: "+replyToName;
-        divElement.appendChild(divElement3);
+        if(replyToName != null)
+        {
+            const divElement3 = document.createElement('div');
+            divElement3.textContent = "reply to: "+replyToName;
+            divElement.appendChild(divElement3);
+        }
 
         const divElement4 = document.createElement('div');
         divElement4.textContent = "koemntarz: " +commentText;
@@ -86,12 +89,12 @@ const Comment = ({usedComments, comment, allComments, post, parent_id, fetchComm
     }
 
     return (
-        <div id={comment.id+"t"} className={" mt-10 mb-10 ml-5 bg-white dark:bg-white-700 border-l-2 border-white-400 p-4"}>
+        <div id={comment.id+"t"} className={" mt-10 mb-10 ml-5 bg-[#333333] border-l-2 border-white-400 p-4"}>
 
             
-                <div className="ml-5 mb-2 bg-white dark:bg-white-800 sm:rounded-lg p-4" > 
-                    <div className='flex '>
-                        <div className='w-5/6'>
+                <div className="ml-5 mb-2 bg-[#333333]  sm:rounded-lg p-4" > 
+                    <div className='flex bg-[#333333] '>
+                        <div className='w-5/6 bg-[#333333] '>
                             <div>user: {comment.user.name}</div>
                                 {comment.reply_to && <div> reply to: {comment.reply_to.user.name}</div> }
                                 komentarz: {comment.text}

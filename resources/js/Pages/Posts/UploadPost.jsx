@@ -31,13 +31,11 @@ const UploadPost = ({ fetchPosts }) => {
 
   return (
     <div>
-      <h1>Image Upload and Display</h1>
       <ImageUploadForm onImageUpload={handleImageUpload} />
 
         {imageUploaded && (
             <h1>TESKT DO OBRZA</h1>
         )}
-
     </div>
   );
 };
