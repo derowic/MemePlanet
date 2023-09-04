@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import Notify from './Notify';
+import Notification from '@/Components/Notification';
 import axios from 'axios';
 
 
@@ -18,7 +18,7 @@ const ImageUploadForm = ({ onImageUpload }) => {
       setCategories(prevCategories => [...prevCategories, ...response.data.categories]);
 
     } catch (error) {
-      Notify(error.response.data.msg);
+      Notification(error.response.data.msg);
       console.error("ImageUploadForm -> fetchCategories error: ",error);
     }
   };
@@ -29,7 +29,7 @@ const ImageUploadForm = ({ onImageUpload }) => {
       setTags(prevTags => [...prevTags, ...response.data.tags]);
 
     } catch (error) {
-      Notify(error.response.data.msg);
+      Notification(error.response.data.msg);
       console.error("ImageUploadForm -> fetchTags: ",error);
     }
   };
@@ -87,7 +87,7 @@ const ImageUploadForm = ({ onImageUpload }) => {
     }
     else
     {
-      Notify("Image, title and category are required");
+      Notification("Image, title and category are required");
     }
   };
 

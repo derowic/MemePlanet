@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Notify from './Notify';
+import Notification from '@/Components/Notification';
 
 import '../styles.css'; 
 
@@ -16,7 +16,7 @@ const SendComment = async (postId,text,parentId) => {
     } 
     catch (error) 
     {
-        Notify(error.response.data.msg);
+        Notification(error.response.data.msg);
         console.error('SendComment error: ', error);
     }
     

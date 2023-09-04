@@ -4,7 +4,7 @@ import { Button, Drawer } from '@mui/material';
 import Comment from './Comment';
 import CommentInput from './CommentInput';
 import SendComment from './SendComment';
-import Notify from './Notify';
+import Notification from '@/Components/Notification';
 import { userData } from "../GlobalData.js";
 import '../styles.css'; // Importuj plik ze stylami
 
@@ -34,7 +34,7 @@ function CommentSection({ postId }) {
             
         } catch (error) {
             
-            Notify(error.response.data.msg);
+            Notification(error.response.data.msg);
             console.error("CommentSection -> fetchComments error: ",error.response.data.msg);
 
         } finally 

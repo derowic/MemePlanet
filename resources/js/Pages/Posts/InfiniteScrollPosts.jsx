@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Like from './Like';
 import Heart from './Heart';
 import UploadPost from './UploadPost';
-import Notify from './Notify';
+import Notification from '@/Components/Notification';
 import CommentSection from './CommentSection';
 import { userData } from "../GlobalData.js";
 
@@ -38,7 +38,7 @@ const InfiniteScrollPosts = () => {
       console.log("dane: ",response.data); // fast reading data from posts
       userData.name = response.data.user.name;
     } catch (error) {
-      Notify(error.response.data.msg);
+      Notification(error.response.data.msg);
       console.error("InfiniteScrollPosts -> fetchPosts error: ",error);
     }
   };
@@ -48,7 +48,7 @@ const InfiniteScrollPosts = () => {
       const response = await axios.post(`/api/getTags`);
       setTags(prevTags => [...prevTags, ...response.data.tags]);
     } catch (error) {
-      Notify(error.response.data.msg);
+      Notification(error.response.data.msg);
       console.error("InfiniteScrollPosts -> fetchTags error: ",error);
     }
   };

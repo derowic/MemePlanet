@@ -1,19 +1,5 @@
 import React from 'react';
 
-/*
-const Notify = (notify_text) => {
-  
-    toast(notify_text, {
-        position: 'bottom-right', 
-        autoClose: 3000, 
-        hideProgressBar: false, 
-        closeOnClick: true, 
-        pauseOnHover: true, 
-        draggable: true, 
-    });
-};
-*/
-
 const AddComment = (id_element,commentText,replyToName,userData_name) =>
 {
     const divElement0 = document.createElement('div');

@@ -3,6 +3,7 @@ import CommentInput2 from './CommentInput';
 import ReactQuill from 'react-quill';
 import Like from './Like';
 import SendComment from './SendComment';
+//import AddComment from './AddComment';
 import AddComment from './AddComment';
 import 'react-quill/dist/quill.snow.css';
 import { userData } from "../GlobalData.js";
