@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Like from './Like';
 import Heart from './Heart';
 import UploadPost from './UploadPost';
-
+import Notify from './Notify';
 import CommentSection from './CommentSection';
 import { userData } from "../GlobalData.js";
 
@@ -23,7 +23,7 @@ const InfiniteScrollPosts = () => {
 
   const handleRefresh = () => {
     setPosts([]); 
-    setPage(0);   
+    setPage(1);   
     setKey(key + 1); 
     fetchPosts();
   };
@@ -38,6 +38,7 @@ const InfiniteScrollPosts = () => {
       console.log("dane: ",response.data); // fast reading data from posts
       userData.name = response.data.user.name;
     } catch (error) {
+      Notify(error.response.data.msg);
       console.error("InfiniteScrollPosts -> fetchPosts error: ",error);
     }
   };
@@ -47,6 +48,7 @@ const InfiniteScrollPosts = () => {
       const response = await axios.post(`/api/getTags`);
       setTags(prevTags => [...prevTags, ...response.data.tags]);
     } catch (error) {
+      Notify(error.response.data.msg);
       console.error("InfiniteScrollPosts -> fetchTags error: ",error);
     }
   };
@@ -95,7 +97,7 @@ return (
       {
         posts.map(post => (
           <li key={post.id }>
-
+            {post.id }
             <div className="w-full flex bg-[#333333]  overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
                   
               <div className="m-auto">
@@ -116,7 +118,7 @@ return (
                       })}
                     </div>
                   }
-                  <div className="text-left text-xs mb-2 mt-2">{post.text}</div>   
+                  <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">{post.text}</div>   
 
                   <div className="flex flex-col items-center justify-end mt-2">
                     <img src={"/images/"+post.path_to_image} alt="Opis obrazka" className='w-full h-full'></img>

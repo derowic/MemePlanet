@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ImageUploadForm from './ImageUploadForm';
-
+import Notify from './Notify';
 import axios from 'axios';
 
 const UploadPost = ({ fetchPosts }) => {
@@ -8,24 +8,41 @@ const UploadPost = ({ fetchPosts }) => {
   const [imageUploaded, setImageUploaded] = useState(false);
 
   const handleImageUpload = async (image, title, text, category,tags) => {
-    const formData = new FormData();
-    formData.append('image', image);
-    formData.append('title', title);
-    formData.append('text', text);
-    formData.append('category', category);
-    formData.append('tags', tags);
 
-    try {
-      const response = await axios.post('/api/upload', formData);
-     
-      setUploadedImageUrl(response.data.imageUrl);
-      setImageUploaded(true);
+    if
+    (
+      (image !=null )
+      && 
+      (title !=null && title !="")
+      && 
+      (category !=null)
+    )
+      {
+      const formData = new FormData();
+      formData.append('image', image);
+      formData.append('title', title);
+      formData.append('text', text);
+      formData.append('category', category);
+      formData.append('tags', tags);
+
+      try {
+        const response = await axios.post('/api/upload', formData);
       
-      fetchPosts();
-      
-    } catch (error) {
-     
+        setUploadedImageUrl(response.data.imageUrl);
+        setImageUploaded(true);
+        
+        fetchPosts();
+        
+      } catch (error) {
+        Notify(error.response.data.msg);
+        console.error("UploadPost error: ",error);
+      }
+    }
+    else
+    {
+      Notify("Image, title and category are required");
       console.error("UploadPost error: ",error);
+      
     }
   };
 

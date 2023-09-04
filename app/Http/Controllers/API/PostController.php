@@ -41,7 +41,19 @@ class PostController extends Controller
 
     public function uploadImage(Request $request)
     {
-        if ($request->hasFile('image')) {
+        if 
+        (
+            $request->hasFile('image')
+            &&
+            ($request->title != null) && ($request->title != "")
+            &&
+            ($request->text != null) && ($request->text != "")
+            &&
+            ($request->category != null) && ($request->category != 0)
+            &&
+            ($request->tags != null) && ($request->tags != "")
+        ) 
+        {
 
             $image = $request->file('image');
             $imageName = auth()->user()->id.time().'_'.$image->getClientOriginalName();
@@ -72,89 +84,121 @@ class PostController extends Controller
             else 
             {
             
-                return response()->json(['message' => 'Error'], 500);
+                return response()->json(['msg' => 'Error'], 500);
             }
 
-            return response()->json(['message' => 'No image uploaded.'], 400);
+            return response()->json(['msg' => 'No image uploaded.'], 400);
+        }
+        else
+        {
+            return response()->json(
+                [
+                   
+                    'msg' => "error while saving comment, refresh or try later",
+                ], 500);
         }
 
     }
 
     public function like(Request $request)
     {
-        $like = $request->like;
-        $user = auth()->user();
-        $myUserId = $user->id;
-        $article = Post::find($request->id);
+        if
+        (
+            ($request->like != null)
+            &&
+            ($request->id != null) && ($request->id != 0)
+        )
+        {
+            $like = $request->like;
+            $user = auth()->user();
+            $myUserId = $user->id;
+            $article = Post::find($request->id);
 
-        if ($like === true) {
-            $article->like($myUserId);
+            if ($like === true) {
+                $article->like($myUserId);
 
-        } else {
-            $article->unlike($myUserId);
+            } else {
+                $article->unlike($myUserId);
+            }
+
+            Post::where('id', '=', $request->id)->update([
+                'likes' => $article->likeCount,
+            ]);
+
+            return response()->json([
+                'like' => $article->likeCount,
+
+            ]);
         }
-
-        Post::where('id', '=', $request->id)->update([
-            'likes' => $article->likeCount,
-        ]);
-
-        return response()->json([
-            'like' => $article->likeCount,
-
-        ]);
-    }
-
-    public function create()
-    {
-
-    }
-
-
-    public function store(Request $request)
-    {
-
+        else
+        {
+            return response()->json
+            (
+                [
+                   
+                    'msg' => "error while saving like, refresh or try later",
+                ]
+            , 500);
+        }
     }
 
     public function addToFavourite(Request $request)
     {
+        if
+        (
+            ($request->post != null) && ($request->post != 0)
+        )
+        {
+            $favouriteRecord = Favourite::where('user', auth()->user()->id)
+                ->where('post', $request->post)
+                ->first();
 
-        $favouriteRecord = Favourite::where('user', auth()->user()->id)
-            ->where('post', $request->post)
-            ->first();
+            if ($favouriteRecord == true) {
+                Favourite::find($favouriteRecord->id)->forceDelete();
 
-        if ($favouriteRecord == true) {
-            Favourite::find($favouriteRecord->id)->forceDelete();
-
-            return response()->json(
-                [
-                    'message' => 'Delete favourite',
-
-                ]);
-
-        } else {
-            $tmp = new Favourite();
-
-            $tmp->user = auth()->user()->id;
-            $tmp->post = $request->post;
-
-            $tmp->created_at = now();
-            $tmp->updated_at = now();
-
-            $tmp->save();
-            if ($tmp->save()) {
-             
                 return response()->json(
                     [
-                        'id' => $request->post,
-                    ], 201);
+                        'message' => 'Delete favourite',
+
+                    ]);
+
             } else {
-                return response()->json(
-                    [
-                       
-                        'id' => $request->post,
-                    ], 500);
+                $tmp = new Favourite();
 
+                $tmp->user = auth()->user()->id;
+                $tmp->post = $request->post;
+
+                $tmp->created_at = now();
+                $tmp->updated_at = now();
+
+                $tmp->save();
+                if ($tmp->save()) {
+                
+                    return response()->json(
+                        [
+                            'id' => $request->post,
+                        ], 201);
+                } else {
+                    return response()->json
+                    (
+                        [
+                        
+                            'msg' => "error while saving post to favourites, refresh or try later",
+                        ]
+                    , 500);
+
+                }
             }
+        }
+        else
+        {
+            return response()->json
+            (
+                [
+                   
+                    'msg' => "error while saving post to favourites, refresh or try later",
+                ]
+            , 500);
         }
 
     }
@@ -169,6 +213,7 @@ class PostController extends Controller
         [
             'fav' => $favouriteRecordsWithPosts,
         ]);
+        
     }
 
     public function destroy($id)

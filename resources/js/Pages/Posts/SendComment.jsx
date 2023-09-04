@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Notify from './Notify';
 
 import '../styles.css'; 
 
 const SendComment = async (postId,text,parentId) => {
-    console.log("id posta ",postId," parent id: ",parentId );
+   
     try {
         const response = await axios.post('/api/addComment', {
             post: postId,
@@ -15,6 +16,7 @@ const SendComment = async (postId,text,parentId) => {
     } 
     catch (error) 
     {
+        Notify(error.response.data.msg);
         console.error('SendComment error: ', error);
     }
     

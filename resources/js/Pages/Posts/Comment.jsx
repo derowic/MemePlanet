@@ -3,6 +3,7 @@ import CommentInput2 from './CommentInput';
 import ReactQuill from 'react-quill';
 import Like from './Like';
 import SendComment from './SendComment';
+import AddComment from './AddComment';
 import 'react-quill/dist/quill.snow.css';
 import { userData } from "../GlobalData.js";
 
@@ -52,41 +53,16 @@ const Comment = ({usedComments, comment, allComments, post, parent_id, fetchComm
 
     const handleSubmitComment = async (commentText, postId, parentCommentId, fetchComments,replyToName) => {
        
-        await SendComment(postId, commentText, parentCommentId);
-        addComment(commentText,replyToName);
+        if(commentText != "")
+        {
+            await SendComment(postId, commentText, parentCommentId);
+            AddComment(comment.id+"t",commentText,replyToName,userData.name);
+            unHide();
+        }
 
     };
 
-    const addComment =(commentText,replyToName) =>
-    {
-        const divElement0 = document.createElement('div');
-        divElement0.className = 'mt-10 mb-10 ml-5 bg-[#333333] border-l-2 border-white-400 p-4';
-        
-        const divElement = document.createElement('div');
-        divElement.className = 'ml-5 mb-2 bg-[#333333] sm:rounded-lg p-4';
-
-        const divElement2 = document.createElement('div');
-        divElement2.textContent = "user: "+userData.name;
-        divElement.appendChild(divElement2);
-
-        if(replyToName != null)
-        {
-            const divElement3 = document.createElement('div');
-            divElement3.textContent = "reply to: "+replyToName;
-            divElement.appendChild(divElement3);
-        }
-
-        const divElement4 = document.createElement('div');
-        divElement4.textContent = "koemntarz: " +commentText;
-        divElement.appendChild(divElement4);
-        
-        const element = document.getElementById(comment.id+"t");
-        
-        divElement0.appendChild(divElement);
-        element.appendChild(divElement0);
-
-        unHide();
-    }
+   
 
     return (
         <div id={comment.id+"t"} className={" mt-10 mb-10 ml-5 bg-[#333333] border-l-2 border-white-400 p-4"}>
@@ -97,7 +73,7 @@ const Comment = ({usedComments, comment, allComments, post, parent_id, fetchComm
                         <div className='w-5/6 bg-[#333333] '>
                             <div>user: {comment.user.name}</div>
                                 {comment.reply_to && <div> reply to: {comment.reply_to.user.name}</div> }
-                                komentarz: {comment.text}
+                                <p className='w-full'>komentarz: {comment.text}</p>
                                 <div className=''>
                                     <button onClick={unHide}>reply</button>
                                     <div id={comment.id} hidden>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Notify from './Notify';
 import { FaPlus, FaMinus, FaSadCry } from 'react-icons/fa';
 
 function Like({elementId, elementType, likes}) {
@@ -43,6 +44,7 @@ function Like({elementId, elementType, likes}) {
       }
 
     } catch (error) {
+      Notify(error.response.data.msg);
       console.error('Like -> like error: ', error);
 
     }

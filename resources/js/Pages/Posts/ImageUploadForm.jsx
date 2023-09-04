@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import Notify from './Notify';
 import axios from 'axios';
 
 
@@ -17,6 +18,7 @@ const ImageUploadForm = ({ onImageUpload }) => {
       setCategories(prevCategories => [...prevCategories, ...response.data.categories]);
 
     } catch (error) {
+      Notify(error.response.data.msg);
       console.error("ImageUploadForm -> fetchCategories error: ",error);
     }
   };
@@ -27,6 +29,7 @@ const ImageUploadForm = ({ onImageUpload }) => {
       setTags(prevTags => [...prevTags, ...response.data.tags]);
 
     } catch (error) {
+      Notify(error.response.data.msg);
       console.error("ImageUploadForm -> fetchTags: ",error);
     }
   };
@@ -55,9 +58,19 @@ const ImageUploadForm = ({ onImageUpload }) => {
   };
 
   const handleUploadClick = () => {
-    if (image) {
-      const title = document.getElementById("title");
-      const text = document.getElementById("text");
+    
+    const title = document.getElementById("title");
+    const text = document.getElementById("text");
+
+    if
+    (
+      (image !=null )
+      && 
+      (title !=null && title !="")
+      && 
+      (selectedCategory !=null)
+    )
+    { 
       var tmp = "";
       for (const tag of selectedTags) {
         tmp+=tag+" ";
@@ -71,6 +84,10 @@ const ImageUploadForm = ({ onImageUpload }) => {
       clearImg();
       title.value = "";
       text.value = "";
+    }
+    else
+    {
+      Notify("Image, title and category are required");
     }
   };
 
@@ -132,13 +149,11 @@ const ImageUploadForm = ({ onImageUpload }) => {
 
         <h1>Title</h1>
         <input id="title"
-          className='mt-2 mb-2 bg-[#555] hover:bg-[#666] text-white font-bold py-2 px-2 
-          rounded-lg border border-[#555] focus:border-[#666]' type='text'/>
+          className='mt-2 mb-2 bg-[#555] hover:bg-[#666] text-white font-bold py-2 px-2 rounded-lg border border-[#555] focus:border-[#666]' type='text'/>
 
         <h1>Text (optional)</h1>
         <input id="text"
-          className='mt-2 mb-2 bg-[#555] hover:bg-[#666] text-white font-bold py-2 px-2 
-          rounded-lg border border-[#555] focus:border-[#666]' type='text'/>
+          className='mt-2 mb-2 bg-[#555] hover:bg-[#666] text-white font-bold py-2 px-2 rounded-lg border border-[#555] focus:border-[#666]' type='text'/>
         
         <div className='flex flex-wrap justify-center'>
           {previewImage && <img id="attr" src={previewImage} alt="Preview" />}

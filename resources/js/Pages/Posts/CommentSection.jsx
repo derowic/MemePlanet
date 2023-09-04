@@ -4,8 +4,11 @@ import { Button, Drawer } from '@mui/material';
 import Comment from './Comment';
 import CommentInput from './CommentInput';
 import SendComment from './SendComment';
+import Notify from './Notify';
 import { userData } from "../GlobalData.js";
 import '../styles.css'; // Importuj plik ze stylami
+
+
 
 function CommentSection({ postId }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -27,10 +30,13 @@ function CommentSection({ postId }) {
             const response = await axios.post('/api/getComments', {
                 id: postId
             });
-
             setComments(response.data.dane[0].comments);
+            
         } catch (error) {
-            console.error("CommentSection -> fetchComments error: ",error);
+            
+            Notify(error.response.data.msg);
+            console.error("CommentSection -> fetchComments error: ",error.response.data.msg);
+
         } finally 
         {
             setUsedComments([]);
@@ -52,8 +58,11 @@ function CommentSection({ postId }) {
     }
 
     const handleSubmitComment = async (commentText, postId, parentCommentId, fetchComments) => {
-        await SendComment(postId, commentText, parentCommentId);
-        addComment(commentText);
+        if(commentText != "")
+        {
+            await SendComment(postId, commentText, parentCommentId);
+            addComment(commentText);
+        }
     };
 
     const addComment =(commentText) =>
@@ -84,13 +93,17 @@ function CommentSection({ postId }) {
             <Button onClick={togglePanel}>
                 <div className="text-white">Comment Section</div>
             </Button>
+           
             
             <Drawer anchor="bottom" open={isOpen} onClose={togglePanel} className='items-center justify-center' >
                 
+            
                 <div className="bg-[#333333] text-white " style={{ maxHeight: '75vh', minHeight: '75vh' }} >
                     <div className="flex items-center justify-center ">
                         <div className="text-center text-lg ">Comments</div>
+                        
                     </div>
+                    
 
                     <CommentInput onSubmit={(commentText) => handleSubmitComment(commentText, postId, 0, fetchComments)}  post={postId}/>
                     <div id="comments" className='bg-[#333333] dark:bg-white-700'>
@@ -98,6 +111,7 @@ function CommentSection({ postId }) {
                             <Comment key={comment.id} usedComments={usedComments} comment={comment} allComments={comments} post={postId} parentId={comment.id} fetchComments={updateCommentSection}/>
                         ))}
                     </div>
+
                 </div>
             </Drawer>
         </div>
