@@ -24,15 +24,4 @@ class Favourite extends Model
         return $this->belongsTo(Post::class, 'post');
     }
 
-    /*
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'idUser');
-    }
-
-    public function post()
-    {
-        return $this->belongsTo(Post::class,'idPost');
-    }
-    */
 }
