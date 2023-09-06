@@ -1,11 +1,10 @@
 <?php
 
+use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\ExampleController;
 use App\Http\Controllers\API\PostController;
-use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\TagController;
-
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;

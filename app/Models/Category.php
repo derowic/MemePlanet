@@ -13,7 +13,7 @@ class Category extends Model
         'text',
     ];
 
-    public function Posts()
+    public function posts()
     {
         return $this->belongsToMany(Post::class);
     }

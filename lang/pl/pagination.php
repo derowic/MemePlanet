@@ -18,5 +18,5 @@ return [
     'showing' => 'od',
     'to' => 'do',
     'of' => 'z',
-    'results' => 'wyników'
+    'results' => 'wyników',
 ];

@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Notification from '@/Components/Notification';
+import FetchCategories from '@/Components/FetchCategories';
 import axios from 'axios';
 
 
@@ -13,14 +14,8 @@ const ImageUploadForm = ({ onImageUpload }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const fetchCategories = async () => {
-    try {
-      const response = await axios.post(`/api/getCategories`);
-      setCategories(prevCategories => [...prevCategories, ...response.data.categories]);
-
-    } catch (error) {
-      Notification(error.response.data.msg);
-      console.error("ImageUploadForm -> fetchCategories error: ",error);
-    }
+    var tmp = await FetchCategories();
+    setCategories(prevCategories => [...prevCategories, ...tmp]);
   };
 
   const fetchTags = async () => {

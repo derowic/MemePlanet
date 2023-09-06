@@ -16,5 +16,5 @@ return [
     'failed' => 'Dane uwierzytelniające nie są zgodne.',
     'password' => 'Podane hasło jest nieprawidłowe.',
     'throttle' => 'Za dużo prób logowania. Spróbuj ponownie za :sekundy sekund.',
-    'forbidden' => 'Nie masz uprawnień do tego zasobu'
+    'forbidden' => 'Nie masz uprawnień do tego zasobu',
 ];

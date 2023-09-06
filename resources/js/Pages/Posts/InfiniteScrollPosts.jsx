@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useTranslation } from 'react-i18next'; 
@@ -12,7 +12,7 @@ import { userData } from "../GlobalData.js";
 import '../styles.css'; 
 import '../i18n';
 
-const InfiniteScrollPosts = () => {
+const InfiniteScrollPosts = ({ postCategory },ref) => {
   const { t,i18n } = useTranslation(); 
   const [posts, setPosts] = useState([]);
   const [favs, setFavs] = useState([]);
@@ -28,6 +28,16 @@ const InfiniteScrollPosts = () => {
     fetchPosts();
   };
   
+  useImperativeHandle(ref, () => ({
+    handleRefresh: (category) => {
+      setPosts([]);
+      setPage(1);
+      setKey(key + 1);
+      fetchPosts();
+      console.log(category); 
+    },
+  }));
+  
   const fetchPosts = async () => {
     try {
       const response = await axios.get(`/api/posts?page=${page}`);
@@ -35,7 +45,6 @@ const InfiniteScrollPosts = () => {
       setPage(prevPage => prevPage + 1);
       setAuth({ user: response.data.user });
       setFavs(prevFavs => [...prevFavs, ...response.data.fav]);
-      console.log("dane: ",response.data); // fast reading data from posts
       userData.name = response.data.user.name;
     } catch (error) {
       Notification(error.response.data.msg);
@@ -142,5 +151,5 @@ return (
   );
 };
 
-export default InfiniteScrollPosts;
+export default forwardRef(InfiniteScrollPosts);
 

@@ -9,23 +9,22 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-
     public function index(Request $request)
     {
-        
+
         $user = auth()->user();
         $roles = $user->roles->pluck('name');
-        
+
         $perPage = 5;
-       
-        $posts = Post::with(['user', 'comments', 'comments.user', 'comments.reply_to','category'])
+
+        $posts = Post::with(['user', 'comments', 'comments.user', 'comments.reply_to', 'category'])
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
         $favouriteRecords = $user->favourites;
         $favouriteRecordsWithPosts = $user->favourites->pluck('post');
         $successAttribute = trans('validation.attributes.success');
-        
+
         return response()->json([
             'posts' => $posts,
             'user' => [
@@ -35,24 +34,17 @@ class PostController extends Controller
                 'roles' => $roles,
             ],
             'fav' => $favouriteRecordsWithPosts,
-            'test' => $successAttribute
+            'test' => $successAttribute,
         ]);
     }
 
     public function uploadImage(Request $request)
     {
-        if 
-        (
-            $request->hasFile('image')
-            &&
-            ($request->title != null) && ($request->title != "")
-            &&
-            ($request->text != null) && ($request->text != "")
-            &&
-            ($request->category != null) && ($request->category != 0)
-            &&
-            ($request->tags != null) && ($request->tags != "")
-        ) 
+        if ($request->hasFile('image') && 
+            ($request->title != null) && ($request->title != '') && 
+            ($request->text != null) && ($request->text != '') && 
+            ($request->category != null) && ($request->category != 0) && 
+            ($request->tags != null) && ($request->tags != '')) 
         {
 
             $image = $request->file('image');
@@ -71,43 +63,29 @@ class PostController extends Controller
             $post->updated_at = now();
             $post->save();
 
-            if ($post->save()) 
-            {
+            if ($post->save()) {
                 return response()->json([
                     'imageUrl' => '/images/'.$imageName,
                     'title' => $request->title,
                     'text' => $request->text,
                     'category' => $request->category,
                     'tags' => $request->tags,
-                ],201);
-            } 
-            else 
-            {
-            
+                ], 201);
+            } else {
+
                 return response()->json(['msg' => 'Error'], 500);
             }
 
             return response()->json(['msg' => 'No image uploaded.'], 400);
-        }
-        else
-        {
-            return response()->json(
-                [
-                   
-                    'msg' => "error while saving comment, refresh or try later",
-                ], 500);
+        } else {
+            return response()->json(['msg' => 'error while saving comment, refresh or try later',], 500);
         }
 
     }
 
     public function like(Request $request)
     {
-        if
-        (
-            ($request->like != null)
-            &&
-            ($request->id != null) && ($request->id != 0)
-        )
+        if (($request->like != null) && ($request->id != null) && ($request->id != 0)) 
         {
             $like = $request->like;
             $user = auth()->user();
@@ -129,25 +107,14 @@ class PostController extends Controller
                 'like' => $article->likeCount,
 
             ]);
-        }
-        else
-        {
-            return response()->json
-            (
-                [
-                   
-                    'msg' => "error while saving like, refresh or try later",
-                ]
-            , 500);
+        } else {
+            return response()->json(['msg' => 'error while saving like, refresh or try later',], 500);
         }
     }
 
     public function addToFavourite(Request $request)
     {
-        if
-        (
-            ($request->post != null) && ($request->post != 0)
-        )
+        if (($request->post != null) && ($request->post != 0)) 
         {
             $favouriteRecord = Favourite::where('user', auth()->user()->id)
                 ->where('post', $request->post)
@@ -156,11 +123,7 @@ class PostController extends Controller
             if ($favouriteRecord == true) {
                 Favourite::find($favouriteRecord->id)->forceDelete();
 
-                return response()->json(
-                    [
-                        'message' => 'Delete favourite',
-
-                    ]);
+                return response()->json(['message' => 'Delete favourite']);
 
             } else {
                 $tmp = new Favourite();
@@ -173,32 +136,18 @@ class PostController extends Controller
 
                 $tmp->save();
                 if ($tmp->save()) {
-                
+
                     return response()->json(
                         [
                             'id' => $request->post,
                         ], 201);
                 } else {
-                    return response()->json
-                    (
-                        [
-                        
-                            'msg' => "error while saving post to favourites, refresh or try later",
-                        ]
-                    , 500);
+                    return response()->json(['msg' => 'error while saving post to favourites, refresh or try later'], 500);
 
                 }
             }
-        }
-        else
-        {
-            return response()->json
-            (
-                [
-                   
-                    'msg' => "error while saving post to favourites, refresh or try later",
-                ]
-            , 500);
+        } else {
+            return response()->json(['msg' => 'error while saving post to favourites, refresh or try later'], 500);
         }
 
     }
@@ -209,11 +158,8 @@ class PostController extends Controller
         $favouriteRecords = $user->favourites;
         $favouriteRecordsWithPosts = $user->favourites()->with('post')->get();
 
-        return response()->json(
-        [
-            'fav' => $favouriteRecordsWithPosts,
-        ]);
-        
+        return response()->json(['fav' => $favouriteRecordsWithPosts]);
+
     }
 
     public function destroy($id)

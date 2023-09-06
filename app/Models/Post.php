@@ -46,5 +46,4 @@ class Post extends Model
     {
         return $this->belongsTo(TagTable::class, 'user');
     }
-
 }

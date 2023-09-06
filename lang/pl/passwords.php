@@ -17,7 +17,6 @@ return [
     'sent' => 'Wysłaliśmy e-mailem link do resetowania hasła!',
     'throttled' => 'Poczekaj chwilę, zanim spróbujesz ponownie.',
     'token' => 'Token resetowania hasła jest nieprawidłowy',
-    'user' => "Nie możemy znaleźć użytkownika powiązanego z tym adresem e-mail.",
-
+    'user' => 'Nie możemy znaleźć użytkownika powiązanego z tym adresem e-mail.',
 
 ];

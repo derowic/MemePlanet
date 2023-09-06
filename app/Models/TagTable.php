@@ -26,15 +26,4 @@ class TagTable extends Model
         return $this->belongsTo(Tag::class, 'tag');
     }
 
-    /*
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'idUser');
-    }
-
-    public function post()
-    {
-        return $this->belongsTo(Post::class,'idPost');
-    }
-    */
 }

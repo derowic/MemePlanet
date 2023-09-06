@@ -3,6 +3,6 @@
 return [
     'create' => 'Created',
     'remove' => 'Deleted',
-    'update' => 'Updated'
+    'update' => 'Updated',
 
 ];
