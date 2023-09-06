@@ -15,12 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user');
             $table->unsignedBigInteger('post');
-            $table->unsignedBigInteger('parent_comment')->nullable(); //jest parent Comment to
-            //$table->boolean('responseTo')->nullable();
+            $table->unsignedBigInteger('parent_comment')->nullable();
             $table->string('text', 100)->nullable();
             $table->integer('likes')->nullable();
             $table->softDeletes();
-            //$table->unsignedBigInteger('responseTo')->nullable();
             $table->timestamps();
 
         });
