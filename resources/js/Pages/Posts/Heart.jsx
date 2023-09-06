@@ -13,7 +13,7 @@ const Heart = ({postId,fav}) => {
 
   const setPostToFavourite = async (postId) => {
     try {
-        const response = await axios.post('/api/addToFavourite', {
+        const response = await axios.post('/addToFavourite', {
             post: postId,
         });
     } catch (error) {

@@ -13,13 +13,11 @@ class Post extends Model
     use SoftDeletes;
 
     protected $fillable = [
-
         'user',
         'title',
         'likes',
         'path_to_image',
         'description',
-
     ];
 
     public function user()

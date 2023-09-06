@@ -26,7 +26,7 @@ function Like({elementId, elementType, likes}) {
    
       if(elementType == "post")
       {
-        const response = await axios.post('/api/likePost', {
+        const response = await axios.post('/likePost', {
           like: tmp, 
           id: elementId
         });
@@ -35,7 +35,7 @@ function Like({elementId, elementType, likes}) {
       }
       else if(elementType == "comment")
       {
-        const response = await axios.post('/api/likeComment', {
+        const response = await axios.post('/likeComment', {
           like: tmp, 
           id: elementId
         });

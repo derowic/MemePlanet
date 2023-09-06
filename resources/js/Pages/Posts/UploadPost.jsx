@@ -26,7 +26,7 @@ const UploadPost = ({ fetchPosts }) => {
       formData.append('tags', tags);
 
       try {
-        const response = await axios.post('/api/upload', formData);
+        const response = await axios.post('/upload', formData);
       
         setUploadedImageUrl(response.data.imageUrl);
         setImageUploaded(true);

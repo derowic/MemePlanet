@@ -28,8 +28,7 @@ export default function Dashboard({ auth }) {
 
                 <div className='bg-[#231f20] w-1/2 mt-2'>
                     <div className="w-full p-4 text-center sm:rounded-lg"> 
-                        <h2 className='bg-[#333333] p-4 mb-2 rounded-lg' >Meme Planet <br/> memes and news<hr/></h2>
-                        <InfiniteScrollPosts />
+                       <InfiniteScrollPosts />
                     </div>
                 </div>
 

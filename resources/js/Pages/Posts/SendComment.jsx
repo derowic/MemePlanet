@@ -7,7 +7,7 @@ import '../styles.css';
 const SendComment = async (postId,text,parentId) => {
    
     try {
-        const response = await axios.post('/api/addComment', {
+        const response = await axios.post('/addComment', {
             post: postId,
             parent_comment: parentId,
             text:text

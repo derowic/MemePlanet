@@ -10,10 +10,8 @@ class TagTable extends Model
     use HasFactory;
 
     protected $fillable = [
-
         'tag',
         'user',
-
     ];
 
     public function user()

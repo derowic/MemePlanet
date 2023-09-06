@@ -40,7 +40,7 @@ const InfiniteScrollPosts = ({ postCategory },ref) => {
   
   const fetchPosts = async () => {
     try {
-      const response = await axios.get(`/api/posts?page=${page}`);
+      const response = await axios.get(`/posts?page=${page}`);
       setPosts(prevPosts => [...prevPosts, ...response.data.posts.data]);
       setPage(prevPage => prevPage + 1);
       setAuth({ user: response.data.user });
