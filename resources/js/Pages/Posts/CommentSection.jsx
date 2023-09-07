@@ -27,7 +27,7 @@ function CommentSection({ postId }) {
 
     const fetchComments = async () => {
         try {
-            const response = await axios.post('/api/getComments', {
+            const response = await axios.post('/getComments', {
                 id: postId
             });
             setComments(response.data.dane[0].comments);

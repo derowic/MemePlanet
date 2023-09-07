@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const FetchCategories = async () => {
     try {
-        const response = await axios.post(`/api/getCategories`);
+        const response = await axios.post(`/getCategories`);
         return response.data.categories;
     } catch (error) {
       Notification(error.response.data.msg);

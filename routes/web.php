@@ -1,12 +1,30 @@
 <?php
+
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\CommentController;
+
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\TagController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+
+
+Route::post('/posts', [PostController::class, 'index']);
+Route::post('/upload', [PostController::class, 'uploadImage']);
+Route::post('/likePost', [PostController::class, 'like']);
+Route::post('/addToFavourite', [PostController::class, 'addToFavourite']);
+Route::post('/getTopPosts', [PostController::class, 'getTopPosts']);
+
+Route::post('/getComments', [CommentController::class, 'getComments']);
+Route::post('/addComment', [CommentController::class, 'create']);
+Route::post('/likeComment', [CommentController::class, 'like']);
+
+Route::post('/getCategories', [CategoryController::class, 'getCategories']);
+
+Route::post('/getTags', [TagController::class, 'getTags']);
 
 Route::get('/getComments', [PostController::class, 'getComments']);
 Route::get('/posts', [PostController::class, 'index']);

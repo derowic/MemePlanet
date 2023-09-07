@@ -1,0 +1,55 @@
+import React, { createContext, useContext, useState, useRef,useEffect  } from 'react';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Head } from '@inertiajs/react';
+import InfiniteScrollPosts from './InfiniteScrollPosts';
+import FetchCategories from '@/Components/FetchCategories';
+
+function CategoryList( { chosenCategory, changeCategory }) {
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+
+    const fetchCategories = async () => {
+        var tmp = await FetchCategories();
+        setCategories(prevCategories => [...prevCategories, ...tmp]);
+    };
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    const beforeChangeCategory =  (tmp) => {
+        if(tmp == selectedCategory)
+        {
+            changeCategory(0);
+            setSelectedCategory(0); 
+        }
+        else
+        {
+            changeCategory(tmp);
+            setSelectedCategory(tmp);
+        }
+    };
+
+
+    return (
+        <div className="">  
+            {categories.map(category => (
+                <div key={"cat"+category.id}>
+                    <button onClick={() => beforeChangeCategory(category.id)}
+                    className={`${
+                        selectedCategory === category.id
+                          ? "bg-[#FFC465] hover:bg-[#FFC465] text-white font-bold py-2 px-4 rounded-lg border border-bg-[#FFC465]"
+                          : "mt-2 hover:bg-[#FFC465] text-white font-bold py-2 px-4 rounded-lg border border-[#EEA243]"
+                      } m-2`} 
+                    >
+                        {category.text}
+                    </button>
+                </div>
+            ))}  
+        </div>        
+    );
+}
+
+export default CategoryList;
+
+

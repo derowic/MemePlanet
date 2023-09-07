@@ -12,7 +12,7 @@ import { userData } from "../GlobalData.js";
 import '../styles.css'; 
 import '../i18n';
 
-const InfiniteScrollPosts = ({ postCategory },ref) => {
+const InfiniteScrollPosts = ({chosenCategory}) => {
   const { t,i18n } = useTranslation(); 
   const [posts, setPosts] = useState([]);
   const [favs, setFavs] = useState([]);
@@ -21,23 +21,29 @@ const InfiniteScrollPosts = ({ postCategory },ref) => {
   const [key, setKey] = useState(0);
   const [tags, setTags] = useState([]);
 
+  const [chosedCategory, setChosedCategory] = useState(0);
+  
+
   const handleRefresh = () => {
-    setPosts([]); 
-    setPage(1);   
-    setKey(key + 1); 
+    
+    setPosts([]);
+    setPage(0);
+    setKey(0);
     fetchPosts();
+    /*
+    setPosts([]);
+    setPage(1);
+    setFavs([]);
+    fetchPosts();
+    */
   };
-  
-  useImperativeHandle(ref, () => ({
-    handleRefresh: (category) => {
-      setPosts([]);
-      setPage(1);
-      setKey(key + 1);
-      fetchPosts();
-      console.log(category); 
-    },
-  }));
-  
+
+  useEffect(() => {
+    // Tutaj możesz wywołać handleRefresh za każdym razem, gdy chosenCategory się zmieni
+    console.log("infinte",chosenCategory);
+    setChosedCategory(chosenCategory);
+  }, [chosenCategory]);
+
   const fetchPosts = async () => {
     try {
       const response = await axios.get(`/posts?page=${page}`);
@@ -46,6 +52,7 @@ const InfiniteScrollPosts = ({ postCategory },ref) => {
       setAuth({ user: response.data.user });
       setFavs(prevFavs => [...prevFavs, ...response.data.fav]);
       userData.name = response.data.user.name;
+      
     } catch (error) {
       Notification(error.response.data.msg);
       console.error("InfiniteScrollPosts -> fetchPosts error: ",error);
@@ -54,7 +61,7 @@ const InfiniteScrollPosts = ({ postCategory },ref) => {
 
   const fetchTags = async () => {
     try {
-      const response = await axios.post(`/api/getTags`);
+      const response = await axios.post(`/getTags`);
       setTags(prevTags => [...prevTags, ...response.data.tags]);
     } catch (error) {
       Notification(error.response.data.msg);
@@ -80,7 +87,7 @@ const InfiniteScrollPosts = ({ postCategory },ref) => {
 
 return (
   
-  <div>
+  <div key={Math.random}>
     <div className='bg-[#333333] rounded-lg p-4'>
       <button className='bg-[#EEA243] hover:bg-[#FFC465] text-white font-bold py-2 px-4 rounded-lg border border-[#EEA243]' onClick={handleRefresh}>Odśwież</button>
       <UploadPost fetchPosts={handleRefresh}/>
@@ -102,46 +109,98 @@ return (
     </div>    
     
 
-    <ul>
+    <ul key={Math.random}>
       {
-        posts.map(post => (
-          <li key={post.id }>
-            {post.id }
-            <div className="w-full flex bg-[#333333]  overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
-                  
-              <div className="m-auto">
-                  <h3 className="text-left font-semibold mb-2">{post.title}</h3>
-                  <div className="text-left text-xs mb-2">{post.user.name}</div>   
-                  <div className="text-left text-xs ">{post.category.text}</div>  
-                  {post.tags && 
-                    <div className="text-left text-xs  ">
-                      {post.tags.split(' ').map(tagId => {
-                        const tag = tags.find(tag => tag.id === parseInt(tagId));
-                        return tag ? (
-                          <button key={tag.id} className="mr-2 px-1 py-1 sm:rounded-lg p-4 mt-4 border-2 border-[#bbb]">
-                            {tag.text}
-                          </button>
-                        ) 
-                        : 
-                        null;
-                      })}
-                    </div>
+        posts.map((post, index) => 
+          (
+            <>
+            
+             
+              { chosedCategory != 0 ?
+                
+                <div key={index}>
+                  { chosedCategory == post.category.id && 
+                    <li key={post.id }>
+                      {post.id }
+                      <div className="w-full flex bg-[#333333]  overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
+                            
+                        <div className="m-auto">
+                            <h3 className="text-left font-semibold mb-2">{post.title}</h3>
+                            <div className="text-left text-xs mb-2">{post.user.name}</div>   
+                            <div className="text-left text-xs ">{post.category.text}</div>  
+                            {post.tags && 
+                              <div className="text-left text-xs  ">
+                                {post.tags.split(' ').map(tagId => {
+                                  const tag = tags.find(tag => tag.id === parseInt(tagId));
+                                  return tag ? (
+                                    <button key={tag.id} className="mr-2 px-1 py-1 sm:rounded-lg p-4 mt-4 border-2 border-[#bbb]">
+                                      {tag.text}
+                                    </button>
+                                  ) 
+                                  : 
+                                  null;
+                                })}
+                              </div>
+                            }
+                            <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">{post.text}</div>   
+
+                            <div className="flex flex-col items-center justify-end mt-2">
+                              <img src={"/images/"+post.path_to_image} alt="Opis obrazka" className='w-full h-full'></img>
+                              <div className="flex">
+                                  <Like elementId={post.id} elementType={"post"} likes={post.likes} />
+                                  <Heart postId={post.id} fav={favs.find(fav => fav == post.id) !== undefined} />
+                              </div>   
+                            </div> 
+
+                            {<CommentSection postId={post.id}/>}
+                          
+                        </div>
+                      </div>
+                    </li>
                   }
-                  <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">{post.text}</div>   
+                </div>
+                :
+                <div key={index}>
+                  <li key={post.id }>
+                    {post.id }
+                    <div className="w-full flex bg-[#333333]  overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
+                          
+                      <div className="m-auto">
+                          <h3 className="text-left font-semibold mb-2">{post.title}</h3>
+                          <div className="text-left text-xs mb-2">{post.user.name}</div>   
+                          <div className="text-left text-xs ">{post.category.text}</div>  
+                          {post.tags && 
+                            <div className="text-left text-xs  ">
+                              {post.tags.split(' ').map(tagId => {
+                                const tag = tags.find(tag => tag.id === parseInt(tagId));
+                                return tag ? (
+                                  <button key={tag.id} className="mr-2 px-1 py-1 sm:rounded-lg p-4 mt-4 border-2 border-[#bbb]">
+                                    {tag.text}
+                                  </button>
+                                ) 
+                                : 
+                                null;
+                              })}
+                            </div>
+                          }
+                          <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">{post.text}</div>   
 
-                  <div className="flex flex-col items-center justify-end mt-2">
-                    <img src={"/images/"+post.path_to_image} alt="Opis obrazka" className='w-full h-full'></img>
-                    <div className="flex">
-                        <Like elementId={post.id} elementType={"post"} likes={post.likes} />
-                        <Heart postId={post.id} fav={favs.find(fav => fav == post.id) !== undefined} />
-                    </div>   
-                  </div> 
+                          <div className="flex flex-col items-center justify-end mt-2">
+                            <img src={"/images/"+post.path_to_image} alt="Opis obrazka" className='w-full h-full'></img>
+                            <div className="flex">
+                                <Like elementId={post.id} elementType={"post"} likes={post.likes} />
+                                <Heart postId={post.id} fav={favs.find(fav => fav == post.id) !== undefined} />
+                            </div>   
+                          </div> 
 
-                  {<CommentSection postId={post.id}/>}
-                 
-              </div>
-            </div>
-          </li>
+                          {<CommentSection postId={post.id}/>}
+                        
+                      </div>
+                    </div>
+                  </li>
+                </div>
+              }
+            </>
           )
         )
       }
@@ -151,5 +210,5 @@ return (
   );
 };
 
-export default forwardRef(InfiniteScrollPosts);
+export default InfiniteScrollPosts;
 

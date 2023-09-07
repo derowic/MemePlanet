@@ -38,6 +38,27 @@ class PostController extends Controller
         ]);
     }
 
+    public function getTopPosts() {
+
+        $user = auth()->user();
+        $roles = $user->roles->pluck('name');
+
+        $topPosts = Post::with(['user', 'comments', 'comments.user', 'comments.reply_to', 'category'])
+            ->orderBy('likes', 'desc')
+            ->take(5)
+            ->get();
+
+        return response()->json([
+            'posts' => $topPosts,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'roles' => $roles,
+            ],
+        ]);
+    }
+
     public function uploadImage(Request $request)
     {
         if ($request->hasFile('image') && 

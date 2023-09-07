@@ -32,6 +32,7 @@ const UploadPost = ({ fetchPosts }) => {
         setImageUploaded(true);
         
         fetchPosts();
+
         
       } catch (error) {
         Notification(error.response.data.msg);

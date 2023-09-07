@@ -20,7 +20,7 @@ const ImageUploadForm = ({ onImageUpload }) => {
 
   const fetchTags = async () => {
     try {
-      const response = await axios.post(`/api/getTags`);
+      const response = await axios.post(`/getTags`);
       setTags(prevTags => [...prevTags, ...response.data.tags]);
 
     } catch (error) {

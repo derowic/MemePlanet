@@ -62,6 +62,8 @@ class CommentController extends Controller
 
     public function create(Request $request)
     {
+        
+       
         if (($request->post != null) && ($request->post != 0) && ($request->parent_comment != '') &&($request->text != null) && ($request->text != '')) {
             
             $com = new Comment();
@@ -76,7 +78,7 @@ class CommentController extends Controller
             $com->save();
 
             if ($com->save()) {
-
+                
                 return response()->json(['msg' => 'comment saved'], 201);
             } else {
 
@@ -84,10 +86,7 @@ class CommentController extends Controller
             }
         } else {
             return response()->json(
-                [
-
-                    'msg' => 'error while saving comment, refresh or try later',
-                ], 500);
+                ['msg' => 'error while saving comment, refresh or try later',], 500);
         }
 
     }
@@ -113,10 +112,7 @@ class CommentController extends Controller
 
             ]);
 
-            return response()->json([
-                'like' => $article->likeCount,
-
-            ]);
+            return response()->json(['like' => $article->likeCount]);
         } else {
             return response()->json(['msg' => 'error while saving like, refresh or try later',], 500);
         }
