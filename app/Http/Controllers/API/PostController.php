@@ -38,7 +38,57 @@ class PostController extends Controller
         ]);
     }
 
-    public function getTopPosts() {
+    public function getOnePost(Request $request)
+    {
+        $user = auth()->user();
+        $roles = $user->roles->pluck('name');
+
+        if ($request->has('postId')) {
+            $postId = $request->postId;
+            $posts = Post::with(['user', 'comments', 'comments.user', 'comments.reply_to', 'category'])
+                ->where('id', $postId)
+                ->get();
+
+            $isFavourite = Favourite::where('user', $user->id)
+                ->where('post', $request->postId)
+                ->exists();
+
+            if ($isFavourite) {
+                // W tym przypadku użytkownik dodał ten post do ulubionych
+                return response()->json([
+                    'posts' => $posts,
+                    'user' => [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'roles' => $roles,
+                    ],
+                    'fav' => true,
+                ]);
+            } else {
+                // W tym przypadku użytkownik nie dodał tego posta do ulubionych
+                return response()->json([
+                    'posts' => $posts,
+                    'user' => [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'roles' => $roles,
+                    ],
+                    'fav' => false,
+                ]);
+            }
+        } else {
+            return response()->json([
+                'msg' => 'error while downloading one post ',
+
+            ]);
+        }
+
+    }
+
+    public function getTopPosts()
+    {
 
         $user = auth()->user();
         $roles = $user->roles->pluck('name');
@@ -61,12 +111,11 @@ class PostController extends Controller
 
     public function uploadImage(Request $request)
     {
-        if ($request->hasFile('image') && 
-            ($request->title != null) && ($request->title != '') && 
-            ($request->text != null) && ($request->text != '') && 
-            ($request->category != null) && ($request->category != 0) && 
-            ($request->tags != null) && ($request->tags != '')) 
-        {
+        if ($request->hasFile('image') &&
+            ($request->title != null) && ($request->title != '') &&
+            ($request->text != null) && ($request->text != '') &&
+            ($request->category != null) && ($request->category != 0) &&
+            ($request->tags != null) && ($request->tags != '')) {
 
             $image = $request->file('image');
             $imageName = auth()->user()->id.time().'_'.$image->getClientOriginalName();
@@ -99,15 +148,14 @@ class PostController extends Controller
 
             return response()->json(['msg' => 'No image uploaded.'], 400);
         } else {
-            return response()->json(['msg' => 'error while saving comment, refresh or try later',], 500);
+            return response()->json(['msg' => 'error while saving comment, refresh or try later'], 500);
         }
 
     }
 
     public function like(Request $request)
     {
-        if (($request->like != null) && ($request->id != null) && ($request->id != 0)) 
-        {
+        if ($request->has('like') && ($request->id != null) && ($request->id != 0)) {
             $like = $request->like;
             $user = auth()->user();
             $myUserId = $user->id;
@@ -129,14 +177,13 @@ class PostController extends Controller
 
             ]);
         } else {
-            return response()->json(['msg' => 'error while saving like, refresh or try later',], 500);
+            return response()->json(['msg' => 'error while saving like, refresh or try later'], 500);
         }
     }
 
     public function addToFavourite(Request $request)
     {
-        if (($request->post != null) && ($request->post != 0)) 
-        {
+        if (($request->post != null) && ($request->post != 0)) {
             $favouriteRecord = Favourite::where('user', auth()->user()->id)
                 ->where('post', $request->post)
                 ->first();

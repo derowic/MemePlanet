@@ -53,19 +53,17 @@ class CommentController extends Controller
                 'user' => $user,
 
             ]);
-        } else 
-        {
-            return response()->json(['msg' => 'error while downloading comment, refresh or try later',], 500);
+        } else {
+            return response()->json(['msg' => 'error while downloading comment, refresh or try later'], 500);
         }
 
     }
 
     public function create(Request $request)
     {
-        
-       
-        if (($request->post != null) && ($request->post != 0) && ($request->parent_comment != '') &&($request->text != null) && ($request->text != '')) {
-            
+
+        if (($request->post != null) && ($request->post != 0) && ($request->parent_comment != '') && ($request->text != null) && ($request->text != '')) {
+
             $com = new Comment();
             $com->user = auth()->user()->id;
             $com->post = $request->post;
@@ -78,7 +76,7 @@ class CommentController extends Controller
             $com->save();
 
             if ($com->save()) {
-                
+
                 return response()->json(['msg' => 'comment saved'], 201);
             } else {
 
@@ -86,15 +84,14 @@ class CommentController extends Controller
             }
         } else {
             return response()->json(
-                ['msg' => 'error while saving comment, refresh or try later',], 500);
+                ['msg' => 'error while saving comment, refresh or try later'], 500);
         }
 
     }
 
     public function like(Request $request)
     {
-        if (($request->like != null) &&($request->id != null) && ($request->id != 0)) 
-        {
+        if ($request->has('like') && ($request->id != null) && ($request->id != 0)) {
             $like = $request->like;
             $user = auth()->user();
             $myUserId = $user->id;
@@ -114,7 +111,7 @@ class CommentController extends Controller
 
             return response()->json(['like' => $article->likeCount]);
         } else {
-            return response()->json(['msg' => 'error while saving like, refresh or try later',], 500);
+            return response()->json(['msg' => 'error while saving like, refresh or try later'], 500);
         }
     }
 

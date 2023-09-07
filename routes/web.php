@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\CommentController;
-
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\TagController;
 use App\Http\Controllers\ProfileController;
@@ -10,13 +9,12 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-
-
 Route::post('/posts', [PostController::class, 'index']);
 Route::post('/upload', [PostController::class, 'uploadImage']);
 Route::post('/likePost', [PostController::class, 'like']);
 Route::post('/addToFavourite', [PostController::class, 'addToFavourite']);
 Route::post('/getTopPosts', [PostController::class, 'getTopPosts']);
+Route::post('/getOnePost', [PostController::class, 'getOnePost']);
 
 Route::post('/getComments', [CommentController::class, 'getComments']);
 Route::post('/addComment', [CommentController::class, 'create']);
@@ -49,6 +47,10 @@ Route::get('/dashboard', function () {
 Route::get('/MemeGenerator', function () {
     return Inertia::render('MemeGenerator');
 })->middleware(['auth', 'verified'])->name('MemeGenerator');
+
+Route::get('/OnePostView', function () {
+    return Inertia::render('OnePostView');
+})->middleware(['auth', 'verified'])->name('OnePostView');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

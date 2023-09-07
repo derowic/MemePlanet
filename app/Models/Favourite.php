@@ -23,5 +23,4 @@ class Favourite extends Model
     {
         return $this->belongsTo(Post::class, 'post');
     }
-
 }

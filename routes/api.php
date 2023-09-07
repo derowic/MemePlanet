@@ -1,10 +1,9 @@
 <?php
 
 use App\Http\Controllers\API\CommentController;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Application;
-use Inertia\Inertia;
 
 //Route::post('/addComment', [CommentController::class, 'create']);
 

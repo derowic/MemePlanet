@@ -52,7 +52,7 @@ const InfiniteScrollPosts = ({chosenCategory}) => {
       setAuth({ user: response.data.user });
       setFavs(prevFavs => [...prevFavs, ...response.data.fav]);
       userData.name = response.data.user.name;
-      
+      userData.id = response.data.user.id;
     } catch (error) {
       Notification(error.response.data.msg);
       console.error("InfiniteScrollPosts -> fetchPosts error: ",error);
@@ -87,45 +87,44 @@ const InfiniteScrollPosts = ({chosenCategory}) => {
 
 return (
   
-  <div key={Math.random}>
+  <div >
     <div className='bg-[#333333] rounded-lg p-4'>
       <button className='bg-[#EEA243] hover:bg-[#FFC465] text-white font-bold py-2 px-4 rounded-lg border border-[#EEA243]' onClick={handleRefresh}>Odśwież</button>
       <UploadPost fetchPosts={handleRefresh}/>
     </div>
-    <InfiniteScroll dataLength={posts.length} next={fetchPosts} hasMore={true} loader={<p>{t('loading')}</p>} endMessage={<p>{t('noMorePosts')}</p>} >
+    <InfiniteScroll  dataLength={posts.length} next={fetchPosts} hasMore={true} loader={<p>{t('loading')}</p>} endMessage={<p>{t('noMorePosts')}</p>} >
         
     <div className='bg-[#333333] rounded-lg p-4 mt-2'>
     {isAdmin && 
     (
-      <>
-        <div>
-          <button className="bg-[#EEA243] hover:bg-[#FFC465] text-white font-bold py-2 px-4 rounded-lg border border-[#EEA243]" onClick={changeLanguageToPolish}>Change Language to Polish</button>
-          </div>
-          {t('adminOnly')}
-          <button className="bg-[#EEA243] hover:bg-[#FFC465] text-white font-bold py-2 px-4 rounded-lg border border-[#EEA243]">Przycisk widziany tylko przez admina</button>
-          
-      </>
+      <button className="bg-[#EEA243] hover:bg-[#FFC465] text-white font-bold py-2 px-4 rounded-lg border border-[#EEA243]">Przycisk widziany tylko przez admina</button>
     )}
+    <div>
+      <button className="mt-2 bg-[#EEA243] hover:bg-[#FFC465] text-white font-bold py-2 px-4 rounded-lg border border-[#EEA243]" onClick={changeLanguageToPolish}>Change Language to Polish</button>
+    </div>
+    {t('adminOnly')}
+          
     </div>    
     
 
-    <ul key={Math.random}>
+   
       {
         posts.map((post, index) => 
           (
             <>
+                     
+                            
             
              
               { chosedCategory != 0 ?
                 
                 <div key={index}>
                   { chosedCategory == post.category.id && 
-                    <li key={post.id }>
-                      {post.id }
+                      
                       <div className="w-full flex bg-[#333333]  overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
                             
                         <div className="m-auto">
-                            <h3 className="text-left font-semibold mb-2">{post.title}</h3>
+                            <h3 className="text-left font-semibold mb-2">{post.id} {post.title}</h3>
                             <div className="text-left text-xs mb-2">{post.user.name}</div>   
                             <div className="text-left text-xs ">{post.category.text}</div>  
                             {post.tags && 
@@ -143,30 +142,37 @@ return (
                               </div>
                             }
                             <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">{post.text}</div>   
-
+                           
                             <div className="flex flex-col items-center justify-end mt-2">
-                              <img src={"/images/"+post.path_to_image} alt="Opis obrazka" className='w-full h-full'></img>
-                              <div className="flex">
+                              <a href={route('OnePostView')} active={route().current('OnePostView')}>
+                                <button>
+                                  <img src={"/images/"+post.path_to_image} alt="Opis obrazka"  className='w-full h-full'></img>
+                                </button>
+                              </a>
+                              {userData.id != post.user.id &&
+                                <div className="flex">
                                   <Like elementId={post.id} elementType={"post"} likes={post.likes} />
                                   <Heart postId={post.id} fav={favs.find(fav => fav == post.id) !== undefined} />
+                                </div>
+                              }
                               </div>   
                             </div> 
 
-                            {<CommentSection postId={post.id}/>}
+                            {<CommentSectionRendering postId={post.id}/>}
                           
                         </div>
-                      </div>
-                    </li>
+                      
+                    
                   }
                 </div>
                 :
                 <div key={index}>
-                  <li key={post.id }>
-                    {post.id }
+                  
+                  
                     <div className="w-full flex bg-[#333333]  overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
-                          
+                    
                       <div className="m-auto">
-                          <h3 className="text-left font-semibold mb-2">{post.title}</h3>
+                          <h3 className="text-left font-semibold mb-2">{post.id} {post.title}</h3>
                           <div className="text-left text-xs mb-2">{post.user.name}</div>   
                           <div className="text-left text-xs ">{post.category.text}</div>  
                           {post.tags && 
@@ -186,10 +192,18 @@ return (
                           <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">{post.text}</div>   
 
                           <div className="flex flex-col items-center justify-end mt-2">
-                            <img src={"/images/"+post.path_to_image} alt="Opis obrazka" className='w-full h-full'></img>
+                            <a href={route('OnePostView')} active={route().current('OnePostView')}>
+                              <button>
+                                <img src={"/images/"+post.path_to_image} alt="Opis obrazka"  className='w-full h-full'></img>
+                              </button>
+                            </a>
                             <div className="flex">
-                                <Like elementId={post.id} elementType={"post"} likes={post.likes} />
-                                <Heart postId={post.id} fav={favs.find(fav => fav == post.id) !== undefined} />
+                              {userData.id != post.user.id &&
+                                <div className="flex">
+                                  <Like elementId={post.id} elementType={"post"} likes={post.likes} />
+                                  <Heart postId={post.id} fav={favs.find(fav => fav == post.id) !== undefined} />
+                                </div>
+                              }
                             </div>   
                           </div> 
 
@@ -197,14 +211,14 @@ return (
                         
                       </div>
                     </div>
-                  </li>
+                  
                 </div>
               }
             </>
           )
         )
       }
-    </ul>    
+      
     </InfiniteScroll>
     </div>
   );

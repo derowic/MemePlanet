@@ -74,9 +74,10 @@ const Comment = ({usedComments, comment, allComments, post, parent_id, fetchComm
                         <div className='w-5/6 bg-[#333333] '>
                             <div>user: {comment.user.name}</div>
                                 {comment.reply_to && <div> reply to: {comment.reply_to.user.name}</div> }
-                                <p className='w-full'>komentarz: {comment.text}</p>
+                                <p className='w-full'>komentarz: {comment.text} id user  {userData.id} id kom{comment.user.id}</p>
                                 <div className=''>
                                     <button onClick={unHide}>reply</button>
+                                   
                                     <div id={comment.id} hidden>
                                         <CommentInput2 onSubmit={(commentText,post) => handleSubmitComment(commentText, post2, comment.id, fetchComments,comment.user.name)}  post={post}/>  
                                     </div> 
@@ -85,7 +86,10 @@ const Comment = ({usedComments, comment, allComments, post, parent_id, fetchComm
                         <div className='w-1/6'>
                             <div className="flex items-center justify-center">
                                 <div className="text-center text-lg">
-                                    <Like elementId={comment.id} elementType={"comment"} likes={comment.likes}/>
+                                    
+                                    {userData.id != comment.user.id &&
+                                        (<Like elementId={comment.id} elementType={"comment"} likes={comment.likes}/>)
+                                    }
                                 </div>
                             </div>
                         </div> 

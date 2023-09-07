@@ -27,8 +27,13 @@ export default function Authenticated({ user, header, children }) {
                                     <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                         Meme Planet
                                     </NavLink>
+
                                     <NavLink href={route('MemeGenerator')} active={route().current('MemeGenerator')}>
                                         MemeGenerator
+                                    </NavLink>
+
+                                    <NavLink href={route('OnePostView')} active={route().current('OnePostView')}>
+                                        OnePostView
                                     </NavLink>
                                 </div>
                             </div>

@@ -23,5 +23,4 @@ class TagTable extends Model
     {
         return $this->belongsTo(Tag::class, 'tag');
     }
-
 }

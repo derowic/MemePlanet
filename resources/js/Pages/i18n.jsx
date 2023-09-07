@@ -6,14 +6,14 @@ i18n.use(initReactI18next).init({
     en: {
       translation: {
         hello: 'Hello',
-        adminOnly: 'This is visible only to admin',
+        adminOnly: 'Translated text',
 
       },
     },
     pl: {
       translation: {
         hello: 'Cześć',
-        adminOnly: 'To jest widoczne tylko dla admina',
+        adminOnly: 'Przetłumaczony tekst',
 
       },
     },
