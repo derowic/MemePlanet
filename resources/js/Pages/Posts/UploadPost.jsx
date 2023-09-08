@@ -7,8 +7,8 @@ const UploadPost = ({ fetchPosts }) => {
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
   const [imageUploaded, setImageUploaded] = useState(false);
 
-  const handleImageUpload = async (image, title, text, category,tags) => {
-
+  const handleImageUpload = async (image, title, text, category,tags) => 
+  {
     if
     (
       (image !=null )
@@ -27,13 +27,9 @@ const UploadPost = ({ fetchPosts }) => {
 
       try {
         const response = await axios.post('/upload', formData);
-      
         setUploadedImageUrl(response.data.imageUrl);
         setImageUploaded(true);
-        
         fetchPosts();
-
-        
       } catch (error) {
         Notification(error.response.data.msg);
         console.error("UploadPost error: ",error);
@@ -50,7 +46,6 @@ const UploadPost = ({ fetchPosts }) => {
   return (
     <div>
       <ImageUploadForm onImageUpload={handleImageUpload} />
-
         {imageUploaded && (
             <h1>TESKT DO OBRZA</h1>
         )}

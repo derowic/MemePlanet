@@ -8,8 +8,6 @@ import TopPosts from './Posts/TopPosts';
 
 export default function Dashboard({ auth }) {
     const [chosenCategory, setChosenCategory] = useState(0);
-   
-
     const changeCategory = (tmp) => {
         setChosenCategory(tmp);
     };
@@ -22,13 +20,10 @@ export default function Dashboard({ auth }) {
             }>
 
             <div className='bg-[#231f20] flex text-gray-100'>
-
                 <div className='bg-[#231f20] w-1/3 mt-6' >
                     <div className="bg-[#333333] fixed p-4 sm:rounded-lg w-1/4 ml-5">
-                         
                            <h3 className="text-center font-semibold mb-2">Categories<hr/></h3>
-                           <CategoryList chosenCategory={chosenCategory} changeCategory={changeCategory}/>
-                           
+                           <CategoryList chosenCategory={chosenCategory} changeCategory={changeCategory}/>  
                    </div>
                 </div>
 
@@ -36,7 +31,6 @@ export default function Dashboard({ auth }) {
                     <div className="w-full p-4 text-center sm:rounded-lg"> 
                         <h2 className='bg-[#333333] p-4 mb-2 rounded-lg' >Meme Planet <br/> memes and news<hr/></h2>
                         <InfiniteScrollPosts chosenCategory={chosenCategory}/>
-                        
                     </div>
                 </div>
 

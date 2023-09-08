@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 
-
-
-
 const Heart = ({postId,fav}) => {
   const [heart, setHeart] = useState(fav); 
 
@@ -18,8 +15,7 @@ const Heart = ({postId,fav}) => {
         });
     } catch (error) {
         console.error('Heart -> setPostToFavourite error: ', error);
-    }
-    
+    }  
   };
 
   return (

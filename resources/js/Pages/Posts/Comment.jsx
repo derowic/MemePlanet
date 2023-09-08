@@ -11,15 +11,14 @@ import { userData } from "../GlobalData.js";
 const Comment = ({usedComments, comment, allComments, post, parent_id, fetchComments }) => {
 
     const [comments, setComments] = useState([]);
-    
+    const post2 = post;
+
     const unHide = () => {
 
         const element = document.getElementById(comment.id);
         element.hidden = !element.hidden;
     };
 
-    const post2 = post;
- 
     const getRepliesForComment = (comments, parent_id) => {
         return comments.filter(comment => comment.parent_comment === parent_id);
     };
@@ -63,8 +62,6 @@ const Comment = ({usedComments, comment, allComments, post, parent_id, fetchComm
 
     };
 
-   
-
     return (
         <div id={comment.id+"t"} className={" mt-10 mb-10 ml-5 bg-[#333333] border-l-2 border-white-400 p-4"}>
 
@@ -74,7 +71,7 @@ const Comment = ({usedComments, comment, allComments, post, parent_id, fetchComm
                         <div className='w-5/6 bg-[#333333] '>
                             <div>user: {comment.user.name}</div>
                                 {comment.reply_to && <div> reply to: {comment.reply_to.user.name}</div> }
-                                <p className='w-full'>komentarz: {comment.text} id user  {userData.id} id kom{comment.user.id}</p>
+                                <p className='w-full'>komentarz: {comment.text}</p>
                                 <div className=''>
                                     <button onClick={unHide}>reply</button>
                                    

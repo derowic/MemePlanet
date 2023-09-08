@@ -11,9 +11,8 @@ function SidePanel() {
     return (
         <div>
             <Button onClick={togglePanel} > <div className="text-white">Add Post</div></Button>
-            <Drawer anchor="bottom"/*może być też left top right*/  open={isOpen} onClose={togglePanel}>
+            <Drawer anchor="bottom" open={isOpen} onClose={togglePanel}>
                 <div className="panel-content">
-                    {/* Treść panelu */}
                     Dodatkowy panel
                 </div>
             </Drawer>

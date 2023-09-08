@@ -8,16 +8,12 @@ function Like({elementId, elementType, likes}) {
     likes = 0;
   }
   const [count, setCount] = useState(likes);
-  
-  
 
   const increment = () => {
-    //setCount(count + 1);
     like(true);
   };
 
   const decrement = () => {
-    //setCount(count - 1);
     like(false);
   };
 

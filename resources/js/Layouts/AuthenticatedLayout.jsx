@@ -32,9 +32,7 @@ export default function Authenticated({ user, header, children }) {
                                         MemeGenerator
                                     </NavLink>
 
-                                    <NavLink href={route('OnePostView')} active={route().current('OnePostView')}>
-                                        OnePostView
-                                    </NavLink>
+                                   
                                 </div>
                             </div>
 

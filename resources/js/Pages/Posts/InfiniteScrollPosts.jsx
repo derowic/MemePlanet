@@ -8,6 +8,7 @@ import UploadPost from './UploadPost';
 import Notification from '@/Components/Notification';
 import CommentSection from './CommentSection';
 import { userData } from "../GlobalData.js";
+import { OnePostViewData } from "../GlobalData.js";
 
 import '../styles.css'; 
 import '../i18n';
@@ -25,22 +26,14 @@ const InfiniteScrollPosts = ({chosenCategory}) => {
   
 
   const handleRefresh = () => {
-    
-    setPosts([]);
-    setPage(0);
-    setKey(0);
-    fetchPosts();
-    /*
     setPosts([]);
     setPage(1);
     setFavs([]);
     fetchPosts();
-    */
+
   };
 
   useEffect(() => {
-    // Tutaj możesz wywołać handleRefresh za każdym razem, gdy chosenCategory się zmieni
-    console.log("infinte",chosenCategory);
     setChosedCategory(chosenCategory);
   }, [chosenCategory]);
 
@@ -71,12 +64,19 @@ const InfiniteScrollPosts = ({chosenCategory}) => {
 
   const isAdmin = auth.user && auth.user.roles.includes('admin');
 
-  
   const changeLanguageToPolish = () => 
   {
     i18n.changeLanguage('pl');
     
   };
+
+  const savePostId = (tmp) =>
+  {
+    OnePostViewData.postId = tmp;
+    console.log(OnePostViewData.postId);
+    route('OnePostView');  
+
+  }
 
   useEffect(() => {
     fetchPosts();
@@ -102,73 +102,60 @@ return (
     <div>
       <button className="mt-2 bg-[#EEA243] hover:bg-[#FFC465] text-white font-bold py-2 px-4 rounded-lg border border-[#EEA243]" onClick={changeLanguageToPolish}>Change Language to Polish</button>
     </div>
-    {t('adminOnly')}
-          
+    {t('adminOnly')}       
     </div>    
-    
-
-   
       {
         posts.map((post, index) => 
           (
             <>
-                     
-                            
-            
-             
               { chosedCategory != 0 ?
                 
                 <div key={index}>
                   { chosedCategory == post.category.id && 
                       
-                      <div className="w-full flex bg-[#333333]  overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
+                    <div className="w-full flex bg-[#333333]  overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
+                          
+                      <div className="m-auto">
+                          <h3 className="text-left font-semibold mb-2">{post.title}</h3>
+                          <div className="text-left text-xs mb-2">{post.user.name}</div>   
+                          <div className="text-left text-xs ">{post.category.text}</div>  
+                          {post.tags && 
+                            <div className="text-left text-xs  ">
+                              {post.tags.split(' ').map(tagId => {
+                                const tag = tags.find(tag => tag.id === parseInt(tagId));
+                                return tag ? (
+                                  <button key={tag.id} className="mr-2 px-1 py-1 sm:rounded-lg p-4 mt-4 border-2 border-[#bbb]">
+                                    {tag.text}
+                                  </button>
+                                ) 
+                                : 
+                                null;
+                              })}
+                            </div>
+                          }
+                          <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">{post.text}</div>   
+                          
+                          <div className="flex flex-col items-center justify-end mt-2">
                             
-                        <div className="m-auto">
-                            <h3 className="text-left font-semibold mb-2">{post.id} {post.title}</h3>
-                            <div className="text-left text-xs mb-2">{post.user.name}</div>   
-                            <div className="text-left text-xs ">{post.category.text}</div>  
-                            {post.tags && 
-                              <div className="text-left text-xs  ">
-                                {post.tags.split(' ').map(tagId => {
-                                  const tag = tags.find(tag => tag.id === parseInt(tagId));
-                                  return tag ? (
-                                    <button key={tag.id} className="mr-2 px-1 py-1 sm:rounded-lg p-4 mt-4 border-2 border-[#bbb]">
-                                      {tag.text}
-                                    </button>
-                                  ) 
-                                  : 
-                                  null;
-                                })}
+                                <img src={"/images/"+post.path_to_image} alt="Opis obrazka"  className='w-full h-full'></img>
+                              
+                            {userData.id != post.user.id &&
+                              <div className="flex">
+                                <Like elementId={post.id} elementType={"post"} likes={post.likes} />
+                                <Heart postId={post.id} fav={favs.find(fav => fav == post.id) !== undefined} />
                               </div>
                             }
-                            <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">{post.text}</div>   
-                           
-                            <div className="flex flex-col items-center justify-end mt-2">
-                              <a href={route('OnePostView')} active={route().current('OnePostView')}>
-                                <button>
-                                  <img src={"/images/"+post.path_to_image} alt="Opis obrazka"  className='w-full h-full'></img>
-                                </button>
-                              </a>
-                              {userData.id != post.user.id &&
-                                <div className="flex">
-                                  <Like elementId={post.id} elementType={"post"} likes={post.likes} />
-                                  <Heart postId={post.id} fav={favs.find(fav => fav == post.id) !== undefined} />
-                                </div>
-                              }
-                              </div>   
-                            </div> 
+                            </div>   
+                          </div> 
 
-                            {<CommentSectionRendering postId={post.id}/>}
-                          
-                        </div>
-                      
-                    
+                          {<CommentSectionRendering postId={post.id}/>}
+                        
+                      </div>
                   }
                 </div>
                 :
                 <div key={index}>
-                  
-                  
+
                     <div className="w-full flex bg-[#333333]  overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
                     
                       <div className="m-auto">
@@ -190,13 +177,8 @@ return (
                             </div>
                           }
                           <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">{post.text}</div>   
-
                           <div className="flex flex-col items-center justify-end mt-2">
-                            <a href={route('OnePostView')} active={route().current('OnePostView')}>
-                              <button>
                                 <img src={"/images/"+post.path_to_image} alt="Opis obrazka"  className='w-full h-full'></img>
-                              </button>
-                            </a>
                             <div className="flex">
                               {userData.id != post.user.id &&
                                 <div className="flex">

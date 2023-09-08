@@ -90,10 +90,7 @@ const ImageUploadForm = ({ onImageUpload }) => {
     if(previewImage != null)
     {
       let get = document.getElementById('attr');
-      //get.removeAttribute('src', '');
-      
-      get = document.getElementById('attr');
-      
+      get = document.getElementById('attr'); 
       get.value = '';
       get.value = null;
       get.target = null;
@@ -103,18 +100,17 @@ const ImageUploadForm = ({ onImageUpload }) => {
   };
 
   const unHide = () => {
-    //setShouldRender(!shouldRender);  
+    
     const element = document.getElementById("post");
     element.hidden = !element.hidden;
   };
 
   const close = () => {
-    //setShouldRender(!shouldRender); 
+   
     clearImg(); 
     unHide();
   };
 
-  
 
   const selectCategory = (buttonId) => {
 
@@ -128,9 +124,6 @@ const ImageUploadForm = ({ onImageUpload }) => {
       setSelectedTags([...selectedTags, buttonId]);
     }
   };
-  
-
-  
 
   return (
     <div>
@@ -162,21 +155,20 @@ const ImageUploadForm = ({ onImageUpload }) => {
                 selectedCategory === category.id
                   ? "bg-blue-500 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-lg border border-blue-600"
                   : "bg-blue-400 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-lg border border-blue-600"
-              } m-2`} // Dodaj klasę m-2 dla odstępu między przyciskami
+              } m-2`} 
               onClick={() => selectCategory(category.id)}
             >
               {category.text}
             </button>
           ))}
           </div>
-
           <h1>Tags</h1>
           <div className='flex flex-wrap justify-center'>
           {tags.map(tag => (
             <button
               key={"tag" + tag.id}
               className={`${
-                selectedTags.includes(tag.id) // Sprawdź, czy tag jest zaznaczony
+                selectedTags.includes(tag.id) 
                   ? "bg-green-500 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-lg border border-green-600"
                   : "bg-green-400 hover:bg-green-400 text-white font-bold py-2 px-4 rounded-lg border border-green-600"
               } m-2`}
@@ -186,13 +178,9 @@ const ImageUploadForm = ({ onImageUpload }) => {
             </button>
           ))}
         </div>
-
-         
         <button className="bg-[#EEA243] mb-2 mr-2 hover:bg-[#FFC465] text-white font-bold py-2 px-4 rounded-lg border border-[#EEA243]" onClick={handleUploadClick}>Upload</button>
         <button className="bg-[#CCCC44] mb-2 mr-2 hover:bg-[#DDDD44] text-white font-bold py-2 px-4 rounded-lg border border-[#EEA243]" onClick={clearImg}>clear</button>
         <button className="bg-[#FF5555] mb-2 hover:bg-[#FF7777] text-white font-bold py-2 px-4 rounded-lg border border-[#FF5555]" onClick={close}>close</button>
-
-        
       </div>
     </div>
   );

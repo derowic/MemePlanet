@@ -8,14 +8,11 @@ import Notification from '@/Components/Notification';
 import { userData } from "../GlobalData.js";
 import '../styles.css'; // Importuj plik ze stylami
 
-
-
 function CommentSection({ postId }) {
     const [isOpen, setIsOpen] = useState(false);
     const [comments, setComments] = useState([]);
     const [isCommentVisible, setIsCommentVisible] = useState(true);
     const [usedComments, setUsedComments] = useState([]);
-    
 
     const handleCommentSubmit = (comment) => {
         setComments([...comments, comment]);
@@ -31,12 +28,9 @@ function CommentSection({ postId }) {
                 id: postId
             });
             setComments(response.data.dane[0].comments);
-            
-        } catch (error) {
-            
+        } catch (error) {   
             Notification(error.response.data.msg);
             console.error("CommentSection -> fetchComments error: ",error.response.data.msg);
-
         } finally 
         {
             setUsedComments([]);
@@ -52,9 +46,7 @@ function CommentSection({ postId }) {
     {
         setUsedComments([]);
         setComments([]);
-        await fetchComments();
-       
-        
+        await fetchComments();  
     }
 
     const handleSubmitComment = async (commentText, postId, parentCommentId, fetchComments) => {
@@ -82,7 +74,6 @@ function CommentSection({ postId }) {
         divElement.appendChild(divElement4);
         
         const element = document.getElementById("comments");
-        
         divElement0.appendChild(divElement);
         element.appendChild(divElement0);
  
@@ -94,16 +85,13 @@ function CommentSection({ postId }) {
                 <div className="text-white">Comment Section</div>
             </Button>
            
-            
             <Drawer anchor="bottom" open={isOpen} onClose={togglePanel} className='items-center justify-center' >
                 
-            
                 <div className="bg-[#333333] text-white " style={{ maxHeight: '75vh', minHeight: '75vh' }} >
                     <div className="flex items-center justify-center ">
                         <div className="text-center text-lg ">Comments</div>
                         
                     </div>
-                    
 
                     <CommentInput onSubmit={(commentText) => handleSubmitComment(commentText, postId, 0, fetchComments)}  post={postId}/>
                     <div id="comments" className='bg-[#333333] dark:bg-white-700'>

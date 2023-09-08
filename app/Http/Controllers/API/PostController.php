@@ -53,31 +53,16 @@ class PostController extends Controller
                 ->where('post', $request->postId)
                 ->exists();
 
-            if ($isFavourite) {
-                // W tym przypadku użytkownik dodał ten post do ulubionych
-                return response()->json([
-                    'posts' => $posts,
-                    'user' => [
-                        'id' => $user->id,
-                        'name' => $user->name,
-                        'email' => $user->email,
-                        'roles' => $roles,
-                    ],
-                    'fav' => true,
-                ]);
-            } else {
-                // W tym przypadku użytkownik nie dodał tego posta do ulubionych
-                return response()->json([
-                    'posts' => $posts,
-                    'user' => [
-                        'id' => $user->id,
-                        'name' => $user->name,
-                        'email' => $user->email,
-                        'roles' => $roles,
-                    ],
-                    'fav' => false,
-                ]);
-            }
+            return response()->json([
+                'posts' => $posts,
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'roles' => $roles,
+                ],
+                'fav' => $isFavourite,
+            ]);
         } else {
             return response()->json([
                 'msg' => 'error while downloading one post ',
@@ -193,7 +178,9 @@ class PostController extends Controller
 
                 return response()->json(['message' => 'Delete favourite']);
 
-            } else {
+            } 
+            else 
+            {
                 $tmp = new Favourite();
 
                 $tmp->user = auth()->user()->id;

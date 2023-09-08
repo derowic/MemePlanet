@@ -48,9 +48,6 @@ Route::get('/MemeGenerator', function () {
     return Inertia::render('MemeGenerator');
 })->middleware(['auth', 'verified'])->name('MemeGenerator');
 
-Route::get('/OnePostView', function () {
-    return Inertia::render('OnePostView');
-})->middleware(['auth', 'verified'])->name('OnePostView');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
