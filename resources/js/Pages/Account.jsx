@@ -1,12 +1,10 @@
 import React, { createContext, useContext, useState, useRef,useEffect  } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
-import InfiniteScrollPosts from './Posts/InfiniteScrollPosts';
-import FetchCategories from '@/Components/FetchCategories';
-import CategoryList from './Posts/CategoryList';
-import TopPosts from './Posts/TopPosts';
+import InfiniteScrollPosts from './Account/InfiniteScrollPosts';
+import CategoryList from './Account/CategoryList';
+import AccountView from './Account/AccountView';
 
-export default function Dashboard({ auth }) {
+export default function Account({ auth }) {
     const [chosenCategory, setChosenCategory] = useState(0);
     const changeCategory = (tmp) => {
         setChosenCategory(tmp);
@@ -30,16 +28,11 @@ export default function Dashboard({ auth }) {
                 <div className='bg-[#231f20] w-1/2 mt-2'>
                     <div className="w-full p-4 text-center sm:rounded-lg">
                         <h2 className='bg-[#333333] p-4 mb-2 rounded-lg' >Meme Planet <br/> memes and news<hr/></h2>
-                        <InfiniteScrollPosts chosenCategory={chosenCategory}/>
+                        <AccountView categoryId={chosenCategory}/>
                     </div>
                 </div>
 
-                <div className='bg-[#231f20] w-1/3 mt-6 ml-4'>
-                    <div className="w-full bg-[#333333] p-4 text-center sm:rounded-lg">
-                        <h3 className="text-center font-semibold mb-2">Popular<hr/></h3>
-                        <TopPosts/>
-                    </div>
-                </div>
+
 
             </div>
 

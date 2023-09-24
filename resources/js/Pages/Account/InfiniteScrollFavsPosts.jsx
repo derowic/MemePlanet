@@ -14,7 +14,7 @@ import Post from './Post';
 import '../styles.css';
 import '../i18n';
 
-const InfiniteScrollPosts = ({ chosenCategory }) => {
+const InfiniteScrollFavsPosts = ({ chosenCategory }) => {
   const { t, i18n } = useTranslation();
   const [posts, setPosts] = useState([]);
   const [favs, setFavs] = useState([]);
@@ -38,7 +38,7 @@ const InfiniteScrollPosts = ({ chosenCategory }) => {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.post(`/posts?page=${page}`);
+      const response = await axios.post(`/account_index?page=${page}`);
       setPosts((prevPosts) => [...prevPosts, ...response.data.posts.data]);
       setPage((prevPage) => prevPage + 1);
       setAuth({ user: response.data.user });
@@ -121,5 +121,5 @@ const InfiniteScrollPosts = ({ chosenCategory }) => {
   );
 };
 
-export default InfiniteScrollPosts;
+export default InfiniteScrollFavsPosts;
 

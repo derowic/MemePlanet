@@ -4,6 +4,7 @@ use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\TagController;
+use App\Http\Controllers\API\AccountController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -24,12 +25,7 @@ Route::post('/getCategories', [CategoryController::class, 'getCategories']);
 
 Route::post('/getTags', [TagController::class, 'getTags']);
 
-Route::get('/getComments', [PostController::class, 'getComments']);
-Route::get('/posts', [PostController::class, 'index']);
-Route::get('/like', [CommentController::class, 'like']);
-Route::get('/addToFavourite', [PostController::class, 'addToFavourite']);
-Route::get('/getCategories', [CategoryController::class, 'getCategories']);
-Route::get('/getTags', [TagController::class, 'getTags']);
+Route::post('/account_index', [AccountController::class, 'index']);
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -46,10 +42,16 @@ Route::get('/dashboard', function () {
 
 Route::get('/MemeGenerator', function () {
     return Inertia::render('MemeGenerator');
-})->middleware(['auth', 'verified'])->name('MemeGenerator');
+})->middleware(['auth', 'verified'])->name('memeGenerator');
+
+Route::get('/Account', function () {
+    return Inertia::render('Account');
+})->middleware(['auth', 'verified'])->name('account');
 
 
 Route::middleware('auth')->group(function () {
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

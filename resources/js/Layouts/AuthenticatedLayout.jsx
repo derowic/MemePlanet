@@ -9,8 +9,8 @@ export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        
-        <div className="">
+
+        <div className="bg-[#231f20] h-screen">
             <nav className="border-b border-gray-100 dark:border-gray-700">
                 <div className="fixed w-screen bg-[#333333] ">
                     <div className="mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,11 +28,15 @@ export default function Authenticated({ user, header, children }) {
                                         Meme Planet
                                     </NavLink>
 
-                                    <NavLink href={route('MemeGenerator')} active={route().current('MemeGenerator')}>
+                                    <NavLink href={route('memeGenerator')} active={route().current('memeGenerator')}>
                                         MemeGenerator
                                     </NavLink>
 
-                                   
+                                    <NavLink href={route('account')} active={route().current('account')}>
+                                        Account
+                                    </NavLink>
+
+
                                 </div>
                             </div>
 
@@ -119,6 +123,8 @@ export default function Authenticated({ user, header, children }) {
                                 Log Out
                             </ResponsiveNavLink>
                         </div>
+
+
                     </div>
                 </div>
             </nav>
@@ -130,6 +136,8 @@ export default function Authenticated({ user, header, children }) {
             )}
 
             <main>{children}</main>
+
+
         </div>
     );
 }

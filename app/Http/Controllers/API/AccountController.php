@@ -7,7 +7,7 @@ use App\Models\Favourite;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class AccountController extends Controller
 {
     public function index(Request $request)
     {
@@ -18,6 +18,7 @@ class PostController extends Controller
         $perPage = 5;
 
         $posts = Post::with(['user', 'comments', 'comments.user', 'comments.reply_to', 'category'])
+            ->where('user',$user->id)
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
