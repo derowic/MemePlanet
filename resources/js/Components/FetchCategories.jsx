@@ -5,8 +5,11 @@ import axios from 'axios';
 
 const FetchCategories = async () => {
     try {
+
         const response = await axios.post(`/getCategories`);
         return response.data.categories;
+
+
     } catch (error) {
       Notification(error.response.data.msg);
       console.error("FetchCategories -> error: ",error);
@@ -14,3 +17,5 @@ const FetchCategories = async () => {
   };
 
 export default FetchCategories;
+
+

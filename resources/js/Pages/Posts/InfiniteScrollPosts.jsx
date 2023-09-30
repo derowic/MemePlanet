@@ -38,13 +38,17 @@ const InfiniteScrollPosts = ({ chosenCategory }) => {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.post(`/posts?page=${page}`);
-      setPosts((prevPosts) => [...prevPosts, ...response.data.posts.data]);
-      setPage((prevPage) => prevPage + 1);
-      setAuth({ user: response.data.user });
-      setFavs((prevFavs) => [...prevFavs, ...response.data.fav]);
-      userData.name = response.data.user.name;
-      userData.id = response.data.user.id;
+        const response = await axios.get(route('post.index'), {});
+        console.log(response);
+        //const response = await axios.post(`/posts?page=${page}`);
+        setPosts((prevPosts) => [...prevPosts, ...response.data.posts.data]);
+        setPage((prevPage) => prevPage + 1);
+        setAuth({ user: response.data.user });
+        setFavs((prevFavs) => [...prevFavs, ...response.data.fav]);
+        userData.name = response.data.user.name;
+        userData.id = response.data.user.id;
+
+
     } catch (error) {
       Notification(error.response.data.msg);
       console.error("InfiniteScrollPosts -> fetchPosts error: ", error);

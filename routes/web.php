@@ -9,7 +9,14 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+/*
+Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
+Route::put('/category/{category}/update', [CategoryController::class, 'update'])->name('category.update');
+Route::delete('/category/{category}', [CategoryController::class, 'delete'])->name('category.delete');
+ */
 
+Route::get('/posts2', [PostController::class, 'index'])->name('post.index');;
 Route::post('/posts', [PostController::class, 'index']);
 Route::post('/upload', [PostController::class, 'uploadImage']);
 Route::post('/likePost', [PostController::class, 'like']);
@@ -56,6 +63,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+
+
+Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
+Route::put('/category/{category}', [CategoryController::class, 'update'])->name('category.update');
+Route::delete('/category/{category}', [CategoryController::class, 'delete'])->name('category.delete');
+
 
 Route::get('/react', function () {
     return view('react');
