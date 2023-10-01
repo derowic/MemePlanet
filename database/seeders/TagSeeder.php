@@ -13,36 +13,36 @@ class TagSeeder extends Seeder
     public function run(): void
     {
         $humor = Tag::create([
-            'text' => 'mem',
+            'name' => 'mem',
 
         ]);
         Tag::create([
-            'text' => 'dowcipy',
-
-        ]);
-
-        Tag::create([
-            'text' => 'dyskusja',
+            'name' => 'dowcipy',
 
         ]);
 
         Tag::create([
-            'text' => 'ciekawostki',
+            'name' => 'dyskusja',
 
         ]);
 
         Tag::create([
-            'text' => 'historia',
+            'name' => 'ciekawostki',
 
         ]);
 
         Tag::create([
-            'text' => 'wojsko',
+            'name' => 'historia',
 
         ]);
 
         Tag::create([
-            'text' => 'informacje',
+            'name' => 'wojsko',
+
+        ]);
+
+        Tag::create([
+            'name' => 'informacje',
 
         ]);
     }

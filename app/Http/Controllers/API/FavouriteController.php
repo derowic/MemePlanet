@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Favourite;
-use App\Models\Post;
 
 class FavouriteController extends Controller
 {

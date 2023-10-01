@@ -19,15 +19,8 @@ class FavouriteFactory extends Factory
     public function definition(): array
     {
         return [
-            //
-
-            'user' => User::select('id')
-                ->orderByRaw('RAND()')
-                ->first()->id,
-            'post' => Post::select('id')
-                ->orderByRaw('RAND()')
-                ->first()->id,
-
+            'user_id' => User::inRandomOrder()->limit(10)->pluck('id')->random(),
+            'post_id' => Post::inRandomOrder()->limit(10)->pluck('id')->random(),
         ];
     }
 }

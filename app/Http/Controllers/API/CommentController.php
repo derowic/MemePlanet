@@ -3,36 +3,21 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $user = auth()->user();
-        $roles = $user->roles->pluck('name');
-
-        $perPage = 5;
-        $posts = Post::with(['user'])->orderBy('created_at', 'desc')->with('user')->paginate($perPage);
-        $posts = Post::with(['user', 'comments', 'comments.user', 'comments.reply_to'])
+        $comments = Comment::with(['user:id,name', 'comment:id'])
             ->orderBy('created_at', 'desc')
-            ->paginate($perPage);
+            ->where('post_id', $request->id)
+            ->get();
 
-        $user = auth()->user();
-        $roles = $user->roles->pluck('name');
-
-        return response()->json([
-            'posts' => $posts,
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'roles' => $roles,
-            ],
-        ]);
-
+        return CommentResource::collection($comments);
     }
 
     public function getComments(Request $request)
@@ -40,7 +25,7 @@ class CommentController extends Controller
         if (($request->id != null) && ($request->id != 0)) {
             $postId = $request->id;
 
-            $comments = Post::with(['comments', 'comments.user', 'comments.reply_to', 'comments.reply_to.user'])
+            $comments = Post::with(['comments', 'comments.user', 'comments.comment', 'comments.comment.user'])
                 ->where('id', $postId)
                 ->orderBy('created_at', 'desc')
                 ->get();

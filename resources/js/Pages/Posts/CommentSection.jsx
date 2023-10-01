@@ -6,6 +6,7 @@ import CommentInput from './CommentInput';
 import SendComment from './SendComment';
 import Notification from '@/Components/Notification';
 import { userData } from "../GlobalData.js";
+import FetchIndex from '@/Components/FetchIndex';
 
 
 function CommentSection({ postId }) {
@@ -19,15 +20,21 @@ function CommentSection({ postId }) {
       };
 
     useEffect(() => {
-        fetchComments();
+
     }, []);
 
     const fetchComments = async () => {
         try {
-            const response = await axios.post('/getComments', {
+            /*const response = await axios.post('/getComments', {
                 id: postId
             });
             setComments(response.data.dane[0].comments);
+            */
+
+            let params =  {id:  postId};
+            let t =  await  FetchIndex('comment.index',params);
+            console.log(t);
+            setComments(t);
         } catch (error) {
             Notification(error.response.data.msg);
             console.error("CommentSection -> fetchComments error: ",error.response.data.msg);
@@ -39,7 +46,13 @@ function CommentSection({ postId }) {
 
     const togglePanel = () => {
         setUsedComments([]);
+        setComments([]);
         setIsOpen(!isOpen);
+        if(isOpen == false)
+        {
+            console.log("open");
+            fetchComments();
+        }
     };
 
     const updateCommentSection = async () =>
@@ -96,7 +109,7 @@ function CommentSection({ postId }) {
                     <CommentInput onSubmit={(commentText) => handleSubmitComment(commentText, postId, 0, fetchComments)}  post={postId}/>
                     <div id="comments" className='bg-[#333333] dark:bg-white-700'>
                         {comments.map(comment => (
-                            <Comment key={comment.id} usedComments={usedComments} comment={comment} allComments={comments} post={postId} parentId={comment.id} fetchComments={updateCommentSection}/>
+                            <Comment key={comment.id} usedComments={usedComments} comment={comment} allComments={comments} post={postId}  fetchComments={updateCommentSection}/>
                         ))}
                     </div>
 

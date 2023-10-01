@@ -13,8 +13,11 @@ class Post extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'user',
+        'user_id',
+        'category_id',
+        'tag_list_id',
         'title',
+        'text',
         'likes',
         'path_to_image',
         'description',
@@ -22,26 +25,26 @@ class Post extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user');
+        return $this->belongsTo(User::class);
     }
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'post');
+        return $this->hasMany(Comment::class);
     }
 
     public function favourite()
     {
-        return $this->belongsToMany(Favourite::class, 'user');
+        return $this->belongsToMany(Favourite::class);
     }
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category');
+        return $this->belongsTo(Category::class);
     }
 
     public function tags()
     {
-        return $this->belongsTo(TagTable::class, 'user');
+        return $this->belongsTo(TagList::class);
     }
 }

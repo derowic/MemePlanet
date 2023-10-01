@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Comment;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,9 +16,9 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user');
-            $table->unsignedBigInteger('post');
-            $table->unsignedBigInteger('parent_comment')->nullable();
+            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Post::class);
+            $table->foreignIdFor(Comment::class)->nullable();
             $table->string('text', 100)->nullable();
             $table->integer('likes')->nullable();
             $table->softDeletes();

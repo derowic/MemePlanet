@@ -18,7 +18,7 @@ class AccountController extends Controller
         $perPage = 5;
 
         $posts = Post::with(['user', 'comments', 'comments.user', 'comments.reply_to', 'category'])
-            ->where('user',$user->id)
+            ->where('user', $user->id)
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
@@ -38,8 +38,6 @@ class AccountController extends Controller
             'test' => $successAttribute,
         ]);
     }
-
-
 
     public function getOnePost(Request $request)
     {
@@ -181,9 +179,7 @@ class AccountController extends Controller
 
                 return response()->json(['message' => 'Delete favourite']);
 
-            }
-            else
-            {
+            } else {
                 $tmp = new Favourite();
 
                 $tmp->user = auth()->user()->id;

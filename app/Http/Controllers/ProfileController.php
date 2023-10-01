@@ -20,6 +20,7 @@ class ProfileController extends Controller
             'status' => session('status'),
         ]);
     }
+
     /**
      * Display the user's profile form.
      */

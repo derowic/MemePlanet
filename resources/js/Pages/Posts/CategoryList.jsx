@@ -3,14 +3,19 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import InfiniteScrollPosts from './InfiniteScrollPosts';
 import FetchCategories from '@/Components/FetchCategories';
+import FetchIndex from '@/Components/FetchIndex';
 
 function CategoryList( { chosenCategory, changeCategory }) {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
 
     const fetchCategories = async () => {
-        var tmp = await FetchCategories();
-        setCategories(prevCategories => [...prevCategories, ...tmp]);
+        //var tmp = await FetchCategories();
+        //setCategories(prevCategories => [...prevCategories, ...tmp]);
+
+        let t =  await  FetchIndex('category.index',null);
+        console.log( t );
+        setCategories(prevCategories => [...prevCategories, ...t]);
     };
 
     useEffect(() => {
@@ -42,7 +47,7 @@ function CategoryList( { chosenCategory, changeCategory }) {
                           : null
                       } m-2`}
                     >
-                        {category.text}
+                        {category.name}
                     </button>
                 </div>
             ))}

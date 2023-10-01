@@ -15,9 +15,9 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
-            $table->unsignedBigInteger('element');
+            $table->unsignedBigInteger('element'); //id to post or comment
             $table->boolean('response_to')->nullable();
-            $table->string('text')->unique();
+            $table->string('name')->unique();
             $table->boolean('seen')->nullable();
             $table->timestamps();
         });

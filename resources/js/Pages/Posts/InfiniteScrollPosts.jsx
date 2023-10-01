@@ -10,6 +10,7 @@ import CommentSection from './CommentSection';
 import { userData } from "../GlobalData.js";
 import { OnePostViewData } from "../GlobalData.js";
 import Post from './Post';
+import FetchIndex from '@/Components/FetchIndex';
 
 import '../styles.css';
 import '../i18n';
@@ -38,15 +39,15 @@ const InfiniteScrollPosts = ({ chosenCategory }) => {
 
   const fetchPosts = async () => {
     try {
-        const response = await axios.get(route('post.index'), {});
+        const response = await FetchIndex('post.index',null);
         console.log(response);
         //const response = await axios.post(`/posts?page=${page}`);
-        setPosts((prevPosts) => [...prevPosts, ...response.data.posts.data]);
+        setPosts((prevPosts) => [...prevPosts, ...response]);
         setPage((prevPage) => prevPage + 1);
-        setAuth({ user: response.data.user });
-        setFavs((prevFavs) => [...prevFavs, ...response.data.fav]);
-        userData.name = response.data.user.name;
-        userData.id = response.data.user.id;
+        //setAuth({ user: response.data.user });
+        //setFavs((prevFavs) => [...prevFavs, ...response.data.fav]);
+        //userData.name = response.data.user.name;
+        //userData.id = response.data.user.id;
 
 
     } catch (error) {
@@ -112,7 +113,6 @@ const InfiniteScrollPosts = ({ chosenCategory }) => {
               </div>
             ) : (
               <div key={post.id}>
-                hkuh
                 <div className="w-full flex bg-[#333333]  overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
                     <Post post={post} tags={tags} userData={userData} favs={favs}/>
                 </div>

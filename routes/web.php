@@ -1,14 +1,15 @@
 <?php
 
+use App\Http\Controllers\API\AccountController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\TagController;
-use App\Http\Controllers\API\AccountController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 /*
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
 Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
@@ -16,8 +17,8 @@ Route::put('/category/{category}/update', [CategoryController::class, 'update'])
 Route::delete('/category/{category}', [CategoryController::class, 'delete'])->name('category.delete');
  */
 
-Route::get('/posts2', [PostController::class, 'index'])->name('post.index');;
-Route::post('/posts', [PostController::class, 'index']);
+//Route::get('/posts2', [PostController::class, 'index'])->name('post.index');;
+//Route::post('/posts', [PostController::class, 'index']);
 Route::post('/upload', [PostController::class, 'uploadImage']);
 Route::post('/likePost', [PostController::class, 'like']);
 Route::post('/addToFavourite', [PostController::class, 'addToFavourite']);
@@ -55,7 +56,6 @@ Route::get('/Account', function () {
     return Inertia::render('Account');
 })->middleware(['auth', 'verified'])->name('account');
 
-
 Route::middleware('auth')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -64,14 +64,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-
-
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
 Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
 Route::put('/category/{category}', [CategoryController::class, 'update'])->name('category.update');
 Route::delete('/category/{category}', [CategoryController::class, 'delete'])->name('category.delete');
 
+Route::get('/post', [PostController::class, 'index'])->name('post.index');
+
+Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
 
 Route::get('/react', function () {
     return view('react');
