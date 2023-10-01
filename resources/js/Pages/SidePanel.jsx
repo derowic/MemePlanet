@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Button, Drawer } from '@mui/material';
-import './styles.css'; // Importuj plik ze stylami
+import React, { useState } from "react";
+import { Button, Drawer } from "@mui/material";
+import "./styles.css"; // Importuj plik ze stylami
 function SidePanel() {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -10,11 +10,12 @@ function SidePanel() {
 
     return (
         <div>
-            <Button onClick={togglePanel} > <div className="text-white">Add Post</div></Button>
+            <Button onClick={togglePanel}>
+                {" "}
+                <div className="text-white">Add Post</div>
+            </Button>
             <Drawer anchor="bottom" open={isOpen} onClose={togglePanel}>
-                <div className="panel-content">
-                    Dodatkowy panel
-                </div>
+                <div className="panel-content">Dodatkowy panel</div>
             </Drawer>
         </div>
     );

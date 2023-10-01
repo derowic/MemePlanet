@@ -1,23 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Notification from '@/Components/Notification';
-import '../styles.css'; 
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Notification from "@/Components/Notification";
+import "../styles.css";
 
-const SendComment = async (postId,text,parentId) => {
-   
+const SendComment = async (postId, text, parentId) => {
     try {
-        const response = await axios.post('/addComment', {
+        const response = await axios.post("/addComment", {
             post: postId,
             parent_comment: parentId,
-            text:text
+            text: text,
         });
-
-    } 
-    catch (error) 
-    {
+    } catch (error) {
         Notification(error.response.data.msg);
-        console.error('SendComment error: ', error);
+        console.error("SendComment error: ", error);
     }
-    
 };
 export default SendComment;
