@@ -20,8 +20,7 @@ const TopPosts = (tags) => {
             */
             let t = await FetchIndex("post.top", null);
             console.log(t);
-            if( t != undefined)
-            {
+            if (t != undefined) {
                 setPosts((prevPosts) => [...prevPosts, ...t]);
             }
         } catch (error) {
@@ -33,15 +32,7 @@ const TopPosts = (tags) => {
         fetchPosts();
     }, []);
 
-    return posts.map((post, index) => (
-            <Post
-            post={post}
-            tags={tags}
-        />
-
-
-
-    ));
+    return posts.map((post, index) => <Post post={post} tags={tags} />);
 };
 
 export default TopPosts;

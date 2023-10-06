@@ -83,7 +83,12 @@ export default function Dashboard({ auth }) {
                             Meme Planet <br /> memes and news
                             <hr />
                         </h2>
-                        <InfiniteScrollPosts chosenCategory={chosenCategory}  posts={posts} fetchPosts={fetchPosts} fetchTags={fetchTags} />
+                        <InfiniteScrollPosts
+                            chosenCategory={chosenCategory}
+                            posts={posts}
+                            fetchPosts={fetchPosts}
+                            fetchTags={fetchTags}
+                        />
                     </div>
                 </div>
 
@@ -93,7 +98,7 @@ export default function Dashboard({ auth }) {
                             Popular
                             <hr />
                         </h3>
-                        <TopPosts tags={tags}/>
+                        <TopPosts tags={tags} />
                     </div>
                 </div>
             </div>

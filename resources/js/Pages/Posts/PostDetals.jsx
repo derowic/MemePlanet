@@ -62,7 +62,7 @@ function PostDetals({ post, tags, favs, togglePanel }) {
         divElement.className = "ml-5 mb-2 bg-[#333333] sm:rounded-lg p-4";
 
         const divElement2 = document.createElement("div");
-        divElement2.textContent = "user: " ;//+ userData.name;
+        divElement2.textContent = "user: "; //+ userData.name;
         divElement.appendChild(divElement2);
 
         const divElement4 = document.createElement("div");
@@ -107,22 +107,22 @@ function PostDetals({ post, tags, favs, togglePanel }) {
                         ></img>
                         <div className="flex">
                             {/*{userData.id != post.user.id && (*/}
-                                <div className="flex">
-                                    <Like
-                                        elementId={post.id}
-                                        elementType={"post"}
-                                        likes={post.likes} 
-                                    />
-                                    <Heart
-                                        postId={post.id}
-                                        /*
+                            <div className="flex">
+                                <Like
+                                    elementId={post.id}
+                                    elementType={"post"}
+                                    likes={post.likes}
+                                />
+                                <Heart
+                                    postId={post.id}
+                                    /*
                                         fav={
                                             favs.find(
                                                 (fav) => fav == post.id,
                                             ) !== undefined
                                         }*/
-                                    />
-                                </div>
+                                />
+                            </div>
                             {/*)}*/}
                         </div>
                     </div>

@@ -17,32 +17,32 @@ class TagSeeder extends Seeder
 
         ]);
         Tag::create([
-            'name' => 'dowcipy',
+            'name' => 'jokes',
 
         ]);
 
         Tag::create([
-            'name' => 'dyskusja',
+            'name' => 'discussion',
 
         ]);
 
         Tag::create([
-            'name' => 'ciekawostki',
+            'name' => 'trivia',
 
         ]);
 
         Tag::create([
-            'name' => 'historia',
+            'name' => 'history',
 
         ]);
 
         Tag::create([
-            'name' => 'wojsko',
+            'name' => 'army',
 
         ]);
 
         Tag::create([
-            'name' => 'informacje',
+            'name' => 'information',
 
         ]);
     }

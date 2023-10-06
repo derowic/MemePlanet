@@ -20,7 +20,12 @@ import FetchIndex from "@/Components/FetchIndex";
 import "../styles.css";
 import "../i18n";
 
-const InfiniteScrollPosts = ({ chosenCategory, posts, fetchPosts, fetchTags }) => {
+const InfiniteScrollPosts = ({
+    chosenCategory,
+    posts,
+    fetchPosts,
+    fetchTags,
+}) => {
     const { t, i18n } = useTranslation();
 
     const [favs, setFavs] = useState([]);
@@ -41,10 +46,6 @@ const InfiniteScrollPosts = ({ chosenCategory, posts, fetchPosts, fetchTags }) =
     useEffect(() => {
         setChosedCategory(chosenCategory);
     }, [chosenCategory]);
-
-
-
-
 
     const isAdmin = auth.user && auth.user.roles.includes("admin");
 
@@ -83,29 +84,15 @@ const InfiniteScrollPosts = ({ chosenCategory, posts, fetchPosts, fetchTags }) =
             >
                 {posts.map((post, index) => (
                     <div key={index}>
-                        {chosedCategory != 0 ? (
-                            <div key={post.id}>
-                                {chosedCategory == post.category.id && (
-                                    <div className="w-full flex bg-[#333333]  overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
-                                        <Post
-                                            post={post}
-                                            tags={tags}
-                                            userData={userData}
-                                            favs={favs}
-                                        />
-                                    </div>
-                                )}
-                            </div>
-                        ) : (
-                            <div key={post.id}>
-                                <div className="w-full flex bg-[#333333]  overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
-                                    <Post
-                                        post={post}
-                                        tags={tags}
-                                        userData={userData}
-                                        favs={favs}
-                                    />
-                                </div>
+                        {(chosedCategory === 0 ||
+                            chosedCategory === post.category.id) && (
+                            <div className="w-full flex bg-[#333333] overflow-hidden shadow-sm sm:rounded-lg p-4 mt-4 border-b-4 border-t-4 border-[#A7C957]">
+                                <Post
+                                    post={post}
+                                    tags={tags}
+                                    userData={userData}
+                                    favs={favs}
+                                />
                             </div>
                         )}
                     </div>

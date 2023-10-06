@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-
 function Tags({ post, tags }) {
     return (
         <div className="m-auto">

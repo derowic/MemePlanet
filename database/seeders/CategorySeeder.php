@@ -17,17 +17,17 @@ class CategorySeeder extends Seeder
 
         ]);
         Category::create([
-            'name' => 'Motoryzacja',
+            'name' => 'Automotive',
 
         ]);
 
         Category::create([
-            'name' => 'Wiedza',
+            'name' => 'Knowledge',
 
         ]);
 
         Category::create([
-            'name' => 'Świat',
+            'name' => 'World',
 
         ]);
 
@@ -37,12 +37,12 @@ class CategorySeeder extends Seeder
         ]);
 
         Category::create([
-            'name' => 'Polityka',
+            'name' => 'Policy',
 
         ]);
 
         Category::create([
-            'name' => 'Technologia',
+            'name' => 'Technology',
 
         ]);
     }

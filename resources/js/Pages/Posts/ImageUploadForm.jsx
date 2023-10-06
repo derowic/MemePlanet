@@ -25,8 +25,7 @@ const ImageUploadForm = ({ onImageUpload }) => {
             let t = await FetchIndex("tag.index", null);
             console.log(t);
             //setCategories((prevCategories) => [...prevCategories, ...t]);
-            if( t != undefined)
-            {
+            if (t != undefined) {
                 setTags((prevTags) => [...prevTags, ...t]);
             }
         } catch (error) {
