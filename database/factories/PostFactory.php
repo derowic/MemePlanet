@@ -35,7 +35,7 @@ class PostFactory extends Factory
                 ->first()->id,
             'likes' => $this->faker->numberBetween(1, 1000),
             'dislikes' => $this->faker->numberBetween(1, 1000),
-            'path_to_image' => numberBetween(1, 75).".jpg",
+            'path_to_image' => $this->faker->numberBetween(1, 75).'.jpg',
             'deleted_at' => null,
 
         ];
