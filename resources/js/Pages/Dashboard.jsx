@@ -9,14 +9,52 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import InfiniteScrollPosts from "./Posts/InfiniteScrollPosts";
 import FetchCategories from "@/Components/FetchCategories";
-import CategoryList from "./Posts/CategoryList";
+import CategoryList from "./Categories/CategoryList";
 import TopPosts from "./Posts/TopPosts";
+import FetchIndex from "@/Components/FetchIndex";
 
 export default function Dashboard({ auth }) {
     const [chosenCategory, setChosenCategory] = useState(0);
     const changeCategory = (tmp) => {
         setChosenCategory(tmp);
     };
+    const [posts, setPosts] = useState([]);
+    const [tags, setTags] = useState([]);
+
+    const fetchPosts = async () => {
+        try {
+            const response = await FetchIndex("post.index", null);
+            console.log(response);
+            //const response = await axios.post(`/posts?page=${page}`);
+            setPosts((prevPosts) => [...prevPosts, ...response]);
+            //setPage((prevPage) => prevPage + 1);
+            //setAuth({ user: response.data.user });
+            //setFavs((prevFavs) => [...prevFavs, ...response.data.fav]);
+            //userData.name = response.data.user.name;
+            //userData.id = response.data.user.id;
+        } catch (error) {
+            //Notification(error.response.data.msg);
+            console.error("InfiniteScrollPosts -> fetchPosts error: ", error);
+        }
+    };
+
+    const fetchTags = async () => {
+        try {
+            //const response = await axios.post(`/getTags`);
+            //setTags((prevTags) => [...prevTags, ...response.data.tags]);
+
+            let t = await FetchIndex("tag.index", null);
+            setTags((prevTags) => [...prevTags, ...t]);
+        } catch (error) {
+            Notification(error.response.data.msg);
+            console.error("InfiniteScrollPosts -> fetchTags error: ", error);
+        }
+    };
+
+    useEffect(() => {
+        //fetchPosts();
+        fetchTags();
+    }, []);
 
     return (
         <AuthenticatedLayout
@@ -45,7 +83,7 @@ export default function Dashboard({ auth }) {
                             Meme Planet <br /> memes and news
                             <hr />
                         </h2>
-                        <InfiniteScrollPosts chosenCategory={chosenCategory} />
+                        <InfiniteScrollPosts chosenCategory={chosenCategory}  posts={posts} fetchPosts={fetchPosts} fetchTags={fetchTags} />
                     </div>
                 </div>
 
@@ -55,7 +93,7 @@ export default function Dashboard({ auth }) {
                             Popular
                             <hr />
                         </h3>
-                        <TopPosts />
+                        <TopPosts tags={tags}/>
                     </div>
                 </div>
             </div>

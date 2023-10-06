@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Notification from "@/Components/Notification";
 import FetchCategories from "@/Components/FetchCategories";
 import axios from "axios";
+import FetchIndex from "@/Components/FetchIndex";
 
 const ImageUploadForm = ({ onImageUpload }) => {
     const [image, setImage] = useState(null);
@@ -18,8 +19,16 @@ const ImageUploadForm = ({ onImageUpload }) => {
 
     const fetchTags = async () => {
         try {
-            const response = await axios.post(`/getTags`);
-            setTags((prevTags) => [...prevTags, ...response.data.tags]);
+            //const response = await axios.post(`/getTags`);
+            //setTags((prevTags) => [...prevTags, ...response.data.tags]);
+
+            let t = await FetchIndex("tag.index", null);
+            console.log(t);
+            //setCategories((prevCategories) => [...prevCategories, ...t]);
+            if( t != undefined)
+            {
+                setTags((prevTags) => [...prevTags, ...t]);
+            }
         } catch (error) {
             Notification(error.response.data.msg);
             console.error("ImageUploadForm -> fetchTags: ", error);

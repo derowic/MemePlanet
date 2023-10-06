@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 
-import Like from "./Like";
-import Heart from "./Heart";
+import Like from "../Likes/Like";
+import Heart from "../Comments/Heart";
 
-import Tags from "./Tags";
+import Tags from "../Tags/Tags";
 import axios from "axios";
-import Comment from "./Comment";
-import CommentInput from "./CommentInput";
-import SendComment from "./SendComment";
+import Comment from "../Comments/Comment";
+import CommentInput from "../Comments/CommentInput";
+import SendComment from "../Comments/SendComment";
 import Notification from "@/Components/Notification";
 
-function PostDetals({ post, tags, userData, favs, togglePanel }) {
+function PostDetals({ post, tags, favs, togglePanel }) {
     const [comments, setComments] = useState([]);
     const [usedComments, setUsedComments] = useState([]);
 
@@ -62,7 +62,7 @@ function PostDetals({ post, tags, userData, favs, togglePanel }) {
         divElement.className = "ml-5 mb-2 bg-[#333333] sm:rounded-lg p-4";
 
         const divElement2 = document.createElement("div");
-        divElement2.textContent = "user: " + userData.name;
+        divElement2.textContent = "user: " ;//+ userData.name;
         divElement.appendChild(divElement2);
 
         const divElement4 = document.createElement("div");
@@ -106,23 +106,24 @@ function PostDetals({ post, tags, userData, favs, togglePanel }) {
                             className="w-full h-full"
                         ></img>
                         <div className="flex">
-                            {userData.id != post.user.id && (
+                            {/*{userData.id != post.user.id && (*/}
                                 <div className="flex">
                                     <Like
                                         elementId={post.id}
                                         elementType={"post"}
-                                        likes={post.likes}
+                                        likes={post.likes} 
                                     />
                                     <Heart
                                         postId={post.id}
+                                        /*
                                         fav={
                                             favs.find(
                                                 (fav) => fav == post.id,
                                             ) !== undefined
-                                        }
+                                        }*/
                                     />
                                 </div>
-                            )}
+                            {/*)}*/}
                         </div>
                     </div>
                 </div>

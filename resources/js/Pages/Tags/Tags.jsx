@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import Notification from "@/Components/Notification";
-import { FaPlus, FaMinus, FaSadCry } from "react-icons/fa";
-import Like from "./Like";
-import Heart from "./Heart";
-import CommentSection from "./CommentSection";
+
 
 function Tags({ post, tags }) {
     return (

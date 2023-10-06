@@ -21,7 +21,7 @@ class PostController extends Controller
         return PostResource::collection($posts);
     }
 
-    public function getOnePost(Request $request)
+    public function show(Request $request)
     {
         $user = auth()->user();
         $roles = $user->roles->pluck('name');
@@ -55,9 +55,9 @@ class PostController extends Controller
 
     }
 
-    public function getTopPosts()
+    public function top()
     {
-
+        /*
         $user = auth()->user();
         $roles = $user->roles->pluck('name');
 
@@ -75,9 +75,19 @@ class PostController extends Controller
                 'roles' => $roles,
             ],
         ]);
+        */
+
+
+
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+        ->orderBy('likes', 'desc')
+        ->take(5)
+        ->get();
+
+        return PostResource::collection($posts);
     }
 
-    public function uploadImage(Request $request)
+    public function upload(Request $request)
     {
         if ($request->hasFile('image') &&
             ($request->title != null) && ($request->title != '') &&

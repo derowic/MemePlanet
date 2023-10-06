@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Notification from "@/Components/Notification";
 import { FaPlus, FaMinus, FaSadCry } from "react-icons/fa";
-import Like from "./Like";
-import CommentSection from "./CommentSection";
-import Tags from "./Tags";
+import Like from "../Likes/Like";
+import CommentSection from "../Comments/CommentSection";
+import Tags from "../Tags/Tags";
 import PostDetals from "./PostDetals";
 import { Button, Drawer } from "@mui/material";
 
@@ -35,7 +35,15 @@ function Post({ show, post, tags, userData, favs }) {
                 ></img>
                 {show == true && <div></div>}
                 <div className="flex">
-                    {userData.id != post.user.id && (
+                    <div className="flex">
+                        <Like
+                            elementId={post.id}
+                            elementType={"post"}
+                            likes={post.likes}
+                        />
+                    </div>
+
+                    {/*{userData.id != post.user.id && (
                         <div className="flex">
                             <Like
                                 elementId={post.id}
@@ -43,7 +51,7 @@ function Post({ show, post, tags, userData, favs }) {
                                 likes={post.likes}
                             />
                         </div>
-                    )}
+                    )} */}
                 </div>
             </button>
             <CommentSection postId={post.id} />
@@ -56,7 +64,6 @@ function Post({ show, post, tags, userData, favs }) {
                 <PostDetals
                     post={post}
                     tags={tags}
-                    userData={userData}
                     favs={favs}
                     togglePanel={togglePanel}
                 />

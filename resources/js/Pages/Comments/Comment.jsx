@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import CommentInput2 from "./CommentInput";
-import ReactQuill from "react-quill";
-import Like from "./Like";
+import Like from "../Likes/Like";
 import SendComment from "./SendComment";
-//import AddComment from './AddComment';
 import AddComment from "./AddComment";
 import "react-quill/dist/quill.snow.css";
 import { userData } from "../GlobalData.js";
@@ -15,7 +13,6 @@ const Comment = ({
     post,
     fetchComments,
 }) => {
-    //const [comments, setComments] = useState([]);
     const post2 = post;
 
     const unHide = () => {
@@ -23,23 +20,19 @@ const Comment = ({
         element.hidden = !element.hidden;
     };
 
-    const getRepliesForComment = (comments, parent_id) => {
-        //console.log(parent_id);
-        //console.log("comment ",comment.id);
+    const getRepliesForComment = (comments) => {
         comments.forEach((element) => {
             if (element.parent_comment != undefined) {
                 if (element.parent_comment.id === comment.id) {
                     console.log("comment ", element.parent_comment.id);
                 }
-
-                //console.log("comment ",element.parent_comment.id);
             }
         });
         let com = comment.id;
         return comments.filter(
             (comment) =>
                 comment.parent_comment !== undefined &&
-                comment.parent_comment !== null && // Dodaj to sprawdzenie
+                comment.parent_comment !== null &&
                 comment.parent_comment.id === com,
         );
     };

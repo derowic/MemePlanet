@@ -7,11 +7,11 @@ import React, {
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useTranslation } from "react-i18next";
-import Like from "./Like";
-import Heart from "./Heart";
+import Like from "../Likes/Like";
+import Heart from "../Comments/Heart";
 import UploadPost from "./UploadPost";
 import Notification from "@/Components/Notification";
-import CommentSection from "./CommentSection";
+import CommentSection from "../Comments/CommentSection";
 import { userData } from "../GlobalData.js";
 import { OnePostViewData } from "../GlobalData.js";
 import Post from "./Post";
@@ -20,9 +20,9 @@ import FetchIndex from "@/Components/FetchIndex";
 import "../styles.css";
 import "../i18n";
 
-const InfiniteScrollPosts = ({ chosenCategory }) => {
+const InfiniteScrollPosts = ({ chosenCategory, posts, fetchPosts, fetchTags }) => {
     const { t, i18n } = useTranslation();
-    const [posts, setPosts] = useState([]);
+
     const [favs, setFavs] = useState([]);
     const [page, setPage] = useState(1);
     const [auth, setAuth] = useState({ user: null });
@@ -42,32 +42,9 @@ const InfiniteScrollPosts = ({ chosenCategory }) => {
         setChosedCategory(chosenCategory);
     }, [chosenCategory]);
 
-    const fetchPosts = async () => {
-        try {
-            const response = await FetchIndex("post.index", null);
-            console.log(response);
-            //const response = await axios.post(`/posts?page=${page}`);
-            setPosts((prevPosts) => [...prevPosts, ...response]);
-            setPage((prevPage) => prevPage + 1);
-            //setAuth({ user: response.data.user });
-            //setFavs((prevFavs) => [...prevFavs, ...response.data.fav]);
-            //userData.name = response.data.user.name;
-            //userData.id = response.data.user.id;
-        } catch (error) {
-            Notification(error.response.data.msg);
-            console.error("InfiniteScrollPosts -> fetchPosts error: ", error);
-        }
-    };
 
-    const fetchTags = async () => {
-        try {
-            const response = await axios.post(`/getTags`);
-            setTags((prevTags) => [...prevTags, ...response.data.tags]);
-        } catch (error) {
-            Notification(error.response.data.msg);
-            console.error("InfiniteScrollPosts -> fetchTags error: ", error);
-        }
-    };
+
+
 
     const isAdmin = auth.user && auth.user.roles.includes("admin");
 
