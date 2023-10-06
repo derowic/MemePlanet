@@ -10,13 +10,13 @@ class TagList extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'post_id',
         'tag_id',
     ];
 
-    public function user()
+    public function post()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Post::class);
     }
 
     public function tag()
