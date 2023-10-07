@@ -15,7 +15,7 @@ function Post({ show, post, tags, userData, favs }) {
     };
 
     return (
-        <div className="m-auto">
+        <div className="m-auto border-t py-2">
             <h3 className="text-left font-semibold mb-2">
                 {post.id} {post.title}
             </h3>
@@ -35,21 +35,19 @@ function Post({ show, post, tags, userData, favs }) {
                     className="w-full h-full"
                 ></img>
             </button>
-                {show == true && <div></div>}
-                <div className="flex">
-                    <div className="flex m-auto">
-                        <Like
-                            elementId={post.id}
-                            elementType={"post"}
-                            likes={post.likes}
-                        />
+            {show == true && <div></div>}
+            <div className="flex">
+                <div className="flex m-auto">
+                    <Like
+                        elementId={post.id}
+                        elementType={"post"}
+                        likes={post.likes}
+                    />
 
-                        <Fav postId={post.id}/>
-                    </div>
+                    <Fav postId={post.id} />
+                </div>
 
-
-
-                    {/*{userData.id != post.user.id && (
+                {/*{userData.id != post.user.id && (
                         <div className="flex">
                             <Like
                                 elementId={post.id}
@@ -58,7 +56,7 @@ function Post({ show, post, tags, userData, favs }) {
                             />
                         </div>
                     )} */}
-                </div>
+            </div>
 
             <CommentSection postId={post.id} />
             <Drawer

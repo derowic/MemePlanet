@@ -12,11 +12,52 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
-        $perPage = 10;
+        //add to Post Model column that infrom is this meme good for main page
+        $perPage = 15;
+        $page = $request->input('page', 1);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
             ->orderBy('created_at', 'desc')
-            ->paginate($perPage);
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get();
+
+        $hasMorePosts = $posts->count() === $perPage;
+
+        return PostResource::collection($posts);
+    }
+
+    public function fresh(Request $request)
+    {
+        $perPage = 15;
+        $page = $request->input('page', 1);
+
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+            ->orderBy('created_at', 'desc')
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get();
+
+        $hasMorePosts = $posts->count() === $perPage;
+
+        return PostResource::collection($posts);
+    }
+
+    public function trending(Request $request)
+    {
+        $perPage = 15;
+        $page = $request->input('page', 1);
+
+        $twentyFourHoursAgo = now()->subHours(24);
+
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+            ->where('created_at', '>=', $twentyFourHoursAgo)
+            ->orderBy('likes', 'desc')
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get();
+
+        $hasMorePosts = $posts->count() === $perPage;
 
         return PostResource::collection($posts);
     }
@@ -57,35 +98,14 @@ class PostController extends Controller
 
     public function top()
     {
-        /*
-        $user = auth()->user();
-        $roles = $user->roles->pluck('name');
-
-        $topPosts = Post::with(['user', 'comments', 'comments.user', 'comments.comment', 'category'])
-            ->orderBy('likes', 'desc')
-            ->take(5)
-            ->get();
-
-        return response()->json([
-            'posts' => $topPosts,
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'roles' => $roles,
-            ],
-        ]);
-        */
-
-
-
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
-        ->orderBy('likes', 'desc')
-        ->take(5)
-        ->get();
+            ->orderBy('likes', 'desc')
+            ->take(15)
+            ->get();
 
         return PostResource::collection($posts);
     }
+
     /*
     public function upload(Request $request)
     {
@@ -150,66 +170,62 @@ class PostController extends Controller
         // ...
 
         // Zwracanie odpowiedzi
-        if($request->input('image') == null)
-            {
-        return response()->json(['message' => $image->getClientOriginalName()]);
-            }else
-            {
-                return response()->json(['msg' => 'No image uploaded.'], 400);
-            }
+        if ($request->input('image') == null) {
+            return response()->json(['message' => $image->getClientOriginalName()]);
+        } else {
+            return response()->json(['msg' => 'No image uploaded.'], 400);
+        }
 
     }
 
     public function store(Request $request)
     {
 
-       /* if ($request->hasFile('image') &&
-            ($request->title != null) && ($request->title != '') &&
-            ($request->text != null) && ($request->text != '') &&
-            ($request->category != null) && ($request->category != 0) &&
-            ($request->tags != null) && ($request->tags != '')) {
+        /* if ($request->hasFile('image') &&
+             ($request->title != null) && ($request->title != '') &&
+             ($request->text != null) && ($request->text != '') &&
+             ($request->category != null) && ($request->category != 0) &&
+             ($request->tags != null) && ($request->tags != '')) {
 **/
 
-            $image = $request->file('image');
-            //$image = $request->input('image');
-            $imageName = auth()->user()->id.time().'_'.$image->getClientOriginalName();
-            $image->move(public_path('images'), $imageName);
+        $image = $request->file('image');
+        //$image = $request->input('image');
+        $imageName = auth()->user()->id.time().'_'.$image->getClientOriginalName();
+        $image->move(public_path('images'), $imageName);
 
+        //$image = $request->file('image');
+        /*
+                    if($image == null)
+                    {
+                        dd($request->input('image')->getClientOriginalName());
+                    }
+                    */
 
-            //$image = $request->file('image');
-/*
-            if($image == null)
-            {
-                dd($request->input('image')->getClientOriginalName());
-            }
-            */
+        $post = new Post();
+        $post->user_id = auth()->user()->id;
+        $post->title = $request->input('title');
+        $post->text = $request->input('text');
+        $post->likes = 0;
+        $post->category_id = $request->input('category');
+        $post->tag_list_id = 0;
+        $post->path_to_image = $imageName;
+        $post->created_at = now();
+        $post->updated_at = now();
+        $post->save();
 
+        if ($post->save()) {
+            return response()->json(['msg' => 'Success'], 201);
+        } else {
 
-            $post = new Post();
-            $post->user_id = auth()->user()->id;
-            $post->title = $request->input("title");
-            $post->text = $request->input("text");
-            $post->likes = 0;
-            $post->category_id = $request->input("category");
-            $post->tag_list_id = 0;
-            $post->path_to_image = $imageName;
-            $post->created_at = now();
-            $post->updated_at = now();
-            $post->save();
-
-            if ($post->save()) {
-                return response()->json(['msg' => 'Success'], 201);
-            } else {
-
-                return response()->json(['msg' => 'Error'], 500);
-            }
-
-            return response()->json(['msg' => 'No image uploaded.'], 400);
-
-       /* } else {
-            return response()->json(['msg' => 'error while saving post, refresh or try later'], 500);
+            return response()->json(['msg' => 'Error'], 500);
         }
-        */
+
+        return response()->json(['msg' => 'No image uploaded.'], 400);
+
+        /* } else {
+             return response()->json(['msg' => 'error while saving post, refresh or try later'], 500);
+         }
+         */
     }
 
     public function like(Request $request)

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Notification from "@/Components/Notification";
 import { FaPlus, FaMinus, FaSadCry } from "react-icons/fa";
+import Button from "../Posts/Button";
 
 function Like({ elementId, elementType, likes }) {
     if (likes == null) {
@@ -19,7 +20,6 @@ function Like({ elementId, elementType, likes }) {
     const like = async (tmp) => {
         try {
             if (elementType == "post") {
-
                 const response = await axios.post(route("post.like"), {
                     like: tmp,
                     id: elementId,
@@ -42,19 +42,21 @@ function Like({ elementId, elementType, likes }) {
 
     return (
         <div className="mt-2">
-            <button
-                className="bg-[#A7C957] mb-2 mr-2 hover:bg-[#C9EB79] text-white font-bold py-2 px-4 rounded-lg border border-[#A7C957]"
-                onClick={increment}
-            >
-                <FaPlus />
-            </button>
+            <Button
+                func={increment}
+                text={"+"}
+                customClass={
+                    "mb-2 mr-2 hover:bg-[#ffbc40] text-white font-bold py-2 px-4 rounded-lg border border-[#ffbc40]"
+                }
+            />
             <span className="count">{count}</span>
-            <button
-                className="bg-[#6A994E] mb-2 mr-2 hover:bg-[#8CBB6F] text-white font-bold py-2 px-4 rounded-lg border border-[#6A994E]"
-                onClick={decrement}
-            >
-                <FaMinus />
-            </button>
+            <Button
+                func={decrement}
+                text={"-"}
+                customClass={
+                    "mb-2 mr-2 hover:bg-[#7abcf5] text-white font-bold py-2 px-4 rounded-lg border border-[#7abcf5]"
+                }
+            />
         </div>
     );
 }

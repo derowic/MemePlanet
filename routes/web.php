@@ -57,8 +57,10 @@ Route::delete('/category/{category}', [CategoryController::class, 'delete'])->na
 
 Route::get('/post', [PostController::class, 'index'])->name('post.index');
 Route::get('/top', [PostController::class, 'top'])->name('post.top');
+Route::get('/trending', [PostController::class, 'trending'])->name('post.trending');
+Route::get('/fresh', [PostController::class, 'fresh'])->name('post.fresh');
 Route::post('/post', [PostController::class, 'store'])->name('post.store');
-Route::post('/post/like', [PostController::class, 'like'])->name('post.like');
+Route::post('/like', [PostController::class, 'like'])->name('post.like');
 Route::post('/post/fav', [PostController::class, 'favourite'])->name('post.fav');
 Route::post('/show', [PostController::class, 'show'])->name('post.show');
 //Route::post('/upload', [PostController::class, 'upload'])->name('post.upload');

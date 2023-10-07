@@ -28,7 +28,7 @@ export default function Authenticated({ user, header, children }) {
                                     </Link>
                                 </div>
 
-                                <div className=" hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <div className="text-white hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                     <NavLink
                                         href={route("dashboard")}
                                         active={route().current("dashboard")}

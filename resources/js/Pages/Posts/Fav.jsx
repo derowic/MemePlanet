@@ -1,8 +1,7 @@
 import React, { useState } from "react";
+import Button from "./Button";
 
 const Fav = ({ postId }) => {
-
-
     const addPostToFavourite = () => {
         setPostToFavourite(postId);
     };
@@ -19,9 +18,14 @@ const Fav = ({ postId }) => {
 
     return (
         <div className="ml-2 ">
-            <button onClick={addPostToFavourite} className="mt-1 bg-[#ddd] mb-2 mr-2 hover:bg-[#222] hover:text-[#ddd] text-black font-bold py-2 px-4 rounded-lg border border-[#222]">
-                +
-            </button>
+            <Button
+                func={addPostToFavourite}
+                //selected={selectedCategory === category.id}
+                text={"+"}
+                customClass={
+                    "mt-2 mb-2 mr-2 hover:bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
+                }
+            />
         </div>
     );
 };

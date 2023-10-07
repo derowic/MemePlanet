@@ -5,7 +5,7 @@ import "../styles.css";
 
 const SendComment = async (postId, text, parentId) => {
     try {
-        const response = await axios.post(route('comment.store'), {
+        const response = await axios.post(route("comment.store"), {
             post_id: postId,
             comment_id: parentId,
             text: text,

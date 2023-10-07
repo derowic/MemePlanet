@@ -27,9 +27,8 @@ export default function Account({ auth }) {
 
             let t = await FetchIndex("tag.index", null);
             setTags((prevTags) => [...prevTags, ...t]);
-            console.log('tags');
+            console.log("tags");
         } catch (error) {
-
             console.error("InfiniteScrollPosts -> fetchTags error: ", error);
         }
     };
@@ -38,7 +37,7 @@ export default function Account({ auth }) {
         try {
             let t = await FetchIndex("category.index", null);
             setCategories((prevTags) => [...prevTags, ...t]);
-            console.log('categories');
+            console.log("categories");
         } catch (error) {
             Notification(error.response.data.msg);
             console.error("InfiniteScrollPosts -> fetchTags error: ", error);
@@ -49,8 +48,6 @@ export default function Account({ auth }) {
         fetchTags();
         fetchCategories();
     }, []);
-
-
 
     return (
         <AuthenticatedLayout
@@ -73,13 +70,13 @@ export default function Account({ auth }) {
                     </div>
                 </div>
 
-                <div className="bg-[#231f20] w-1/2 mt-2">
-                    <div className="w-full p-4 text-center sm:rounded-lg">
-                        <h2 className="bg-[#333333] p-4 mb-2 rounded-lg">
-                            Meme Planet <br /> memes and news
-                            <hr />
-                        </h2>
-                        <AccountView categoryId={chosenCategory} categories={categories} tags={tags} />
+                <div className="bg-[#231f20] w-1/2 mt-4">
+                    <div className="w-full p-4 text-center ">
+                        <AccountView
+                            categoryId={chosenCategory}
+                            categories={categories}
+                            tags={tags}
+                        />
                     </div>
                 </div>
             </div>

@@ -19,23 +19,13 @@ function PostDetals({ post, tags, favs, togglePanel }) {
         fetchComments();
     }, []);
 
-
-
     const fetchComments = async () => {
         try {
-            let params = { id: post.id, };
+            let params = { id: post.id };
             let t = await FetchIndex("comment.index", params);
-            //console.log(t);
             setComments(t);
-            /*
-            const response = await axios.post("/getComments", {
-                id: post.id,
-            });
-            setComments(response.data.dane[0].comments);
-            */
         } catch (error) {
-            //Notification(error.response.data.msg);
-            console.error("CommentSection -> fetchComments error: ",error);
+            console.error("CommentSection -> fetchComments error: ", error);
         } finally {
             setUsedComments([]);
         }
@@ -112,24 +102,13 @@ function PostDetals({ post, tags, favs, togglePanel }) {
                             className="w-full h-full"
                         ></img>
                         <div className="flex">
-                            {/*{userData.id != post.user.id && (*/}
                             <div className="flex">
                                 <Like
                                     elementId={post.id}
                                     elementType={"post"}
                                     likes={post.likes}
                                 />
-                                <Heart
-                                    postId={post.id}
-                                    /*
-                                        fav={
-                                            favs.find(
-                                                (fav) => fav == post.id,
-                                            ) !== undefined
-                                        }*/
-                                />
                             </div>
-                            {/*)}*/}
                         </div>
                     </div>
                 </div>

@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
 use App\Models\Favourite;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use App\Http\Resources\PostResource;
 
 class AccountController extends Controller
 {
+    /*
     public function index(Request $request)
     {
         $user = auth()->user();
@@ -18,6 +19,25 @@ class AccountController extends Controller
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
+
+        return PostResource::collection($posts);
+    }
+    */
+
+    public function index(Request $request)
+    {
+        $perPage = 15;
+        $user = auth()->user();
+        $page = $request->input('page', 1);
+
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get();
+
+        $hasMorePosts = $posts->count() === $perPage;
 
         return PostResource::collection($posts);
     }

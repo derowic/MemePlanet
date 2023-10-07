@@ -6,6 +6,7 @@ import React, {
     useEffect,
 } from "react";
 import FetchIndex from "@/Components/FetchIndex";
+import Button from "../Posts/Button";
 
 function CategoryList({ chosenCategory, changeCategory }) {
     const [categories, setCategories] = useState([]);
@@ -35,20 +36,19 @@ function CategoryList({ chosenCategory, changeCategory }) {
     };
 
     return (
-        <div className="">
+        <div className="grid">
             {categories.map((category) => (
-                <div key={"cat" + category.id}>
-                    <button
-                        onClick={() => beforeChangeCategory(category.id)}
-                        className={`${
-                            selectedCategory === category.id
-                                ? "bg-[#FFC465] hover:bg-[#FFC465] text-white font-bold py-2 px-4 rounded-lg border border-bg-[#FFC465]"
-                                : null
-                        } m-2`}
-                    >
-                        {category.name}
-                    </button>
-                </div>
+                <Button
+                    key={category.id + " categoryList"}
+                    func={() => beforeChangeCategory(category.id)}
+                    //selected={selectedCategory === category.id}
+                    text={category.name}
+                    customClass={
+                        selectedCategory === category.id
+                            ? "m-2 px-2 text-left hover:bg-[#333] border-b border-[#ffbc40]"
+                            : "m-2 px-2 text-left hover:bg-[#333]"
+                    }
+                />
             ))}
         </div>
     );

@@ -14,12 +14,7 @@ const TopPosts = (tags) => {
     const [posts, setPosts] = useState([]);
     const fetchPosts = async () => {
         try {
-            /*
-            const response = await axios.post(`/getTopPosts`);
-            setPosts((prevPosts) => [...prevPosts, ...response.data.posts]);
-            */
             let t = await FetchIndex("post.top", null);
-            //console.log(t);
             if (t != undefined) {
                 setPosts((prevPosts) => [...prevPosts, ...t]);
             }
@@ -32,8 +27,9 @@ const TopPosts = (tags) => {
         fetchPosts();
     }, []);
 
-    return posts.map((post, index) => <Post key={post.id} post={post} tags={tags} />);
-
+    return posts.map((post, index) => (
+        <Post key={post.id} post={post} tags={tags} />
+    ));
 };
 
 export default TopPosts;

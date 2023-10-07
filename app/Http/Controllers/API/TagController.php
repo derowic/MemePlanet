@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tag;
 use App\Http\Resources\TagResource;
+use App\Models\Tag;
 
 class TagController extends Controller
 {
@@ -13,11 +13,11 @@ class TagController extends Controller
         $tags = Tag::all();
 
         return TagResource::collection($tags);
-/*
-        return response()->json([
-            'tags' => $tags,
-        ]);
-        */
+        /*
+                return response()->json([
+                    'tags' => $tags,
+                ]);
+                */
     }
 
     public function destroy($id)

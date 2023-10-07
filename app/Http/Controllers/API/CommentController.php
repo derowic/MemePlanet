@@ -44,7 +44,6 @@ class CommentController extends Controller
 
     }
 
-
     public function like(Request $request)
     {
         if ($request->has('like') && ($request->id != null) && ($request->id != 0)) {
@@ -73,26 +72,25 @@ class CommentController extends Controller
 
     public function store(Request $request)
     {
-            $com = new Comment();
-            $com->user_id = auth()->user()->id;
-            $com->post_id = $request->post_id;
-            $com->comment_id = $request->comment_id;
-            $com->text = $request->text;
-            $com->likes = 0;
-            $com->created_at = now();
-            $com->updated_at = now();
+        $com = new Comment();
+        $com->user_id = auth()->user()->id;
+        $com->post_id = $request->post_id;
+        $com->comment_id = $request->comment_id;
+        $com->text = $request->text;
+        $com->likes = 0;
+        $com->created_at = now();
+        $com->updated_at = now();
 
-            $com->save();
+        $com->save();
 
-            if ($com->save()) {
+        if ($com->save()) {
 
-                return response()->json(['msg' => 'comment saved'], 201);
-            } else {
+            return response()->json(['msg' => 'comment saved'], 201);
+        } else {
 
-                return response()->json(['msg' => 'error while saving comment, refresh or try later'], 500);
-            }
+            return response()->json(['msg' => 'error while saving comment, refresh or try later'], 500);
+        }
     }
-
 
     public function edit($id)
     {

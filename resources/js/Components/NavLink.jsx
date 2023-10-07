@@ -12,8 +12,8 @@ export default function NavLink({
             className={
                 "inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none " +
                 (active
-                    ? "border-black-800 dark:border-black-800 text-gray-900 dark:text-gray-100 focus:border-black-800 "
-                    : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 ") +
+                    ? "border-white-800 dark:border-white-800 text-white-900 dark:text-white-100 focus:border-white-800 "
+                    : "border-transparent text-white-500 dark:text-white-400 hover:text-white-700 dark:hover:text-white-300 hover:border-gray-300 dark:hover:border-gray-700 focus:text-white-700 dark:focus:text-white-300 focus:border-gray-300 dark:focus:border-gray-700 ") +
                 className
             }
         >

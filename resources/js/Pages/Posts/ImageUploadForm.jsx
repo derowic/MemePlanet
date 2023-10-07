@@ -3,41 +3,20 @@ import Notification from "@/Components/Notification";
 import FetchCategories from "@/Components/FetchCategories";
 import axios from "axios";
 import FetchIndex from "@/Components/FetchIndex";
+import Button from "./Button";
+import Input from "./Input";
+import ButtonsList from "./ButtonsList";
 
-const ImageUploadForm = ({ onImageUpload,  categories, tags }) => {
+const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
     const [image, setImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
     const [selectedTags, setSelectedTags] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [title, setTitle] = useState("");
+    const [text, setText] = useState("");
 
-    const fetchCategories = async () => {
-        var tmp = await FetchCategories();
-        setCategories((prevCategories) => [...prevCategories, ...tmp]);
-    };
-
-    const fetchTags = async () => {
-        try {
-            //const response = await axios.post(`/getTags`);
-            //setTags((prevTags) => [...prevTags, ...response.data.tags]);
-
-            let t = await FetchIndex("tag.index", null);
-            //console.log(t);
-            //setCategories((prevCategories) => [...prevCategories, ...t]);
-            if (t != undefined) {
-                setTags((prevTags) => [...prevTags, ...t]);
-            }
-        } catch (error) {
-            Notification(error.response.data.msg);
-            console.error("ImageUploadForm -> fetchTags: ", error);
-        }
-    };
-
-    useEffect(() => {
-        //fetchCategories();
-        //fetchTags();
-        //console.log("image upload form", categories);
-        //console.log("image upload form", tags);
-    }, [tags,categories]);
+    useEffect(() => {}, [tags, categories, selectedCategory, selectedTags]);
 
     const handleImageChange = (e) => {
         const selectedImage = e.target.files[0];
@@ -57,9 +36,6 @@ const ImageUploadForm = ({ onImageUpload,  categories, tags }) => {
     };
 
     const handleUploadClick = () => {
-        const title = document.getElementById("title");
-        const text = document.getElementById("text");
-
         if (
             image != null &&
             title != null &&
@@ -70,21 +46,15 @@ const ImageUploadForm = ({ onImageUpload,  categories, tags }) => {
             for (const tag of selectedTags) {
                 tmp += tag + " ";
             }
-            onImageUpload(
-                image,
-                title.value,
-                text.value,
-                selectedCategory,
-                tmp,
-            );
+            onImageUpload(image, title, text, selectedCategory, tmp);
             setPreviewImage(null);
             setImage(null);
             unHide();
             setSelectedCategory(null);
             setSelectedTags([]);
             clearImg();
-            title.value = "";
-            text.value = "";
+            setTitle("");
+            setText("");
         } else {
             Notification("Image, title and category are required");
         }
@@ -97,7 +67,6 @@ const ImageUploadForm = ({ onImageUpload,  categories, tags }) => {
             get.value = "";
             get.value = null;
             get.target = null;
-
             setPreviewImage(null);
         }
     };
@@ -105,14 +74,13 @@ const ImageUploadForm = ({ onImageUpload,  categories, tags }) => {
     const unHide = () => {
         const element = document.getElementById("post");
         element.hidden = !element.hidden;
-
-        //console.log("image upload form", categories);
-        //console.log("image upload form", tags);
+        setIsOpen(!isOpen);
     };
 
     const close = () => {
         clearImg();
         unHide();
+
     };
 
     const selectCategory = (buttonId) => {
@@ -128,91 +96,65 @@ const ImageUploadForm = ({ onImageUpload,  categories, tags }) => {
     };
 
     return (
-        <div>
-            <button
-                className="mt-2 mb-2 bg-[#EEA243] hover:bg-[#FFC465] text-white font-bold py-2 px-4 rounded-lg border border-[#EEA243]"
-                onClick={unHide}
-            >
-                Add new post
-            </button>
+        <div className=
+            {isOpen == true ?
+            " m-2 px-2 border"
+            :" m-2 px-2"}
+        >
+            <Button
+                func={unHide}
+                text={"Add new post"}
+                customClass={
+
+                    "text-2xl m-4 px-2 hover:border-b hover:border-[#ffbc40]"
+                }
+            />
             <div id={"post"} hidden>
                 <input
                     type="file"
                     id="attr2"
-                    className="mt-2 mb-2 bg-[#EEA243] hover:bg-[#FFC465] text-white font-bold py-2 px-2 rounded-lg "
+                    className="bg-black3 hover:bg-black3-h text-white font-bold py-2 px-2 border border-[#555] focus:border-[#666]  w-full"
                     onChange={handleImageChange}
                     accept="image/*"
                 />
-
-                <h1>Title</h1>
-                <input
-                    id="title"
-                    className="mt-2 mb-2 bg-[#555] hover:bg-[#666] text-white font-bold py-2 px-2 rounded-lg border border-[#555] focus:border-[#666]"
-                    type="text"
+                <Input
+                    type={"text"}
+                    title={"Title"}
+                    value={title}
+                    func={setTitle}
                 />
-
-                <h1>Text (optional)</h1>
-                <input
-                    id="text"
-                    className="mt-2 mb-2 bg-[#555] hover:bg-[#666] text-white font-bold py-2 px-2 rounded-lg border border-[#555] focus:border-[#666]"
-                    type="text"
+                <Input
+                    type={"text"}
+                    title={"Text"}
+                    value={text}
+                    func={setText}
                 />
-
-                <div className="flex flex-wrap justify-center">
+                <div className="flex flex-wrap justify-center mt-2">
                     {previewImage && (
                         <img id="attr" src={previewImage} alt="Preview" />
                     )}
                 </div>
-                <h1>Categories</h1>
+                <h1 className="text-2xl border-b border-[#bbb]">Categories</h1>
                 <div className="flex flex-wrap justify-center">
-                    {(categories != undefined &&categories.length > 0  ) &&categories.map((category) => (
-                        <button
-                            key={"category" + category.id}
-                            className={`${
-                                selectedCategory === category.id
-                                    ? "bg-blue-500 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-lg border border-blue-600"
-                                    : "bg-blue-400 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-lg border border-blue-600"
-                            } m-2`}
-                            onClick={() => selectCategory(category.id)}
-                        >
-                            {category.name}
-                        </button>
-                    ))}
+                    <ButtonsList
+                        elements={categories}
+                        func={selectCategory}
+                        selected={selectedCategory}
+                    />
                 </div>
-                <h1>Tags</h1>
+                <h1 className="text-2xl border-b border-[#bbb]">Tags</h1>
                 <div className="flex flex-wrap justify-center">
-                    {tags.map((tag) => (
-                        <button
-                            key={"tag" + tag.id}
-                            className={`${
-                                selectedTags.includes(tag.id)
-                                    ? "bg-green-500 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-lg border border-green-600"
-                                    : "bg-green-400 hover:bg-green-400 text-white font-bold py-2 px-4 rounded-lg border border-green-600"
-                            } m-2`}
-                            onClick={() => selectTag(tag.id)}
-                        >
-                            {tag.name}
-                        </button>
-                    ))}
+                    <ButtonsList
+                        elements={tags}
+                        func={selectTag}
+                        selected={selectedTags}
+                    />
                 </div>
-                <button
-                    className="bg-[#EEA243] mb-2 mr-2 hover:bg-[#FFC465] text-white font-bold py-2 px-4 rounded-lg border border-[#EEA243]"
-                    onClick={handleUploadClick}
-                >
-                    Upload
-                </button>
-                <button
-                    className="bg-[#CCCC44] mb-2 mr-2 hover:bg-[#DDDD44] text-white font-bold py-2 px-4 rounded-lg border border-[#EEA243]"
-                    onClick={clearImg}
-                >
-                    clear
-                </button>
-                <button
-                    className="bg-[#FF5555] mb-2 hover:bg-[#FF7777] text-white font-bold py-2 px-4 rounded-lg border border-[#FF5555]"
-                    onClick={close}
-                >
-                    close
-                </button>
+                <div className="text-2xl border-t border-[#bbb]">
+                    <Button func={handleUploadClick} text={"Upload"} />
+                    <Button func={clearImg} text={"Clear"} />
+                    <Button func={close} text={"Close"} />
+                </div>
             </div>
         </div>
     );
