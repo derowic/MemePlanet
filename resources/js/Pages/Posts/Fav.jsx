@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 
-const Heart = ({ postId, fav }) => {
-    const [heart, setHeart] = useState(fav);
+const Fav = ({ postId }) => {
+
 
     const addPostToFavourite = () => {
-        setHeart((prevHeart) => !prevHeart);
         setPostToFavourite(postId);
     };
 
     const setPostToFavourite = async (postId) => {
         try {
-            const response = await axios.post("/addToFavourite", {
+            const response = await axios.post(route("post.fav"), {
                 post: postId,
             });
         } catch (error) {
@@ -19,12 +18,12 @@ const Heart = ({ postId, fav }) => {
     };
 
     return (
-        <div className="ml-2">
-            <button onClick={addPostToFavourite}>
-                <img src={heart ? "heart1.png" : "heart0.png"} />
+        <div className="ml-2 ">
+            <button onClick={addPostToFavourite} className="mt-1 bg-[#ddd] mb-2 mr-2 hover:bg-[#222] hover:text-[#ddd] text-black font-bold py-2 px-4 rounded-lg border border-[#222]">
+                +
             </button>
         </div>
     );
 };
 
-export default Heart;
+export default Fav;

@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button, Drawer } from "@mui/material";
-import Comment from "./Comment";
-import CommentInput from "./CommentInput";
-import SendComment from "./SendComment";
+import Comment from "../Comments/Comment";
+import CommentInput from "../Comments/CommentInput";
+import SendComment from "../Comments/SendComment";
 import Notification from "@/Components/Notification";
 import { userData } from "../GlobalData.js";
-import InfiniteScrollPosts from "./InfiniteScrollPosts";
-import CategoryList from "./CategoryList";
+import InfiniteScrollPosts from "../Posts/InfiniteScrollPosts";
+import CategoryList from "../Categories/CategoryList";
+import FetchIndex from "@/Components/FetchIndex";
 
-function AccountView({ categoryId }) {
+function AccountView({ categoryId, categories, tags }) {
     const [isOpenPosts, setIsOpenPosts] = useState(true);
 
     const togglePanelPosts = () => {
         setIsOpenPosts(!isOpenPosts);
+    };
+
+    const [posts, setPosts] = useState([]);
+    const fetchPosts = async () => {
+        try {
+            const response = await FetchIndex("account.index", null);
+            console.log('posts');
+            setPosts((prevPosts) => [...prevPosts, ...response]);
+        } catch (error) {
+            console.error("InfiniteScrollPosts -> fetchPosts error: ", error);
+        }
     };
 
     useEffect(() => {}, []);
@@ -34,7 +46,14 @@ function AccountView({ categoryId }) {
                     <hr />
                 </h2>
 
-                <InfiniteScrollPosts chosenCategory={categoryId} />
+
+                <InfiniteScrollPosts
+                                chosenCategory={categoryId}
+                                posts={posts}
+                                fetchPosts={fetchPosts}
+                                categories={categories}
+                                tags={tags}
+                            />
             </div>
         </div>
     );

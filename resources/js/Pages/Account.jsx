@@ -6,15 +6,51 @@ import React, {
     useEffect,
 } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import InfiniteScrollPosts from "./Account/InfiniteScrollPosts";
-import CategoryList from "./Account/CategoryList";
+
+import CategoryList from "./Categories/CategoryList";
 import AccountView from "./Account/AccountView";
+import FetchIndex from "@/Components/FetchIndex";
 
 export default function Account({ auth }) {
     const [chosenCategory, setChosenCategory] = useState(0);
     const changeCategory = (tmp) => {
         setChosenCategory(tmp);
     };
+
+    const [tags, setTags] = useState([]);
+    const [categories, setCategories] = useState([]);
+
+    const fetchTags = async () => {
+        try {
+            //const response = await axios.post(`/getTags`);
+            //setTags((prevTags) => [...prevTags, ...response.data.tags]);
+
+            let t = await FetchIndex("tag.index", null);
+            setTags((prevTags) => [...prevTags, ...t]);
+            console.log('tags');
+        } catch (error) {
+
+            console.error("InfiniteScrollPosts -> fetchTags error: ", error);
+        }
+    };
+
+    const fetchCategories = async () => {
+        try {
+            let t = await FetchIndex("category.index", null);
+            setCategories((prevTags) => [...prevTags, ...t]);
+            console.log('categories');
+        } catch (error) {
+            Notification(error.response.data.msg);
+            console.error("InfiniteScrollPosts -> fetchTags error: ", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchTags();
+        fetchCategories();
+    }, []);
+
+
 
     return (
         <AuthenticatedLayout
@@ -43,7 +79,7 @@ export default function Account({ auth }) {
                             Meme Planet <br /> memes and news
                             <hr />
                         </h2>
-                        <AccountView categoryId={chosenCategory} />
+                        <AccountView categoryId={chosenCategory} categories={categories} tags={tags} />
                     </div>
                 </div>
             </div>

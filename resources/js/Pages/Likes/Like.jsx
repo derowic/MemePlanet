@@ -19,14 +19,15 @@ function Like({ elementId, elementType, likes }) {
     const like = async (tmp) => {
         try {
             if (elementType == "post") {
-                const response = await axios.post("/likePost", {
+
+                const response = await axios.post(route("post.like"), {
                     like: tmp,
                     id: elementId,
                 });
 
                 setCount(response.data.like);
             } else if (elementType == "comment") {
-                const response = await axios.post("/likeComment", {
+                const response = await axios.post(route("comment.like"), {
                     like: tmp,
                     id: elementId,
                 });
@@ -34,7 +35,7 @@ function Like({ elementId, elementType, likes }) {
                 setCount(response.data.like);
             }
         } catch (error) {
-            Notification(error.response.data.msg);
+            //Notification(error.response.data.msg);
             console.error("Like -> like error: ", error);
         }
     };

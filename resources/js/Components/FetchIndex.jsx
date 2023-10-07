@@ -9,7 +9,7 @@ const FetchIndex = async (path, params) => {
           id: userId,
         },
          */
-        console.log(response);
+        //console.log(response);
         return response.data.data;
     } catch (error) {
         console.error("error: ", error);

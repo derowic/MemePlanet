@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Like from "../Likes/Like";
-import Heart from "../Comments/Heart";
+import Heart from "./Fav";
 
 import Tags from "../Tags/Tags";
 import axios from "axios";
@@ -9,6 +9,7 @@ import Comment from "../Comments/Comment";
 import CommentInput from "../Comments/CommentInput";
 import SendComment from "../Comments/SendComment";
 import Notification from "@/Components/Notification";
+import FetchIndex from "@/Components/FetchIndex";
 
 function PostDetals({ post, tags, favs, togglePanel }) {
     const [comments, setComments] = useState([]);
@@ -18,18 +19,23 @@ function PostDetals({ post, tags, favs, togglePanel }) {
         fetchComments();
     }, []);
 
+
+
     const fetchComments = async () => {
         try {
+            let params = { id: post.id, };
+            let t = await FetchIndex("comment.index", params);
+            //console.log(t);
+            setComments(t);
+            /*
             const response = await axios.post("/getComments", {
                 id: post.id,
             });
             setComments(response.data.dane[0].comments);
+            */
         } catch (error) {
-            Notification(error.response.data.msg);
-            console.error(
-                "CommentSection -> fetchComments error: ",
-                error.response.data.msg,
-            );
+            //Notification(error.response.data.msg);
+            console.error("CommentSection -> fetchComments error: ",error);
         } finally {
             setUsedComments([]);
         }

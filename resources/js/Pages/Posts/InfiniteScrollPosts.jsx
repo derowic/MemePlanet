@@ -8,7 +8,7 @@ import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useTranslation } from "react-i18next";
 import Like from "../Likes/Like";
-import Heart from "../Comments/Heart";
+import Heart from "./Fav";
 import UploadPost from "./UploadPost";
 import Notification from "@/Components/Notification";
 import CommentSection from "../Comments/CommentSection";
@@ -24,7 +24,9 @@ const InfiniteScrollPosts = ({
     chosenCategory,
     posts,
     fetchPosts,
-    fetchTags,
+    //fetchTags,
+    categories,
+    tags,
 }) => {
     const { t, i18n } = useTranslation();
 
@@ -32,12 +34,12 @@ const InfiniteScrollPosts = ({
     const [page, setPage] = useState(1);
     const [auth, setAuth] = useState({ user: null });
     const [key, setKey] = useState(0);
-    const [tags, setTags] = useState([]);
+    //const [tags, setTags] = useState([]);
 
     const [chosedCategory, setChosedCategory] = useState(0);
 
     const handleRefresh = () => {
-        setPosts([]);
+        //setPosts([]);
         setPage(1);
         setFavs([]);
         fetchPosts();
@@ -55,14 +57,16 @@ const InfiniteScrollPosts = ({
 
     const savePostId = (tmp) => {
         OnePostViewData.postId = tmp;
-        console.log(OnePostViewData.postId);
+        //console.log(OnePostViewData.postId);
         route("OnePostView");
     };
 
     useEffect(() => {
         fetchPosts();
-        fetchTags();
-    }, []);
+        //fetchTags();
+        //console.log("infinite scrolls", categories);
+        //console.log("infinite scrolls", tags);
+    }, [categories, tags]);
 
     return (
         <div>
@@ -73,7 +77,7 @@ const InfiniteScrollPosts = ({
                 >
                     Odśwież
                 </button>
-                <UploadPost fetchPosts={handleRefresh} />
+                <UploadPost fetchPosts={handleRefresh} categories={categories} tags={tags} />
             </div>
             <InfiniteScroll
                 dataLength={posts.length}

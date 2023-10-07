@@ -44,35 +44,6 @@ class CommentController extends Controller
 
     }
 
-    public function create(Request $request)
-    {
-
-        if (($request->post != null) && ($request->post != 0) && ($request->parent_comment != '') && ($request->text != null) && ($request->text != '')) {
-
-            $com = new Comment();
-            $com->user = auth()->user()->id;
-            $com->post = $request->post;
-            $com->parent_comment = $request->parent_comment;
-            $com->text = $request->text;
-            $com->likes = 0;
-            $com->created_at = now();
-            $com->updated_at = now();
-
-            $com->save();
-
-            if ($com->save()) {
-
-                return response()->json(['msg' => 'comment saved'], 201);
-            } else {
-
-                return response()->json(['msg' => 'error while saving comment, refresh or try later'], 500);
-            }
-        } else {
-            return response()->json(
-                ['msg' => 'error while saving comment, refresh or try later'], 500);
-        }
-
-    }
 
     public function like(Request $request)
     {
@@ -100,10 +71,28 @@ class CommentController extends Controller
         }
     }
 
-    public function store()
+    public function store(Request $request)
     {
+            $com = new Comment();
+            $com->user_id = auth()->user()->id;
+            $com->post_id = $request->post_id;
+            $com->comment_id = $request->comment_id;
+            $com->text = $request->text;
+            $com->likes = 0;
+            $com->created_at = now();
+            $com->updated_at = now();
 
+            $com->save();
+
+            if ($com->save()) {
+
+                return response()->json(['msg' => 'comment saved'], 201);
+            } else {
+
+                return response()->json(['msg' => 'error while saving comment, refresh or try later'], 500);
+            }
     }
+
 
     public function edit($id)
     {

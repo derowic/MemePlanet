@@ -4,11 +4,9 @@ import FetchCategories from "@/Components/FetchCategories";
 import axios from "axios";
 import FetchIndex from "@/Components/FetchIndex";
 
-const ImageUploadForm = ({ onImageUpload }) => {
+const ImageUploadForm = ({ onImageUpload,  categories, tags }) => {
     const [image, setImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
-    const [categories, setCategories] = useState([]);
-    const [tags, setTags] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -23,7 +21,7 @@ const ImageUploadForm = ({ onImageUpload }) => {
             //setTags((prevTags) => [...prevTags, ...response.data.tags]);
 
             let t = await FetchIndex("tag.index", null);
-            console.log(t);
+            //console.log(t);
             //setCategories((prevCategories) => [...prevCategories, ...t]);
             if (t != undefined) {
                 setTags((prevTags) => [...prevTags, ...t]);
@@ -35,9 +33,11 @@ const ImageUploadForm = ({ onImageUpload }) => {
     };
 
     useEffect(() => {
-        fetchCategories();
-        fetchTags();
-    }, []);
+        //fetchCategories();
+        //fetchTags();
+        //console.log("image upload form", categories);
+        //console.log("image upload form", tags);
+    }, [tags,categories]);
 
     const handleImageChange = (e) => {
         const selectedImage = e.target.files[0];
@@ -105,6 +105,9 @@ const ImageUploadForm = ({ onImageUpload }) => {
     const unHide = () => {
         const element = document.getElementById("post");
         element.hidden = !element.hidden;
+
+        //console.log("image upload form", categories);
+        //console.log("image upload form", tags);
     };
 
     const close = () => {
@@ -162,7 +165,7 @@ const ImageUploadForm = ({ onImageUpload }) => {
                 </div>
                 <h1>Categories</h1>
                 <div className="flex flex-wrap justify-center">
-                    {categories.map((category) => (
+                    {(categories != undefined &&categories.length > 0  ) &&categories.map((category) => (
                         <button
                             key={"category" + category.id}
                             className={`${
@@ -172,7 +175,7 @@ const ImageUploadForm = ({ onImageUpload }) => {
                             } m-2`}
                             onClick={() => selectCategory(category.id)}
                         >
-                            {category.text}
+                            {category.name}
                         </button>
                     ))}
                 </div>
@@ -188,7 +191,7 @@ const ImageUploadForm = ({ onImageUpload }) => {
                             } m-2`}
                             onClick={() => selectTag(tag.id)}
                         >
-                            {tag.text}
+                            {tag.name}
                         </button>
                     ))}
                 </div>

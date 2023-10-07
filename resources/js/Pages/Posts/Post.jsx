@@ -6,6 +6,7 @@ import CommentSection from "../Comments/CommentSection";
 import Tags from "../Tags/Tags";
 import PostDetals from "./PostDetals";
 import { Button, Drawer } from "@mui/material";
+import Fav from "./Fav";
 
 function Post({ show, post, tags, userData, favs }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -33,15 +34,20 @@ function Post({ show, post, tags, userData, favs }) {
                     alt="Opis obrazka"
                     className="w-full h-full"
                 ></img>
+            </button>
                 {show == true && <div></div>}
                 <div className="flex">
-                    <div className="flex">
+                    <div className="flex m-auto">
                         <Like
                             elementId={post.id}
                             elementType={"post"}
                             likes={post.likes}
                         />
+
+                        <Fav postId={post.id}/>
                     </div>
+
+
 
                     {/*{userData.id != post.user.id && (
                         <div className="flex">
@@ -53,7 +59,7 @@ function Post({ show, post, tags, userData, favs }) {
                         </div>
                     )} */}
                 </div>
-            </button>
+
             <CommentSection postId={post.id} />
             <Drawer
                 anchor="bottom"

@@ -12,31 +12,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-/*
-Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
-Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
-Route::put('/category/{category}/update', [CategoryController::class, 'update'])->name('category.update');
-Route::delete('/category/{category}', [CategoryController::class, 'delete'])->name('category.delete');
- */
-
-//Route::get('/posts2', [PostController::class, 'index'])->name('post.index');;
-//Route::post('/posts', [PostController::class, 'index']);
-Route::post('/upload', [PostController::class, 'uploadImage']);
-Route::post('/likePost', [PostController::class, 'like']);
-Route::post('/addToFavourite', [PostController::class, 'addToFavourite']);
-Route::post('/getTopPosts', [PostController::class, 'getTopPosts']);
-Route::post('/getOnePost', [PostController::class, 'getOnePost']);
-
-Route::post('/getComments', [CommentController::class, 'getComments']);
-Route::post('/addComment', [CommentController::class, 'create']);
-Route::post('/likeComment', [CommentController::class, 'like']);
-
-Route::post('/getCategories', [CategoryController::class, 'getCategories']);
-
-//Route::post('/getTags', [TagController::class, 'getTags']);
-
-Route::post('/account_index', [AccountController::class, 'index']);
-
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -73,6 +48,8 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+Route::get('/account', [AccountController::class, 'index'])->name('account.index');
+
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
 Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
 Route::put('/category/{category}', [CategoryController::class, 'update'])->name('category.update');
@@ -81,11 +58,16 @@ Route::delete('/category/{category}', [CategoryController::class, 'delete'])->na
 Route::get('/post', [PostController::class, 'index'])->name('post.index');
 Route::get('/top', [PostController::class, 'top'])->name('post.top');
 Route::post('/post', [PostController::class, 'store'])->name('post.store');
+Route::post('/post/like', [PostController::class, 'like'])->name('post.like');
+Route::post('/post/fav', [PostController::class, 'favourite'])->name('post.fav');
+Route::post('/show', [PostController::class, 'show'])->name('post.show');
+//Route::post('/upload', [PostController::class, 'upload'])->name('post.upload');
 Route::put('/post/{post}', [PostController::class, 'update'])->name('post.update');
 Route::delete('/post/{post}', [PostController::class, 'delete'])->name('post.delete');
 
 Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
 Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
+Route::post('/comment/like', [CommentController::class, 'like'])->name('comment.like');
 Route::put('/comment/{comment}', [CommentController::class, 'update'])->name('comment.update');
 Route::delete('/comment/{comment}', [CommentController::class, 'delete'])->name('comment.delete');
 

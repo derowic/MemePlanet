@@ -33,7 +33,7 @@ class PostController extends Controller
                 ->get();
 
             $isFavourite = Favourite::where('user', $user->id)
-                ->where('post', $request->postId)
+                ->where('post_id', $request->postId)
                 ->exists();
 
             return response()->json([
@@ -86,7 +86,7 @@ class PostController extends Controller
 
         return PostResource::collection($posts);
     }
-
+    /*
     public function upload(Request $request)
     {
         if ($request->hasFile('image') &&
@@ -130,6 +130,87 @@ class PostController extends Controller
         }
 
     }
+    */
+    public function upload(Request $request)
+    {
+        // Pobieranie danych z formularza
+        $image = $request->file('image'); // Pobieramy przesłane zdjęcie
+        $title = $request->input('title');
+        $text = $request->input('text');
+        $category = $request->input('category');
+        $tags = $request->input('tags');
+
+        // Przetwarzanie zdjęcia (możesz go zapisać w odpowiednim miejscu)
+        if ($image) {
+            $imagePath = $image->store('images'); // Przykładowa ścieżka do zapisu zdjęcia
+        }
+
+        // Teraz możesz pracować z pobranymi danymi, w tym z zapisanym zdjęciem.
+
+        // ...
+
+        // Zwracanie odpowiedzi
+        if($request->input('image') == null)
+            {
+        return response()->json(['message' => $image->getClientOriginalName()]);
+            }else
+            {
+                return response()->json(['msg' => 'No image uploaded.'], 400);
+            }
+
+    }
+
+    public function store(Request $request)
+    {
+
+       /* if ($request->hasFile('image') &&
+            ($request->title != null) && ($request->title != '') &&
+            ($request->text != null) && ($request->text != '') &&
+            ($request->category != null) && ($request->category != 0) &&
+            ($request->tags != null) && ($request->tags != '')) {
+**/
+
+            $image = $request->file('image');
+            //$image = $request->input('image');
+            $imageName = auth()->user()->id.time().'_'.$image->getClientOriginalName();
+            $image->move(public_path('images'), $imageName);
+
+
+            //$image = $request->file('image');
+/*
+            if($image == null)
+            {
+                dd($request->input('image')->getClientOriginalName());
+            }
+            */
+
+
+            $post = new Post();
+            $post->user_id = auth()->user()->id;
+            $post->title = $request->input("title");
+            $post->text = $request->input("text");
+            $post->likes = 0;
+            $post->category_id = $request->input("category");
+            $post->tag_list_id = 0;
+            $post->path_to_image = $imageName;
+            $post->created_at = now();
+            $post->updated_at = now();
+            $post->save();
+
+            if ($post->save()) {
+                return response()->json(['msg' => 'Success'], 201);
+            } else {
+
+                return response()->json(['msg' => 'Error'], 500);
+            }
+
+            return response()->json(['msg' => 'No image uploaded.'], 400);
+
+       /* } else {
+            return response()->json(['msg' => 'error while saving post, refresh or try later'], 500);
+        }
+        */
+    }
 
     public function like(Request $request)
     {
@@ -159,11 +240,11 @@ class PostController extends Controller
         }
     }
 
-    public function addToFavourite(Request $request)
+    public function favourite(Request $request)
     {
         if (($request->post != null) && ($request->post != 0)) {
-            $favouriteRecord = Favourite::where('user', auth()->user()->id)
-                ->where('post', $request->post)
+            $favouriteRecord = Favourite::where('user_id', auth()->user()->id)
+                ->where('post_id', $request->post)
                 ->first();
 
             if ($favouriteRecord == true) {
@@ -174,8 +255,8 @@ class PostController extends Controller
             } else {
                 $tmp = new Favourite();
 
-                $tmp->user = auth()->user()->id;
-                $tmp->post = $request->post;
+                $tmp->user_id = auth()->user()->id;
+                $tmp->post_id = $request->post;
 
                 $tmp->created_at = now();
                 $tmp->updated_at = now();

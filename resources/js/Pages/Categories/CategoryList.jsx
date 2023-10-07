@@ -16,7 +16,7 @@ function CategoryList({ chosenCategory, changeCategory }) {
         //setCategories(prevCategories => [...prevCategories, ...tmp]);
 
         let t = await FetchIndex("category.index", null);
-        console.log(t);
+        //console.log(t);
         setCategories((prevCategories) => [...prevCategories, ...t]);
     };
 

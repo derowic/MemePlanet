@@ -6,37 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Models\Favourite;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Http\Resources\PostResource;
 
 class AccountController extends Controller
 {
     public function index(Request $request)
     {
-
         $user = auth()->user();
-        $roles = $user->roles->pluck('name');
-
-        $perPage = 5;
-
-        $posts = Post::with(['user', 'comments', 'comments.user', 'comments.reply_to', 'category'])
-            ->where('user', $user->id)
+        $perPage = 10;
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+            ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
-        $favouriteRecords = $user->favourites;
-        $favouriteRecordsWithPosts = $user->favourites->pluck('post');
-        $successAttribute = trans('validation.attributes.success');
-
-        return response()->json([
-            'posts' => $posts,
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'roles' => $roles,
-            ],
-            'fav' => $favouriteRecordsWithPosts,
-            'test' => $successAttribute,
-        ]);
+        return PostResource::collection($posts);
     }
 
     public function getOnePost(Request $request)

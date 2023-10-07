@@ -8,7 +8,6 @@ import React, {
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import InfiniteScrollPosts from "./Posts/InfiniteScrollPosts";
-import FetchCategories from "@/Components/FetchCategories";
 import CategoryList from "./Categories/CategoryList";
 import TopPosts from "./Posts/TopPosts";
 import FetchIndex from "@/Components/FetchIndex";
@@ -20,11 +19,12 @@ export default function Dashboard({ auth }) {
     };
     const [posts, setPosts] = useState([]);
     const [tags, setTags] = useState([]);
+    const [categories, setCategories] = useState([]);
 
     const fetchPosts = async () => {
         try {
             const response = await FetchIndex("post.index", null);
-            console.log(response);
+            //console.log('posts');
             //const response = await axios.post(`/posts?page=${page}`);
             setPosts((prevPosts) => [...prevPosts, ...response]);
             //setPage((prevPage) => prevPage + 1);
@@ -45,6 +45,18 @@ export default function Dashboard({ auth }) {
 
             let t = await FetchIndex("tag.index", null);
             setTags((prevTags) => [...prevTags, ...t]);
+            //console.log('tags');
+        } catch (error) {
+            Notification(error.response.data.msg);
+            console.error("InfiniteScrollPosts -> fetchTags error: ", error);
+        }
+    };
+
+    const fetchCategories = async () => {
+        try {
+            let t =  await FetchIndex("category.index", null);
+            setCategories((prevTags) => [...prevTags, ...t]);
+            //console.log('categories');
         } catch (error) {
             Notification(error.response.data.msg);
             console.error("InfiniteScrollPosts -> fetchTags error: ", error);
@@ -54,6 +66,7 @@ export default function Dashboard({ auth }) {
     useEffect(() => {
         //fetchPosts();
         fetchTags();
+        fetchCategories();
     }, []);
 
     return (
@@ -83,12 +96,15 @@ export default function Dashboard({ auth }) {
                             Meme Planet <br /> memes and news
                             <hr />
                         </h2>
-                        <InfiniteScrollPosts
-                            chosenCategory={chosenCategory}
-                            posts={posts}
-                            fetchPosts={fetchPosts}
-                            fetchTags={fetchTags}
-                        />
+                        {(tags.length > 0 && categories.length > 0) && (
+                            <InfiniteScrollPosts
+                                chosenCategory={chosenCategory}
+                                posts={posts}
+                                fetchPosts={fetchPosts}
+                                categories={categories}
+                                tags={tags}
+                            />
+                        )}
                     </div>
                 </div>
 
