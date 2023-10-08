@@ -18,6 +18,8 @@ class PostResource extends JsonResource
             'category' => $this->category,
             'tags' => $this->tags,
             'user' => $this->user,
+            'is_liked' => $this->is_liked,
+            'is_fav' => $this->is_favorite,
         ];
     }
 }

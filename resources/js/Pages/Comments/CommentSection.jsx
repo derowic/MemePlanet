@@ -22,15 +22,8 @@ function CommentSection({ postId }) {
 
     const fetchComments = async () => {
         try {
-            /*const response = await axios.post('/getComments', {
-                id: postId
-            });
-            setComments(response.data.dane[0].comments);
-            */
-
             let params = { id: postId };
             let t = await FetchIndex("comment.index", params);
-            console.log(t);
             setComments(t);
         } catch (error) {
             Notification(error.response.data.msg);
@@ -133,8 +126,10 @@ function CommentSection({ postId }) {
                                 usedComments={usedComments}
                                 comment={comment}
                                 allComments={comments}
+                                setComs={setComments}
                                 post={postId}
                                 fetchComments={updateCommentSection}
+                                prevComment={null}
                             />
                         ))}
                     </div>

@@ -16,6 +16,7 @@ const InfiniteScrollPosts = ({
     fetchPosts,
     categories,
     tags,
+    refreshPosts
 }) => {
     const { t, i18n } = useTranslation();
 
@@ -26,12 +27,14 @@ const InfiniteScrollPosts = ({
 
     const [chosedCategory, setChosedCategory] = useState(0);
 
+    /*
     const handleRefresh = () => {
         //setPosts([]);
         setPage(1);
         setFavs([]);
         fetchPosts();
     };
+    */
 
     useEffect(() => {
         setChosedCategory(chosenCategory);
@@ -51,9 +54,9 @@ const InfiniteScrollPosts = ({
         <div>
             <div className="p-4 ">
                 To hide:
-                <Button func={handleRefresh} text={"Refresh"} />
+                <Button func={refreshPosts} text={"Refresh"} />
                 <UploadPost
-                    fetchPosts={handleRefresh}
+                    fetchPosts={refreshPosts}
                     categories={categories}
                     tags={tags}
                 />

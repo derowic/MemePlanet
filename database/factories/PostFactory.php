@@ -29,7 +29,7 @@ class PostFactory extends Factory
             //'tag_list_id' => TagList::inRandomOrder()->limit(10)->pluck('id')->random(),
             'likes' => $this->faker->numberBetween(1, 1000),
             'dislikes' => $this->faker->numberBetween(1, 1000),
-            'path_to_image' => $this->faker->numberBetween(1, 75).'.jpg',
+            'path_to_image' => $this->faker->numberBetween(1,60).'.jpg',
             'deleted_at' => null,
 
         ];

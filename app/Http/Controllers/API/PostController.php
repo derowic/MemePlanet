@@ -10,9 +10,20 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    private function addLikesAndFavs($posts)
+    {
+        $favoritePosts = auth()->user()->favourites;
+
+        $posts->each(function ($post) use ($favoritePosts) {
+            $post->is_favorite = $favoritePosts->contains('post_id', $post->id);
+            $post->is_liked = $post->likes()->where('user_id', auth()->id())->exists();
+        });
+
+        return $posts;
+    }
+
     public function index(Request $request)
     {
-        //add to Post Model column that infrom is this meme good for main page
         $perPage = 15;
         $page = $request->input('page', 1);
 
@@ -22,10 +33,9 @@ class PostController extends Controller
             ->take($perPage)
             ->get();
 
-        $hasMorePosts = $posts->count() === $perPage;
-
-        return PostResource::collection($posts);
+        return PostResource::collection($this->addLikesAndFavs($posts));
     }
+
 
     public function fresh(Request $request)
     {
@@ -40,7 +50,7 @@ class PostController extends Controller
 
         $hasMorePosts = $posts->count() === $perPage;
 
-        return PostResource::collection($posts);
+        return PostResource::collection($this->addLikesAndFavs($posts));
     }
 
     public function trending(Request $request)
@@ -59,7 +69,7 @@ class PostController extends Controller
 
         $hasMorePosts = $posts->count() === $perPage;
 
-        return PostResource::collection($posts);
+        return PostResource::collection($this->addLikesAndFavs($posts));
     }
 
     public function show(Request $request)
@@ -103,7 +113,7 @@ class PostController extends Controller
             ->take(15)
             ->get();
 
-        return PostResource::collection($posts);
+        return PostResource::collection($this->addLikesAndFavs($posts));
     }
 
     /*
@@ -249,6 +259,7 @@ class PostController extends Controller
 
             return response()->json([
                 'like' => $article->likeCount,
+                'is_liked' => $article->liked(),
 
             ]);
         } else {
@@ -266,7 +277,7 @@ class PostController extends Controller
             if ($favouriteRecord == true) {
                 Favourite::find($favouriteRecord->id)->forceDelete();
 
-                return response()->json(['message' => 'Delete favourite']);
+                return response()->json(['message' => 'removed']);
 
             } else {
                 $tmp = new Favourite();
@@ -280,10 +291,7 @@ class PostController extends Controller
                 $tmp->save();
                 if ($tmp->save()) {
 
-                    return response()->json(
-                        [
-                            'id' => $request->post,
-                        ], 201);
+                    return response()->json(['message' => 'added'], 201);
                 } else {
                     return response()->json(['msg' => 'error while saving post to favourites, refresh or try later'], 500);
 

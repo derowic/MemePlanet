@@ -42,9 +42,10 @@ function Post({ show, post, tags, userData, favs }) {
                         elementId={post.id}
                         elementType={"post"}
                         likes={post.likes}
+                        is_liked={post.is_liked}
                     />
 
-                    <Fav postId={post.id} />
+                    <Fav postId={post.id} is_Fav={post.is_fav} />
                 </div>
 
                 {/*{userData.id != post.user.id && (

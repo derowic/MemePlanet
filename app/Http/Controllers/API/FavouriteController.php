@@ -10,6 +10,18 @@ use Illuminate\Http\Request;
 
 class FavouriteController extends Controller
 {
+    private function addLikesAndFavs($posts)
+    {
+        $favoritePosts = auth()->user()->favourites;
+
+        $posts->each(function ($post) use ($favoritePosts) {
+            $post->is_favorite = $favoritePosts->contains('post_id', $post->id);
+            $post->is_liked = $post->likes()->where('user_id', auth()->id())->exists();
+        });
+
+        return $posts;
+    }
+
     public function index(Request $request)
     {
         $user = auth()->user();
@@ -29,7 +41,7 @@ class FavouriteController extends Controller
 
         $hasMorePosts = $posts->count() === $perPage;
 
-        return PostResource::collection($posts);
+        return PostResource::collection($this->addLikesAndFavs($posts));
     }
 
     public function getTags()

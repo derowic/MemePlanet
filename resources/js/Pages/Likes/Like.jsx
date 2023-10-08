@@ -3,11 +3,12 @@ import Notification from "@/Components/Notification";
 import { FaPlus, FaMinus, FaSadCry } from "react-icons/fa";
 import Button from "../Posts/Button";
 
-function Like({ elementId, elementType, likes }) {
+function Like({ elementId, elementType, likes, is_liked}) {
     if (likes == null) {
         likes = 0;
     }
     const [count, setCount] = useState(likes);
+    const [isLiked, setIsLiked] = useState(is_liked);
 
     const increment = () => {
         like(true);
@@ -19,21 +20,22 @@ function Like({ elementId, elementType, likes }) {
 
     const like = async (tmp) => {
         try {
+            let rout = "";
             if (elementType == "post") {
-                const response = await axios.post(route("post.like"), {
-                    like: tmp,
-                    id: elementId,
-                });
-
-                setCount(response.data.like);
+               rout = "post.like";
             } else if (elementType == "comment") {
-                const response = await axios.post(route("comment.like"), {
-                    like: tmp,
-                    id: elementId,
-                });
-
-                setCount(response.data.like);
+                rout = "comment.like";
             }
+
+            const response = await axios.post(route(rout), {
+                like: tmp,
+                id: elementId,
+            });
+            //console.log(response);
+            setCount(response.data.like);
+            setIsLiked(response.data.is_liked);
+
+
         } catch (error) {
             //Notification(error.response.data.msg);
             console.error("Like -> like error: ", error);
@@ -46,7 +48,9 @@ function Like({ elementId, elementType, likes }) {
                 func={increment}
                 text={"+"}
                 customClass={
-                    "mb-2 mr-2 hover:bg-[#ffbc40] text-white font-bold py-2 px-4 rounded-lg border border-[#ffbc40]"
+                    isLiked ?
+                    "mb-2 mr-2 bg-[#ffbc40] text-white font-bold py-2 px-4 rounded-lg border border-[#ffbc40]"
+                    :"mb-2 mr-2 hover:bg-[#ffbc40] text-white font-bold py-2 px-4 rounded-lg border border-[#ffbc40]"
                 }
             />
             <span className="count">{count}</span>

@@ -34,12 +34,20 @@ export default function Dashboard({ auth }) {
     };
     */
 
+    const refreshPosts = async() =>
+    {
+        setPosts([]);
+        const response = await FetchIndex(rout, null);
+        setPosts((prevPosts) => [...prevPosts, ...response]);
+    }
+
     const fetchPosts = async () => {
         let params = { page: page };
         const response = await FetchIndex(rout, params);
         setPosts((prevPosts) => [...prevPosts, ...response]);
         setPage(page + 1);
         console.log("fetchPosts try load new posts "+ posts.length);
+        //console.log(response);
     };
 
 
@@ -130,6 +138,7 @@ export default function Dashboard({ auth }) {
                                     fetchPosts={fetchPosts}
                                     categories={categories}
                                     tags={tags}
+                                    refreshPosts={refreshPosts}
                                 />
                             )}
                         </div>
@@ -138,7 +147,7 @@ export default function Dashboard({ auth }) {
                     <div className="w-1/3 mt-4 ml-4">
                         <div className="w-full  p-4 text-center sm:rounded-lg">
                             <h3 className="text-center mb-2 text-3xl">
-                                Popular
+                                Hot
                             </h3>
                             <TopPosts tags={tags} />
                         </div>

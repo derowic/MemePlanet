@@ -13,7 +13,7 @@ class CommentController extends Controller
     public function index(Request $request)
     {
         $comments = Comment::with(['user:id,name', 'comment:id'])
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'asc')
             ->where('post_id', $request->id)
             ->get();
 

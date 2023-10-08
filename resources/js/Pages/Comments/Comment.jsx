@@ -10,8 +10,10 @@ const Comment = ({
     usedComments,
     comment,
     allComments,
+    setCom,
     post,
     fetchComments,
+    prevComment
 }) => {
     const post2 = post;
 
@@ -19,58 +21,6 @@ const Comment = ({
         const element = document.getElementById(comment.id);
         element.hidden = !element.hidden;
     };
-
-    const getRepliesForComment = (comments) => {
-        comments.forEach((element) => {
-            if (element.parent_comment != undefined) {
-                if (element.parent_comment.id === comment.id) {
-                    console.log("comment ", element.parent_comment.id);
-                }
-            }
-        });
-        let com = comment.id;
-        return comments.filter(
-            (comment) =>
-                comment.parent_comment !== undefined &&
-                comment.parent_comment !== null &&
-                comment.parent_comment.id === com,
-        );
-    };
-
-    const replies = getRepliesForComment(allComments, comment.id);
-
-    function checkId(id) {
-        for (var i = 0; i < usedComments.length; i++) {
-            if (usedComments[i] === id) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    if (checkId(comment.id)) {
-        {
-            replies.length > 0 && (
-                <div className="replies ml-2">
-                    {replies.map((reply) => (
-                        <Comment
-                            key={reply.id}
-                            usedComments={usedComments}
-                            comment={reply}
-                            allComments={allComments}
-                            post={post}
-                            parent_id={comment.id}
-                            fetchComments={fetchComments}
-                        />
-                    ))}
-                </div>
-            );
-        }
-
-        return null;
-    }
-
-    usedComments.push(comment.id);
 
     const handleSubmitComment = async (
         commentText,
@@ -91,7 +41,22 @@ const Comment = ({
         }
     };
 
+    const getRepliesForComment = (comments) => {
+        let com = comment.id;
+        return comments.filter(
+            (comment) =>
+                comment.parent_comment !== undefined &&
+                comment.parent_comment !== null &&
+                comment.parent_comment.id === com,
+        );
+    };
+
+    const replies = getRepliesForComment(allComments, comment.id);
+    usedComments.push(comment.id);
+
     return (
+        <div> { (comment.parent_comment == null || ((prevComment != undefined) && (comment.parent_comment.id == prevComment.id))) && (
+
         <div
             id={comment.id + "t"}
             className={
@@ -101,11 +66,15 @@ const Comment = ({
             <div className="ml-5 mb-2 bg-[#333333]  sm:rounded-lg p-4">
                 <div className="flex bg-[#333333] ">
                     <div className="w-5/6 bg-[#333333] ">
-                        <div>user: {comment.user.name}</div>
-                        {comment.reply_to && (
-                            <div> reply to: {comment.reply_to.user.name}</div>
-                        )}
-                        <p className="w-full">komentarz: {comment.text}</p>
+                           <div>
+                                <div>user: {comment.user.name}</div>
+                                {comment.reply_to && (
+                                    <div>reply to: {comment.reply_to.user.name}</div>
+                                )}
+                                <p className="w-full">komentarz: {comment.text}</p>
+                            </div>
+
+
                         <div className="">
                             <button onClick={unHide}>reply</button>
 
@@ -148,13 +117,17 @@ const Comment = ({
                             usedComments={usedComments}
                             comment={reply}
                             allComments={allComments}
+                            setCom={setCom}
                             post={post}
                             parent_id={comment.id}
                             fetchComments={fetchComments}
+                            prevComment={comment}
                         />
                     ))}
                 </div>
             )}
+        </div>
+        )}
         </div>
     );
 };

@@ -1,18 +1,33 @@
 import React, { useState } from "react";
 import Button from "./Button";
 
-const Fav = ({ postId }) => {
+const Fav = ({ postId, is_Fav }) => {
     const addPostToFavourite = () => {
         setPostToFavourite(postId);
     };
+
+    const [isFav, setIsFav] = useState(is_Fav);
 
     const setPostToFavourite = async (postId) => {
         try {
             const response = await axios.post(route("post.fav"), {
                 post: postId,
             });
+
+            if(response.data.message == "added")
+            {
+                setIsFav(true);
+            }
+            else if(response.data.message == "removed")
+            {
+                setIsFav(false);
+            }
+            else
+            {
+                console.error("Fav.jsx -> setPostToFavourite error");
+            }
         } catch (error) {
-            console.error("Heart -> setPostToFavourite error: ", error);
+            console.error("Fav.jsx -> setPostToFavourite error: ", error);
         }
     };
 
@@ -22,8 +37,9 @@ const Fav = ({ postId }) => {
                 func={addPostToFavourite}
                 //selected={selectedCategory === category.id}
                 text={"+"}
-                customClass={
-                    "mt-2 mb-2 mr-2 hover:bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
+                customClass={ isFav == true ?
+                    "mt-2 mb-2 mr-2 bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
+                    :"mt-2 mb-2 mr-2 hover:bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
                 }
             />
         </div>
