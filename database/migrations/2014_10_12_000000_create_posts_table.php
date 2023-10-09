@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('likes')->nullable();
             $table->integer('dislikes')->nullable();
             $table->string('path_to_image')->nullable();
+            $table->string('main_page')->nullable();
             $table->softDeletes();
             $table->timestamps();
 

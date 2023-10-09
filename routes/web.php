@@ -7,6 +7,7 @@ use App\Http\Controllers\API\FavouriteController;
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\TagController;
 use App\Http\Controllers\API\TagListController;
+use App\Http\Controllers\API\NotificationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -54,6 +55,11 @@ Route::get('/category', [CategoryController::class, 'index'])->name('category.in
 Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
 Route::put('/category/{category}', [CategoryController::class, 'update'])->name('category.update');
 Route::delete('/category/{category}', [CategoryController::class, 'delete'])->name('category.delete');
+
+Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
+Route::post('/notification', [NotificationController::class, 'store'])->name('notification.store');
+Route::put('/notification/{notification}', [NotificationController::class, 'update'])->name('notification.update');
+Route::delete('/notification/{notification}', [NotificationController::class, 'delete'])->name('notification.delete');
 
 Route::get('/post', [PostController::class, 'index'])->name('post.index');
 Route::get('/top', [PostController::class, 'top'])->name('post.top');

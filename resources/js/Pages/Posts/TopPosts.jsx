@@ -5,7 +5,7 @@ import React, {
     useImperativeHandle,
 } from "react";
 import axios from "axios";
-import Notification from "@/Components/Notification";
+import Notification from "@/Components/Notify";
 import "../i18n";
 import FetchIndex from "@/Components/FetchIndex";
 import Post from "./Post";
@@ -28,7 +28,7 @@ const TopPosts = (tags) => {
     }, []);
 
     return posts.map((post, index) => (
-        <Post key={post.id} post={post} tags={tags} />
+        <Post key={post.id} post={post} tags={tags}  />
     ));
 };
 

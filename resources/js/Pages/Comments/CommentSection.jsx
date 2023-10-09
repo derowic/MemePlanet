@@ -4,9 +4,10 @@ import { Button, Drawer } from "@mui/material";
 import Comment from "./Comment";
 import CommentInput from "./CommentInput";
 import SendComment from "./SendComment";
-import Notification from "@/Components/Notification";
+import Notify from "@/Components/Notify";
 import { userData } from "../GlobalData.js";
 import FetchIndex from "@/Components/FetchIndex";
+
 
 function CommentSection({ postId }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -62,6 +63,10 @@ function CommentSection({ postId }) {
             await SendComment(postId, commentText, parentCommentId);
             addComment(commentText);
         }
+        else
+        {
+            Notify("Comment filed is empty, write something");
+        }
     };
 
     const addComment = (commentText) => {
@@ -106,6 +111,7 @@ function CommentSection({ postId }) {
                     </div>
 
                     <CommentInput
+
                         onSubmit={(commentText) =>
                             handleSubmitComment(
                                 commentText,

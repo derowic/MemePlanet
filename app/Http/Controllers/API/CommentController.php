@@ -14,7 +14,7 @@ class CommentController extends Controller
     {
         $comments = Comment::with(['user:id,name', 'comment:id'])
             ->orderBy('created_at', 'asc')
-            ->where('post_id', $request->id)
+            ->where('post_id', $request->input('id'))
             ->get();
 
         return CommentResource::collection($comments);
@@ -85,7 +85,7 @@ class CommentController extends Controller
 
         if ($com->save()) {
 
-            return response()->json(['msg' => 'comment saved'], 201);
+            return response()->json(['msg' => 'comment added'], 201);
         } else {
 
             return response()->json(['msg' => 'error while saving comment, refresh or try later'], 500);

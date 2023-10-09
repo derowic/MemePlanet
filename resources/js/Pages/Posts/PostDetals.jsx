@@ -8,10 +8,10 @@ import axios from "axios";
 import Comment from "../Comments/Comment";
 import CommentInput from "../Comments/CommentInput";
 import SendComment from "../Comments/SendComment";
-import Notification from "@/Components/Notification";
+import Notify from "@/Components/Notify";
 import FetchIndex from "@/Components/FetchIndex";
 
-function PostDetals({ post, tags, favs, togglePanel }) {
+function PostDetals({ post, tags,togglePanel }) {
     const [comments, setComments] = useState([]);
     const [usedComments, setUsedComments] = useState([]);
 
@@ -46,6 +46,10 @@ function PostDetals({ post, tags, favs, togglePanel }) {
         if (commentText != "") {
             await SendComment(postId, commentText, parentCommentId);
             addComment(commentText);
+        }
+        else
+        {
+            Notify("Comment filed is empty, write something");
         }
     };
 

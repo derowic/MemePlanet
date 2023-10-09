@@ -22,6 +22,7 @@ class Post extends Model
         'likes',
         'path_to_image',
         'description',
+        'main_page',
     ];
 
     protected $appends = ['is_favorite', 'is_liked'];

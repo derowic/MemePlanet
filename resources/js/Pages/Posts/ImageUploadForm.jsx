@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Notification from "@/Components/Notification";
+import Notification from "@/Components/Notify";
 import FetchCategories from "@/Components/FetchCategories";
 import axios from "axios";
 import FetchIndex from "@/Components/FetchIndex";

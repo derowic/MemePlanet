@@ -28,6 +28,7 @@ class PostController extends Controller
         $page = $request->input('page', 1);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+            ->where('main_page', 1)
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
@@ -224,7 +225,7 @@ class PostController extends Controller
         $post->save();
 
         if ($post->save()) {
-            return response()->json(['msg' => 'Success'], 201);
+            return response()->json(['msg' => 'Post added'], 201);
         } else {
 
             return response()->json(['msg' => 'Error'], 500);

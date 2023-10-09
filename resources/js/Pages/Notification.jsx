@@ -1,5 +1,5 @@
 import React from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Notification() {
@@ -17,7 +17,7 @@ function Notification() {
     return (
         <div>
             <button onClick={notify}>Show Notification</button>
-            <ToastContainer />
+
         </div>
     );
 }

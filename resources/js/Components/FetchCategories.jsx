@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Notification from "./Notification";
+import Notification from "./Notify";
 import axios from "axios";
 
 const FetchCategories = async () => {

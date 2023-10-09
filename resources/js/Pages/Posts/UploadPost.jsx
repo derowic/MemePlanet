@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import ImageUploadForm from "./ImageUploadForm";
-import Notification from "@/Components/Notification";
+import Notify from "@/Components/Notify";
 import axios from "axios";
+
 
 const UploadPost = ({ fetchPosts, categories, tags }) => {
     const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
@@ -37,8 +38,10 @@ const UploadPost = ({ fetchPosts, categories, tags }) => {
                 fetchPosts();
 
                 console.log(response);
+                Notify(response.data.msg);
             } catch (error) {
                 console.error("UploadPost error: ", error);
+                Notify(error);
             }
         } else {
             //Notification("Image, title and category are required");

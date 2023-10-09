@@ -5,6 +5,7 @@ import SendComment from "./SendComment";
 import AddComment from "./AddComment";
 import "react-quill/dist/quill.snow.css";
 import { userData } from "../GlobalData.js";
+import Notify from "@/Components/Notify";
 
 const Comment = ({
     usedComments,
@@ -38,6 +39,11 @@ const Comment = ({
                 userData.name,
             );
             unHide();
+
+        }
+        else
+        {
+            Notify("Comment filed is empty, write something");
         }
     };
 
@@ -79,6 +85,7 @@ const Comment = ({
                             <button onClick={unHide}>reply</button>
 
                             <div id={comment.id} hidden>
+
                                 <CommentInput2
                                     onSubmit={(commentText, post) =>
                                         handleSubmitComment(

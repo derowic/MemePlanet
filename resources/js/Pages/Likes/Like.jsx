@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Notification from "@/Components/Notification";
+import Notification from "@/Components/Notify";
 import { FaPlus, FaMinus, FaSadCry } from "react-icons/fa";
 import Button from "../Posts/Button";
 

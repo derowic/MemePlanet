@@ -12,6 +12,7 @@ import CategoryList from "./Categories/CategoryList";
 import TopPosts from "./Posts/TopPosts";
 import FetchIndex from "@/Components/FetchIndex";
 import PostsTypeSelect from "./Posts/PostsTypeSelect";
+import { ToastContainer } from "react-toastify";
 
 export default function Dashboard({ auth }) {
 
@@ -97,6 +98,7 @@ export default function Dashboard({ auth }) {
                 <h2 className=" text-xl text-gray-800 dark:text-gray-200 leading-tight"></h2>
             }
         >
+            <ToastContainer />
             <div className="font-bold bg-[#231f20] ">
                 <div className="flex text-gray-100">
                     <div className=" w-1/3 mt-6">
@@ -109,6 +111,7 @@ export default function Dashboard({ auth }) {
                                 chosenCategory={chosenCategory}
                                 changeCategory={changeCategory}
                             />
+
                         </div>
                     </div>
 
