@@ -1,48 +1,20 @@
 
 import React, { useEffect, useState } from "react";
-import Button from "./Button";
+import FetchIndex from "@/Components/FetchIndex";
 
-const Notifications = ({ userId }) => {
+const Notifications = () => {
 
     const [notifications, setNotifications] = useState([]);
 
     const fetchNotification = async () => {
+        console.log("fetch");
         try {
-            let params = { id: userId};
-            let t = await FetchIndex("notification.index", params);
-            //setComments(t);
-            setNotifications(t);
+            const response = await axios.get(route('notification.index'), { });
+            console.log(response.data.msg);
+            //setPosts((prevPosts) => [...prevPosts, ...response]);
         } catch (error) {
-            Notification(error.response.data.msg);
-            console.error(
-                "CommentSection -> fetchComments error: ",
-                error.response.data.msg,
-            );
-        } finally {
-            setUsedComments([]);
-        }
-    };
-
-    const setPostToFavourite = async (postId) => {
-        try {
-            const response = await axios.post(route("post.fav"), {
-                post: postId,
-            });
-
-            if(response.data.message == "added")
-            {
-                setIsFav(true);
-            }
-            else if(response.data.message == "removed")
-            {
-                setIsFav(false);
-            }
-            else
-            {
-                console.error("Fav.jsx -> setPostToFavourite error");
-            }
-        } catch (error) {
-            console.error("Fav.jsx -> setPostToFavourite error: ", error);
+            //Notification(error.response.data.msg);
+            console.error("CommentSection -> fetchComments error: ",error);
         }
     };
 
@@ -52,18 +24,12 @@ const Notifications = ({ userId }) => {
         setShowNotifications(!showNotifications);
     };
 
+    useEffect(() => {
+        fetchNotification();
+    }, []);
+
     return (
         <div className="ml-2 ">
-            <Button
-                func={addPostToFavourite}
-                //selected={selectedCategory === category.id}
-                text={"+"}
-                customClass={ isFav == true ?
-                    "mt-2 mb-2 mr-2 bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
-                    :"mt-2 mb-2 mr-2 hover:bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
-                }
-            />
-
             <div className="relative">
                 <button onClick={toggleNotifications} className="text-2xl">
                     🔔
@@ -81,7 +47,7 @@ const Notifications = ({ userId }) => {
                     </div>
                     </div>
                 )}
-                </div>
+            </div>
         </div>
     );
 };

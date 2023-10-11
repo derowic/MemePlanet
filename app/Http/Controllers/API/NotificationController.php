@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-///use App\Http\Resources\NotificationResource;
+use App\Http\Resources\NotificationResource;
 use App\Models\Notification;
 use App\Models\Post;
 use App\Models\Comment;
@@ -14,8 +14,17 @@ class NotificationController extends Controller
 {
     public function index(Request $request)
     {
-        $notifications = Notification::where('user_id',$request->input('id'));
-        //return NotificationResource::collection($notifications);
+        //$notifications = Notification::where();
+        /*$notifications = Notification::with(['sender:id,name'])
+            ->where('receiver_id',$request->input('id'))
+            ->orderBy('created_at', 'asc')
+            ->get();
+            */
+        $notifications = Notification::where('receiver_id',auth()->user()->id)->get();
+        //$notifications = Notification::all();
+        return response()->json(
+            ['msg' => $notifications], 201);
+        return NotificationResource::collection($notifications);
     }
 
     public function store(Request $request)

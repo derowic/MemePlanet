@@ -4,10 +4,13 @@ import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
+import Notifications from "../Pages/Notifications/Notifications";
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+
+
 
     return (
         <div className="bg-[#231f20] h-screen">
@@ -27,6 +30,8 @@ export default function Authenticated({ user, header, children }) {
                                         ></img>
                                     </Link>
                                 </div>
+
+                                <Notifications />
 
                                 <div className="text-white hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                     <NavLink
