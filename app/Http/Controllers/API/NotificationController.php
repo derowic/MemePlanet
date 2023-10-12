@@ -20,7 +20,9 @@ class NotificationController extends Controller
             ->orderBy('created_at', 'asc')
             ->get();
             */
-        $notifications = Notification::where('receiver_id',auth()->user()->id)->get();
+        $notifications = Notification::with(['sender:id,name'])
+            ->where('receiver_id',auth()->user()->id)
+            ->get();
         //$notifications = Notification::all();
         return response()->json(
             ['msg' => $notifications], 201);

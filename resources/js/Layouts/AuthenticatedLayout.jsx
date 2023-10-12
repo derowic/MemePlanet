@@ -31,7 +31,7 @@ export default function Authenticated({ user, header, children }) {
                                     </Link>
                                 </div>
 
-                                <Notifications />
+                               
 
                                 <div className="text-white hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                     <NavLink
@@ -60,6 +60,7 @@ export default function Authenticated({ user, header, children }) {
                             </div>
 
                             <div className="hidden sm:flex sm:items-center sm:ml-6">
+                            <Notifications />
                                 <div className="ml-3 relative">
                                     <Dropdown>
                                         <Dropdown.Trigger>
@@ -105,6 +106,7 @@ export default function Authenticated({ user, header, children }) {
                             </div>
 
                             <div className="-mr-2 flex items-center sm:hidden">
+                                
                                 <button
                                     onClick={() =>
                                         setShowingNavigationDropdown(
@@ -148,12 +150,15 @@ export default function Authenticated({ user, header, children }) {
                     </div>
                 </div>
 
+               
                 <div
+                
                     className={
                         (showingNavigationDropdown ? "block" : "hidden") +
                         " sm:hidden"
                     }
                 >
+                    
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
                             href={route("dashboard")}
@@ -164,6 +169,7 @@ export default function Authenticated({ user, header, children }) {
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+                        
                         <div className="px-4">
                             <div className="font-medium text-base text-gray-800 dark:text-gray-200">
                                 {user.name}
@@ -179,7 +185,7 @@ export default function Authenticated({ user, header, children }) {
                                 href={route("logout")}
                                 as="button"
                             >
-                                Log Out
+                                Log Outm
                             </ResponsiveNavLink>
                         </div>
                     </div>

@@ -1,6 +1,9 @@
 
 import React, { useEffect, useState } from "react";
 import FetchIndex from "@/Components/FetchIndex";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+
 
 const Notifications = () => {
 
@@ -30,10 +33,12 @@ const Notifications = () => {
 
     return (
         <div className="ml-2 ">
+            <button onClick={toggleNotifications} className="text-2xl" >
+                    <img src="/bell2.png" alt="Twoja Ikona"  className="w-5 mt-1 "/>
+            </button>
+
             <div className="relative">
-                <button onClick={toggleNotifications} className="text-2xl">
-                    🔔
-                </button>
+              
 
                 {showNotifications && (
                     <div className="absolute top-0 right-0 mt-10 w-64 bg-white border border-gray-300 shadow-lg rounded-lg">
