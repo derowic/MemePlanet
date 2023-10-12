@@ -5,16 +5,18 @@ import Tags from "../Tags/Tags";
 import PostDetals from "./PostDetals";
 import { Button, Drawer } from "@mui/material";
 import Fav from "./Fav";
+import Img from "./Img";
 
 function Post({ show, post, tags, userData, favs }) {
     const [isOpen, setIsOpen] = useState(false);
+    const [showFull, setShowFull] = useState(false);
     const togglePanel = () => {
         setIsOpen(!isOpen);
     };
 
     return (
-        <div className="m-auto border-t py-2">
-            <h3 className="text-left font-semibold mb-2">
+        <div className="m-auto border-t py-2 w-full">
+            <h3 className="text-left font-semibold mb-2 w-full">
                 {post.id} {post.title}
             </h3>
             <div className="text-left text-xs mb-2">{post.user.name}</div>
@@ -23,16 +25,8 @@ function Post({ show, post, tags, userData, favs }) {
             <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
                 {post.text}
             </div>
-            <button
-                className="w-full items-center justify-end mt-2"
-                onClick={togglePanel}
-            >
-                <img
-                    src={"/images/" + post.path_to_image}
-                    alt="Opis obrazka"
-                    className="w-[100vw] "
-                ></img>
-            </button>
+            <Img path={post.path_to_image} togglePanel={togglePanel}/>
+
             {show == true && <div></div>}
             <div className="flex">
                 <div className="flex m-auto">
