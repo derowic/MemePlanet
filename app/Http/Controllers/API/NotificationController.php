@@ -7,7 +7,10 @@ use App\Http\Resources\NotificationResource;
 use App\Models\Notification;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 
 class NotificationController extends Controller
@@ -95,6 +98,37 @@ class NotificationController extends Controller
             return response()->json(['msg' => 'error while saving comment, refresh or try later'], 500);
         }
     }
+
+    public function show(Notification $notification): Response
+    {
+        $post = null;
+
+        if ($notification->type == "comment-comment") {
+            $postID = Comment::find($notification->element_id)->post->id;
+
+            $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+                ->where('id', $postID)
+                ->get();
+        } elseif ($notification->type == "post-comment") {
+            $postID = Comment::find($notification->element_id)->post->id;
+
+            $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+                ->where('id', $notification->element_id)
+                ->get();
+        }
+
+        if ($posts->count() > 0) {
+            return Inertia::render('OnePostShow', [
+                'post' => $posts[0], // Przyjmujemy, że tylko jeden post zostanie znaleziony
+                'tags' => Tag::all(),
+            ]);
+        } else {
+            // Obsłuż przypadek, gdy nie znaleziono posta
+            // Możesz tu zwrócić odpowiednią odpowiedź Inertia
+            // lub obsłużyć to w dowolny inny sposób
+        }
+    }
+
 
     public function destroy($id)
     {

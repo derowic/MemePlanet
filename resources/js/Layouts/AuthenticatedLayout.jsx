@@ -5,8 +5,11 @@ import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
 import NotificationBell from "../Pages/Notifications/NotificationBell";
+import { usePage } from "@inertiajs/react";
+import ChangeLog from "./ChangeLog";
 
-export default function Authenticated({ user, header, children }) {
+export default function Authenticated({  header, children}) {
+    const user = usePage().props.auth.user;
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
@@ -192,6 +195,8 @@ export default function Authenticated({ user, header, children }) {
             )}
 
             <main>{children}</main>
+
+            {<ChangeLog  />}
         </div>
     );
 }

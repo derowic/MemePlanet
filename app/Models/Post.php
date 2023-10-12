@@ -38,8 +38,23 @@ class Post extends Model
             ->where('post_id', $this->id)
             ->first();
 
-        $this->attributes['is_favorite'] = $favorite !== null;
+        return $this->attributes['is_favorite'] = $favorite !== null;
     }
+
+    public function getIsLikedAttribute()
+    {
+        return $this->liked();
+    }
+
+    public function getIsFavoriteAttribute()
+    {
+        $favorite = Favourite::where('user_id', auth()->user()->id)
+            ->where('post_id', $this->id)
+            ->first();
+
+        return $favorite !== null;
+    }
+
 
     public function user()
     {

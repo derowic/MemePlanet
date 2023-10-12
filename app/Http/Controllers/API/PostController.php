@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Models\Favourite;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class PostController extends Controller
 {
@@ -115,6 +118,32 @@ class PostController extends Controller
             ->get();
 
         return PostResource::collection($this->addLikesAndFavs($posts));
+    }
+
+    public function onePost(Post $post): Response
+    {
+
+
+        /*return Inertia::render('OnePostShow', [
+            'post' => Post::find($post->id),
+            'tags' => Tag::all(),
+            'is_liked' => $post->liked(), // Dodaj atrybut is_liked
+            'is_favorite' => Favourite::where('user_id', auth()->user()->id)
+                ->where('post_id', $post->id)
+                ->exists(), // Dodaj atrybut is_favorite
+        ]);
+        */
+        //$post = Post::find($post->id);
+        return Inertia::render('OnePostShow', [
+            'post' => $post->load('user','category'),
+            'tags' => Tag::all(),
+            //'is_liked' => $post->liked(), // Dodaj atrybut is_liked
+            /*'is_favorite' => Favourite::where('user_id', auth()->user()->id)
+                ->where('post_id', $post->id)
+                ->exists(), // Dodaj atrybut is_favorite*/
+        ]);
+
+
     }
 
     /*

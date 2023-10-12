@@ -10,13 +10,11 @@ const NotificationsList = (notifications) => {
         <>
             <div className="max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar scrollbar-thumb-gray-100">
                 {notifications.notifications.map((notification, index) => (
-
                     <Notification
                         key={index}
                         notification={notification}
                         index={index}
                     />
-
                 ))}
              </div>
         </>

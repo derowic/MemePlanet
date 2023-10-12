@@ -13,6 +13,7 @@ import TopPosts from "./Posts/TopPosts";
 import FetchIndex from "@/Components/FetchIndex";
 import PostsTypeSelect from "./Posts/PostsTypeSelect";
 import { ToastContainer } from "react-toastify";
+import { router } from "@inertiajs/react";
 
 export default function Dashboard({ auth }) {
     const [chosenCategory, setChosenCategory] = useState(0);
@@ -105,6 +106,9 @@ export default function Dashboard({ auth }) {
                                 chosenCategory={chosenCategory}
                                 changeCategory={changeCategory}
                             />
+                            <button onClick={() => router.visit(route("post.onePost", { post: 1 }))}>
+                                TEST
+                            </button>
                         </div>
                     </div>
 

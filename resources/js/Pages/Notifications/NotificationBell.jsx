@@ -14,7 +14,7 @@ const NotificationBell = () => {
             //setNotifications((prevNotifications) => [...prevNotifications, ...response.data.notifications]);
             //console.log(notifications);
             const newNotifications = response.data.notifications;
-            console.log(newNotifications);
+            //console.log(newNotifications);
             // Aktualizujemy `notifications` za pomocą nowych danych
             setNotifications((prevNotifications) => [
                 ...prevNotifications,

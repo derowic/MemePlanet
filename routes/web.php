@@ -58,6 +58,7 @@ Route::delete('/category/{category}', [CategoryController::class, 'delete'])->na
 
 Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
 Route::post('/notification', [NotificationController::class, 'store'])->name('notification.store');
+Route::get('/notification/{notification}', [NotificationController::class, 'show'])->name('notification.show');
 Route::put('/notification/{notification}', [NotificationController::class, 'update'])->name('notification.update');
 Route::delete('/notification/{notification}', [NotificationController::class, 'delete'])->name('notification.delete');
 
@@ -72,6 +73,8 @@ Route::post('/show', [PostController::class, 'show'])->name('post.show');
 //Route::post('/upload', [PostController::class, 'upload'])->name('post.upload');
 Route::put('/post/{post}', [PostController::class, 'update'])->name('post.update');
 Route::delete('/post/{post}', [PostController::class, 'delete'])->name('post.delete');
+
+Route::get('/onePost/{post}', [PostController::class, 'onePost'])->name('post.onePost');
 
 Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
 Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');

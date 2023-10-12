@@ -24,13 +24,13 @@ function Post({ show, post, tags, userData, favs }) {
                 {post.text}
             </div>
             <button
-                className="w-full h-full items-center justify-end mt-2"
+                className="w-full items-center justify-end mt-2"
                 onClick={togglePanel}
             >
                 <img
                     src={"/images/" + post.path_to_image}
                     alt="Opis obrazka"
-                    className="w-[100vw] h-full"
+                    className="w-[100vw] "
                 ></img>
             </button>
             {show == true && <div></div>}
