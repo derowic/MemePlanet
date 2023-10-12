@@ -14,16 +14,11 @@ const Fav = ({ postId, is_Fav }) => {
                 post: postId,
             });
 
-            if(response.data.message == "added")
-            {
+            if (response.data.message == "added") {
                 setIsFav(true);
-            }
-            else if(response.data.message == "removed")
-            {
+            } else if (response.data.message == "removed") {
                 setIsFav(false);
-            }
-            else
-            {
+            } else {
                 console.error("Fav.jsx -> setPostToFavourite error");
             }
         } catch (error) {
@@ -37,9 +32,10 @@ const Fav = ({ postId, is_Fav }) => {
                 func={addPostToFavourite}
                 //selected={selectedCategory === category.id}
                 text={"+"}
-                customClass={ isFav == true ?
-                    "mt-2 mb-2 mr-2 bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
-                    :"mt-2 mb-2 mr-2 hover:bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
+                customClass={
+                    isFav == true
+                        ? "mt-2 mb-2 mr-2 bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
+                        : "mt-2 mb-2 mr-2 hover:bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
                 }
             />
         </div>

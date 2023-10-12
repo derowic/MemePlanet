@@ -8,7 +8,13 @@ import React, {
 import Button from "./Button";
 import FetchIndex from "@/Components/FetchIndex";
 
-function PostsTypeSelect({ selected, setSelected, elements, setPosts, setRout, /*loadNewPost*/ }) {
+function PostsTypeSelect({
+    selected,
+    setSelected,
+    elements,
+    setPosts,
+    setRout /*loadNewPost*/,
+}) {
     const handleSelectedPostsType = (type) => {
         setSelected(type[0]);
         setPosts([]);
@@ -33,7 +39,6 @@ function PostsTypeSelect({ selected, setSelected, elements, setPosts, setRout, /
         const response = await FetchIndex(rout, null);
         setPosts((prevPosts) => [...prevPosts, ...response]);
     };
-
 
     useEffect(() => {}, [selected]);
     return (

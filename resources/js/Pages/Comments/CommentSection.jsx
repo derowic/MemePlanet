@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button, Drawer } from "@mui/material";
+import { Drawer } from "@mui/material";
 import Comment from "./Comment";
 import CommentInput from "./CommentInput";
 import SendComment from "./SendComment";
 import Notify from "@/Components/Notify";
 import { userData } from "../GlobalData.js";
 import FetchIndex from "@/Components/FetchIndex";
-
 
 function CommentSection({ postId }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -62,9 +61,7 @@ function CommentSection({ postId }) {
         if (commentText != "") {
             await SendComment(postId, commentText, parentCommentId);
             addComment(commentText);
-        }
-        else
-        {
+        } else {
             Notify("Comment filed is empty, write something");
         }
     };
@@ -92,9 +89,9 @@ function CommentSection({ postId }) {
 
     return (
         <div>
-            <Button onClick={togglePanel}>
+            <button onClick={togglePanel}>
                 <div className="text-white">Comment Section</div>
-            </Button>
+            </button>
 
             <Drawer
                 anchor="bottom"
@@ -111,7 +108,6 @@ function CommentSection({ postId }) {
                     </div>
 
                     <CommentInput
-
                         onSubmit={(commentText) =>
                             handleSubmitComment(
                                 commentText,

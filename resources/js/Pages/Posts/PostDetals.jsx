@@ -11,7 +11,7 @@ import SendComment from "../Comments/SendComment";
 import Notify from "@/Components/Notify";
 import FetchIndex from "@/Components/FetchIndex";
 
-function PostDetals({ post, tags,togglePanel }) {
+function PostDetals({ post, tags, togglePanel }) {
     const [comments, setComments] = useState([]);
     const [usedComments, setUsedComments] = useState([]);
 
@@ -46,9 +46,7 @@ function PostDetals({ post, tags,togglePanel }) {
         if (commentText != "") {
             await SendComment(postId, commentText, parentCommentId);
             addComment(commentText);
-        }
-        else
-        {
+        } else {
             Notify("Comment filed is empty, write something");
         }
     };
@@ -84,8 +82,8 @@ function PostDetals({ post, tags,togglePanel }) {
                     x
                 </div>
             </div>
-            <div className="flex bg-[#333333] text-white">
-                <div className="p-4 w-1/2">
+            <div className="m-auto text-white w-2/4 ">
+                <div className="p-4 ">
                     <h3 className="text-left font-semibold mb-2">
                         {post.id} {post.title}
                     </h3>
@@ -117,39 +115,37 @@ function PostDetals({ post, tags,togglePanel }) {
                     </div>
                 </div>
 
-                <div className="w-1/2 bg-[#333333] ">
-                    <div className="bg-[#333333] text-white max-h-screen min-h-screen">
-                        <div className="flex items-center justify-center ">
-                            <div className="text-center text-lg ">Comments</div>
-                        </div>
+                <div className="text-white max-h-screen min-h-screen">
+                    <div className="flex items-center justify-center ">
+                        <div className="text-center text-lg ">Comments</div>
+                    </div>
 
-                        <CommentInput
-                            onSubmit={(commentText) =>
-                                handleSubmitComment(
-                                    commentText,
-                                    post.id,
-                                    0,
-                                    fetchComments,
-                                )
-                            }
-                            post={post.id}
-                        />
-                        <div
-                            id="comments"
-                            className="bg-[#333333] dark:bg-white-700 overflow-y-auto h-5/6"
-                        >
-                            {comments.map((comment) => (
-                                <Comment
-                                    key={comment.id}
-                                    usedComments={usedComments}
-                                    comment={comment}
-                                    allComments={comments}
-                                    post={post.id}
-                                    parentId={comment.id}
-                                    fetchComments={updateCommentSection}
-                                />
-                            ))}
-                        </div>
+                    <CommentInput
+                        onSubmit={(commentText) =>
+                            handleSubmitComment(
+                                commentText,
+                                post.id,
+                                0,
+                                fetchComments,
+                            )
+                        }
+                        post={post.id}
+                    />
+                    <div
+                        id="comments"
+                        className="bg-[#333333] dark:bg-white-700 overflow-y-auto h-5/6"
+                    >
+                        {comments.map((comment) => (
+                            <Comment
+                                key={comment.id}
+                                usedComments={usedComments}
+                                comment={comment}
+                                allComments={comments}
+                                post={post.id}
+                                parentId={comment.id}
+                                fetchComments={updateCommentSection}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>

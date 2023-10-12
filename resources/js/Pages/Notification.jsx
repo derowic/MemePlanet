@@ -17,7 +17,6 @@ function Notification() {
     return (
         <div>
             <button onClick={notify}>Show Notification</button>
-
         </div>
     );
 }

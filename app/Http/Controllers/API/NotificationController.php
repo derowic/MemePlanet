@@ -12,22 +12,55 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
+
     public function index(Request $request)
     {
-        //$notifications = Notification::where();
-        /*$notifications = Notification::with(['sender:id,name'])
-            ->where('receiver_id',$request->input('id'))
-            ->orderBy('created_at', 'asc')
+        $perPage = 7;
+        $page = $request->input('page', 1);
+
+
+        $notificationsSeen0 = Notification::with(['sender:id,name'])
+            ->where('receiver_id', auth()->user()->id)
+            ->where('seen', 0)
+            ->orderBy('created_at', 'desc')
+            //->skip(($page - 1) * $perPage)
+            //->take($perPage)
             ->get();
-            */
+
+        if ($notificationsSeen0->count() < $perPage) {
+            $remainingCount = $perPage - $notificationsSeen0->count();
+            $notificationsRest = Notification::with(['sender:id,name'])
+                ->where('receiver_id', auth()->user()->id)
+                ->where('seen', '!=', 0)
+                ->orderBy('created_at', 'desc')
+                ->take($remainingCount)
+                ->get();
+
+            $notifications = $notificationsSeen0->concat($notificationsRest);
+        } else {
+            $notifications = $notificationsSeen0;
+        }
+
+        return response()->json(['notifications' => $notifications], 201);
+
+        /*
+        $perPage = 7;
+        $page = $request->input('page', 1);
+
         $notifications = Notification::with(['sender:id,name'])
             ->where('receiver_id',auth()->user()->id)
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
             ->get();
-        //$notifications = Notification::all();
+
         return response()->json(
-            ['msg' => $notifications], 201);
+            ['notifications' => $notifications], 201);
         return NotificationResource::collection($notifications);
+        */
     }
+
+
+
 
     public function store(Request $request)
     {

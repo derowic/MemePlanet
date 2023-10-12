@@ -15,9 +15,6 @@ import PostsTypeSelect from "./Posts/PostsTypeSelect";
 import { ToastContainer } from "react-toastify";
 
 export default function Dashboard({ auth }) {
-
-
-
     const [chosenCategory, setChosenCategory] = useState(0);
     const changeCategory = (tmp) => {
         setChosenCategory(tmp);
@@ -28,31 +25,29 @@ export default function Dashboard({ auth }) {
     const [categories, setCategories] = useState([]);
     const [selectedPostsType, setSelectedPostsType] = useState("Home");
     const [rout, setRout] = useState("post.index");
-/*
+    /*
     const loadNewPost = async (rout) => {
         const response = await FetchIndex(rout, null);
         setPosts((prevPosts) => [...prevPosts, ...response]);
     };
     */
 
-    const refreshPosts = async() =>
-    {
+    const refreshPosts = async () => {
         setPosts([]);
         const response = await FetchIndex(rout, null);
         setPosts((prevPosts) => [...prevPosts, ...response]);
-    }
+    };
 
     const fetchPosts = async () => {
         let params = { page: page };
         const response = await FetchIndex(rout, params);
         setPosts((prevPosts) => [...prevPosts, ...response]);
         setPage(page + 1);
-        console.log("fetchPosts try load new posts "+ posts.length);
+        console.log("fetchPosts try load new posts " + posts.length);
         //console.log(response);
     };
 
-
-/*
+    /*
     const fetchPosts = async () => {
         try {
           const response = await axios.get(`/api/posts?page=${page}`);
@@ -64,7 +59,6 @@ export default function Dashboard({ auth }) {
         }
       };
       */
-
 
     const fetchTags = async () => {
         try {
@@ -102,7 +96,7 @@ export default function Dashboard({ auth }) {
             <div className="font-bold bg-[#231f20] ">
                 <div className="flex text-gray-100">
                     <div className=" w-1/3 mt-6">
-                        <div className=" fixed p-4 sm:rounded-lg w-1/4 ml-5">
+                        <div className=" fixed p-4 sm:rounded-lg w-1/5 ml-5">
                             <h3 className="text-center mb-2 text-3xl">
                                 Categories
                                 <hr />
@@ -111,13 +105,12 @@ export default function Dashboard({ auth }) {
                                 chosenCategory={chosenCategory}
                                 changeCategory={changeCategory}
                             />
-
                         </div>
                     </div>
 
-                    <div className=" w-1/2 mt-2">
-                        <div className="w-full p-4 text-center">
-                            <h2 className=" p-4 mb-2 text-3xl">
+                    <div className="w-3/4 mt-2">
+                        <div className="w-full text-center">
+                            <h2 className="mb-2 text-3xl">
                                 Meme Planet - memes and news
                                 <hr />
                             </h2>
@@ -148,10 +141,8 @@ export default function Dashboard({ auth }) {
                     </div>
 
                     <div className="w-1/3 mt-4 ml-4">
-                        <div className="w-full  p-4 text-center sm:rounded-lg">
-                            <h3 className="text-center mb-2 text-3xl">
-                                Hot
-                            </h3>
+                        <div className="w-full p-4 text-center">
+                            <h3 className="text-center mb-2 text-3xl">Hot</h3>
                             <TopPosts tags={tags} />
                         </div>
                     </div>

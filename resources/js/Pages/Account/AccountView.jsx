@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import InfiniteScrollPosts from "../Posts/InfiniteScrollPosts";
 import FetchIndex from "@/Components/FetchIndex";
@@ -16,15 +15,14 @@ function AccountView({ categoryId, categories, tags }) {
         const response = await FetchIndex(rout, params);
         setPosts((prevPosts) => [...prevPosts, ...response]);
         setPage(page + 1);
-        console.log("fetchPosts try load new posts "+ posts.length);
+        console.log("fetchPosts try load new posts " + posts.length);
     };
 
-    const refreshPosts = async() =>
-    {
+    const refreshPosts = async () => {
         setPosts([]);
         const response = await FetchIndex(rout, null);
         setPosts((prevPosts) => [...prevPosts, ...response]);
-    }
+    };
 
     useEffect(() => {}, []);
 

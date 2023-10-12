@@ -6,7 +6,6 @@ import PostDetals from "./PostDetals";
 import { Button, Drawer } from "@mui/material";
 import Fav from "./Fav";
 
-
 function Post({ show, post, tags, userData, favs }) {
     const [isOpen, setIsOpen] = useState(false);
     const togglePanel = () => {
@@ -17,7 +16,6 @@ function Post({ show, post, tags, userData, favs }) {
         <div className="m-auto border-t py-2">
             <h3 className="text-left font-semibold mb-2">
                 {post.id} {post.title}
-
             </h3>
             <div className="text-left text-xs mb-2">{post.user.name}</div>
             <div className="text-left text-xs ">{post.category.name}</div>
@@ -26,13 +24,13 @@ function Post({ show, post, tags, userData, favs }) {
                 {post.text}
             </div>
             <button
-                className="flex flex-col items-center justify-end mt-2"
+                className="w-full h-full items-center justify-end mt-2"
                 onClick={togglePanel}
             >
                 <img
                     src={"/images/" + post.path_to_image}
                     alt="Opis obrazka"
-                    className="w-full h-full"
+                    className="w-[100vw] h-full"
                 ></img>
             </button>
             {show == true && <div></div>}

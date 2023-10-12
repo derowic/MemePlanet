@@ -3,7 +3,6 @@ import ImageUploadForm from "./ImageUploadForm";
 import Notify from "@/Components/Notify";
 import axios from "axios";
 
-
 const UploadPost = ({ fetchPosts, categories, tags }) => {
     const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
     const [imageUploaded, setImageUploaded] = useState(false);

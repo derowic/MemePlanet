@@ -80,7 +80,6 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
     const close = () => {
         clearImg();
         unHide();
-
     };
 
     const selectCategory = (buttonId) => {
@@ -96,16 +95,11 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
     };
 
     return (
-        <div className=
-            {isOpen == true ?
-            " m-2 px-2 border"
-            :" m-2 px-2"}
-        >
+        <div className={isOpen == true ? " m-2 px-2 border" : " m-2 px-2"}>
             <Button
                 func={unHide}
                 text={"Add new post"}
                 customClass={
-
                     "text-2xl m-4 px-2 hover:border-b hover:border-[#ffbc40]"
                 }
             />

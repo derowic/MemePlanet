@@ -16,7 +16,7 @@ const InfiniteScrollPosts = ({
     fetchPosts,
     categories,
     tags,
-    refreshPosts
+    refreshPosts,
 }) => {
     const { t, i18n } = useTranslation();
 
@@ -72,7 +72,7 @@ const InfiniteScrollPosts = ({
                     <div key={index}>
                         {(chosedCategory === 0 ||
                             chosedCategory === post.category.id) && (
-                            <div className="w-full flex overflow-hidden shadow-sm  p-4 mt-4 ">
+                            <div className="w-full flex overflow-hidden shadow-sm  p-4 ">
                                 <Post
                                     post={post}
                                     tags={tags}
