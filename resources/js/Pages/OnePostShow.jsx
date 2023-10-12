@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import Like from "./Likes/Like";
 import Heart from "./Posts/Fav";
-
 import Tags from "./Tags/Tags";
 import axios from "axios";
 import Comment from "./Comments/Comment";
@@ -10,6 +9,7 @@ import CommentInput from "./Comments/CommentInput";
 import SendComment from "./Comments/SendComment";
 import Notify from "@/Components/Notify";
 import FetchIndex from "@/Components/FetchIndex";
+import { ToastContainer } from "react-toastify";
 
 export default function  OnePostShow({ post, tags }) {
     const [comments, setComments] = useState([]);
@@ -74,6 +74,7 @@ export default function  OnePostShow({ post, tags }) {
 
     return (
     <AuthenticatedLayout>
+        <ToastContainer/>
 
         <div className="bg-[#333] text-white">
             <div className="m-auto text-white w-3/4 ">

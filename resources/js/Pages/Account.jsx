@@ -11,6 +11,7 @@ import CategoryList from "./Categories/CategoryList";
 import AccountView from "./Account/AccountView";
 import FetchIndex from "@/Components/FetchIndex";
 import { Link } from "@inertiajs/react";
+import { ToastContainer } from "react-toastify";
 
 export default function Account({ auth }) {
     const [chosenCategory, setChosenCategory] = useState(0);
@@ -57,6 +58,7 @@ export default function Account({ auth }) {
                 <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight"></h2>
             }
         >
+            <ToastContainer/>
             <div className="bg-[#231f20] flex text-gray-100">
                 <div className=" w-1/3 mt-6">
                     <div className=" fixed p-4 sm:rounded-lg w-1/4 ml-5">

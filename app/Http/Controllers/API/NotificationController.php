@@ -101,21 +101,33 @@ class NotificationController extends Controller
 
     public function show(Notification $notification): Response
     {
-        $post = null;
+        //dd($notification);
+        $posts = null;
 
         if ($notification->type == "comment-comment") {
+            //dd($notification);
             $postID = Comment::find($notification->element_id)->post->id;
 
             $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
                 ->where('id', $postID)
                 ->get();
         } elseif ($notification->type == "post-comment") {
+            //dd($notification);
             $postID = Comment::find($notification->element_id)->post->id;
 
             $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
                 ->where('id', $notification->element_id)
                 ->get();
         }
+
+        $notification->seen = 1;
+        $notification->save();
+        /*
+        Notification::where($notification->id)->update([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'price' => $request->input('price'),
+        ]);*/
 
         if ($posts->count() > 0) {
             return Inertia::render('OnePostShow', [
