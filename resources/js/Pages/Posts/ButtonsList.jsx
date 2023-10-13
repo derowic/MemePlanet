@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Button from "./Button";
 
 function ButtonsList({ elements, func, selected }) {
-    useEffect(() => {}, [elements,selected]);
+    useEffect(() => {}, [elements, selected]);
 
     return (
         <div>

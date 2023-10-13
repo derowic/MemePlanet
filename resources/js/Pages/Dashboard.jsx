@@ -106,7 +106,13 @@ export default function Dashboard({ auth }) {
                                 chosenCategory={chosenCategory}
                                 changeCategory={changeCategory}
                             />
-                            <button onClick={() => router.visit(route("post.onePost", { post: 1 }))}>
+                            <button
+                                onClick={() =>
+                                    router.visit(
+                                        route("post.onePost", { post: 1 }),
+                                    )
+                                }
+                            >
                                 TEST
                             </button>
                         </div>

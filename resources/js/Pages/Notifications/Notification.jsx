@@ -2,9 +2,17 @@ import React, { useEffect, useState } from "react";
 import { router } from "@inertiajs/react";
 
 const Notification = (notification, index) => {
-
     return (
-        <button onClick={() => router.get(route("notification.show", { notification: notification.notification.id }))}>
+        <button
+            onClick={() =>
+                router.get(
+                    route("notification.show", {
+                        notification: notification.notification.id,
+                    }),
+                )
+            }
+
+        >
             <div
                 key={index}
                 className={
@@ -19,8 +27,9 @@ const Notification = (notification, index) => {
                     " reply to your comment"}
                 {notification.notification.type == "post-comment" &&
                     " reply to your post"}
-                <div className="text-sm">{notification.notification.created_at}</div>
-
+                <div className="text-sm">
+                    {notification.notification.created_at}
+                </div>
             </div>
         </button>
     );

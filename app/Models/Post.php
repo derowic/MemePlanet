@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 class Post extends Model
 {
     use \Conner\Likeable\Likeable;
@@ -54,7 +53,6 @@ class Post extends Model
 
         return $favorite !== null;
     }
-
 
     public function user()
     {

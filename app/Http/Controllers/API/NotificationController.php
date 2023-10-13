@@ -4,23 +4,20 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NotificationResource;
+use App\Models\Comment;
 use App\Models\Notification;
 use App\Models\Post;
-use App\Models\Comment;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-
 class NotificationController extends Controller
 {
-
     public function index(Request $request)
     {
         $perPage = 7;
         $page = $request->input('page', 1);
-
 
         $notificationsSeen0 = Notification::with(['sender:id,name'])
             ->where('receiver_id', auth()->user()->id)
@@ -62,27 +59,21 @@ class NotificationController extends Controller
         */
     }
 
-
-
-
     public function store(Request $request)
     {
 
         $tmp = 0;
-        if($request->input("type") == "post-comment")
-        {
-            $tmp = Post::find($request->input("element_id"))->user_id;
-        }
-        else if($request->input("type") == "comment-comment")
-        {
-            $tmp = Comment::find($request->input("element_id"))->user_id;
+        if ($request->input('type') == 'post-comment') {
+            $tmp = Post::find($request->input('element_id'))->user_id;
+        } elseif ($request->input('type') == 'comment-comment') {
+            $tmp = Comment::find($request->input('element_id'))->user_id;
         }
 
         $notification = new Notification();
         $notification->sender_id = auth()->user()->id;
-        $notification->receiver_id = $tmp;//$request->input("type");
-        $notification->type = $request->input("type");
-        $notification->element_id = $request->input("element_id");
+        $notification->receiver_id = $tmp; //$request->input("type");
+        $notification->type = $request->input('type');
+        $notification->element_id = $request->input('element_id');
         // id posta do którego jest to komentarz lub id komentarza do którego sie odnosi
         $notification->seen = false;
         $notification->created_at = now();
@@ -104,14 +95,14 @@ class NotificationController extends Controller
         //dd($notification);
         $posts = null;
 
-        if ($notification->type == "comment-comment") {
+        if ($notification->type == 'comment-comment') {
             //dd($notification);
             $postID = Comment::find($notification->element_id)->post->id;
 
             $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
                 ->where('id', $postID)
                 ->get();
-        } elseif ($notification->type == "post-comment") {
+        } elseif ($notification->type == 'post-comment') {
             //dd($notification);
             $postID = Comment::find($notification->element_id)->post->id;
 
@@ -140,7 +131,6 @@ class NotificationController extends Controller
             // lub obsłużyć to w dowolny inny sposób
         }
     }
-
 
     public function destroy($id)
     {

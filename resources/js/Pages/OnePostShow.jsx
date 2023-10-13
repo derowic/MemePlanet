@@ -11,7 +11,7 @@ import Notify from "@/Components/Notify";
 import FetchIndex from "@/Components/FetchIndex";
 import { ToastContainer } from "react-toastify";
 
-export default function  OnePostShow({ post, tags }) {
+export default function OnePostShow({ post, tags }) {
     const [comments, setComments] = useState([]);
     const [usedComments, setUsedComments] = useState([]);
 
@@ -73,80 +73,81 @@ export default function  OnePostShow({ post, tags }) {
     };
 
     return (
-    <AuthenticatedLayout>
-        <ToastContainer/>
+        <AuthenticatedLayout>
+            <ToastContainer />
 
-        <div className="bg-[#333] text-white">
-            <div className="m-auto text-white w-3/4 ">
-                <div className="p-4 ">
-                    <h3 className="text-left font-semibold mb-2">
-                        {post.id} {post.title}
-                    </h3>
-                    <div className="text-left text-xs mb-2">
-                        {post.user.name}
-                    </div>
-                    <div className="text-left text-xs ">
-                        {post.category.text}
-                    </div>
-                    <Tags post={post} tags={tags} />
-                    <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
-                        {post.text}
-                    </div>
-                    <div className="flex flex-col items-center justify-end mt-2">
-                        <img
-                            src={"/images/" + post.path_to_image}
-                            alt="Opis obrazka"
-                            className="w-full"
-                        ></img>
-                        <div className="flex">
+            <div className="bg-[#333] text-white">
+                <div className="m-auto text-white w-3/4 ">
+                    <div className="p-4 ">
+                        <h3 className="text-left font-semibold mb-2">
+                            {post.id} {post.title}
+                        </h3>
+                        <div className="text-left text-xs mb-2">
+                            {post.user.name}
+                        </div>
+                        <div className="text-left text-xs ">
+                            {post.category.text}
+                        </div>
+                        <Tags post={post} tags={tags} />
+                        <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
+                            {post.text}
+                        </div>
+                        <div className="flex flex-col items-center justify-end mt-2">
+                            <img
+                                src={"/images/" + post.path_to_image}
+                                alt="Opis obrazka"
+                                className="w-full"
+                            ></img>
                             <div className="flex">
-                                <Like
-                                    elementId={post.id}
-                                    elementType={"post"}
-                                    likes={post.likes}
-                                />
+                                <div className="flex">
+                                    <Like
+                                        elementId={post.id}
+                                        elementType={"post"}
+                                        likes={post.likes}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="text-white ">
-                    <div className="flex items-center justify-center ">
-                        <div className="text-center text-lg ">Comments</div>
-                    </div>
+                    <div className="text-white ">
+                        <div className="flex items-center justify-center ">
+                            <div className="text-center text-lg ">Comments</div>
+                        </div>
 
-                    <CommentInput
-                        onSubmit={(commentText) =>
-                            handleSubmitComment(
-                                commentText,
-                                post.id,
-                                0,
-                                fetchComments,
-                            )
-                        }
-                        post={post.id}
-                    />
-                    <div
-                        id="comments"
-                        className="bg-[#333333] dark:bg-white-700 "
-                    >
-                        {comments.map((comment) => (
-                            <Comment
-                                key={comment.id}
-                                usedComments={usedComments}
-                                comment={comment}
-                                allComments={comments}
-                                post={post.id}
-                                parentId={comment.id}
-                                fetchComments={updateCommentSection}
-                            />
-                        ))}
+                        <CommentInput
+                            onSubmit={(commentText) =>
+                                handleSubmitComment(
+                                    commentText,
+                                    post.id,
+                                    0,
+                                    fetchComments,
+                                )
+                            }
+                            post={post.id}
+                        />
+                        <div
+                            id="comments"
+                            className="bg-[#333333] dark:bg-white-700 "
+                        >
+                            {comments.map((comment) => (
+                                <Comment
+                                    key={comment.id}
+                                    usedComments={usedComments}
+                                    comment={comment}
+                                    allComments={comments}
+                                    post={post.id}
+                                    parentId={comment.id}
+                                    fetchComments={updateCommentSection}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                    <div className="border-b text-center text-2xl font-bold">
+                        Comments end
                     </div>
                 </div>
-                <div className="border-b text-center text-2xl font-bold">Comments end</div>
             </div>
-        </div>
         </AuthenticatedLayout>
     );
 }
-

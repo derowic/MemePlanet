@@ -15,7 +15,7 @@ function Post({ show, post, tags, userData, favs }) {
     };
 
     return (
-        <div className="m-auto border-t py-2 w-full">
+        <div className="m-auto border-t py-2 w-3/4">
             <h3 className="text-left font-semibold mb-2 w-full">
                 {post.id} {post.title}
             </h3>
@@ -25,7 +25,7 @@ function Post({ show, post, tags, userData, favs }) {
             <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
                 {post.text}
             </div>
-            <Img path={post.path_to_image} togglePanel={togglePanel}/>
+            <Img path={post.path_to_image} togglePanel={togglePanel} />
 
             {show == true && <div></div>}
             <div className="flex">

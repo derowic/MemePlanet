@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('type');
             //jeśl typ post-comment to element_id to id posta,
             //jeśłi comment-comment to id komentarza do którego się odnosi
-            $table->unsignedBigInteger('element_id');//
+            $table->unsignedBigInteger('element_id'); //
             $table->boolean('seen')->nullable();
             $table->timestamps();
         });

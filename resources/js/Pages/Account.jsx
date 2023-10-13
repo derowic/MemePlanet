@@ -58,7 +58,7 @@ export default function Account({ auth }) {
                 <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight"></h2>
             }
         >
-            <ToastContainer/>
+            <ToastContainer />
             <div className="bg-[#231f20] flex text-gray-100">
                 <div className=" w-1/3 mt-6">
                     <div className=" fixed p-4 sm:rounded-lg w-1/4 ml-5">
@@ -73,7 +73,7 @@ export default function Account({ auth }) {
                     </div>
                 </div>
 
-                <div className="bg-[#231f20] w-1/2 mt-4">
+                <div className="bg-[#231f20] w-full mt-4">
                     <div className="w-full p-4 text-center ">
                         <AccountView
                             categoryId={chosenCategory}

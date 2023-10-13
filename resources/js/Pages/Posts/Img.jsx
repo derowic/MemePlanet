@@ -8,7 +8,10 @@ import React, {
 
 function Img({ path, togglePanel }) {
     const [showFull, setShowFull] = useState(false);
-    const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
+    const [imageDimensions, setImageDimensions] = useState({
+        width: 0,
+        height: 0,
+    });
 
     const handleImageLoad = (e) => {
         const width = e.target.width;
@@ -17,33 +20,31 @@ function Img({ path, togglePanel }) {
     };
 
     return (
-    <div className="w-full">
-        <button
-            className={showFull ?"w-full":"w-full max-h-[90vh] overflow-hidden"}
-            onClick={togglePanel}
-        >
-            <img
-                id="yourImageId"
-                src={"/images/" + path}
-                alt="Opis obrazka"
-                className="w-full object-cover"
-                onLoad={handleImageLoad} // Dodaj obsługę zdarzenia onLoad
-            ></img>
-        </button>
-
-        {imageDimensions.height > 1000 &&
+        <div className="w-full">
             <button
-                className="w-full  bg-[#333]"
-                onClick={() => setShowFull(true)}
-            >
-                { showFull ?
-                    <></>
-                    : <>Show Full Image</>
+                className={
+                    showFull ? "w-full" : "w-full max-h-[90vh] overflow-hidden"
                 }
+                onClick={togglePanel}
+            >
+                <img
+                    id="yourImageId"
+                    src={"/images/" + path}
+                    alt="Opis obrazka"
+                    className="w-full object-cover"
+                    onLoad={handleImageLoad} // Dodaj obsługę zdarzenia onLoad
+                ></img>
             </button>
-        }
 
-    </div>
+            {imageDimensions.height > 1000 && (
+                <button
+                    className="w-full  bg-[#333]"
+                    onClick={() => setShowFull(true)}
+                >
+                    {showFull ? <></> : <>Show Full Image</>}
+                </button>
+            )}
+        </div>
     );
 }
 

@@ -40,7 +40,6 @@ class PostController extends Controller
         return PostResource::collection($this->addLikesAndFavs($posts));
     }
 
-
     public function fresh(Request $request)
     {
         $perPage = 15;
@@ -123,7 +122,6 @@ class PostController extends Controller
     public function onePost(Post $post): Response
     {
 
-
         /*return Inertia::render('OnePostShow', [
             'post' => Post::find($post->id),
             'tags' => Tag::all(),
@@ -135,14 +133,13 @@ class PostController extends Controller
         */
         //$post = Post::find($post->id);
         return Inertia::render('OnePostShow', [
-            'post' => $post->load('user','category'),
+            'post' => $post->load('user', 'category'),
             'tags' => Tag::all(),
             //'is_liked' => $post->liked(), // Dodaj atrybut is_liked
             /*'is_favorite' => Favourite::where('user_id', auth()->user()->id)
                 ->where('post_id', $post->id)
                 ->exists(), // Dodaj atrybut is_favorite*/
         ]);
-
 
     }
 

@@ -8,7 +8,7 @@ import NotificationBell from "../Pages/Notifications/NotificationBell";
 import { usePage } from "@inertiajs/react";
 import ChangeLog from "./ChangeLog";
 
-export default function Authenticated({  header, children}) {
+export default function Authenticated({ header, children }) {
     const user = usePage().props.auth.user;
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
@@ -58,8 +58,14 @@ export default function Authenticated({  header, children}) {
                                 </div>
                             </div>
 
+
+
+
+
+
                             <div className="hidden sm:flex sm:items-center sm:ml-6">
                                 <NotificationBell />
+
                                 <div className="ml-3 relative">
                                     <Dropdown>
                                         <Dropdown.Trigger>
@@ -196,7 +202,7 @@ export default function Authenticated({  header, children}) {
 
             <main>{children}</main>
 
-            {<ChangeLog  />}
+            {<ChangeLog />}
         </div>
     );
 }
