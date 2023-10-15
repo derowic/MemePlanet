@@ -19,18 +19,12 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
-            'post' => Post::select('id')
-                ->orderByRaw('RAND()')
-                ->first()->id,
-            'user' => User::select('id')
-                ->orderByRaw('RAND()')
-                ->first()->id,
+            'post_id' => Post::inRandomOrder()->limit(10)->pluck('id')->random(),
+            'user_id' => User::inRandomOrder()->limit(10)->pluck('id')->random(),
             'text' => $this->faker->unique()->word(),
             'likes' => $this->faker->numberBetween(1, 1000),
-            'parent_comment' => null,
+            'comment_id' => 0,
             'deleted_at' => null,
-
         ];
     }
 }

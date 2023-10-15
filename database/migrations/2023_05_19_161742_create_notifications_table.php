@@ -14,13 +14,16 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
-            $table->unsignedBigInteger('element');
-            $table->boolean('response_to')->nullable();
-            $table->string('text')->unique();
+            $table->foreignIdFor(User::class, 'sender_id');
+            $table->foreignIdFor(User::class, 'receiver_id');
+            $table->string('type');
+            //jeśl typ post-comment to element_id to id posta,
+            //jeśłi comment-comment to id komentarza do którego się odnosi
+            $table->unsignedBigInteger('element_id'); //
             $table->boolean('seen')->nullable();
             $table->timestamps();
         });
+
     }
 
     /**

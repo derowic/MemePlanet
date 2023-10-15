@@ -3,19 +3,45 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
 use App\Models\Favourite;
 use App\Models\Post;
+use Illuminate\Http\Request;
 
 class FavouriteController extends Controller
 {
+    private function addLikesAndFavs($posts)
+    {
+        $favoritePosts = auth()->user()->favourites;
+
+        $posts->each(function ($post) use ($favoritePosts) {
+            $post->is_favorite = $favoritePosts->contains('post_id', $post->id);
+            $post->is_liked = $post->likes()->where('user_id', auth()->id())->exists();
+        });
+
+        return $posts;
+    }
+
     public function index(Request $request)
     {
-
         $user = auth()->user();
-        $favouriteRecords = $user->favourites;
-        $favouriteRecordsWithPosts = $user->favourites()->with('post')->get();
+        $perPage = 15;
+        $page = $request->input('page', 1);
 
-        return response()->json(['fav' => $favouriteRecordsWithPosts]);
+        $favouritePostIds = Favourite::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->pluck('post_id')
+            ->toArray();
+
+        $posts = Post::whereIn('id', $favouritePostIds)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $hasMorePosts = $posts->count() === $perPage;
+
+        return PostResource::collection($this->addLikesAndFavs($posts));
     }
 
     public function getTags()

@@ -3,7 +3,6 @@
 /public/build
 /public/hot
 /public/storage
-/public/images
 /storage/*.key
 /vendor
 /projektowanie
@@ -19,3 +18,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+.env.example
+.gitignore
+.env copy.example
+.gitignore

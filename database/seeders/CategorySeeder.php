@@ -13,36 +13,36 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $humor = Category::create([
-            'text' => 'humor',
+            'name' => 'humor',
 
         ]);
         Category::create([
-            'text' => 'Motoryzacja',
-
-        ]);
-
-        Category::create([
-            'text' => 'Wiedza',
+            'name' => 'Automotive',
 
         ]);
 
         Category::create([
-            'text' => 'Świat',
+            'name' => 'Knowledge',
 
         ]);
 
         Category::create([
-            'text' => 'Sport',
+            'name' => 'World',
 
         ]);
 
         Category::create([
-            'text' => 'Polityka',
+            'name' => 'Sport',
 
         ]);
 
         Category::create([
-            'text' => 'Technologia',
+            'name' => 'Policy',
+
+        ]);
+
+        Category::create([
+            'name' => 'Technology',
 
         ]);
     }

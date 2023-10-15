@@ -3,43 +3,56 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
 use App\Models\Favourite;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
+    /*
     public function index(Request $request)
     {
-
         $user = auth()->user();
-        $roles = $user->roles->pluck('name');
-
-        $perPage = 5;
-
-        $posts = Post::with(['user', 'comments', 'comments.user', 'comments.reply_to', 'category'])
-            ->where('user',$user->id)
+        $perPage = 10;
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+            ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
-        $favouriteRecords = $user->favourites;
-        $favouriteRecordsWithPosts = $user->favourites->pluck('post');
-        $successAttribute = trans('validation.attributes.success');
+        return PostResource::collection($posts);
+    }
+    */
 
-        return response()->json([
-            'posts' => $posts,
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'roles' => $roles,
-            ],
-            'fav' => $favouriteRecordsWithPosts,
-            'test' => $successAttribute,
-        ]);
+    private function addLikesAndFavs($posts)
+    {
+        $favoritePosts = auth()->user()->favourites;
+
+        $posts->each(function ($post) use ($favoritePosts) {
+            $post->is_favorite = $favoritePosts->contains('post_id', $post->id);
+            $post->is_liked = $post->likes()->where('user_id', auth()->id())->exists();
+        });
+
+        return $posts;
     }
 
+    public function index(Request $request)
+    {
+        $perPage = 15;
+        $user = auth()->user();
+        $page = $request->input('page', 1);
 
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get();
+
+        $hasMorePosts = $posts->count() === $perPage;
+
+        return PostResource::collection($this->addLikesAndFavs($posts));
+    }
 
     public function getOnePost(Request $request)
     {
@@ -181,9 +194,7 @@ class AccountController extends Controller
 
                 return response()->json(['message' => 'Delete favourite']);
 
-            }
-            else
-            {
+            } else {
                 $tmp = new Favourite();
 
                 $tmp->user = auth()->user()->id;

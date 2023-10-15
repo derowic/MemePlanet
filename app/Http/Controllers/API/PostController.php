@@ -3,56 +3,91 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
 use App\Models\Favourite;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class PostController extends Controller
 {
-    public function index(Request $request)
+    private function addLikesAndFavs($posts)
     {
+        $favoritePosts = auth()->user()->favourites;
 
-        $user = auth()->user();
-        $roles = $user->roles->pluck('name');
+        $posts->each(function ($post) use ($favoritePosts) {
+            $post->is_favorite = $favoritePosts->contains('post_id', $post->id);
+            $post->is_liked = $post->likes()->where('user_id', auth()->id())->exists();
+        });
 
-        $perPage = 5;
-
-        $posts = Post::with(['user', 'comments', 'comments.user', 'comments.reply_to', 'category'])
-            ->orderBy('created_at', 'desc')
-            ->paginate($perPage);
-
-        $favouriteRecords = $user->favourites;
-        $favouriteRecordsWithPosts = $user->favourites->pluck('post');
-        $successAttribute = trans('validation.attributes.success');
-
-        return response()->json([
-            'posts' => $posts,
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'roles' => $roles,
-            ],
-            'fav' => $favouriteRecordsWithPosts,
-            'test' => $successAttribute,
-        ]);
+        return $posts;
     }
 
+    public function index(Request $request)
+    {
+        $perPage = 5;
+        $page = $request->input('page', 1);
 
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+            ->where('main_page', 1)
+            ->orderBy('created_at', 'desc')
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get();
 
-    public function getOnePost(Request $request)
+        return PostResource::collection($this->addLikesAndFavs($posts));
+    }
+
+    public function fresh(Request $request)
+    {
+        $perPage = 5;
+        $page = $request->input('page', 1);
+
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+            ->orderBy('created_at', 'desc')
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get();
+
+        $hasMorePosts = $posts->count() === $perPage;
+
+        return PostResource::collection($this->addLikesAndFavs($posts));
+    }
+
+    public function trending(Request $request)
+    {
+        $perPage = 5;
+        $page = $request->input('page', 1);
+
+        $twentyFourHoursAgo = now()->subHours(24);
+
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+            ->where('created_at', '>=', $twentyFourHoursAgo)
+            ->orderBy('likes', 'desc')
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get();
+
+        $hasMorePosts = $posts->count() === $perPage;
+
+        return PostResource::collection($this->addLikesAndFavs($posts));
+    }
+
+    public function show(Request $request)
     {
         $user = auth()->user();
         $roles = $user->roles->pluck('name');
 
         if ($request->has('postId')) {
             $postId = $request->postId;
-            $posts = Post::with(['user', 'comments', 'comments.user', 'comments.reply_to', 'category'])
+            $posts = Post::with(['user', 'comments', 'comments.user', 'comments.comment', 'category'])
                 ->where('id', $postId)
                 ->get();
 
             $isFavourite = Favourite::where('user', $user->id)
-                ->where('post', $request->postId)
+                ->where('post_id', $request->postId)
                 ->exists();
 
             return response()->json([
@@ -74,29 +109,42 @@ class PostController extends Controller
 
     }
 
-    public function getTopPosts()
+    public function top()
     {
-
-        $user = auth()->user();
-        $roles = $user->roles->pluck('name');
-
-        $topPosts = Post::with(['user', 'comments', 'comments.user', 'comments.reply_to', 'category'])
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
             ->orderBy('likes', 'desc')
-            ->take(5)
+            ->take(4)
             ->get();
 
-        return response()->json([
-            'posts' => $topPosts,
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'roles' => $roles,
-            ],
-        ]);
+        return PostResource::collection($this->addLikesAndFavs($posts));
     }
 
-    public function uploadImage(Request $request)
+    public function onePost(Post $post): Response
+    {
+
+        /*return Inertia::render('OnePostShow', [
+            'post' => Post::find($post->id),
+            'tags' => Tag::all(),
+            'is_liked' => $post->liked(), // Dodaj atrybut is_liked
+            'is_favorite' => Favourite::where('user_id', auth()->user()->id)
+                ->where('post_id', $post->id)
+                ->exists(), // Dodaj atrybut is_favorite
+        ]);
+        */
+        //$post = Post::find($post->id);
+        return Inertia::render('OnePostShow', [
+            'post' => $post->load('user', 'category'),
+            'tags' => Tag::all(),
+            //'is_liked' => $post->liked(), // Dodaj atrybut is_liked
+            /*'is_favorite' => Favourite::where('user_id', auth()->user()->id)
+                ->where('post_id', $post->id)
+                ->exists(), // Dodaj atrybut is_favorite*/
+        ]);
+
+    }
+
+    /*
+    public function upload(Request $request)
     {
         if ($request->hasFile('image') &&
             ($request->title != null) && ($request->title != '') &&
@@ -139,6 +187,83 @@ class PostController extends Controller
         }
 
     }
+    */
+    public function upload(Request $request)
+    {
+        // Pobieranie danych z formularza
+        $image = $request->file('image'); // Pobieramy przesłane zdjęcie
+        $title = $request->input('title');
+        $text = $request->input('text');
+        $category = $request->input('category');
+        $tags = $request->input('tags');
+
+        // Przetwarzanie zdjęcia (możesz go zapisać w odpowiednim miejscu)
+        if ($image) {
+            $imagePath = $image->store('images'); // Przykładowa ścieżka do zapisu zdjęcia
+        }
+
+        // Teraz możesz pracować z pobranymi danymi, w tym z zapisanym zdjęciem.
+
+        // ...
+
+        // Zwracanie odpowiedzi
+        if ($request->input('image') == null) {
+            return response()->json(['message' => $image->getClientOriginalName()]);
+        } else {
+            return response()->json(['msg' => 'No image uploaded.'], 400);
+        }
+
+    }
+
+    public function store(Request $request)
+    {
+
+        /* if ($request->hasFile('image') &&
+             ($request->title != null) && ($request->title != '') &&
+             ($request->text != null) && ($request->text != '') &&
+             ($request->category != null) && ($request->category != 0) &&
+             ($request->tags != null) && ($request->tags != '')) {
+**/
+
+        $image = $request->file('image');
+        //$image = $request->input('image');
+        $imageName = auth()->user()->id.time().'_'.$image->getClientOriginalName();
+        $image->move(public_path('images'), $imageName);
+
+        //$image = $request->file('image');
+        /*
+                    if($image == null)
+                    {
+                        dd($request->input('image')->getClientOriginalName());
+                    }
+                    */
+
+        $post = new Post();
+        $post->user_id = auth()->user()->id;
+        $post->title = $request->input('title');
+        $post->text = $request->input('text');
+        $post->likes = 0;
+        $post->category_id = $request->input('category');
+        $post->tag_list_id = 0;
+        $post->path_to_image = $imageName;
+        $post->created_at = now();
+        $post->updated_at = now();
+        $post->save();
+
+        if ($post->save()) {
+            return response()->json(['msg' => 'Post added'], 201);
+        } else {
+
+            return response()->json(['msg' => 'Error'], 500);
+        }
+
+        return response()->json(['msg' => 'No image uploaded.'], 400);
+
+        /* } else {
+             return response()->json(['msg' => 'error while saving post, refresh or try later'], 500);
+         }
+         */
+    }
 
     public function like(Request $request)
     {
@@ -161,6 +286,7 @@ class PostController extends Controller
 
             return response()->json([
                 'like' => $article->likeCount,
+                'is_liked' => $article->liked(),
 
             ]);
         } else {
@@ -168,25 +294,23 @@ class PostController extends Controller
         }
     }
 
-    public function addToFavourite(Request $request)
+    public function favourite(Request $request)
     {
         if (($request->post != null) && ($request->post != 0)) {
-            $favouriteRecord = Favourite::where('user', auth()->user()->id)
-                ->where('post', $request->post)
+            $favouriteRecord = Favourite::where('user_id', auth()->user()->id)
+                ->where('post_id', $request->post)
                 ->first();
 
             if ($favouriteRecord == true) {
                 Favourite::find($favouriteRecord->id)->forceDelete();
 
-                return response()->json(['message' => 'Delete favourite']);
+                return response()->json(['message' => 'removed']);
 
-            }
-            else
-            {
+            } else {
                 $tmp = new Favourite();
 
-                $tmp->user = auth()->user()->id;
-                $tmp->post = $request->post;
+                $tmp->user_id = auth()->user()->id;
+                $tmp->post_id = $request->post;
 
                 $tmp->created_at = now();
                 $tmp->updated_at = now();
@@ -194,10 +318,7 @@ class PostController extends Controller
                 $tmp->save();
                 if ($tmp->save()) {
 
-                    return response()->json(
-                        [
-                            'id' => $request->post,
-                        ], 201);
+                    return response()->json(['message' => 'added'], 201);
                 } else {
                     return response()->json(['msg' => 'error while saving post to favourites, refresh or try later'], 500);
 

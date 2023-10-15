@@ -1,15 +1,12 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import DeleteUserForm from './Partials/DeleteUserForm';
-import UpdatePasswordForm from './Partials/UpdatePasswordForm';
-import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
-import { Head } from '@inertiajs/react';
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import DeleteUserForm from "./Partials/DeleteUserForm";
+import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
+import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
+import { Head } from "@inertiajs/react";
 
 export default function Edit({ auth, mustVerifyEmail, status }) {
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            className="bg-[#231f20]">
-
+        <AuthenticatedLayout user={auth.user} className="bg-[#231f20]">
             <Head title="Profile" />
 
             <div className="py-12 bg-[#231f20]">
@@ -30,9 +27,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                         <DeleteUserForm className="max-w-xl " />
                     </div>
                 </div>
-
             </div>
-
         </AuthenticatedLayout>
     );
 }

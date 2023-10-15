@@ -3,36 +3,21 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $user = auth()->user();
-        $roles = $user->roles->pluck('name');
+        $comments = Comment::with(['user:id,name', 'comment:id'])
+            ->orderBy('created_at', 'asc')
+            ->where('post_id', $request->input('id'))
+            ->get();
 
-        $perPage = 5;
-        $posts = Post::with(['user'])->orderBy('created_at', 'desc')->with('user')->paginate($perPage);
-        $posts = Post::with(['user', 'comments', 'comments.user', 'comments.reply_to'])
-            ->orderBy('created_at', 'desc')
-            ->paginate($perPage);
-
-        $user = auth()->user();
-        $roles = $user->roles->pluck('name');
-
-        return response()->json([
-            'posts' => $posts,
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'roles' => $roles,
-            ],
-        ]);
-
+        return CommentResource::collection($comments);
     }
 
     public function getComments(Request $request)
@@ -40,7 +25,7 @@ class CommentController extends Controller
         if (($request->id != null) && ($request->id != 0)) {
             $postId = $request->id;
 
-            $comments = Post::with(['comments', 'comments.user', 'comments.reply_to', 'comments.reply_to.user'])
+            $comments = Post::with(['comments', 'comments.user', 'comments.comment', 'comments.comment.user'])
                 ->where('id', $postId)
                 ->orderBy('created_at', 'desc')
                 ->get();
@@ -55,36 +40,6 @@ class CommentController extends Controller
             ]);
         } else {
             return response()->json(['msg' => 'error while downloading comment, refresh or try later'], 500);
-        }
-
-    }
-
-    public function create(Request $request)
-    {
-
-        if (($request->post != null) && ($request->post != 0) && ($request->parent_comment != '') && ($request->text != null) && ($request->text != '')) {
-
-            $com = new Comment();
-            $com->user = auth()->user()->id;
-            $com->post = $request->post;
-            $com->parent_comment = $request->parent_comment;
-            $com->text = $request->text;
-            $com->likes = 0;
-            $com->created_at = now();
-            $com->updated_at = now();
-
-            $com->save();
-
-            if ($com->save()) {
-
-                return response()->json(['msg' => 'comment saved'], 201);
-            } else {
-
-                return response()->json(['msg' => 'error while saving comment, refresh or try later'], 500);
-            }
-        } else {
-            return response()->json(
-                ['msg' => 'error while saving comment, refresh or try later'], 500);
         }
 
     }
@@ -115,9 +70,26 @@ class CommentController extends Controller
         }
     }
 
-    public function store()
+    public function store(Request $request)
     {
+        $com = new Comment();
+        $com->user_id = auth()->user()->id;
+        $com->post_id = $request->post_id;
+        $com->comment_id = $request->comment_id;
+        $com->text = $request->text;
+        $com->likes = 0;
+        $com->created_at = now();
+        $com->updated_at = now();
 
+        $com->save();
+
+        if ($com->save()) {
+
+            return response()->json(['msg' => 'comment added'], 201);
+        } else {
+
+            return response()->json(['msg' => 'error while saving comment, refresh or try later'], 500);
+        }
     }
 
     public function edit($id)

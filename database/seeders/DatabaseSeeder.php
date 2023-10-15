@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TagSeeder::class);
         $this->call(PostsSeeder::class);
         $this->call(CommentsSeeder::class);
-        $this->call(LikeSeeder::class);
         $this->call(FavouriteSeeder::class);
         //$this->call(Notification::class);
         // \App\Models\User::factory(10)->create();

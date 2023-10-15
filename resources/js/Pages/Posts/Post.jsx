@@ -1,59 +1,77 @@
-import React, { useState } from 'react';
-import Notification from '@/Components/Notification';
-import { FaPlus, FaMinus, FaSadCry } from 'react-icons/fa';
-import Like from './Like';
-import Heart from './Heart';
-import CommentSection from './CommentSection';
-import Tags from './Tags';
-import PostDetals from './PostDetals';
-import { Button, Drawer } from '@mui/material';
+import React, { useState } from "react";
+import Like from "../Likes/Like";
+import CommentSection from "../Comments/CommentSection";
+import Tags from "../Tags/Tags";
+import PostDetals from "./PostDetals";
+import { Button, Drawer } from "@mui/material";
+import Fav from "./Fav";
+import Img from "./Img";
+import { usePage } from "@inertiajs/react";
 
-function Post({show,post,tags,userData,favs}) {
+function Post({ show, post, tags, userData, favs }) {
+    const user = usePage().props.auth;
     const [isOpen, setIsOpen] = useState(false);
+    const [showFull, setShowFull] = useState(false);
     const togglePanel = () => {
-
         setIsOpen(!isOpen);
     };
 
-  return (
-    <div className="m-auto">
-        <h3 className="text-left font-semibold mb-2">{post.id} {post.title}</h3>
-        <div className="text-left text-xs mb-2">{post.user.name}</div>
-        <div className="text-left text-xs ">{post.category.text}</div>
-        <Tags post={post} tags={tags}/>
-        <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
-        {post.text}
-        </div>
-        <div className="flex flex-col items-center justify-end mt-2" onClick={togglePanel} >
-
-        <img
-            src={"/images/" + post.path_to_image}
-            alt="Opis obrazka"
-            className="w-full h-full"
-
-        ></img>
-        {show == true &&(
-            <div>
-
+    return (
+        <div className="m-auto border-t py-2 w-3/4">
+            <h3 className="text-left font-semibold mb-2 w-full">
+                {post.id} {post.title}
+            </h3>
+            <div className="text-left text-xs mb-2">{post.user.name}</div>
+            <div className="text-left text-xs ">{post.category.name}</div>
+            <Tags post={post} tags={tags} />
+            <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
+                {post.text}
             </div>
-        )}
-        <div className="flex">
+            <Img path={post.path_to_image} togglePanel={togglePanel} />
 
-            {userData.id != post.user.id && (
+            {show == true && <div></div>}
             <div className="flex">
-                <Like elementId={post.id} elementType={"post"} likes={post.likes} />
-                <Heart postId={post.id} fav={favs.find((fav) => fav == post.id) !== undefined} />
-            </div>
-            )}
+                <div className="flex m-auto">
+                    <Like
+                        elementId={post.id}
+                        elementType={"post"}
+                        likes={post.likes}
+                        is_liked={post.is_liked}
+                    />
 
+                    <Fav postId={post.id} is_Fav={post.is_fav} />
+                </div>
+            </div>
+
+            { (user.role == 'admin' || user.role == 'moderator') &&
+                <div className="block">
+                    <div className="w-full">
+                        <button className="p-3 rounded-lg bg-green-500">
+                            Send to main page
+                        </button>
+                        <button className="p-3 rounded-lg bg-red-500">
+                            Hide from the users
+                        </button>
+                    </div>
+                </div>
+            }
+
+            <CommentSection postId={post.id} />
+            <Drawer
+                anchor="bottom"
+                open={isOpen}
+                onClose={togglePanel}
+                className="items-center justify-center"
+            >
+                <PostDetals
+                    post={post}
+                    tags={tags}
+                    favs={favs}
+                    togglePanel={togglePanel}
+                />
+            </Drawer>
         </div>
-        </div>
-        <CommentSection postId={post.id} />
-        <Drawer anchor="bottom" open={isOpen} onClose={togglePanel} className='items-center justify-center' >
-                <PostDetals  post={post }tags={tags} userData={userData} favs={favs} togglePanel={togglePanel}/>
-        </Drawer>
-    </div>
-  );
+    );
 }
 
 export default Post;

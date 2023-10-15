@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Category;
-use App\Models\Tag;
+use App\Models\TagList;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,20 +22,17 @@ class PostFactory extends Factory
         return [
             //
 
-            'user' => User::select('id')
-                ->orderByRaw('RAND()')
-                ->first()->id,
+            'user_id' => User::inRandomOrder()->limit(10)->pluck('id')->random(),
             'title' => $this->faker->text(25),
             'text' => $this->faker->text(100),
-            'category' => Category::select('id')
-                ->orderByRaw('RAND()')
-                ->first()->id,
-            'tags' => Tag::select('id')
-                ->orderByRaw('RAND()')
-                ->first()->id,
+            'category_id' => Category::inRandomOrder()->limit(10)->pluck('id')->random(),
+            //'tag_list_id' => TagList::inRandomOrder()->limit(10)->pluck('id')->random(),
             'likes' => $this->faker->numberBetween(1, 1000),
             'dislikes' => $this->faker->numberBetween(1, 1000),
-            'path_to_image' => $this->faker->numberBetween(1, 75).'.jpg',
+
+            'path_to_image' => $this->faker->numberBetween(1, 60).'.jpg',
+            'main_page' => $randomBoolean = $this->faker->boolean, // Generuje losowy boolean
+
             'deleted_at' => null,
 
         ];
