@@ -58,11 +58,6 @@ export default function Authenticated({ header, children }) {
                                 </div>
                             </div>
 
-
-
-
-
-
                             <div className="hidden sm:flex sm:items-center sm:ml-6">
                                 <NotificationBell />
 

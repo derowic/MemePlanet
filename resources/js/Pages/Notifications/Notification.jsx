@@ -11,7 +11,6 @@ const Notification = (notification, index) => {
                     }),
                 )
             }
-
         >
             <div
                 key={index}

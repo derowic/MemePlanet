@@ -6,8 +6,10 @@ import PostDetals from "./PostDetals";
 import { Button, Drawer } from "@mui/material";
 import Fav from "./Fav";
 import Img from "./Img";
+import { usePage } from "@inertiajs/react";
 
 function Post({ show, post, tags, userData, favs }) {
+    const user = usePage().props.auth;
     const [isOpen, setIsOpen] = useState(false);
     const [showFull, setShowFull] = useState(false);
     const togglePanel = () => {
@@ -39,17 +41,20 @@ function Post({ show, post, tags, userData, favs }) {
 
                     <Fav postId={post.id} is_Fav={post.is_fav} />
                 </div>
-
-                {/*{userData.id != post.user.id && (
-                        <div className="flex">
-                            <Like
-                                elementId={post.id}
-                                elementType={"post"}
-                                likes={post.likes}
-                            />
-                        </div>
-                    )} */}
             </div>
+
+            { (user.role == 'admin' || user.role == 'moderator') &&
+                <div className="block">
+                    <div className="w-full">
+                        <button className="p-3 rounded-lg bg-green-500">
+                            Send to main page
+                        </button>
+                        <button className="p-3 rounded-lg bg-red-500">
+                            Hide from the users
+                        </button>
+                    </div>
+                </div>
+            }
 
             <CommentSection postId={post.id} />
             <Drawer

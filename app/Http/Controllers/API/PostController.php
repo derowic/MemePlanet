@@ -27,7 +27,7 @@ class PostController extends Controller
 
     public function index(Request $request)
     {
-        $perPage = 15;
+        $perPage = 5;
         $page = $request->input('page', 1);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
@@ -42,7 +42,7 @@ class PostController extends Controller
 
     public function fresh(Request $request)
     {
-        $perPage = 15;
+        $perPage = 5;
         $page = $request->input('page', 1);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
@@ -58,7 +58,7 @@ class PostController extends Controller
 
     public function trending(Request $request)
     {
-        $perPage = 15;
+        $perPage = 5;
         $page = $request->input('page', 1);
 
         $twentyFourHoursAgo = now()->subHours(24);
@@ -113,7 +113,7 @@ class PostController extends Controller
     {
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
             ->orderBy('likes', 'desc')
-            ->take(15)
+            ->take(4)
             ->get();
 
         return PostResource::collection($this->addLikesAndFavs($posts));

@@ -62,13 +62,14 @@ const NotificationBell = () => {
                                 </h3>
                             </div>
                             <ul>
-                                <NotificationsList notifications={notifications} />
+                                <NotificationsList
+                                    notifications={notifications}
+                                />
                             </ul>
                         </div>
                     </div>
                 )}
             </div>
-
         </div>
     );
 };

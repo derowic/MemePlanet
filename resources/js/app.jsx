@@ -7,6 +7,7 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 
 import React from "react";
 
+
 console.log(`
 
 
@@ -40,6 +41,7 @@ __        _______ _     ____ ___  __  __ _____
 We're happy you're here
 `);
 
+
 function App() {
     return (
         <div className="App">
@@ -65,6 +67,6 @@ createInertiaApp({
         root.render(<App {...props} />);
     },
     progress: {
-        color: "#4B5563",
+        color: "#00ff00",
     },
 });

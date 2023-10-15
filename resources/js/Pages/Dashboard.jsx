@@ -13,9 +13,14 @@ import TopPosts from "./Posts/TopPosts";
 import FetchIndex from "@/Components/FetchIndex";
 import PostsTypeSelect from "./Posts/PostsTypeSelect";
 import { ToastContainer } from "react-toastify";
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 
-export default function Dashboard({ auth }) {
+
+export default function Dashboard() {
+
+    const user = usePage().props.auth;
+
+
     const [chosenCategory, setChosenCategory] = useState(0);
     const changeCategory = (tmp) => {
         setChosenCategory(tmp);
@@ -88,7 +93,6 @@ export default function Dashboard({ auth }) {
 
     return (
         <AuthenticatedLayout
-            user={auth.user}
             header={
                 <h2 className=" text-xl text-gray-800 dark:text-gray-200 leading-tight"></h2>
             }
