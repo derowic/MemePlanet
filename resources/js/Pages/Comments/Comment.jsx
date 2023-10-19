@@ -6,6 +6,8 @@ import AddComment from "./AddComment";
 import "react-quill/dist/quill.snow.css";
 import { userData } from "../GlobalData.js";
 import Notify from "@/Components/Notify";
+import { usePage } from "@inertiajs/react";
+import DeleteComment from "../AdminAndModeratorFunctions/DeleteComment";
 
 const Comment = ({
     usedComments,
@@ -16,6 +18,8 @@ const Comment = ({
     fetchComments,
     prevComment,
 }) => {
+
+    const user = usePage().props.auth;
     const post2 = post;
 
     const unHide = () => {
@@ -117,7 +121,20 @@ const Comment = ({
                                     </div>
                                 </div>
                             </div>
+
                         </div>
+                        {(user.role == "admin" || user.role == "moderator") && (
+                            <div className="block">
+                                <div className="w-full ">
+                                    <button
+                                        className="p-3 rounded-lg bg-red-500 m-2"
+                                        onClick={() => DeleteComment(comment.id)}
+                                    >
+                                        Delete Comment
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                     {replies.length > 0 && (
                         <div className="replies">

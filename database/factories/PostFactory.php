@@ -19,6 +19,7 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
+        $statuses = ['main page', 'hide', 'waiting'];
         return [
             //
 
@@ -31,7 +32,7 @@ class PostFactory extends Factory
             'dislikes' => $this->faker->numberBetween(1, 1000),
 
             'path_to_image' => $this->faker->numberBetween(1, 60).'.jpg',
-            'main_page' => $randomBoolean = $this->faker->boolean, // Generuje losowy boolean
+            'status' => $this->faker->randomElement($statuses),
 
             'deleted_at' => null,
 

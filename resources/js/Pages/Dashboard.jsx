@@ -15,11 +15,8 @@ import PostsTypeSelect from "./Posts/PostsTypeSelect";
 import { ToastContainer } from "react-toastify";
 import { router, usePage } from "@inertiajs/react";
 
-
 export default function Dashboard() {
-
     const user = usePage().props.auth;
-
 
     const [chosenCategory, setChosenCategory] = useState(0);
     const changeCategory = (tmp) => {
@@ -110,15 +107,6 @@ export default function Dashboard() {
                                 chosenCategory={chosenCategory}
                                 changeCategory={changeCategory}
                             />
-                            <button
-                                onClick={() =>
-                                    router.visit(
-                                        route("post.onePost", { post: 1 }),
-                                    )
-                                }
-                            >
-                                TEST
-                            </button>
                         </div>
                     </div>
 

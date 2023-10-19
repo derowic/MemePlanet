@@ -8,6 +8,7 @@ use App\Http\Controllers\API\NotificationController;
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\TagController;
 use App\Http\Controllers\API\TagListController;
+use App\Http\Controllers\API\AdminAndModeratorController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -96,6 +97,11 @@ Route::get('/tagList', [TagListController::class, 'index'])->name('taListg.index
 Route::post('/tagList', [TagListController::class, 'store'])->name('tagList.store');
 Route::put('/tagList/{tagList}', [TagListController::class, 'update'])->name('tagList.update');
 Route::delete('/tagList/{tagList}', [TagListController::class, 'delete'])->name('tagList.delete');
+
+Route::post('/admin/{post}', [AdminAndModeratorController::class, 'sendToMainPage'])->name('admin.mainPage');
+Route::post('/admin/{post}/hide', [AdminAndModeratorController::class, 'hidePost'])->name('admin.hidePost');
+Route::delete('/admin/{post}/delete', [AdminAndModeratorController::class, 'deletePost'])->name('admin.deletePost');
+Route::delete('/deleteComment/{comment}/delete', [AdminAndModeratorController::class, 'deleteComment'])->name('admin.deleteComment');
 
 Route::get('/react', function () {
     return view('react');

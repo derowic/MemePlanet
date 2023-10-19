@@ -7,14 +7,21 @@ import { Link } from "@inertiajs/react";
 import NotificationBell from "../Pages/Notifications/NotificationBell";
 import { usePage } from "@inertiajs/react";
 import ChangeLog from "./ChangeLog";
+import { router } from "@inertiajs/react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Authenticated({ header, children }) {
     const user = usePage().props.auth.user;
+    //toast("t" + usePage().props.toast.value);
+
+    //console.log(usePage().props.toast.value);
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
     return (
         <div className="bg-[#231f20] h-screen">
+             <ToastContainer />
             <nav className="border-b border-gray-100 dark:border-gray-700">
                 <div className="fixed w-screen bg-[#333333] ">
                     <div className="mx-auto px-4 sm:px-6 lg:px-8">

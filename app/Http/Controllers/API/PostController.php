@@ -31,13 +31,14 @@ class PostController extends Controller
         $page = $request->input('page', 1);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
-            ->where('main_page', 1)
+            ->where('status', "main page")
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
             ->get();
 
-        return PostResource::collection($this->addLikesAndFavs($posts));
+            return PostResource::collection($this->addLikesAndFavs($posts));
+
     }
 
     public function fresh(Request $request)
