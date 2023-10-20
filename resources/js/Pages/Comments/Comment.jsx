@@ -18,7 +18,6 @@ const Comment = ({
     fetchComments,
     prevComment,
 }) => {
-
     const user = usePage().props.auth;
     const post2 = post;
 
@@ -121,14 +120,15 @@ const Comment = ({
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         {(user.role == "admin" || user.role == "moderator") && (
                             <div className="block">
                                 <div className="w-full ">
                                     <button
                                         className="p-3 rounded-lg bg-red-500 m-2"
-                                        onClick={() => DeleteComment(comment.id)}
+                                        onClick={() =>
+                                            DeleteComment(comment.id)
+                                        }
                                     >
                                         Delete Comment
                                     </button>

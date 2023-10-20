@@ -22,9 +22,7 @@ const Notify = (notify_text) => {
         draggable: true,
         progress: undefined,
         theme: "dark",
-        });
+    });
 };
-
-
 
 export default Notify;

@@ -3,14 +3,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import FetchIndex from "./FetchIndex";
 
-const FetchPosts = async (rout, params, setPosts, page, setPage) => {
+const RefreshPosts = async (rout, params, setPosts) => {
     try {
+        setPosts([]);
         const response = await FetchIndex(rout, params);
         setPosts((prevPosts) => [...prevPosts, ...response]);
-        setPage(page + 1);
-        console.log("fetchPosts try load new posts ");
     } catch (error) {
         console.error(error);
     }
 };
-export default FetchPosts;
+export default RefreshPosts;

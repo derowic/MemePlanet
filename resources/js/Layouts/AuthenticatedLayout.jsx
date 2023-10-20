@@ -13,7 +13,6 @@ import "react-toastify/dist/ReactToastify.css";
 import Notify from "@/Components/Notify";
 import { useTranslation } from "react-i18next";
 
-
 export default function Authenticated({ header, children }) {
     const translation = useTranslation(["dashboard"]);
     const user = usePage().props.auth.user;
@@ -39,7 +38,7 @@ export default function Authenticated({ header, children }) {
 
     return (
         <div className=" bg-[#231f20] h-screen">
-             <ToastContainer
+            <ToastContainer
                 position="top-center"
                 autoClose={5000}
                 hideProgressBar={false}
@@ -50,7 +49,7 @@ export default function Authenticated({ header, children }) {
                 draggable
                 pauseOnHover
                 theme="dark"
-             />
+            />
             <nav className="sticky top-0  border-b border-gray-100 dark:border-gray-700">
                 <div className=" bg-[#333333] ">
                     <div className="mx-auto px-4 sm:px-6 lg:px-8">
@@ -74,7 +73,6 @@ export default function Authenticated({ header, children }) {
                                         active={route().current("dashboard")}
                                     >
                                         {translation.t("Meme Planet")}
-
                                     </NavLink>
 
                                     <NavLink
@@ -96,9 +94,18 @@ export default function Authenticated({ header, children }) {
                             </div>
 
                             <div className="hidden sm:flex sm:items-center sm:ml-6">
-
-                                <button onClick={() => changeLanguage("en")} className="text-white font-bold mr-2">English</button>
-                                <button onClick={() => changeLanguage("pl")} className="text-white font-bold">Polish</button>
+                                <button
+                                    onClick={() => changeLanguage("en")}
+                                    className="text-white font-bold mr-2"
+                                >
+                                    English
+                                </button>
+                                <button
+                                    onClick={() => changeLanguage("pl")}
+                                    className="text-white font-bold"
+                                >
+                                    Polish
+                                </button>
                                 <NotificationBell />
 
                                 <div className="ml-3 relative">

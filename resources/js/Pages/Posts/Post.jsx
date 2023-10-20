@@ -10,8 +10,7 @@ import { usePage } from "@inertiajs/react";
 import SetPostToMainPage from "../AdminAndModeratorFunctions/SetPostToMainPage";
 import HidePost from "../AdminAndModeratorFunctions/HidePost";
 import DeletePost from "../AdminAndModeratorFunctions/DeletePost";
-import Report
- from "./Report";
+import Report from "./Report";
 
 function Post({ show, post, tags, userData, favs }) {
     //console.log("id ", post.id, " status ", post.status);
@@ -52,7 +51,7 @@ function Post({ show, post, tags, userData, favs }) {
                             />
 
                             <Fav postId={post.id} is_Fav={post.is_fav} />
-                            <Report postId={post.id}/>
+                            <Report postId={post.id} />
                         </div>
                     </div>
 

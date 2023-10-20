@@ -12,54 +12,27 @@ import FetchIndex from "@/Pages/API/FetchIndex";
 import { Link } from "@inertiajs/react";
 import { ToastContainer } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import FetchTags from "./API/FetchTags";
+import FetchCategories from "./API/FetchCategories";
+import PostsColumn from "./Posts/PostsColumn";
 
-export default function Account({ auth }) {
-    const accountTranslation = useTranslation(["account"]);
+export default function Account({}) {
+    const accountTranslation = useTranslation(["dashboard"]);
     const [chosenCategory, setChosenCategory] = useState(0);
+    const [tags, setTags] = useState([]);
+    const [categories, setCategories] = useState([]);
+
     const changeCategory = (tmp) => {
         setChosenCategory(tmp);
     };
 
-    const [tags, setTags] = useState([]);
-    const [categories, setCategories] = useState([]);
-
-    const fetchTags = async () => {
-        try {
-            //const response = await axios.post(`/getTags`);
-            //setTags((prevTags) => [...prevTags, ...response.data.tags]);
-
-            let t = await FetchIndex("tag.index", null);
-            setTags((prevTags) => [...prevTags, ...t]);
-            console.log("tags");
-        } catch (error) {
-            console.error("InfiniteScrollPosts -> fetchTags error: ", error);
-        }
-    };
-
-    const fetchCategories = async () => {
-        try {
-            let t = await FetchIndex("category.index", null);
-            setCategories((prevTags) => [...prevTags, ...t]);
-            console.log("categories");
-        } catch (error) {
-            Notification(error.response.data.msg);
-            console.error("InfiniteScrollPosts -> fetchTags error: ", error);
-        }
-    };
-
     useEffect(() => {
-        fetchTags();
-        fetchCategories();
+        FetchTags("tag.index", null, setTags);
+        FetchCategories("category.index", null, setCategories);
     }, []);
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight"></h2>
-            }
-        >
-            <ToastContainer />
+        <AuthenticatedLayout>
             <div className="bg-[#231f20] flex text-gray-100">
                 <div className=" w-1/3 mt-6">
                     <div className=" fixed p-4 sm:rounded-lg w-1/4 ml-5">
@@ -76,7 +49,16 @@ export default function Account({ auth }) {
 
                 <div className="bg-[#231f20] w-full mt-4">
                     <div className="w-full p-4 text-center ">
-                        <AccountView
+                        {/*<AccountView
+                            categoryId={chosenCategory}
+                            categories={categories}
+                            tags={tags}
+                        />*/}
+                        <PostsColumn
+                            elements={[
+                                ["My Posts", "account.index"],
+                                ["Favourite", "favourite.index"],
+                            ]}
                             categoryId={chosenCategory}
                             categories={categories}
                             tags={tags}
@@ -95,7 +77,6 @@ export default function Account({ auth }) {
                                 href={route("profile.edit")}
                                 className="text-2xl mt-4 hover:border-b border-[#ffbc40]"
                             >
-
                                 {accountTranslation.t("Edit basic user data")}
                             </Link>
 
@@ -103,7 +84,6 @@ export default function Account({ auth }) {
                                 href={route("profile.edit")}
                                 className="text-2xl mt-4 hover:border-b border-[#ffbc40]"
                             >
-
                                 {accountTranslation.t("Edit posts preferences")}
                             </Link>
                         </div>

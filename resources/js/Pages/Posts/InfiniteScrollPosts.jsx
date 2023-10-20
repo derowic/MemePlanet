@@ -16,7 +16,6 @@ const InfiniteScrollPosts = ({
     tags,
     refreshPosts,
 }) => {
-
     const translation = useTranslation(["dashboard"]);
     const [favs, setFavs] = useState([]);
     const [page, setPage] = useState(1);
@@ -39,7 +38,6 @@ const InfiniteScrollPosts = ({
     }, [chosenCategory]);
 
     const isAdmin = auth.user && auth.user.roles.includes("admin");
-
 
     useEffect(() => {
         fetchPosts();

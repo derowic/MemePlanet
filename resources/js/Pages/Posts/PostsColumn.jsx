@@ -1,31 +1,20 @@
 import React, { useState, useEffect } from "react";
-import InfiniteScrollPosts from "../Posts/InfiniteScrollPosts";
+import InfiniteScrollPosts from "./InfiniteScrollPosts";
 import FetchIndex from "@/Pages/API/FetchIndex";
-import PostsTypeSelect from "../Posts/PostsTypeSelect";
+import PostsTypeSelect from "./PostsTypeSelect";
 import FetchPosts from "../API/FetchPosts";
 import RefreshPosts from "../API/RefreshPosts";
 
-function AccountView({ categoryId, categories, tags }) {
+function PostsColumn({
+    elements,
+    categoryId,
+    categories,
+    tags,
+}) {
     const [selectedPostsType, setSelectedPostsType] = useState("My Posts");
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
     const [rout, setRout] = useState("account.index");
-    /*
-    const fetchPosts = async () => {
-        let params = { page: page };
-        const response = await FetchIndex(rout, params);
-        setPosts((prevPosts) => [...prevPosts, ...response]);
-        setPage(page + 1);
-        console.log("fetchPosts try load new posts " + posts.length);
-    };
-
-    const refreshPosts = async () => {
-        setPosts([]);
-        const response = await FetchIndex(rout, null);
-        setPosts((prevPosts) => [...prevPosts, ...response]);
-    };
-    */
-
     useEffect(() => {}, []);
 
     return (
@@ -33,10 +22,7 @@ function AccountView({ categoryId, categories, tags }) {
             <PostsTypeSelect
                 selected={selectedPostsType}
                 setSelected={setSelectedPostsType}
-                elements={[
-                    ["My Posts", "account.index"],
-                    ["Favourite", "favourite.index"],
-                ]}
+                elements={elements}
                 setPosts={setPosts}
                 setRout={setRout}
             />
@@ -58,9 +44,10 @@ function AccountView({ categoryId, categories, tags }) {
                     tags={tags}
                     refreshPosts={() => RefreshPosts(rout, null, setPosts)}
                 />
+
             </div>
         </div>
     );
 }
 
-export default AccountView;
+export default PostsColumn;

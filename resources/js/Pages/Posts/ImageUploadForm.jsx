@@ -130,7 +130,9 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                         <img id="attr" src={previewImage} alt="Preview" />
                     )}
                 </div>
-                <h1 className="text-2xl border-b border-[#bbb]">{translation.t("Categories")}</h1>
+                <h1 className="text-2xl border-b border-[#bbb]">
+                    {translation.t("Categories")}
+                </h1>
                 <div className="flex flex-wrap justify-center">
                     <ButtonsList
                         elements={categories}
@@ -138,7 +140,9 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                         selected={selectedCategory}
                     />
                 </div>
-                <h1 className="text-2xl border-b border-[#bbb]">{translation.t("Tags")}</h1>
+                <h1 className="text-2xl border-b border-[#bbb]">
+                    {translation.t("Tags")}
+                </h1>
                 <div className="flex flex-wrap justify-center">
                     <ButtonsList
                         elements={tags}
@@ -147,7 +151,10 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                     />
                 </div>
                 <div className="text-2xl border-t border-[#bbb]">
-                    <Button func={handleUploadClick} text={translation.t("Upload")} />
+                    <Button
+                        func={handleUploadClick}
+                        text={translation.t("Upload")}
+                    />
                     <Button func={clearImg} text={translation.t("Clear")} />
                     <Button func={close} text={translation.t("Close")} />
                 </div>

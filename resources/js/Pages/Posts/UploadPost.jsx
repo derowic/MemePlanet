@@ -55,7 +55,6 @@ const UploadPost = ({ fetchPosts, categories, tags }) => {
                 categories={categories}
                 tags={tags}
             />
-
         </div>
     );
 };
