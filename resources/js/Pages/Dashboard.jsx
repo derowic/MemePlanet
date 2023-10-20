@@ -6,20 +6,15 @@ import React, {
     useEffect,
 } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
 import InfiniteScrollPosts from "./Posts/InfiniteScrollPosts";
 import CategoryList from "./Categories/CategoryList";
 import TopPosts from "./Posts/TopPosts";
-import FetchIndex from "@/Pages/API/FetchIndex";
 import PostsTypeSelect from "./Posts/PostsTypeSelect";
-import { ToastContainer } from "react-toastify";
-import { router, usePage } from "@inertiajs/react";
 import { useTranslation } from "react-i18next";
 import FetchPosts from "./API/FetchPosts";
 import FetchTags from "./API/FetchTags";
 import RefreshPosts from "./API/RefreshPosts";
 import FetchCategories from "./API/FetchCategories";
-import PostsColumn from "./Posts/PostsColumn";
 
 export default function Dashboard() {
     const translation = useTranslation(["dashboard"]);
@@ -68,7 +63,10 @@ export default function Dashboard() {
                                 <hr />
                             </h2>
 
-                            <PostsColumn
+
+                            <PostsTypeSelect
+                                selected={selectedPostsType}
+                                setSelected={setSelectedPostsType}
                                 elements={[
                                     [translation.t("Home"), "post.index"],
                                     [translation.t("Top"), "post.top"],
@@ -78,10 +76,29 @@ export default function Dashboard() {
                                     ],
                                     [translation.t("Fresh"), "post.fresh"],
                                 ]}
-                                categoryId={chosenCategory}
-                                categories={categories}
-                                tags={tags}
+                                setPosts={setPosts}
+                                setRout={setRout}
                             />
+                            {tags.length > 0 && categories.length > 0 && (
+                                <InfiniteScrollPosts
+                                    chosenCategory={chosenCategory}
+                                    posts={posts}
+                                    fetchPosts={() =>
+                                        FetchPosts(
+                                            rout,
+                                            { page: page },
+                                            setPosts,
+                                            page,
+                                            setPage,
+                                        )
+                                    }
+                                    categories={categories}
+                                    tags={tags}
+                                    refreshPosts={() =>
+                                        RefreshPosts(rout, null, setPosts)
+                                    }
+                                />
+                            )}
                         </div>
                     </div>
 

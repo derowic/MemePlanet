@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Notification from "@/Components/Notify";
 
-import Button from "../Posts/Button";
+import Button from "../../BasicElements/Button";
 
 function Like({ elementId, elementType, likes, is_liked }) {
     if (likes == null) {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "./Button";
+import Button from "../../BasicElements/Button";
 
 const Fav = ({ postId, is_Fav }) => {
     const addPostToFavourite = () => {

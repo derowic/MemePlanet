@@ -7,7 +7,6 @@ const DeleteComment = async (commentId) => {
         const response = await axios.delete(
             route("admin.deleteComment", { comment: commentId }),
         );
-        //console.log(response.data);
         toast.success(response.data.msg);
     } catch (error) {
         console.error("SetPostToMainPage: ", error);

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Like from "../Likes/Like";
+import Like from "./Likes/Like";
 import CommentSection from "../Comments/CommentSection";
 import Tags from "../Tags/Tags";
 import PostDetals from "./PostDetals";
 import { Button, Drawer } from "@mui/material";
-import Fav from "./Fav";
+import Fav from "./Fav/Fav";
 import Img from "./Img";
 import { usePage } from "@inertiajs/react";
 import SetPostToMainPage from "../AdminAndModeratorFunctions/SetPostToMainPage";
@@ -13,13 +13,13 @@ import DeletePost from "../AdminAndModeratorFunctions/DeletePost";
 import Report from "./Report";
 
 function Post({ show, post, tags, userData, favs }) {
-    //console.log("id ", post.id, " status ", post.status);
     const user = usePage().props.auth;
     const [isOpen, setIsOpen] = useState(false);
     const [showFull, setShowFull] = useState(false);
     const togglePanel = () => {
         setIsOpen(!isOpen);
     };
+
 
     return (
         <>
@@ -81,8 +81,8 @@ function Post({ show, post, tags, userData, favs }) {
                             </div>
                         </div>
                     )}
-
                     <CommentSection postId={post.id} />
+                    {/**/}
                     <Drawer
                         anchor="bottom"
                         open={isOpen}
@@ -96,6 +96,9 @@ function Post({ show, post, tags, userData, favs }) {
                             togglePanel={togglePanel}
                         />
                     </Drawer>
+                    <button onClick={togglePanel}>
+                        <div className="text-white">Comment Section</div>
+                    </button>
                 </div>
             )}
         </>

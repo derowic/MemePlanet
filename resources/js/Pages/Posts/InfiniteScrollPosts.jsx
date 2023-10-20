@@ -4,7 +4,7 @@ import UploadPost from "./UploadPost";
 import { userData } from "../GlobalData.js";
 import { OnePostViewData } from "../GlobalData.js";
 import Post from "./Post";
-import Button from "./Button";
+import Button from "../BasicElements/Button";
 import "../styles.css";
 import { useTranslation } from "react-i18next";
 
@@ -18,36 +18,17 @@ const InfiniteScrollPosts = ({
 }) => {
     const translation = useTranslation(["dashboard"]);
     const [favs, setFavs] = useState([]);
-    const [page, setPage] = useState(1);
-    const [auth, setAuth] = useState({ user: null });
-    const [key, setKey] = useState(0);
-
     const [chosedCategory, setChosedCategory] = useState(0);
-
-    /*
-    const handleRefresh = () => {
-        //setPosts([]);
-        setPage(1);
-        setFavs([]);
-        fetchPosts();
-    };
-    */
 
     useEffect(() => {
         setChosedCategory(chosenCategory);
-    }, [chosenCategory]);
-
-    const isAdmin = auth.user && auth.user.roles.includes("admin");
-
-    useEffect(() => {
         fetchPosts();
-    }, [categories, tags]);
+    }, [chosenCategory, categories, tags]);
 
     return (
         <div>
             <div className="p-4 ">
-                To hide:
-                <Button func={refreshPosts} text={"Refresh"} />
+                To hide:<Button func={refreshPosts} text={"Refresh"} />
                 <UploadPost
                     fetchPosts={refreshPosts}
                     categories={categories}

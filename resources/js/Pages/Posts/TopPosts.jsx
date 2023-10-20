@@ -4,26 +4,13 @@ import React, {
     forwardRef,
     useImperativeHandle,
 } from "react";
-import axios from "axios";
-import Notification from "@/Components/Notify";
-import FetchIndex from "@/Pages/API/FetchIndex";
+import FetchPosts from "../API/FetchPosts";
 import Post from "./Post";
 
 const TopPosts = (tags) => {
     const [posts, setPosts] = useState([]);
-    const fetchPosts = async () => {
-        try {
-            let t = await FetchIndex("post.top", null);
-            if (t != undefined) {
-                setPosts((prevPosts) => [...prevPosts, ...t]);
-            }
-        } catch (error) {
-            Notification(error.response);
-            console.error("TopPosts -> fetchPosts error: ", error);
-        }
-    };
     useEffect(() => {
-        fetchPosts();
+        FetchPosts("post.top", null, setPosts, null, null)
     }, []);
 
     return posts.map((post, index) => (

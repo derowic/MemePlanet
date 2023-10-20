@@ -1,6 +1,7 @@
 import React from "react";
 
-const AddComment = (id_element, commentText, replyToName, userData_name) => {
+const AddComment = (id_element, commentText, replyToName) => {
+
     const divElement0 = document.createElement("div");
     divElement0.className =
         "mt-10 mb-10 ml-5 bg-[#333333] border-l-2 border-white-400 p-4";
@@ -9,7 +10,7 @@ const AddComment = (id_element, commentText, replyToName, userData_name) => {
     divElement.className = "ml-5 mb-2 bg-[#333333] sm:rounded-lg p-4";
 
     const divElement2 = document.createElement("div");
-    divElement2.textContent = "user: " + userData_name;
+    divElement2.textContent = "user: ";
     divElement.appendChild(divElement2);
 
     if (replyToName != null) {

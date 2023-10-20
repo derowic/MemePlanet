@@ -7,7 +7,6 @@ const DeletePost = async (postId) => {
         const response = await axios.delete(
             route("admin.deletePost", { post: postId }),
         );
-        console.log(response.data);
         Notify(response.data.msg);
     } catch (error) {
         console.error("SetPostToMainPage: ", error);

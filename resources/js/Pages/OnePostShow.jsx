@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import Like from "./Likes/Like";
-import Heart from "./Posts/Fav";
+import Like from "./Posts/Likes/Like";
+import Heart from "./Posts/Fav/Fav";
 import Tags from "./Tags/Tags";
 import axios from "axios";
 import Comment from "./Comments/Comment";

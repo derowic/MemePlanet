@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import InfiniteScrollPosts from "./InfiniteScrollPosts";
+import InfiniteScrollPosts from "../Posts/InfiniteScrollPosts";
 import FetchIndex from "@/Pages/API/FetchIndex";
-import PostsTypeSelect from "./PostsTypeSelect";
+import PostsTypeSelect from "../Posts/PostsTypeSelect";
 import FetchPosts from "../API/FetchPosts";
 import RefreshPosts from "../API/RefreshPosts";
 
@@ -11,10 +11,10 @@ function PostsColumn({
     categories,
     tags,
 }) {
-    const [selectedPostsType, setSelectedPostsType] = useState("My Posts");
+    const [selectedPostsType, setSelectedPostsType] = useState(elements[0][0]);
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
-    const [rout, setRout] = useState("account.index");
+    const [rout, setRout] = useState(elements[0][0]);
     useEffect(() => {}, []);
 
     return (

@@ -7,7 +7,6 @@ const HidePost = async (postId) => {
         const response = await axios.post(
             route("admin.hidePost", { post: postId }),
         );
-        console.log(response.data);
         Notify(response.data.msg);
     } catch (error) {
         console.error("SetPostToMainPage: ", error);

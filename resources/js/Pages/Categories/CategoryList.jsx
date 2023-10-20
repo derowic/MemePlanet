@@ -6,25 +6,17 @@ import React, {
     useEffect,
 } from "react";
 import FetchIndex from "@/Pages/API/FetchIndex";
-import Button from "../Posts/Button";
+import Button from "../BasicElements/Button";
 import { useTranslation } from "react-i18next";
+import FetchCategories from "../API/FetchCategories";
 
 function CategoryList({ chosenCategory, changeCategory }) {
     const categoryTranslation = useTranslation(["dashboard"]);
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
 
-    const fetchCategories = async () => {
-        //var tmp = await FetchCategories();
-        //setCategories(prevCategories => [...prevCategories, ...tmp]);
-
-        let t = await FetchIndex("category.index", null);
-        //console.log(t);
-        setCategories((prevCategories) => [...prevCategories, ...t]);
-    };
-
     useEffect(() => {
-        fetchCategories();
+        FetchCategories("category.index", null, setCategories)
     }, []);
 
     const beforeChangeCategory = (tmp) => {
@@ -43,8 +35,6 @@ function CategoryList({ chosenCategory, changeCategory }) {
                 <Button
                     key={category.id + " categoryList"}
                     func={() => beforeChangeCategory(category.id)}
-                    //selected={selectedCategory === category.id}
-
                     text={categoryTranslation.t(category.name)}
                     customClass={
                         selectedCategory === category.id

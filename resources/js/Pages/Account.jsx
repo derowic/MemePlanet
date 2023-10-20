@@ -14,7 +14,7 @@ import { ToastContainer } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import FetchTags from "./API/FetchTags";
 import FetchCategories from "./API/FetchCategories";
-import PostsColumn from "./Posts/PostsColumn";
+import PostsColumn from "./EXPERIMENTAL/BAD GATE PostsColumn";
 
 export default function Account({}) {
     const accountTranslation = useTranslation(["dashboard"]);
@@ -49,16 +49,7 @@ export default function Account({}) {
 
                 <div className="bg-[#231f20] w-full mt-4">
                     <div className="w-full p-4 text-center ">
-                        {/*<AccountView
-                            categoryId={chosenCategory}
-                            categories={categories}
-                            tags={tags}
-                        />*/}
-                        <PostsColumn
-                            elements={[
-                                ["My Posts", "account.index"],
-                                ["Favourite", "favourite.index"],
-                            ]}
+                        <AccountView
                             categoryId={chosenCategory}
                             categories={categories}
                             tags={tags}

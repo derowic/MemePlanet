@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-import Like from "../Likes/Like";
-import Heart from "./Fav";
+import Like from "./Likes/Like";
+import Heart from "./Fav/Fav";
 
 import Tags from "../Tags/Tags";
 import axios from "axios";
@@ -10,25 +10,18 @@ import CommentInput from "../Comments/CommentInput";
 import SendComment from "../Comments/SendComment";
 import Notify from "@/Components/Notify";
 import FetchIndex from "@/Pages/API/FetchIndex";
+import FetchComments from "../API/FetchComments";
+import { usePage } from "@inertiajs/react";
 
 function PostDetals({ post, tags, togglePanel }) {
+     const user = usePage().props.auth.user;
     const [comments, setComments] = useState([]);
     const [usedComments, setUsedComments] = useState([]);
 
-    useEffect(() => {
-        fetchComments();
-    }, []);
+    useEffect(() => {}, []);
 
     const fetchComments = async () => {
-        try {
-            let params = { id: post.id };
-            let t = await FetchIndex("comment.index", params);
-            setComments(t);
-        } catch (error) {
-            console.error("CommentSection -> fetchComments error: ", error);
-        } finally {
-            setUsedComments([]);
-        }
+        FetchComments(postId, "comment.index", null, setComments)
     };
 
     const updateCommentSection = async () => {
@@ -60,7 +53,7 @@ function PostDetals({ post, tags, togglePanel }) {
         divElement.className = "ml-5 mb-2 bg-[#333333] sm:rounded-lg p-4";
 
         const divElement2 = document.createElement("div");
-        divElement2.textContent = "user: "; //+ userData.name;
+        divElement2.textContent = "user: " + userData.name;
         divElement.appendChild(divElement2);
 
         const divElement4 = document.createElement("div");

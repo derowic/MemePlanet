@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import CommentInput2 from "./CommentInput";
-import Like from "../Likes/Like";
+import Like from "../Posts/Likes/Like";
 import SendComment from "./SendComment";
 import AddComment from "./AddComment";
 import "react-quill/dist/quill.snow.css";
-import { userData } from "../GlobalData.js";
 import Notify from "@/Components/Notify";
 import { usePage } from "@inertiajs/react";
 import DeleteComment from "../AdminAndModeratorFunctions/DeleteComment";
@@ -39,7 +38,7 @@ const Comment = ({
                 comment.id + "t",
                 commentText,
                 replyToName,
-                userData.name,
+                user.name,
             );
             unHide();
         } else {
@@ -110,7 +109,7 @@ const Comment = ({
                             <div className="w-1/6">
                                 <div className="flex items-center justify-center">
                                     <div className="text-center text-lg">
-                                        {userData.id != comment.user.id && (
+                                        {user.id != comment.user.id && (
                                             <Like
                                                 elementId={comment.id}
                                                 elementType={"comment"}

@@ -7,33 +7,17 @@ import SendComment from "./SendComment";
 import Notify from "@/Components/Notify";
 import { userData } from "../GlobalData.js";
 import FetchIndex from "@/Pages/API/FetchIndex";
+import FetchComments from "../API/FetchComments";
 
 function CommentSection({ postId }) {
     const [isOpen, setIsOpen] = useState(false);
     const [comments, setComments] = useState([]);
-    const [isCommentVisible, setIsCommentVisible] = useState(true);
     const [usedComments, setUsedComments] = useState([]);
-
-    const handleCommentSubmit = (comment) => {
-        setComments([...comments, comment]);
-    };
 
     useEffect(() => {}, []);
 
     const fetchComments = async () => {
-        try {
-            let params = { id: postId };
-            let t = await FetchIndex("comment.index", params);
-            setComments(t);
-        } catch (error) {
-            Notification(error.response.data.msg);
-            console.error(
-                "CommentSection -> fetchComments error: ",
-                error.response.data.msg,
-            );
-        } finally {
-            setUsedComments([]);
-        }
+        FetchComments(postId, "comment.index", null, setComments)
     };
 
     const togglePanel = () => {

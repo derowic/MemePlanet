@@ -3,9 +3,9 @@ import Notification from "@/Components/Notify";
 import FetchCategories from "@/Components/FetchCategories";
 import axios from "axios";
 import FetchIndex from "@/Pages/API/FetchIndex";
-import Button from "./Button";
-import Input from "./Input";
-import ButtonsList from "./ButtonsList";
+import Button from "../BasicElements/Button";
+import Input from "../BasicElements/Input";
+import ButtonsList from "../BasicElements/ButtonsList";
 import { useTranslation } from "react-i18next";
 
 const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
