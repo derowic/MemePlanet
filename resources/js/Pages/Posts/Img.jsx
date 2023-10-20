@@ -6,7 +6,7 @@ import React, {
     useEffect,
 } from "react";
 
-function Img({ path, togglePanel }) {
+function Img({ path, /*togglePanel*/loadCommentsFunc }) {
     const [showFull, setShowFull] = useState(false);
     const [imageDimensions, setImageDimensions] = useState({
         width: 0,
@@ -25,7 +25,7 @@ function Img({ path, togglePanel }) {
                 className={
                     showFull ? "w-full" : "w-full max-h-[90vh] overflow-hidden"
                 }
-                onClick={togglePanel}
+                onClick={loadCommentsFunc}
             >
                 <img
                     id="yourImageId"

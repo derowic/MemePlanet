@@ -1,7 +1,6 @@
 import React from "react";
 
 const AddComment = (id_element, commentText, replyToName) => {
-
     const divElement0 = document.createElement("div");
     divElement0.className =
         "mt-10 mb-10 ml-5 bg-[#333333] border-l-2 border-white-400 p-4";

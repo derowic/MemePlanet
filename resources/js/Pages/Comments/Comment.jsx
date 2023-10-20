@@ -34,12 +34,7 @@ const Comment = ({
     ) => {
         if (commentText != "") {
             await SendComment(postId, commentText, parentCommentId);
-            AddComment(
-                comment.id + "t",
-                commentText,
-                replyToName,
-                user.name,
-            );
+            AddComment(comment.id + "t", commentText, replyToName, user.name);
             unHide();
         } else {
             Notify("Comment filed is empty, write something");

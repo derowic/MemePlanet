@@ -5,12 +5,7 @@ import PostsTypeSelect from "../Posts/PostsTypeSelect";
 import FetchPosts from "../API/FetchPosts";
 import RefreshPosts from "../API/RefreshPosts";
 
-function PostsColumn({
-    elements,
-    categoryId,
-    categories,
-    tags,
-}) {
+function PostsColumn({ elements, categoryId, categories, tags }) {
     const [selectedPostsType, setSelectedPostsType] = useState(elements[0][0]);
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
@@ -44,7 +39,6 @@ function PostsColumn({
                     tags={tags}
                     refreshPosts={() => RefreshPosts(rout, null, setPosts)}
                 />
-
             </div>
         </div>
     );

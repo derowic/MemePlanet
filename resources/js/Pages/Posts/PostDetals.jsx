@@ -1,27 +1,38 @@
 import React, { useState, useEffect } from "react";
-
-import Like from "./Likes/Like";
-import Heart from "./Fav/Fav";
-
-import Tags from "../Tags/Tags";
-import axios from "axios";
 import Comment from "../Comments/Comment";
 import CommentInput from "../Comments/CommentInput";
 import SendComment from "../Comments/SendComment";
 import Notify from "@/Components/Notify";
-import FetchIndex from "@/Pages/API/FetchIndex";
 import FetchComments from "../API/FetchComments";
+import { Drawer } from "@mui/material";
 import { usePage } from "@inertiajs/react";
 
-function PostDetals({ post, tags, togglePanel }) {
-     const user = usePage().props.auth.user;
+function PostDetals({ postId, isOpen, setIsOpen, loadComments, setLoadComments }) {
     const [comments, setComments] = useState([]);
     const [usedComments, setUsedComments] = useState([]);
+    const user = usePage().props.auth.user;
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        if(loadComments == true)
+        {
+            togglePanel();
+        }
+    }, [loadComments]);
 
     const fetchComments = async () => {
-        FetchComments(postId, "comment.index", null, setComments)
+        FetchComments(postId, "comment.index", setComments);
+    };
+
+    const togglePanel = () => {
+        setUsedComments([]);
+        setComments([]);
+        setIsOpen(!isOpen);
+        if (isOpen == false) {
+            console.log("open");
+            fetchComments();
+
+        }
+        setLoadComments(false);
     };
 
     const updateCommentSection = async () => {
@@ -34,7 +45,6 @@ function PostDetals({ post, tags, togglePanel }) {
         commentText,
         postId,
         parentCommentId,
-        fetchComments,
     ) => {
         if (commentText != "") {
             await SendComment(postId, commentText, parentCommentId);
@@ -53,7 +63,7 @@ function PostDetals({ post, tags, togglePanel }) {
         divElement.className = "ml-5 mb-2 bg-[#333333] sm:rounded-lg p-4";
 
         const divElement2 = document.createElement("div");
-        divElement2.textContent = "user: " + userData.name;
+        divElement2.textContent = "user: " + user.name;
         divElement.appendChild(divElement2);
 
         const divElement4 = document.createElement("div");
@@ -66,49 +76,21 @@ function PostDetals({ post, tags, togglePanel }) {
     };
 
     return (
-        <div className="bg-[#333333] text-white">
-            <div className="">
-                <div
-                    className="flex flex-col items-left  justify-end mt-2 text-4xl pl-4"
-                    onClick={togglePanel}
-                >
-                    x
-                </div>
-            </div>
-            <div className="m-auto text-white w-2/4 ">
-                <div className="p-4 ">
-                    <h3 className="text-left font-semibold mb-2">
-                        {post.id} {post.title}
-                    </h3>
-                    <div className="text-left text-xs mb-2">
-                        {post.user.name}
-                    </div>
-                    <div className="text-left text-xs ">
-                        {post.category.text}
-                    </div>
-                    <Tags post={post} tags={tags} />
-                    <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
-                        {post.text}
-                    </div>
-                    <div className="flex flex-col items-center justify-end mt-2">
-                        <img
-                            src={"/images/" + post.path_to_image}
-                            alt="Opis obrazka"
-                            className="w-full h-full"
-                        ></img>
-                        <div className="flex">
-                            <div className="flex">
-                                <Like
-                                    elementId={post.id}
-                                    elementType={"post"}
-                                    likes={post.likes}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div>
+            <button onClick={togglePanel}>
+                <div className="text-white">Comment Section</div>
+            </button>
 
-                <div className="text-white max-h-screen min-h-screen">
+            <Drawer
+                anchor="bottom"
+                open={isOpen}
+                onClose={togglePanel}
+                className="items-center justify-center"
+            >
+                <div
+                    className="bg-[#333333] text-white "
+                    style={{ maxHeight: "75vh", minHeight: "75vh" }}
+                >
                     <div className="flex items-center justify-center ">
                         <div className="text-center text-lg ">Comments</div>
                     </div>
@@ -117,16 +99,15 @@ function PostDetals({ post, tags, togglePanel }) {
                         onSubmit={(commentText) =>
                             handleSubmitComment(
                                 commentText,
-                                post.id,
-                                0,
-                                fetchComments,
+                                postId,
+                                0
                             )
                         }
-                        post={post.id}
+                        post={postId}
                     />
                     <div
                         id="comments"
-                        className="bg-[#333333] dark:bg-white-700 overflow-y-auto h-5/6"
+                        className="bg-[#333333] dark:bg-white-700"
                     >
                         {comments.map((comment) => (
                             <Comment
@@ -134,14 +115,15 @@ function PostDetals({ post, tags, togglePanel }) {
                                 usedComments={usedComments}
                                 comment={comment}
                                 allComments={comments}
-                                post={post.id}
-                                parentId={comment.id}
+                                setComs={setComments}
+                                post={postId}
                                 fetchComments={updateCommentSection}
+                                prevComment={null}
                             />
                         ))}
                     </div>
                 </div>
-            </div>
+            </Drawer>
         </div>
     );
 }

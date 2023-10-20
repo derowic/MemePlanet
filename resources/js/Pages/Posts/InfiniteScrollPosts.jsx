@@ -28,7 +28,8 @@ const InfiniteScrollPosts = ({
     return (
         <div>
             <div className="p-4 ">
-                To hide:<Button func={refreshPosts} text={"Refresh"} />
+                To hide:
+                <Button func={refreshPosts} text={"Refresh"} />
                 <UploadPost
                     fetchPosts={refreshPosts}
                     categories={categories}

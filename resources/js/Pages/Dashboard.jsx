@@ -62,8 +62,6 @@ export default function Dashboard() {
                                 {translation.t("Meme Planet")}
                                 <hr />
                             </h2>
-
-
                             <PostsTypeSelect
                                 selected={selectedPostsType}
                                 setSelected={setSelectedPostsType}

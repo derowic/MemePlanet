@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Like from "./Likes/Like";
-import CommentSection from "../Comments/CommentSection";
+import CommentSection from "../EXPERIMENTAL/CommentSection";
 import Tags from "../Tags/Tags";
 import PostDetals from "./PostDetals";
 import { Button, Drawer } from "@mui/material";
@@ -14,12 +14,15 @@ import Report from "./Report";
 
 function Post({ show, post, tags, userData, favs }) {
     const user = usePage().props.auth;
-    const [isOpen, setIsOpen] = useState(false);
     const [showFull, setShowFull] = useState(false);
-    const togglePanel = () => {
-        setIsOpen(!isOpen);
-    };
-
+    const [isOpen, setIsOpen] = useState(false);
+    const [loadComments, setLoadComments] = useState(false);
+    console.log(loadComments);
+    const loadCommentsFunc = () =>
+    {
+        setLoadComments(true);
+        console.log(loadComments);
+    }
 
     return (
         <>
@@ -38,7 +41,7 @@ function Post({ show, post, tags, userData, favs }) {
                     <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
                         {post.text}
                     </div>
-                    <Img path={post.path_to_image} togglePanel={togglePanel} />
+                    <Img path={post.path_to_image} loadCommentsFunc={loadCommentsFunc}  />
 
                     {show == true && <div></div>}
                     <div className="flex">
@@ -81,24 +84,18 @@ function Post({ show, post, tags, userData, favs }) {
                             </div>
                         </div>
                     )}
-                    <CommentSection postId={post.id} />
-                    {/**/}
-                    <Drawer
-                        anchor="bottom"
-                        open={isOpen}
-                        onClose={togglePanel}
-                        className="items-center justify-center"
-                    >
-                        <PostDetals
-                            post={post}
-                            tags={tags}
-                            favs={favs}
-                            togglePanel={togglePanel}
-                        />
-                    </Drawer>
-                    <button onClick={togglePanel}>
-                        <div className="text-white">Comment Section</div>
-                    </button>
+
+                    {/*<CommentSection postId={post.id} />*/}
+
+                    <PostDetals
+                        postId={post.id}
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                        loadComments={loadComments}
+                        setLoadComments={setLoadComments}
+                    />
+
+
                 </div>
             )}
         </>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Drawer } from "@mui/material";
-import Comment from "./Comment";
-import CommentInput from "./CommentInput";
-import SendComment from "./SendComment";
+import Comment from "../Comments/Comment";
+import CommentInput from "../Comments/CommentInput";
+import SendComment from "../Comments/SendComment";
 import Notify from "@/Components/Notify";
 import { userData } from "../GlobalData.js";
 import FetchIndex from "@/Pages/API/FetchIndex";
@@ -17,7 +17,7 @@ function CommentSection({ postId }) {
     useEffect(() => {}, []);
 
     const fetchComments = async () => {
-        FetchComments(postId, "comment.index", null, setComments)
+        FetchComments(postId, "comment.index", setComments);
     };
 
     const togglePanel = () => {

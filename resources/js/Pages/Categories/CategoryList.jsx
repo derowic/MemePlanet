@@ -16,7 +16,7 @@ function CategoryList({ chosenCategory, changeCategory }) {
     const [selectedCategory, setSelectedCategory] = useState(null);
 
     useEffect(() => {
-        FetchCategories("category.index", null, setCategories)
+        FetchCategories("category.index", null, setCategories);
     }, []);
 
     const beforeChangeCategory = (tmp) => {

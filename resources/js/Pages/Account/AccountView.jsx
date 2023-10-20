@@ -4,27 +4,14 @@ import FetchIndex from "@/Pages/API/FetchIndex";
 import PostsTypeSelect from "../Posts/PostsTypeSelect";
 import FetchPosts from "../API/FetchPosts";
 import RefreshPosts from "../API/RefreshPosts";
+import { useTranslation } from "react-i18next";
 
 function AccountView({ categoryId, categories, tags }) {
     const [selectedPostsType, setSelectedPostsType] = useState("My Posts");
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
     const [rout, setRout] = useState("account.index");
-    /*
-    const fetchPosts = async () => {
-        let params = { page: page };
-        const response = await FetchIndex(rout, params);
-        setPosts((prevPosts) => [...prevPosts, ...response]);
-        setPage(page + 1);
-        console.log("fetchPosts try load new posts " + posts.length);
-    };
-
-    const refreshPosts = async () => {
-        setPosts([]);
-        const response = await FetchIndex(rout, null);
-        setPosts((prevPosts) => [...prevPosts, ...response]);
-    };
-    */
+    const translation = useTranslation(["dashboard"]);
 
     useEffect(() => {}, []);
 
@@ -34,8 +21,8 @@ function AccountView({ categoryId, categories, tags }) {
                 selected={selectedPostsType}
                 setSelected={setSelectedPostsType}
                 elements={[
-                    ["My Posts", "account.index"],
-                    ["Favourite", "favourite.index"],
+                    [translation.t("My Posts"), "account.index"],
+                    [translation.t("Favourite"), "favourite.index"],
                 ]}
                 setPosts={setPosts}
                 setRout={setRout}
