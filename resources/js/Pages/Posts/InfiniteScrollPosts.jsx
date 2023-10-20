@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import UploadPost from "./UploadPost";
-import { userData } from "../GlobalData.js";
-import { OnePostViewData } from "../GlobalData.js";
 import Post from "./Post";
 import Button from "../BasicElements/Button";
-import "../styles.css";
 import { useTranslation } from "react-i18next";
 
 const InfiniteScrollPosts = ({
@@ -48,12 +45,7 @@ const InfiniteScrollPosts = ({
                         {(chosedCategory === 0 ||
                             chosedCategory === post.category.id) && (
                             <div className="w-full flex overflow-hidden shadow-sm  p-4 ">
-                                <Post
-                                    post={post}
-                                    tags={tags}
-                                    userData={userData}
-                                    favs={favs}
-                                />
+                                <Post post={post} tags={tags} />
                             </div>
                         )}
                     </div>

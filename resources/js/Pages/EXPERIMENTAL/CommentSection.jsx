@@ -5,7 +5,6 @@ import Comment from "../Comments/Comment";
 import CommentInput from "../Comments/CommentInput";
 import SendComment from "../Comments/SendComment";
 import Notify from "@/Components/Notify";
-import { userData } from "../GlobalData.js";
 import FetchIndex from "@/Pages/API/FetchIndex";
 import FetchComments from "../API/FetchComments";
 

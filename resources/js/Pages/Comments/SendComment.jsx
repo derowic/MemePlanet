@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Notify from "@/Components/Notify";
-import "../styles.css";
 
 const SendComment = async (postId, text, parentId) => {
     try {

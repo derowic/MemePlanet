@@ -7,14 +7,19 @@ import FetchComments from "../API/FetchComments";
 import { Drawer } from "@mui/material";
 import { usePage } from "@inertiajs/react";
 
-function PostDetals({ postId, isOpen, setIsOpen, loadComments, setLoadComments }) {
+function PostDetals({
+    postId,
+    isOpen,
+    setIsOpen,
+    loadComments,
+    setLoadComments,
+}) {
     const [comments, setComments] = useState([]);
     const [usedComments, setUsedComments] = useState([]);
     const user = usePage().props.auth.user;
 
     useEffect(() => {
-        if(loadComments == true)
-        {
+        if (loadComments == true) {
             togglePanel();
         }
     }, [loadComments]);
@@ -30,7 +35,6 @@ function PostDetals({ postId, isOpen, setIsOpen, loadComments, setLoadComments }
         if (isOpen == false) {
             console.log("open");
             fetchComments();
-
         }
         setLoadComments(false);
     };
@@ -97,11 +101,7 @@ function PostDetals({ postId, isOpen, setIsOpen, loadComments, setLoadComments }
 
                     <CommentInput
                         onSubmit={(commentText) =>
-                            handleSubmitComment(
-                                commentText,
-                                postId,
-                                0
-                            )
+                            handleSubmitComment(commentText, postId, 0)
                         }
                         post={postId}
                     />

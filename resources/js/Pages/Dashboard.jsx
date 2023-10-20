@@ -23,7 +23,9 @@ export default function Dashboard() {
     const [page, setPage] = useState(1);
     const [tags, setTags] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [selectedPostsType, setSelectedPostsType] = useState("Home");
+    const [selectedPostsType, setSelectedPostsType] = useState(
+        translation.t("Home"),
+    );
     const [rout, setRout] = useState("post.index");
 
     const changeCategory = (tmp) => {

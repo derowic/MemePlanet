@@ -12,17 +12,16 @@ import HidePost from "../AdminAndModeratorFunctions/HidePost";
 import DeletePost from "../AdminAndModeratorFunctions/DeletePost";
 import Report from "./Report";
 
-function Post({ show, post, tags, userData, favs }) {
+function Post({ show, post, tags }) {
     const user = usePage().props.auth;
     const [showFull, setShowFull] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [loadComments, setLoadComments] = useState(false);
     console.log(loadComments);
-    const loadCommentsFunc = () =>
-    {
+    const loadCommentsFunc = () => {
         setLoadComments(true);
         console.log(loadComments);
-    }
+    };
 
     return (
         <>
@@ -41,7 +40,10 @@ function Post({ show, post, tags, userData, favs }) {
                     <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
                         {post.text}
                     </div>
-                    <Img path={post.path_to_image} loadCommentsFunc={loadCommentsFunc}  />
+                    <Img
+                        path={post.path_to_image}
+                        loadCommentsFunc={loadCommentsFunc}
+                    />
 
                     {show == true && <div></div>}
                     <div className="flex">
@@ -94,8 +96,6 @@ function Post({ show, post, tags, userData, favs }) {
                         loadComments={loadComments}
                         setLoadComments={setLoadComments}
                     />
-
-
                 </div>
             )}
         </>

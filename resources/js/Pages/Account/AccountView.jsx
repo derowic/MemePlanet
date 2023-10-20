@@ -7,11 +7,13 @@ import RefreshPosts from "../API/RefreshPosts";
 import { useTranslation } from "react-i18next";
 
 function AccountView({ categoryId, categories, tags }) {
-    const [selectedPostsType, setSelectedPostsType] = useState("My Posts");
+    const translation = useTranslation(["dashboard"]);
+    const [selectedPostsType, setSelectedPostsType] = useState(
+        translation.t("My Posts"),
+    );
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
     const [rout, setRout] = useState("account.index");
-    const translation = useTranslation(["dashboard"]);
 
     useEffect(() => {}, []);
 

@@ -6,7 +6,7 @@ import React, {
     useEffect,
 } from "react";
 
-function Img({ path, /*togglePanel*/loadCommentsFunc }) {
+function Img({ path, /*togglePanel*/ loadCommentsFunc }) {
     const [showFull, setShowFull] = useState(false);
     const [imageDimensions, setImageDimensions] = useState({
         width: 0,
