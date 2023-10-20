@@ -7,10 +7,8 @@ import { Button, Drawer } from "@mui/material";
 import Fav from "./Fav/Fav";
 import Img from "./Img";
 import { usePage } from "@inertiajs/react";
-import SetPostToMainPage from "../AdminAndModeratorFunctions/SetPostToMainPage";
-import HidePost from "../AdminAndModeratorFunctions/HidePost";
-import DeletePost from "../AdminAndModeratorFunctions/DeletePost";
 import Report from "./Report";
+import AdminPostsFuncs from "../AdminAndModeratorFunctions/AdminPostsFuncs";
 
 function Post({ show, post, tags }) {
     const user = usePage().props.auth;
@@ -61,30 +59,7 @@ function Post({ show, post, tags }) {
                     </div>
 
                     {(user.role == "admin" || user.role == "moderator") && (
-                        <div className="block">
-                            <div className="w-full ">
-                                <button
-                                    className="p-3 rounded-lg bg-green-500 m-2"
-                                    onClick={() => SetPostToMainPage(post.id)}
-                                >
-                                    Send to main page
-                                </button>
-
-                                <button
-                                    className="p-3 rounded-lg bg-gray-500 m-2"
-                                    onClick={() => HidePost(post.id)}
-                                >
-                                    Hide for the users
-                                </button>
-
-                                <button
-                                    className="p-3 rounded-lg bg-red-500 m-2"
-                                    onClick={() => DeletePost(post.id)}
-                                >
-                                    Delete Post
-                                </button>
-                            </div>
-                        </div>
+                        <AdminPostsFuncs post={post}/>
                     )}
 
                     {/*<CommentSection postId={post.id} />*/}
