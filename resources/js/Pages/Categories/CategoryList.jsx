@@ -5,10 +5,12 @@ import React, {
     useRef,
     useEffect,
 } from "react";
-import FetchIndex from "@/Components/FetchIndex";
+import FetchIndex from "@/Pages/API/FetchIndex";
 import Button from "../Posts/Button";
+import { useTranslation } from "react-i18next";
 
 function CategoryList({ chosenCategory, changeCategory }) {
+    const categoryTranslation = useTranslation(["dashboard"]);
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -42,7 +44,8 @@ function CategoryList({ chosenCategory, changeCategory }) {
                     key={category.id + " categoryList"}
                     func={() => beforeChangeCategory(category.id)}
                     //selected={selectedCategory === category.id}
-                    text={category.name}
+
+                    text={categoryTranslation.t(category.name)}
                     customClass={
                         selectedCategory === category.id
                             ? "m-2 px-2 text-left hover:bg-[#333] border-b border-[#ffbc40]"

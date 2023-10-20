@@ -6,7 +6,7 @@ import React, {
     useEffect,
 } from "react";
 import Button from "./Button";
-import FetchIndex from "@/Components/FetchIndex";
+import FetchIndex from "@/Pages/API/FetchIndex";
 
 function PostsTypeSelect({
     selected,

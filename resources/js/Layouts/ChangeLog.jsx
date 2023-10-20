@@ -26,11 +26,11 @@ function ChangeLog() {
             {isEndOfPage ? (
                 <div className="p-3 text-3xl ">
                     THERE IS NO CAKE !!!
-                    <img
+                    {/*<img
                         src={"/cake2.png"}
                         alt="Opis obrazka"
                         className="w-[50vw] m-auto"
-                    ></img>
+                        ></img>*/}
                 </div>
             ) : null}
         </div>

@@ -74,8 +74,8 @@ Route::post('/show', [PostController::class, 'show'])->name('post.show');
 //Route::post('/upload', [PostController::class, 'upload'])->name('post.upload');
 Route::put('/post/{post}', [PostController::class, 'update'])->name('post.update');
 Route::delete('/post/{post}', [PostController::class, 'delete'])->name('post.delete');
-
 Route::get('/onePost/{post}', [PostController::class, 'onePost'])->name('post.onePost');
+Route::post('/report/{post}', [PostController::class, 'report'])->name('post.report');
 
 Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
 Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');

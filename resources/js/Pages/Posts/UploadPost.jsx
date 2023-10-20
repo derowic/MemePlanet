@@ -55,7 +55,7 @@ const UploadPost = ({ fetchPosts, categories, tags }) => {
                 categories={categories}
                 tags={tags}
             />
-            {imageUploaded && <h1>TESKT DO OBRZA</h1>}
+
         </div>
     );
 };

@@ -144,6 +144,22 @@ class PostController extends Controller
 
     }
 
+    public function report(Post $post)
+    {
+
+        Post::where('id', ($post->id))->update([
+            'status' => 'report',
+        ]);
+
+/*
+        $post->update(['status' => "hide"]);
+        $post->save();
+        */
+
+
+        return response()->json(['msg' => 'success'], 201);
+    }
+
     /*
     public function upload(Request $request)
     {

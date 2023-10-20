@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useTranslation } from "react-i18next";
 import UploadPost from "./UploadPost";
 import { userData } from "../GlobalData.js";
 import { OnePostViewData } from "../GlobalData.js";
 import Post from "./Post";
 import Button from "./Button";
-
 import "../styles.css";
-import "../i18n";
+import { useTranslation } from "react-i18next";
 
 const InfiniteScrollPosts = ({
     chosenCategory,
@@ -18,8 +16,8 @@ const InfiniteScrollPosts = ({
     tags,
     refreshPosts,
 }) => {
-    const { t, i18n } = useTranslation();
 
+    const translation = useTranslation(["dashboard"]);
     const [favs, setFavs] = useState([]);
     const [page, setPage] = useState(1);
     const [auth, setAuth] = useState({ user: null });
@@ -42,9 +40,6 @@ const InfiniteScrollPosts = ({
 
     const isAdmin = auth.user && auth.user.roles.includes("admin");
 
-    const changeLanguageToPolish = () => {
-        i18n.changeLanguage("pl");
-    };
 
     useEffect(() => {
         fetchPosts();
@@ -65,8 +60,8 @@ const InfiniteScrollPosts = ({
                 dataLength={posts.length}
                 next={fetchPosts}
                 hasMore={true}
-                loader={<p>{t("loading")}</p>}
-                endMessage={<p>{t("noMorePosts")}</p>}
+                loader={<p>{translation.t("loading...")}</p>}
+                endMessage={<p>{translation.t("noMorePosts")}</p>}
             >
                 {posts.map((post, index) => (
                     <div key={index}>

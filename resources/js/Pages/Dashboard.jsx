@@ -10,13 +10,17 @@ import { Head } from "@inertiajs/react";
 import InfiniteScrollPosts from "./Posts/InfiniteScrollPosts";
 import CategoryList from "./Categories/CategoryList";
 import TopPosts from "./Posts/TopPosts";
-import FetchIndex from "@/Components/FetchIndex";
+import FetchIndex from "@/Pages/API/FetchIndex";
 import PostsTypeSelect from "./Posts/PostsTypeSelect";
 import { ToastContainer } from "react-toastify";
 import { router, usePage } from "@inertiajs/react";
+import { useTranslation } from "react-i18next";
+import FetchPosts from "./API/FetchPosts";
 
 export default function Dashboard() {
     const user = usePage().props.auth;
+    const dashboardTranslation = useTranslation(["dashboard"]);
+
 
     const [chosenCategory, setChosenCategory] = useState(0);
     const changeCategory = (tmp) => {
@@ -28,12 +32,6 @@ export default function Dashboard() {
     const [categories, setCategories] = useState([]);
     const [selectedPostsType, setSelectedPostsType] = useState("Home");
     const [rout, setRout] = useState("post.index");
-    /*
-    const loadNewPost = async (rout) => {
-        const response = await FetchIndex(rout, null);
-        setPosts((prevPosts) => [...prevPosts, ...response]);
-    };
-    */
 
     const refreshPosts = async () => {
         setPosts([]);
@@ -41,27 +39,6 @@ export default function Dashboard() {
         setPosts((prevPosts) => [...prevPosts, ...response]);
     };
 
-    const fetchPosts = async () => {
-        let params = { page: page };
-        const response = await FetchIndex(rout, params);
-        setPosts((prevPosts) => [...prevPosts, ...response]);
-        setPage(page + 1);
-        console.log("fetchPosts try load new posts " + posts.length);
-        //console.log(response);
-    };
-
-    /*
-    const fetchPosts = async () => {
-        try {
-          const response = await axios.get(`/api/posts?page=${page}`);
-          const newPosts = response.data;
-          setPosts((prevPosts) => [...prevPosts, ...newPosts]);
-
-        } catch (error) {
-          console.error('Błąd podczas pobierania postów', error);
-        }
-      };
-      */
 
     const fetchTags = async () => {
         try {
@@ -94,14 +71,16 @@ export default function Dashboard() {
                 <h2 className=" text-xl text-gray-800 dark:text-gray-200 leading-tight"></h2>
             }
         >
-            <ToastContainer />
+
             <div className="font-bold bg-[#231f20] ">
                 <div className="flex text-gray-100">
-                    <div className=" w-1/3 mt-6">
-                        <div className=" fixed p-4 sm:rounded-lg w-1/5 ml-5">
+                    <div className=" w-1/4 mt-6">
+                        <div className="sticky top-20 p-4 sm:rounded-lg ">
                             <h3 className="text-center mb-2 text-3xl">
-                                Categories
+
+                                {dashboardTranslation.t("Categories")}
                                 <hr />
+
                             </h3>
                             <CategoryList
                                 chosenCategory={chosenCategory}
@@ -110,30 +89,31 @@ export default function Dashboard() {
                         </div>
                     </div>
 
-                    <div className="w-3/4 mt-2">
+                    <div className="w-2/4 mt-2">
                         <div className="w-full text-center">
                             <h2 className="mb-2 text-3xl">
-                                Meme Planet - memes and news
+
+                                {dashboardTranslation.t("Meme Planet")}
                                 <hr />
+
                             </h2>
                             <PostsTypeSelect
                                 selected={selectedPostsType}
                                 setSelected={setSelectedPostsType}
                                 elements={[
-                                    ["Home", "post.index"],
-                                    ["Top", "post.top"],
-                                    ["Trending", "post.trending"],
-                                    ["Fresh", "post.fresh"],
+                                    [dashboardTranslation.t("Home"), "post.index"],
+                                    [dashboardTranslation.t("Top"), "post.top"],
+                                    [dashboardTranslation.t("Trending"), "post.trending"],
+                                    [dashboardTranslation.t("Fresh"), "post.fresh"],
                                 ]}
                                 setPosts={setPosts}
                                 setRout={setRout}
-                                //loadNewPost={loadNewPost}
                             />
                             {tags.length > 0 && categories.length > 0 && (
                                 <InfiniteScrollPosts
                                     chosenCategory={chosenCategory}
                                     posts={posts}
-                                    fetchPosts={fetchPosts}
+                                    fetchPosts={() => FetchPosts(rout, { page: page }, setPosts, page, setPage)}
                                     categories={categories}
                                     tags={tags}
                                     refreshPosts={refreshPosts}
@@ -142,9 +122,9 @@ export default function Dashboard() {
                         </div>
                     </div>
 
-                    <div className="w-1/3 mt-4 ml-4">
+                    <div className="w-1/4 mt-4 ml-4">
                         <div className="w-full p-4 text-center">
-                            <h3 className="text-center mb-2 text-3xl">Hot</h3>
+                            <h3 className="text-center mb-2 text-3xl">{dashboardTranslation.t("Hot")}</h3>
                             <TopPosts tags={tags} />
                         </div>
                     </div>

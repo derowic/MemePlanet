@@ -6,8 +6,7 @@ import React, {
 } from "react";
 import axios from "axios";
 import Notification from "@/Components/Notify";
-import "../i18n";
-import FetchIndex from "@/Components/FetchIndex";
+import FetchIndex from "@/Pages/API/FetchIndex";
 import Post from "./Post";
 
 const TopPosts = (tags) => {

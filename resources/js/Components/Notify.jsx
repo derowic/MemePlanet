@@ -3,6 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Notify = (notify_text) => {
+    /*
     toast(notify_text, {
         position: "bottom-right",
         autoClose: 3000,
@@ -11,6 +12,19 @@ const Notify = (notify_text) => {
         pauseOnHover: true,
         draggable: true,
     });
+    */
+    toast(notify_text, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
 };
+
+
 
 export default Notify;

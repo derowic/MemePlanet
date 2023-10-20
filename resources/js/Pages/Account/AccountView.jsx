@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import InfiniteScrollPosts from "../Posts/InfiniteScrollPosts";
-import FetchIndex from "@/Components/FetchIndex";
+import FetchIndex from "@/Pages/API/FetchIndex";
 import PostsTypeSelect from "../Posts/PostsTypeSelect";
-import axios from "axios";
 
 function AccountView({ categoryId, categories, tags }) {
     const [selectedPostsType, setSelectedPostsType] = useState("My Posts");

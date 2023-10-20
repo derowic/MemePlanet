@@ -10,20 +10,49 @@ import ChangeLog from "./ChangeLog";
 import { router } from "@inertiajs/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Notify from "@/Components/Notify";
+import { useTranslation } from "react-i18next";
+
 
 export default function Authenticated({ header, children }) {
+    const translation = useTranslation(["dashboard"]);
     const user = usePage().props.auth.user;
     //toast("t" + usePage().props.toast.value);
 
     //console.log(usePage().props.toast.value);
+    /*
+    toast.info("test");
+    toast.success("test");
+    toast.warning("test");
+    toast.error("test");
+    toast("test");
+    */
+
+    const { i18n } = useTranslation();
+    const changeLanguage = (newLanguage) => {
+        i18n.changeLanguage(newLanguage);
+        console.log(newLanguage);
+    };
+
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
     return (
-        <div className="bg-[#231f20] h-screen">
-             <ToastContainer />
-            <nav className="border-b border-gray-100 dark:border-gray-700">
-                <div className="fixed w-screen bg-[#333333] ">
+        <div className=" bg-[#231f20] h-screen">
+             <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+             />
+            <nav className="sticky top-0  border-b border-gray-100 dark:border-gray-700">
+                <div className=" bg-[#333333] ">
                     <div className="mx-auto px-4 sm:px-6 lg:px-8">
                         <div className=" flex justify-between h-10">
                             <div className=" flex">
@@ -44,7 +73,8 @@ export default function Authenticated({ header, children }) {
                                         href={route("dashboard")}
                                         active={route().current("dashboard")}
                                     >
-                                        Meme Planet
+                                        {translation.t("Meme Planet")}
+
                                     </NavLink>
 
                                     <NavLink
@@ -53,19 +83,22 @@ export default function Authenticated({ header, children }) {
                                             "memeGenerator",
                                         )}
                                     >
-                                        MemeGenerator
+                                        {translation.t("Meme Generator")}
                                     </NavLink>
 
                                     <NavLink
                                         href={route("account")}
                                         active={route().current("account")}
                                     >
-                                        Account
+                                        {translation.t("Account")}
                                     </NavLink>
                                 </div>
                             </div>
 
                             <div className="hidden sm:flex sm:items-center sm:ml-6">
+
+                                <button onClick={() => changeLanguage("en")} className="text-white font-bold mr-2">English</button>
+                                <button onClick={() => changeLanguage("pl")} className="text-white font-bold">Polish</button>
                                 <NotificationBell />
 
                                 <div className="ml-3 relative">
@@ -105,7 +138,7 @@ export default function Authenticated({ header, children }) {
                                                 method="post"
                                                 as="button"
                                             >
-                                                Log Out
+                                                {translation.t("Log Out")}
                                             </Dropdown.Link>
                                         </Dropdown.Content>
                                     </Dropdown>
@@ -187,7 +220,7 @@ export default function Authenticated({ header, children }) {
                                 href={route("logout")}
                                 as="button"
                             >
-                                Log Outm
+                                {translation.t("Log Out")}
                             </ResponsiveNavLink>
                         </div>
                     </div>

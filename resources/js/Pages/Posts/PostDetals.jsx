@@ -9,7 +9,7 @@ import Comment from "../Comments/Comment";
 import CommentInput from "../Comments/CommentInput";
 import SendComment from "../Comments/SendComment";
 import Notify from "@/Components/Notify";
-import FetchIndex from "@/Components/FetchIndex";
+import FetchIndex from "@/Pages/API/FetchIndex";
 
 function PostDetals({ post, tags, togglePanel }) {
     const [comments, setComments] = useState([]);

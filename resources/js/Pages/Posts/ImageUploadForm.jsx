@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import Notification from "@/Components/Notify";
 import FetchCategories from "@/Components/FetchCategories";
 import axios from "axios";
-import FetchIndex from "@/Components/FetchIndex";
+import FetchIndex from "@/Pages/API/FetchIndex";
 import Button from "./Button";
 import Input from "./Input";
 import ButtonsList from "./ButtonsList";
+import { useTranslation } from "react-i18next";
 
 const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
+    const translation = useTranslation(["dashboard"]);
     const [image, setImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
     const [selectedTags, setSelectedTags] = useState([]);
@@ -98,7 +100,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
         <div className={isOpen == true ? " m-2 px-2 border" : " m-2 px-2"}>
             <Button
                 func={unHide}
-                text={"Add new post"}
+                text={translation.t("Add new post")}
                 customClass={
                     "text-2xl m-4 px-2 hover:border-b hover:border-[#ffbc40]"
                 }
@@ -113,13 +115,13 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                 />
                 <Input
                     type={"text"}
-                    title={"Title"}
+                    title={translation.t("Title")}
                     value={title}
                     func={setTitle}
                 />
                 <Input
                     type={"text"}
-                    title={"Text"}
+                    title={translation.t("Text")}
                     value={text}
                     func={setText}
                 />
@@ -128,7 +130,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                         <img id="attr" src={previewImage} alt="Preview" />
                     )}
                 </div>
-                <h1 className="text-2xl border-b border-[#bbb]">Categories</h1>
+                <h1 className="text-2xl border-b border-[#bbb]">{translation.t("Categories")}</h1>
                 <div className="flex flex-wrap justify-center">
                     <ButtonsList
                         elements={categories}
@@ -136,7 +138,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                         selected={selectedCategory}
                     />
                 </div>
-                <h1 className="text-2xl border-b border-[#bbb]">Tags</h1>
+                <h1 className="text-2xl border-b border-[#bbb]">{translation.t("Tags")}</h1>
                 <div className="flex flex-wrap justify-center">
                     <ButtonsList
                         elements={tags}
@@ -145,9 +147,9 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                     />
                 </div>
                 <div className="text-2xl border-t border-[#bbb]">
-                    <Button func={handleUploadClick} text={"Upload"} />
-                    <Button func={clearImg} text={"Clear"} />
-                    <Button func={close} text={"Close"} />
+                    <Button func={handleUploadClick} text={translation.t("Upload")} />
+                    <Button func={clearImg} text={translation.t("Clear")} />
+                    <Button func={close} text={translation.t("Close")} />
                 </div>
             </div>
         </div>

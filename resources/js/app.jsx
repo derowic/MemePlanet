@@ -52,6 +52,8 @@ export default App;
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
+import "./i18n";
+
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) =>

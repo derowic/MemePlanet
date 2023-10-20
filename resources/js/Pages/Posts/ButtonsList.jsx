@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import Button from "./Button";
+import { useTranslation } from "react-i18next";
 
 function ButtonsList({ elements, func, selected }) {
+    const translation = useTranslation(["dashboard"]);
     useEffect(() => {}, [elements, selected]);
 
     return (
@@ -12,7 +14,7 @@ function ButtonsList({ elements, func, selected }) {
                     <Button
                         key={element.id + "buttons list"}
                         func={() => func(element.id)}
-                        text={element.name}
+                        text={translation.t(element.name)}
                         customClass={
                             Array.isArray(selected)
                                 ? selected.includes(element.id)

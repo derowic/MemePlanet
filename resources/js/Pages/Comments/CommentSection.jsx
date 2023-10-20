@@ -6,7 +6,7 @@ import CommentInput from "./CommentInput";
 import SendComment from "./SendComment";
 import Notify from "@/Components/Notify";
 import { userData } from "../GlobalData.js";
-import FetchIndex from "@/Components/FetchIndex";
+import FetchIndex from "@/Pages/API/FetchIndex";
 
 function CommentSection({ postId }) {
     const [isOpen, setIsOpen] = useState(false);

@@ -104,7 +104,7 @@ class NotificationController extends Controller
                 ->get();
         } elseif ($notification->type == 'post-comment') {
             //dd($notification);
-            $postID = Comment::find($notification->element_id)->post->id;
+            //$postID = Comment::find($notification->element_id)->post->id;
 
             $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
                 ->where('id', $notification->element_id)
@@ -113,22 +113,14 @@ class NotificationController extends Controller
 
         $notification->seen = 1;
         $notification->save();
-        /*
-        Notification::where($notification->id)->update([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'price' => $request->input('price'),
-        ]);*/
 
         if ($posts->count() > 0) {
             return Inertia::render('OnePostShow', [
-                'post' => $posts[0], // Przyjmujemy, że tylko jeden post zostanie znaleziony
+                'post' => $posts[0],
                 'tags' => Tag::all(),
             ]);
         } else {
-            // Obsłuż przypadek, gdy nie znaleziono posta
-            // Możesz tu zwrócić odpowiednią odpowiedź Inertia
-            // lub obsłużyć to w dowolny inny sposób
+
         }
     }
 

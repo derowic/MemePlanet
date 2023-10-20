@@ -10,6 +10,8 @@ import { usePage } from "@inertiajs/react";
 import SetPostToMainPage from "../AdminAndModeratorFunctions/SetPostToMainPage";
 import HidePost from "../AdminAndModeratorFunctions/HidePost";
 import DeletePost from "../AdminAndModeratorFunctions/DeletePost";
+import Report
+ from "./Report";
 
 function Post({ show, post, tags, userData, favs }) {
     //console.log("id ", post.id, " status ", post.status);
@@ -23,7 +25,7 @@ function Post({ show, post, tags, userData, favs }) {
     return (
         <>
             {post.status != "hide" && (
-                <div className="m-auto border-t py-2 w-3/4">
+                <div className="m-auto border-t py-2 w-3/5">
                     <h3 className="text-left font-semibold mb-2 w-full">
                         {post.id} {post.title}
                     </h3>
@@ -50,6 +52,7 @@ function Post({ show, post, tags, userData, favs }) {
                             />
 
                             <Fav postId={post.id} is_Fav={post.is_fav} />
+                            <Report postId={post.id}/>
                         </div>
                     </div>
 
