@@ -76,6 +76,6 @@ class Post extends Model
 
     public function tags()
     {
-        return $this->belongsTo(TagList::class);
+        return $this->hasMany(TagList::class);
     }
 }

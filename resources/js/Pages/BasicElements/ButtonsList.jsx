@@ -13,7 +13,7 @@ function ButtonsList({ elements, func, selected }) {
                 elements.map((element) => (
                     <Button
                         key={element.id + "buttons list"}
-                        func={() => func(element.id)}
+                        onClick={() => func(element.id)}
                         text={translation.t(element.name)}
                         customClass={
                             Array.isArray(selected)

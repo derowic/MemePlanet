@@ -7,24 +7,25 @@ import { Button, Drawer } from "@mui/material";
 import Fav from "./Fav/Fav";
 import Img from "./Img";
 import { usePage } from "@inertiajs/react";
-import Report from "./Report";
 import AdminPostsFuncs from "../AdminAndModeratorFunctions/AdminPostsFuncs";
+import ReportDialog from "./Reports/ReportDialog";
 
-function Post({ show, post, tags }) {
+function Post({ show, post, tags, showOptions }) {
+    //console.log(post);
     const user = usePage().props.auth;
     const [showFull, setShowFull] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [loadComments, setLoadComments] = useState(false);
-    console.log(loadComments);
+    //console.log(loadComments);
     const loadCommentsFunc = () => {
         setLoadComments(true);
-        console.log(loadComments);
+        //console.log(loadComments);
     };
 
     return (
         <>
             {post.status != "hide" && (
-                <div className="m-auto border-t py-2 w-3/5">
+                <div className="m-auto border-t py-2 w-4/5">
                     <h3 className="text-left font-semibold mb-2 w-full">
                         {post.id} {post.title}
                     </h3>
@@ -39,13 +40,12 @@ function Post({ show, post, tags }) {
                         {post.text}
                     </div>
                     <Img
-                        path={post.path_to_image}
+                        post={post}
                         loadCommentsFunc={loadCommentsFunc}
                     />
 
-                    {show == true && <div></div>}
-                    <div className="flex">
-                        <div className="flex m-auto">
+                    {showOptions && (
+                        <div className="flex flex-wrap">
                             <Like
                                 elementId={post.id}
                                 elementType={"post"}
@@ -54,23 +54,27 @@ function Post({ show, post, tags }) {
                             />
 
                             <Fav postId={post.id} is_Fav={post.is_fav} />
-                            <Report postId={post.id} />
+
+
+                            <ReportDialog
+                                post={post}
+                                defaultButtonText={"!"}
+                                modalTitle={"Report"}
+                                modalDescription={"Select report reason"}
+                            />
+
+                            <PostDetals
+                                post={post}
+                                isOpen={isOpen}
+                                setIsOpen={setIsOpen}
+                                loadComments={loadComments}
+                                setLoadComments={setLoadComments}
+                            />
                         </div>
-                    </div>
-
-                    {(user.role == "admin" || user.role == "moderator") && (
-                        <AdminPostsFuncs post={post}/>
                     )}
-
-                    {/*<CommentSection postId={post.id} />*/}
-
-                    <PostDetals
-                        postId={post.id}
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                        loadComments={loadComments}
-                        setLoadComments={setLoadComments}
-                    />
+                    {(user.role == "admin" || user.role == "moderator") && (
+                        <AdminPostsFuncs post={post} />
+                    )}
                 </div>
             )}
         </>

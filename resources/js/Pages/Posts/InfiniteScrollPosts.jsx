@@ -26,7 +26,7 @@ const InfiniteScrollPosts = ({
         <div>
             <div className="p-4 ">
                 To hide:
-                <Button func={refreshPosts} text={"Refresh"} />
+                <Button onClick={refreshPosts} text={"Refresh"} />
                 <UploadPost
                     fetchPosts={refreshPosts}
                     categories={categories}
@@ -45,7 +45,11 @@ const InfiniteScrollPosts = ({
                         {(chosedCategory === 0 ||
                             chosedCategory === post.category.id) && (
                             <div className="w-full flex overflow-hidden shadow-sm  p-4 ">
-                                <Post post={post} tags={tags} />
+                                <Post
+                                    post={post}
+                                    tags={tags}
+                                    showOptions={true}
+                                />
                             </div>
                         )}
                     </div>

@@ -18,7 +18,7 @@ const CommentInput = ({ onSubmit, post }) => {
             {submittedComment ? (
                 <div></div>
             ) : (
-                <div className="flex justify-center">
+                <div className="bg-[#333333] flex justify-center">
                     <textarea
                         value={commentText}
                         onChange={handleInputChange}

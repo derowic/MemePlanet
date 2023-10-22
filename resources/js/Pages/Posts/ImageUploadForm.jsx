@@ -44,9 +44,9 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
             title != "" &&
             selectedCategory != null
         ) {
-            var tmp = "";
+            let tmp = [];
             for (const tag of selectedTags) {
-                tmp += tag + " ";
+                tmp.push(tag);
             }
             onImageUpload(image, title, text, selectedCategory, tmp);
             setPreviewImage(null);
@@ -99,7 +99,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
     return (
         <div className={isOpen == true ? " m-2 px-2 border" : " m-2 px-2"}>
             <Button
-                func={unHide}
+                onClick={unHide}
                 text={translation.t("Add new post")}
                 customClass={
                     "text-2xl m-4 px-2 hover:border-b hover:border-[#ffbc40]"
@@ -152,11 +152,11 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                 </div>
                 <div className="text-2xl border-t border-[#bbb]">
                     <Button
-                        func={handleUploadClick}
+                        onClick={handleUploadClick}
                         text={translation.t("Upload")}
                     />
-                    <Button func={clearImg} text={translation.t("Clear")} />
-                    <Button func={close} text={translation.t("Close")} />
+                    <Button onClick={clearImg} text={translation.t("Clear")} />
+                    <Button onClick={close} text={translation.t("Close")} />
                 </div>
             </div>
         </div>

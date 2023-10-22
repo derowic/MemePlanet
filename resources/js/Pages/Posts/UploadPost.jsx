@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ImageUploadForm from "./ImageUploadForm";
 import Notify from "@/Components/Notify";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const UploadPost = ({ fetchPosts, categories, tags }) => {
     const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
@@ -11,13 +12,12 @@ const UploadPost = ({ fetchPosts, categories, tags }) => {
         if (image != null && title != null && title != "" && category != null) {
             try {
                 const formData = new FormData();
-                formData.append("image", image); // Przyjmuję, że 'image' to zmienna zawierająca plik
+                formData.append("image", image);
                 formData.append("title", title);
                 formData.append("text", text);
                 formData.append("category", category);
-                /*
-                // Dodajemy tagi jako tablicę
-                tags.forEach((tag) => {
+                formData.append("tags", tags);
+                /* tags.forEach((tag) => {
                     formData.append('tags[]', tag);
                 });
                 */
@@ -32,19 +32,17 @@ const UploadPost = ({ fetchPosts, categories, tags }) => {
                     },
                 );
 
+                console.log(response);
                 setUploadedImageUrl(response.data.imageUrl);
                 setImageUploaded(true);
                 fetchPosts();
-
-                console.log(response);
                 Notify(response.data.msg);
             } catch (error) {
                 console.error("UploadPost error: ", error);
                 Notify(error);
             }
         } else {
-            //Notification("Image, title and category are required");
-            console.error("UploadPost error: ", error);
+            toast.warning("Set all inputs");
         }
     };
 

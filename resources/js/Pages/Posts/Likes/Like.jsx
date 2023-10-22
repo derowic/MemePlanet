@@ -43,7 +43,7 @@ function Like({ elementId, elementType, likes, is_liked }) {
     return (
         <div className="mt-2">
             <Button
-                func={increment}
+                onClick={increment}
                 text={"+"}
                 customClass={
                     isLiked
@@ -53,10 +53,10 @@ function Like({ elementId, elementType, likes, is_liked }) {
             />
             <span className="count">{count}</span>
             <Button
-                func={decrement}
+                onClick={decrement}
                 text={"-"}
                 customClass={
-                    "mb-2 mr-2 hover:bg-[#7abcf5] text-white font-bold py-2 px-4 rounded-lg border border-[#7abcf5]"
+                    "ml-2 mb-2 mr-2 hover:bg-[#7abcf5] text-white font-bold py-2 px-4 rounded-lg border border-[#7abcf5]"
                 }
             />
         </div>

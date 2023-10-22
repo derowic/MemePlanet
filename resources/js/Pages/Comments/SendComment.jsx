@@ -19,7 +19,7 @@ const SendComment = async (postId, text, parentId) => {
             type = "post-comment";
         }
 
-        console.log("parent: ", parentId, " ", postId, " ", tmp);
+        //console.log("parent: ", parentId, " ", postId, " ", tmp);
         const response2 = await axios.post(route("notification.store"), {
             element_id: tmp,
             type: type,

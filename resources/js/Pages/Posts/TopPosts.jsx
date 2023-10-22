@@ -14,7 +14,7 @@ const TopPosts = (tags) => {
     }, []);
 
     return posts.map((post, index) => (
-        <Post key={post.id} post={post} tags={tags} />
+        <Post key={post.id} post={post} tags={tags} showOptions={true} />
     ));
 };
 

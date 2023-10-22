@@ -30,11 +30,11 @@ function CategoryList({ chosenCategory, changeCategory }) {
     };
 
     return (
-        <div className="grid">
+        <div className="w-full grid">
             {categories.map((category) => (
                 <Button
                     key={category.id + " categoryList"}
-                    func={() => beforeChangeCategory(category.id)}
+                    onClick={() => beforeChangeCategory(category.id)}
                     text={categoryTranslation.t(category.name)}
                     customClass={
                         selectedCategory === category.id

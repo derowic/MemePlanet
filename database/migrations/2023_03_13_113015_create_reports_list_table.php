@@ -1,7 +1,8 @@
 <?php
 
 use App\Models\Post;
-use App\Models\Tag;
+use App\Models\Report;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,10 +14,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tag_lists', function (Blueprint $table) {
+        Schema::create('report_lists', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Post::class);
-            $table->foreignIdFor(Tag::class);
+            $table->foreignIdFor(Report::class);
+            $table->foreignIdFor(User::class);
             $table->timestamps();
 
         });
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tag_lists');
+        Schema::dropIfExists('report_lists');
     }
 };

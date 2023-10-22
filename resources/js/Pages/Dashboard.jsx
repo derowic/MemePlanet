@@ -46,8 +46,8 @@ export default function Dashboard() {
             <div className="font-bold bg-[#231f20] ">
                 <div className="flex text-gray-100">
                     <div className=" w-1/4 mt-6">
-                        <div className="sticky top-20 p-4 sm:rounded-lg ">
-                            <h3 className="text-center mb-2 text-3xl">
+                        <div className="w-full sticky top-20 p-4 sm:rounded-lg ">
+                            <h3 className="w-full text-center mb-2 text-3xl">
                                 {translation.t("Categories")}
                                 <hr />
                             </h3>
@@ -103,8 +103,8 @@ export default function Dashboard() {
                     </div>
 
                     <div className="w-1/4 mt-4 ml-4">
-                        <div className="w-full p-4 text-center">
-                            <h3 className="text-center mb-2 text-3xl">
+                        <div className="w-full p-4 text-center ">
+                            <h3 className=" w-full text-center mb-2 text-3xl w-full">
                                 {translation.t("Hot")}
                             </h3>
                             <TopPosts tags={tags} />

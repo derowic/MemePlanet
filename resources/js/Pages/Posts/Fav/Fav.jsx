@@ -29,7 +29,7 @@ const Fav = ({ postId, is_Fav }) => {
     return (
         <div className="ml-2 ">
             <Button
-                func={addPostToFavourite}
+                onClick={addPostToFavourite}
                 //selected={selectedCategory === category.id}
                 text={"+"}
                 customClass={

@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Category::class);
-            $table->foreignIdFor(TagList::class)->nullable();
             $table->string('title', 25)->nullable();
             $table->string('text', 255)->nullable();
             $table->integer('likes')->nullable();

@@ -38,6 +38,7 @@ export default function Authenticated({ header, children }) {
 
     return (
         <div className=" bg-[#231f20] h-screen">
+
             <ToastContainer
                 position="top-center"
                 autoClose={5000}

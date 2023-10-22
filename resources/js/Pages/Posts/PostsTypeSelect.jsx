@@ -48,7 +48,7 @@ function PostsTypeSelect({
                 elements.map((element) => (
                     <Button
                         key={element + " posts type"}
-                        func={() => handleSelectedPostsType(element)}
+                        onClick={() => handleSelectedPostsType(element)}
                         text={element[0]}
                         customClass={
                             selected == element[0]

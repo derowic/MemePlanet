@@ -6,10 +6,10 @@ import React, {
     useEffect,
 } from "react";
 
-function Button({ func, text, customClass }) {
+function Button({ onClick, text, customClass }) {
     return (
         <button
-            onClick={func}
+            onClick={onClick}
             //className={className ? "text-red font-bold px-2" : className}
             className={` ${
                 customClass || "m-2 px-2 hover:border-b hover:border-[#ffbc40]"

@@ -6,9 +6,10 @@ import Notify from "@/Components/Notify";
 import FetchComments from "../API/FetchComments";
 import { Drawer } from "@mui/material";
 import { usePage } from "@inertiajs/react";
+import Img from "./Img";
 
 function PostDetals({
-    postId,
+    post,
     isOpen,
     setIsOpen,
     loadComments,
@@ -25,7 +26,7 @@ function PostDetals({
     }, [loadComments]);
 
     const fetchComments = async () => {
-        FetchComments(postId, "comment.index", setComments);
+        FetchComments(post.id, "comment.index", setComments);
     };
 
     const togglePanel = () => {
@@ -33,7 +34,7 @@ function PostDetals({
         setComments([]);
         setIsOpen(!isOpen);
         if (isOpen == false) {
-            console.log("open");
+            //console.log("open");
             fetchComments();
         }
         setLoadComments(false);
@@ -45,13 +46,9 @@ function PostDetals({
         await fetchComments();
     };
 
-    const handleSubmitComment = async (
-        commentText,
-        postId,
-        parentCommentId,
-    ) => {
+    const handleSubmitComment = async (commentText, parentCommentId) => {
         if (commentText != "") {
-            await SendComment(postId, commentText, parentCommentId);
+            await SendComment(post.id, commentText, parentCommentId);
             addComment(commentText);
         } else {
             Notify("Comment filed is empty, write something");
@@ -81,46 +78,69 @@ function PostDetals({
 
     return (
         <div>
-            <button onClick={togglePanel}>
-                <div className="text-white">Comment Section</div>
+            <button onClick={togglePanel} className="flex m-auto h-full ">
+                <img
+                    src="/comment.png"
+                    alt="Twoja Ikona"
+                    className="w-10 mt-2"
+                />
+                <div className="flex-1 flex items-center h-full">
+                    <p className="ml-2 text-white text-center">
+                        Comment Section
+                    </p>
+                </div>
             </button>
 
             <Drawer
                 anchor="bottom"
                 open={isOpen}
                 onClose={togglePanel}
-                className="items-center justify-center"
+                className="items-center justify-center "
             >
-                <div
-                    className="bg-[#333333] text-white "
-                    style={{ maxHeight: "75vh", minHeight: "75vh" }}
-                >
-                    <div className="flex items-center justify-center ">
-                        <div className="text-center text-lg ">Comments</div>
-                    </div>
-
-                    <CommentInput
-                        onSubmit={(commentText) =>
-                            handleSubmitComment(commentText, postId, 0)
-                        }
-                        post={postId}
-                    />
-                    <div
-                        id="comments"
-                        className="bg-[#333333] dark:bg-white-700"
-                    >
-                        {comments.map((comment) => (
-                            <Comment
-                                key={comment.id}
-                                usedComments={usedComments}
-                                comment={comment}
-                                allComments={comments}
-                                setComs={setComments}
-                                post={postId}
-                                fetchComments={updateCommentSection}
-                                prevComment={null}
+                <div className="bg-[#333333] text-white  h-full">
+                    <div className="w-4/5 m-auto">
+                        <div className="m-auto ">
+                            <button
+                                onClick={togglePanel}
+                                className="sticky top-0 p-4 border rounded-lg m-2 bg-[#555]"
+                            >
+                                close
+                            </button>
+                            <Img
+                                post={post}
+                                loadCommentsFunc={null}
                             />
-                        ))}
+                        </div>
+
+                        <div className="flex items-center justify-center bg-[#333] ">
+                            <div className="text-center text-lg ">Comments</div>
+                        </div>
+
+                        <CommentInput
+                            onSubmit={(commentText) =>
+                                handleSubmitComment(commentText, 0)
+                            }
+                            post={post.id}
+                        />
+
+                        <div
+                            id="comments"
+                            className=""
+                        >
+                            {comments.map((comment) => (
+                                <Comment
+                                    key={comment.id}
+                                    usedComments={usedComments}
+                                    comment={comment}
+                                    allComments={comments}
+                                    setComs={setComments}
+                                    post={post.id}
+                                    fetchComments={updateCommentSection}
+                                    prevComment={null}
+                                />
+                            ))}
+                        </div>
+
                     </div>
                 </div>
             </Drawer>

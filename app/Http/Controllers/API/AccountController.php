@@ -15,7 +15,7 @@ class AccountController extends Controller
     {
         $user = auth()->user();
         $perPage = 10;
-        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
@@ -42,7 +42,7 @@ class AccountController extends Controller
         $user = auth()->user();
         $page = $request->input('page', 1);
 
-        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)

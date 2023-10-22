@@ -7,6 +7,7 @@ use App\Http\Resources\PostResource;
 use App\Models\Favourite;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\TagList;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -30,7 +31,7 @@ class PostController extends Controller
         $perPage = 5;
         $page = $request->input('page', 1);
 
-        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
             ->where('status', "main page")
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
@@ -46,7 +47,7 @@ class PostController extends Controller
         $perPage = 5;
         $page = $request->input('page', 1);
 
-        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
@@ -64,7 +65,7 @@ class PostController extends Controller
 
         $twentyFourHoursAgo = now()->subHours(24);
 
-        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
             ->where('created_at', '>=', $twentyFourHoursAgo)
             ->orderBy('likes', 'desc')
             ->skip(($page - 1) * $perPage)
@@ -112,7 +113,7 @@ class PostController extends Controller
 
     public function top()
     {
-        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:id,name'])
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
             ->orderBy('likes', 'desc')
             ->take(4)
             ->get();
@@ -122,26 +123,10 @@ class PostController extends Controller
 
     public function onePost(Post $post): Response
     {
-
-        /*return Inertia::render('OnePostShow', [
-            'post' => Post::find($post->id),
-            'tags' => Tag::all(),
-            'is_liked' => $post->liked(), // Dodaj atrybut is_liked
-            'is_favorite' => Favourite::where('user_id', auth()->user()->id)
-                ->where('post_id', $post->id)
-                ->exists(), // Dodaj atrybut is_favorite
-        ]);
-        */
-        //$post = Post::find($post->id);
         return Inertia::render('OnePostShow', [
-            'post' => $post->load('user', 'category'),
+            'post' => $post->load('user', 'category','tags'),
             'tags' => Tag::all(),
-            //'is_liked' => $post->liked(), // Dodaj atrybut is_liked
-            /*'is_favorite' => Favourite::where('user_id', auth()->user()->id)
-                ->where('post_id', $post->id)
-                ->exists(), // Dodaj atrybut is_favorite*/
         ]);
-
     }
 
     public function report(Post $post)
@@ -234,26 +219,13 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+        //dd();
 
-        /* if ($request->hasFile('image') &&
-             ($request->title != null) && ($request->title != '') &&
-             ($request->text != null) && ($request->text != '') &&
-             ($request->category != null) && ($request->category != 0) &&
-             ($request->tags != null) && ($request->tags != '')) {
-**/
+
 
         $image = $request->file('image');
-        //$image = $request->input('image');
         $imageName = auth()->user()->id.time().'_'.$image->getClientOriginalName();
         $image->move(public_path('images'), $imageName);
-
-        //$image = $request->file('image');
-        /*
-                    if($image == null)
-                    {
-                        dd($request->input('image')->getClientOriginalName());
-                    }
-                    */
 
         $post = new Post();
         $post->user_id = auth()->user()->id;
@@ -261,25 +233,32 @@ class PostController extends Controller
         $post->text = $request->input('text');
         $post->likes = 0;
         $post->category_id = $request->input('category');
-        $post->tag_list_id = 0;
         $post->path_to_image = $imageName;
         $post->created_at = now();
         $post->updated_at = now();
         $post->save();
 
+        $tagsString = $request->input('tags');
+        $tagsArray = explode(',', $tagsString);
+
+        foreach ($tagsArray as $tagId) {
+            $tagList = new TagList();
+            $tagList->post_id = $post->id;
+            $tagList->tag_id = $tagId;
+            $tagList->save(); // Zapisz obiekt w bazie danych
+        }
+
+
         if ($post->save()) {
             return response()->json(['msg' => 'Post added'], 201);
+
+            //return response()->json(['msg' => $tagsArray], 201);
         } else {
 
             return response()->json(['msg' => 'Error'], 500);
         }
 
         return response()->json(['msg' => 'No image uploaded.'], 400);
-
-        /* } else {
-             return response()->json(['msg' => 'error while saving post, refresh or try later'], 500);
-         }
-         */
     }
 
     public function like(Request $request)

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tag extends Model
+class Report extends Model
 {
     use HasFactory;
 
@@ -13,8 +13,8 @@ class Tag extends Model
         'name',
     ];
 
-    public function tagLists()
+    public function reportLists()
     {
-        return $this->belongsToMany(TagList::class);
+        return $this->belongsToMany(ReportList::class);
     }
 }
