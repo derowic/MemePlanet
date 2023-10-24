@@ -32,11 +32,11 @@ function ChangeLog() {
                         className="w-[50vw] m-auto"
                         ></img>*/}
                     <p>Change Log:</p>
-                        <p>21.10.2023</p>
-                        <ul className="text-2xl">
-                            <li>repair tags showing</li>
-                            <li>add possibles to open post in the new page</li>
-                        </ul>
+                    <p>21.10.2023</p>
+                    <ul className="text-2xl">
+                        <li>repair tags showing</li>
+                        <li>add possibles to open post in the new page</li>
+                    </ul>
                 </div>
             ) : null}
         </div>

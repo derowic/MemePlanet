@@ -15,8 +15,8 @@ class ReportListController extends Controller
 
     public function store(Request $request)
     {
-        if(! ReportList::where('user_id', auth()->user()->id )->where('post_id', $request->input('post_id'))->first())
-        {   $reportList = new ReportList();
+        if (! ReportList::where('user_id', auth()->user()->id)->where('post_id', $request->input('post_id'))->first()) {
+            $reportList = new ReportList();
             $reportList->post_id = $request->input('post_id');
             $reportList->report_id = $request->input('report_id');
             $reportList->user_id = auth()->user()->id;
@@ -28,6 +28,7 @@ class ReportListController extends Controller
                 return response()->json(['msg' => 'Error'], 500);
             }
         }
+
         return response()->json(['msg' => 'You have already reported this post'], 201);
     }
 

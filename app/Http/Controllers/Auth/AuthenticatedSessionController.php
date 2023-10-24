@@ -19,6 +19,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
+
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
@@ -30,9 +31,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        //place to check ban
+        //dd($request);
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }

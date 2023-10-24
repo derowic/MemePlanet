@@ -12,13 +12,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Notify from "@/Components/Notify";
 import { useTranslation } from "react-i18next";
+import BanInfo from "./BanInfo";
 
 export default function Authenticated({ header, children }) {
     const translation = useTranslation(["dashboard"]);
     const user = usePage().props.auth.user;
-    //toast("t" + usePage().props.toast.value);
-
-    //console.log(usePage().props.toast.value);
+    console.log(usePage().props);
     /*
     toast.info("test");
     toast.success("test");
@@ -38,7 +37,6 @@ export default function Authenticated({ header, children }) {
 
     return (
         <div className=" bg-[#231f20] h-screen">
-
             <ToastContainer
                 position="top-center"
                 autoClose={5000}
@@ -91,6 +89,19 @@ export default function Authenticated({ header, children }) {
                                     >
                                         {translation.t("Account")}
                                     </NavLink>
+
+                                    {user.roles.some(
+                                        (role) => role.name === "admin",
+                                    ) && (
+                                        <NavLink
+                                            href={route("adminPanel")}
+                                            active={route().current(
+                                                "adminPanel",
+                                            )}
+                                        >
+                                            {translation.t("Admin Panel")}
+                                        </NavLink>
+                                    )}
                                 </div>
                             </div>
 

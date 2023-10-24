@@ -30,15 +30,15 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        if($request->user())
-        {
+        //dd($request->user()->getAllPermissions());
+        if ($request->user()) {
             return array_merge(parent::share($request), [
 
                 'auth' => [
 
-                    'user' => $request->user(),
+                    'user' => $request->user()->load('ban.ban', 'ban.report'),
                     'role' => $request->user()->getRoleNames(),
-                    'permissions' => $request->user()->getAllPermissions(),
+                    'permissions' => $request->user()->getAllPermissions()->pluck('name', 'id'),
                     //'lang' => 'pl',
                 ],
                 'ziggy' => function () use ($request) {
@@ -50,9 +50,7 @@ class HandleInertiaRequests extends Middleware
                     'value' => fn () => $request->session()->get('toast'),
                 ],
             ]);
-        }
-        else
-        {
+        } else {
             return array_merge(parent::share($request), [
 
                 'auth' => [

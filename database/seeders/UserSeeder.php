@@ -36,7 +36,6 @@ class UserSeeder extends Seeder
                 'email' => 'user'.strval($i).'@localhost',
                 'email_verified_at' => Carbon::now(),
                 'password' => Hash::make('12345678'),
-                'ban_to' => null,
                 'remember_token' => Str::random(10),
             ]);
 

@@ -22,20 +22,19 @@ function Img({ post, /*togglePanel*/ loadCommentsFunc }) {
 
     return (
         <div className="w-full">
-
-                <a href={route("post.onePost", {post: post.id,})}
+            <a
+                href={route("post.onePost", { post: post.id })}
                 //target="_blank"
                 //rel="noopener noreferrer"
-                >
-                    <img
-                        id="yourImageId"
-                        src={"/images/" + post.path_to_image}
-                        alt="Opis obrazka"
-                        className="w-full object-cover"
-                        onLoad={handleImageLoad} // Dodaj obsługę zdarzenia onLoad
-                    ></img>
-                </a>
-
+            >
+                <img
+                    id="yourImageId"
+                    src={"/images/" + post.path_to_image}
+                    alt="Opis obrazka"
+                    className="w-full object-cover"
+                    onLoad={handleImageLoad} // Dodaj obsługę zdarzenia onLoad
+                ></img>
+            </a>
 
             {imageDimensions.height > 1000 && (
                 <button

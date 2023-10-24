@@ -40,15 +40,13 @@ const NotificationBell = () => {
     };
 
     useEffect(() => {
-
         const intervalId = setInterval(() => {
-
-          console.log('Wykonywanie co 5 sekund');
-          fetchNotification();
+            console.log("Wykonywanie co 5 sekund");
+            fetchNotification();
         }, 60000);
 
         return () => {
-          clearInterval(intervalId);
+            clearInterval(intervalId);
         };
     }, []);
 

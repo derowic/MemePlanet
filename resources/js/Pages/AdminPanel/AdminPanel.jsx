@@ -6,30 +6,26 @@ import React, {
     useEffect,
 } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import InfiniteScrollPosts from "./Posts/InfiniteScrollPosts";
-import CategoryList from "./Categories/CategoryList";
-import TopPosts from "./Posts/TopPosts";
-import PostsTypeSelect from "./Posts/PostsTypeSelect";
+import InfiniteScrollPosts from "../Posts/InfiniteScrollPosts";
+import CategoryList from "../Categories/CategoryList";
+import TopPosts from "../Posts/TopPosts";
+import PostsTypeSelect from "../Posts/PostsTypeSelect";
 import { useTranslation } from "react-i18next";
-import FetchPosts from "./API/FetchPosts";
-import FetchTags from "./API/FetchTags";
-import RefreshPosts from "./API/RefreshPosts";
-import FetchCategories from "./API/FetchCategories";
-import BanInfo from "@/Layouts/BanInfo";
-import { usePage } from "@inertiajs/react";
+import FetchPosts from "../API/FetchPosts";
+import FetchTags from "../API/FetchTags";
+import RefreshPosts from "../API/RefreshPosts";
+import FetchCategories from "../API/FetchCategories";
 
-export default function Dashboard() {
-    const user = usePage().props.auth.user;
+export default function AdminPanel() {
     const translation = useTranslation(["dashboard"]);
-    const [chosenCategory, setChosenCategory] = useState(0);
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
     const [tags, setTags] = useState([]);
     const [categories, setCategories] = useState([]);
     const [selectedPostsType, setSelectedPostsType] = useState(
-        translation.t("Home"),
+        translation.t("Reported posts"),
     );
-    const [rout, setRout] = useState("post.index");
+    const [rout, setRout] = useState("adminPanel.index");
 
     const changeCategory = (tmp) => {
         setChosenCategory(tmp);
@@ -54,38 +50,42 @@ export default function Dashboard() {
                                 {translation.t("Categories")}
                                 <hr />
                             </h3>
-                            <CategoryList
-                                chosenCategory={chosenCategory}
-                                changeCategory={changeCategory}
-                            />
                         </div>
                     </div>
 
                     <div className="w-2/4 mt-2">
                         <div className="w-full text-center">
-                            <BanInfo data={user} />
                             <h2 className="mb-2 text-3xl">
-                                {translation.t("Meme Planet")}
+                                {translation.t("Admin Panel")}
                                 <hr />
                             </h2>
                             <PostsTypeSelect
                                 selected={selectedPostsType}
                                 setSelected={setSelectedPostsType}
                                 elements={[
-                                    [translation.t("Home"), "post.index"],
-                                    [translation.t("Top"), "post.top"],
                                     [
-                                        translation.t("Trending"),
+                                        translation.t("Reported posts"),
+                                        "adminPanel.index",
+                                    ],
+                                    [
+                                        translation.t("Hidden posts"),
+                                        "adminPanel.hiddenPosts",
+                                    ],
+                                    [
+                                        translation.t("Reported comments"),
                                         "post.trending",
                                     ],
-                                    [translation.t("Fresh"), "post.fresh"],
+                                    [
+                                        translation.t("Hidden comments"),
+                                        "post.fresh",
+                                    ],
                                 ]}
                                 setPosts={setPosts}
                                 setRout={setRout}
                             />
                             {tags.length > 0 && categories.length > 0 && (
                                 <InfiniteScrollPosts
-                                    chosenCategory={chosenCategory}
+                                    chosenCategory={0}
                                     posts={posts}
                                     fetchPosts={() =>
                                         FetchPosts(
@@ -111,7 +111,6 @@ export default function Dashboard() {
                             <h3 className=" w-full text-center mb-2 text-3xl w-full">
                                 {translation.t("Hot")}
                             </h3>
-                            <TopPosts tags={tags} />
                         </div>
                     </div>
                 </div>

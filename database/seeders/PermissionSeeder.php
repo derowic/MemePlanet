@@ -16,15 +16,23 @@ class PermissionSeeder extends Seeder
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        //Permission::create(['name' => 'posts.destroy']);
+        Permission::create(['name' => 'posts.sendToMainPage']);
+        Permission::create(['name' => 'posts.hide']);
+        Permission::create(['name' => 'posts.showReport']);
+        Permission::create(['name' => 'posts.delete']);
+        Permission::create(['name' => 'user.ban']);
 
         $adminRole = Role::findByName('admin');
-        //$adminRole->givePermissionTo('posts.destroy');
+        $adminRole->givePermissionTo('posts.sendToMainPage');
+        $adminRole->givePermissionTo('posts.hide');
+        $adminRole->givePermissionTo('posts.showReport');
+        $adminRole->givePermissionTo('posts.delete');
+        $adminRole->givePermissionTo('user.ban');
 
-        $userRole = Role::findByName('user');
-
-        //$moderatorRole = Role::findByName(config('auth.roles.moderator'));
-        //$moderatorRole->givePermissionTo('posts.destroy');
+        $moderatorRole = Role::findByName('moderator');
+        $moderatorRole->givePermissionTo('posts.sendToMainPage');
+        $moderatorRole->givePermissionTo('posts.hide');
+        $moderatorRole->givePermissionTo('posts.showReport');
 
     }
 }

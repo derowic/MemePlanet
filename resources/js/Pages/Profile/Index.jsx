@@ -3,7 +3,7 @@ import DeleteUserForm from "./Partials/DeleteUserForm";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import { Head } from "@inertiajs/react";
-import UpdatePasswordForm from "../Posts/InfiniteScrollPosts";
+
 export default function Index({ auth, mustVerifyEmail, status }) {
     return (
         <AuthenticatedLayout user={auth.user} className="bg-[#231f20]">

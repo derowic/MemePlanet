@@ -1,34 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
-import Button from "../../BasicElements/Button";
+import Button from "../BasicElements/Button";
 import { toast } from "react-toastify";
 import FetchReports from "@/Pages/API/FetchReports";
+import FetchPostReports from "@/Pages/API/FetchPostReports";
 
-const ReportDialog = ({
+const ReportListDialog = ({
     post,
     defaultButtonText,
     modalTitle,
     modalDescription,
 }) => {
-    const [reports, setReports] = useState([]);
-    const setReport = async (report_id) => {
-        try {
-            const response = await axios.post(route("reportList.store"), {
-                post_id: post.id,
-                report_id: report_id,
-            });
-
-            toast.success(response.data.msg);
-        } catch (error) {
-            console.error("Report.jsx -> ", error);
-        }
-    };
-
+    const [postReports, setPostReports] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const openDialog = () => {
         setIsOpen(true);
-        if (reports.length == 0) {
-            FetchReports("report.index", null, setReports);
+        if (postReports.length == 0) {
+            //FetchReports("report.index", null, setReports);
+            FetchPostReports(
+                "adminPanel.postReports",
+                { post_id: post.id },
+                setPostReports,
+            );
         }
     };
     const closeDialog = () => {
@@ -56,16 +49,10 @@ const ReportDialog = ({
                     <Dialog.Title>{modalTitle}</Dialog.Title>
                     <Dialog.Description>{modalDescription}</Dialog.Description>
                     <div className="mt-4 justify-end">
-                        {reports ? (
-                            reports.map((report) => (
-                                <div key={report.id}>
-                                    <Button
-                                        onClick={() => setReport(report.id)}
-                                        text={report.name}
-                                        customClass={
-                                            "mt-2 mb-2 mr-2 hover:bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
-                                        }
-                                    />
+                        {postReports ? (
+                            postReports.map((report) => (
+                                <div key={report.report.id}>
+                                    {report.report.name + ": " + report.count}
                                 </div>
                             ))
                         ) : (
@@ -78,4 +65,4 @@ const ReportDialog = ({
     );
 };
 
-export default ReportDialog;
+export default ReportListDialog;

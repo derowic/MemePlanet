@@ -1,16 +1,18 @@
 <?php
 
 use App\Http\Controllers\API\AccountController;
+use App\Http\Controllers\API\AdminAndModeratorController;
+use App\Http\Controllers\API\AdminPanelController;
+use App\Http\Controllers\API\BanController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\FavouriteController;
 use App\Http\Controllers\API\NotificationController;
 use App\Http\Controllers\API\PostController;
-use App\Http\Controllers\API\TagController;
-use App\Http\Controllers\API\TagListController;
-use App\Http\Controllers\API\AdminAndModeratorController;
 use App\Http\Controllers\API\ReportController;
 use App\Http\Controllers\API\ReportListController;
+use App\Http\Controllers\API\TagController;
+use App\Http\Controllers\API\TagListController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +38,10 @@ Route::get('/MemeGenerator', function () {
 Route::get('/Account', function () {
     return Inertia::render('Account');
 })->middleware(['auth', 'verified'])->name('account');
+
+Route::get('/AdminPanel', function () {
+    return Inertia::render('AdminPanel/AdminPanel');
+})->middleware(['auth', 'verified'])->name('adminPanel');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -104,10 +110,17 @@ Route::post('/admin/{post}', [AdminAndModeratorController::class, 'sendToMainPag
 Route::post('/admin/{post}/hide', [AdminAndModeratorController::class, 'hidePost'])->name('admin.hidePost');
 Route::delete('/admin/{post}/delete', [AdminAndModeratorController::class, 'deletePost'])->name('admin.deletePost');
 Route::delete('/deleteComment/{comment}/delete', [AdminAndModeratorController::class, 'deleteComment'])->name('admin.deleteComment');
+Route::post('/ban', [AdminAndModeratorController::class, 'banUser'])->name('admin.banUser');
 
 Route::get('/report', [ReportController::class, 'index'])->name('report.index');
 
 Route::post('/reportList', [ReportListController::class, 'store'])->name('reportList.store');
+
+Route::get('/adminPanel', [AdminPanelController::class, 'index'])->name('adminPanel.index');
+Route::get('/hide', [AdminPanelController::class, 'hiddenPosts'])->name('adminPanel.hiddenPosts');
+Route::get('/postReports', [AdminPanelController::class, 'postReports'])->name('adminPanel.postReports');
+
+Route::get('/ban', [BanController::class, 'index'])->name('ban.index');
 
 Route::get('/react', function () {
     return view('react');

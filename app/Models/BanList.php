@@ -5,20 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ReportList extends Model
+class BanList extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'post_id',
-        'report_id',
         'user_id',
+        'ban_id',
+        'report_id',
     ];
-
-    public function post()
-    {
-        return $this->belongsTo(Post::class);
-    }
 
     public function report()
     {
@@ -28,5 +23,10 @@ class ReportList extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function ban()
+    {
+        return $this->belongsTo(Ban::class);
     }
 }

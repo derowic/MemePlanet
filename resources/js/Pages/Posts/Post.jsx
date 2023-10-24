@@ -9,8 +9,11 @@ import Img from "./Img";
 import { usePage } from "@inertiajs/react";
 import AdminPostsFuncs from "../AdminAndModeratorFunctions/AdminPostsFuncs";
 import ReportDialog from "./Reports/ReportDialog";
+import ReportViewDialog from "../AdminPanel/ReportListDialog";
+import BanUser from "../AdminAndModeratorFunctions/BanUser";
+import BanDialog from "../AdminPanel/BanDialog";
 
-function Post({ show, post, tags, showOptions }) {
+function Post({ post, tags, showOptions }) {
     //console.log(post);
     const user = usePage().props.auth;
     const [showFull, setShowFull] = useState(false);
@@ -24,7 +27,7 @@ function Post({ show, post, tags, showOptions }) {
 
     return (
         <>
-            {post.status != "hide" && (
+            {user.role === "user" && post.status === "hide" ? null : (
                 <div className="m-auto border-t py-2 w-4/5">
                     <h3 className="text-left font-semibold mb-2 w-full">
                         {post.id} {post.title}
@@ -39,10 +42,7 @@ function Post({ show, post, tags, showOptions }) {
                     <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
                         {post.text}
                     </div>
-                    <Img
-                        post={post}
-                        loadCommentsFunc={loadCommentsFunc}
-                    />
+                    <Img post={post} loadCommentsFunc={loadCommentsFunc} />
 
                     {showOptions && (
                         <div className="flex flex-wrap">
@@ -54,7 +54,6 @@ function Post({ show, post, tags, showOptions }) {
                             />
 
                             <Fav postId={post.id} is_Fav={post.is_fav} />
-
 
                             <ReportDialog
                                 post={post}
@@ -73,7 +72,23 @@ function Post({ show, post, tags, showOptions }) {
                         </div>
                     )}
                     {(user.role == "admin" || user.role == "moderator") && (
-                        <AdminPostsFuncs post={post} />
+                        <>
+                            <AdminPostsFuncs post={post} />
+                            <ReportViewDialog
+                                post={post}
+                                defaultButtonText={"Show reports"}
+                                modalTitle={"Reports"}
+                                modalDescription={"This post reports list"}
+                            />
+                            <BanDialog
+                                user={post.user}
+                                defaultButtonText={"Ban this user"}
+                                modalTitle={"Bans"}
+                                modalDescription={
+                                    "Select ban reason and length"
+                                }
+                            />
+                        </>
                     )}
                 </div>
             )}

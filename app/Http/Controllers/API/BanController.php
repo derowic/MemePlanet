@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ReportResource;
-use App\Models\Report;
+use App\Models\Ban;
+//use App\Http\Requests\CategoryRequest;
 use Illuminate\Http\Request;
 
-class ReportController extends Controller
+class BanController extends Controller
 {
     public function index()
     {
-        $reports = Report::all();
+        $ban = Ban::all();
 
-        return ReportResource::collection($reports);
+        return response()->json(['data' => $ban], 201);
     }
 
     public function getCategories()

@@ -17,6 +17,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'ban_list_id',
     ];
 
     protected $hidden = [
@@ -52,5 +53,10 @@ class User extends Authenticatable
     public function favourites()
     {
         return $this->hasMany(Favourite::class);
+    }
+
+    public function ban()
+    {
+        return $this->hasOne(BanList::class);
     }
 }

@@ -20,6 +20,7 @@ class PostFactory extends Factory
     public function definition(): array
     {
         $statuses = ['main page', 'hide', 'waiting'];
+
         return [
             //
 

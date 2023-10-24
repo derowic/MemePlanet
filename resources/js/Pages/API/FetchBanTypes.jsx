@@ -3,13 +3,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import FetchIndex from "./FetchIndex";
 
-const FetchReports = async (rout, params, setReports) => {
+const FetchBanTypes = async (rout, params, setBans) => {
     try {
         let t = await FetchIndex(rout, params);
-        setReports((prevTags) => [...prevTags, ...t]);
         console.log(t);
+        setBans((prevTags) => [...prevTags, ...t]);
     } catch (error) {
         console.error(error);
     }
 };
-export default FetchReports;
+export default FetchBanTypes;

@@ -16,10 +16,9 @@ class RoleSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         $admin = Role::create(['name' => 'admin']); // Utworzenie roli "admin"
+        $admin = Role::create(['name' => 'moderator']); // Utworzenie roli "admin"
         $user = Role::create(['name' => 'user']); // Utworzenie roli "admin"
+        $user = Role::create(['name' => 'observer']);
 
-        //$admin = Role::create(['name' => config('auth.roles.admin')]);
-        //$user = Role::create(['name' => config('auth.roles.user')]);
-        //$moderator = Role::create(['name' => config('auth.roles.moderator')]);
     }
 }

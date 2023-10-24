@@ -106,10 +106,7 @@ function PostDetals({
                             >
                                 close
                             </button>
-                            <Img
-                                post={post}
-                                loadCommentsFunc={null}
-                            />
+                            <Img post={post} loadCommentsFunc={null} />
                         </div>
 
                         <div className="flex items-center justify-center bg-[#333] ">
@@ -123,10 +120,7 @@ function PostDetals({
                             post={post.id}
                         />
 
-                        <div
-                            id="comments"
-                            className=""
-                        >
+                        <div id="comments" className="">
                             {comments.map((comment) => (
                                 <Comment
                                     key={comment.id}
@@ -140,7 +134,6 @@ function PostDetals({
                                 />
                             ))}
                         </div>
-
                     </div>
                 </div>
             </Drawer>

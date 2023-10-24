@@ -3,60 +3,82 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\NotificationResource;
+use App\Http\Resources\PostResource;
 use App\Models\Comment;
 use App\Models\Notification;
 use App\Models\Post;
+use App\Models\ReportList;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class NotificationController extends Controller
+class AdminPanelController extends Controller
 {
+    private function addLikesAndFavs($posts)
+    {
+        $favoritePosts = auth()->user()->favourites;
+
+        $posts->each(function ($post) use ($favoritePosts) {
+            $post->is_favorite = $favoritePosts->contains('post_id', $post->id);
+            $post->is_liked = $post->likes()->where('user_id', auth()->id())->exists();
+        });
+
+        return $posts;
+    }
+
     public function index(Request $request)
     {
-        $perPage = 7;
+        $perPage = 5;
         $page = $request->input('page', 1);
 
-        $notificationsSeen0 = Notification::with(['sender:id,name'])
-            ->where('receiver_id', auth()->user()->id)
-            ->where('seen', 0)
-            ->orderBy('created_at', 'desc')
-            //->skip(($page - 1) * $perPage)
-            //->take($perPage)
-            ->get();
-
-        if ($notificationsSeen0->count() < $perPage) {
-            $remainingCount = $perPage - $notificationsSeen0->count();
-            $notificationsRest = Notification::with(['sender:id,name'])
-                ->where('receiver_id', auth()->user()->id)
-                ->where('seen', '!=', 0)
-                ->orderBy('created_at', 'desc')
-                ->take($remainingCount)
-                ->get();
-
-            $notifications = $notificationsSeen0->concat($notificationsRest);
-        } else {
-            $notifications = $notificationsSeen0;
-        }
-
-        return response()->json(['notifications' => $notifications], 201);
-
-        /*
-        $perPage = 7;
-        $page = $request->input('page', 1);
-
-        $notifications = Notification::with(['sender:id,name'])
-            ->where('receiver_id',auth()->user()->id)
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags', 'reports'])
+            ->withCount('reports') // Oblicza liczbę raportów
+            ->having('reports_count', '>', 0) // Warunek na ilość raportów większą od 0
+            ->orderBy('reports_count', 'desc') // Sortuje według liczby raportów
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
             ->get();
 
-        return response()->json(
-            ['notifications' => $notifications], 201);
-        return NotificationResource::collection($notifications);
-        */
+        return PostResource::collection($this->addLikesAndFavs($posts));
+    }
+
+    public function hiddenPosts(Request $request)
+    {
+        $perPage = 5;
+        $page = $request->input('page', 1);
+
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
+            ->where('status', 'hide')
+            ->orderBy('created_at', 'desc')
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get();
+
+        return PostResource::collection($this->addLikesAndFavs($posts));
+    }
+
+    public function postReports(Request $request)
+    {
+        $reports = ReportList::with(['report'])//DB::table('report_lists')
+            ->select('report_id', DB::raw('COUNT(report_id) as count'))
+            ->where('post_id', $request->input('post_id'))
+            ->groupBy('report_id')
+            ->get();
+        /*
+          $reports = ReportList::with(['report'])
+            //->where('status', "main page")
+            ->get();
+         */
+
+        if ($reports) {
+
+            return response()->json(['data' => $reports], 201);
+        } else {
+
+            return response()->json(['msg' => 'error while saving comment, refresh or try later'], 500);
+        }
     }
 
     public function store(Request $request)

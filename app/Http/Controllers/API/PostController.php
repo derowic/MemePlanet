@@ -32,13 +32,13 @@ class PostController extends Controller
         $page = $request->input('page', 1);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
-            ->where('status', "main page")
+            ->where('status', 'main page')
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
             ->get();
 
-            return PostResource::collection($this->addLikesAndFavs($posts));
+        return PostResource::collection($this->addLikesAndFavs($posts));
 
     }
 
@@ -124,7 +124,7 @@ class PostController extends Controller
     public function onePost(Post $post): Response
     {
         return Inertia::render('OnePostShow', [
-            'post' => $post->load('user', 'category','tags'),
+            'post' => $post->load('user', 'category', 'tags'),
             'tags' => Tag::all(),
         ]);
     }
@@ -136,11 +136,11 @@ class PostController extends Controller
             'status' => 'report',
         ]);
 
-/*
-        $post->update(['status' => "hide"]);
-        $post->save();
-        */
-
+        /*
+                $post->update(['status' => "hide"]);
+                $post->save();
+                */
+        session()->flash('toast', 'Thanks');
 
         return response()->json(['msg' => 'success'], 201);
     }
@@ -221,8 +221,6 @@ class PostController extends Controller
     {
         //dd();
 
-
-
         $image = $request->file('image');
         $imageName = auth()->user()->id.time().'_'.$image->getClientOriginalName();
         $image->move(public_path('images'), $imageName);
@@ -247,7 +245,6 @@ class PostController extends Controller
             $tagList->tag_id = $tagId;
             $tagList->save(); // Zapisz obiekt w bazie danych
         }
-
 
         if ($post->save()) {
             return response()->json(['msg' => 'Post added'], 201);
