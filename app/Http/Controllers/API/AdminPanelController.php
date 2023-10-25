@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\BanList;
+use App\Models\User;
+
+
 
 class AdminPanelController extends Controller
 {
@@ -66,93 +70,133 @@ class AdminPanelController extends Controller
             ->where('post_id', $request->input('post_id'))
             ->groupBy('report_id')
             ->get();
-        /*
-          $reports = ReportList::with(['report'])
-            //->where('status', "main page")
-            ->get();
-         */
 
         if ($reports) {
-
             return response()->json(['data' => $reports], 201);
         } else {
-
             return response()->json(['msg' => 'error while saving comment, refresh or try later'], 500);
         }
     }
 
-    public function store(Request $request)
-    {
 
-        $tmp = 0;
-        if ($request->input('type') == 'post-comment') {
-            $tmp = Post::find($request->input('element_id'))->user_id;
-        } elseif ($request->input('type') == 'comment-comment') {
-            $tmp = Comment::find($request->input('element_id'))->user_id;
+
+    public function sendToMainPage(Post $post)
+    {
+        Post::where('id', ($post->id))->update([
+            'status' => 'main page',
+        ]);
+        $p = Post::find($post->id);
+        //$post->update(['status' => 'main page']);
+        session()->flash('toast', 'Success');
+
+        return response()->json(['msg' => 'success'], 201);
+    }
+
+    public function hidePost(Post $post)
+    {
+        Post::where('id', ($post->id))->update([
+            'status' => 'hide',
+        ]);
+
+        return response()->json(['msg' => 'success'], 201);
+    }
+
+    public function deletePost(Post $post)
+    {
+        $post->delete();
+
+        session()->flash('toast', 'Success deleting');
+
+        return response()->json(['msg' => 'success'], 201);
+    }
+
+    public function deleteComment(Comment $comment)
+    {
+        $comment->delete();
+
+        session()->flash('toast', 'Success');
+
+        return response()->json(['msg' => 'success'], 201);
+    }
+
+    public function banUser(Request $request)
+    {
+        if (! BanList::where('user_id', $request->input('user_id'))->first()) {
+
+            $ban = new BanList();
+            $ban->user_id = $request->input('user_id');
+            $ban->ban_id = $request->input('ban_id');
+            $ban->report_id = $request->input('report_id');
+            $ban->save();
+
+            $tmp = User::find($request->input('user_id'))->update(['ban_list_id' => $ban->id]);
+
+            if ($ban->save()) {
+                return response()->json(['msg' => $tmp], 201);
+            } else {
+                return response()->json(['msg' => 'Error'], 500);
+            }
         }
 
-        $notification = new Notification();
-        $notification->sender_id = auth()->user()->id;
-        $notification->receiver_id = $tmp; //$request->input("type");
-        $notification->type = $request->input('type');
-        $notification->element_id = $request->input('element_id');
-        // id posta do którego jest to komentarz lub id komentarza do którego sie odnosi
-        $notification->seen = false;
-        $notification->created_at = now();
-        $notification->updated_at = now();
+        return response()->json(['msg' => 'This user is already banned'], 201);
+    }
 
-        $notification->save();
+    public function getAllUsers()
+    {
+        $users = User::with(['permissions','roles'])->get();
 
-        if ($notification->save()) {
+        return response()->json(['data' => $users], 201);
+    }
 
-            return response()->json(['msg' => 'notification added'], 201);
+    public function search(Request $request)
+    {
+        //dd($request);
+        $query = $request->input('dane');
+
+        //dd($query);
+        if ($query) {
+            $results = User::with('permissions', 'roles')
+            ->where('name', 'LIKE', "%$query%")->get();
         } else {
-
-            return response()->json(['msg' => 'error while saving comment, refresh or try later'], 500);
+            $results = [];
         }
+
+        return response()->json(['data' => $results], 201);
     }
 
-    public function show(Notification $notification): Response
+    public function searchById(Request $request)
     {
-        //dd($notification);
-        $posts = null;
-
-        if ($notification->type == 'comment-comment') {
-            //dd($notification);
-            $postID = Comment::find($notification->element_id)->post->id;
-
-            $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
-                ->where('id', $postID)
-                ->get();
-        } elseif ($notification->type == 'post-comment') {
-            //dd($notification);
-            //$postID = Comment::find($notification->element_id)->post->id;
-
-            $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
-                ->where('id', $notification->element_id)
-                ->get();
-        }
-
-        $notification->seen = 1;
-        $notification->save();
-
-        if ($posts->count() > 0) {
-            return Inertia::render('OnePostShow', [
-                'post' => $posts[0],
-                'tags' => Tag::all(),
-            ]);
-        } else {
-
-        }
+        $user = User::with('permissions', 'roles')->find($request->input('id'));
+        return response()->json(['data' => $user], 201);
     }
 
-    public function destroy($id)
+    public function getAdmins()
     {
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('name', 'admin');
+        })->with('roles', 'permissions')->get();
+
+        return response()->json(['data' => $users], 200);
 
     }
 
-    public function softDeletePost(string $id)
+    public function getModerators()
     {
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('name', 'moderator');
+        })->with('roles', 'permissions')->get();
+
+        return response()->json(['data' => $users], 200);
+
+    }
+
+    public function getBannedUsers()
+    {
+        $users = User::with('permissions', 'roles','ban.ban')
+        ->where('ban_list_id', '!=',NULL)->get();
+
+        return response()->json(['data' => $users], 200);
 
     }
 }
+

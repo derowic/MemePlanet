@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\API\AccountController;
-use App\Http\Controllers\API\AdminAndModeratorController;
 use App\Http\Controllers\API\AdminPanelController;
 use App\Http\Controllers\API\BanController;
 use App\Http\Controllers\API\CategoryController;
@@ -13,6 +12,8 @@ use App\Http\Controllers\API\ReportController;
 use App\Http\Controllers\API\ReportListController;
 use App\Http\Controllers\API\TagController;
 use App\Http\Controllers\API\TagListController;
+use App\Http\Controllers\API\PermissionController;
+use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +43,10 @@ Route::get('/Account', function () {
 Route::get('/AdminPanel', function () {
     return Inertia::render('AdminPanel/AdminPanel');
 })->middleware(['auth', 'verified'])->name('adminPanel');
+
+Route::get('/RoleAndPermissions', function () {
+    return Inertia::render('AdminPanel/RoleAndPermissions');
+})->middleware(['auth', 'verified'])->name('RoleAndPermissions');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -106,11 +111,7 @@ Route::post('/tagList', [TagListController::class, 'store'])->name('tagList.stor
 Route::put('/tagList/{tagList}', [TagListController::class, 'update'])->name('tagList.update');
 Route::delete('/tagList/{tagList}', [TagListController::class, 'delete'])->name('tagList.delete');
 
-Route::post('/admin/{post}', [AdminAndModeratorController::class, 'sendToMainPage'])->name('admin.mainPage');
-Route::post('/admin/{post}/hide', [AdminAndModeratorController::class, 'hidePost'])->name('admin.hidePost');
-Route::delete('/admin/{post}/delete', [AdminAndModeratorController::class, 'deletePost'])->name('admin.deletePost');
-Route::delete('/deleteComment/{comment}/delete', [AdminAndModeratorController::class, 'deleteComment'])->name('admin.deleteComment');
-Route::post('/ban', [AdminAndModeratorController::class, 'banUser'])->name('admin.banUser');
+
 
 Route::get('/report', [ReportController::class, 'index'])->name('report.index');
 
@@ -119,8 +120,27 @@ Route::post('/reportList', [ReportListController::class, 'store'])->name('report
 Route::get('/adminPanel', [AdminPanelController::class, 'index'])->name('adminPanel.index');
 Route::get('/hide', [AdminPanelController::class, 'hiddenPosts'])->name('adminPanel.hiddenPosts');
 Route::get('/postReports', [AdminPanelController::class, 'postReports'])->name('adminPanel.postReports');
+Route::post('/admin/{post}', [AdminPanelController::class, 'sendToMainPage'])->name('admin.mainPage');
+Route::post('/admin/{post}/hide', [AdminPanelController::class, 'hidePost'])->name('admin.hidePost');
+Route::delete('/admin/{post}/delete', [AdminPanelController::class, 'deletePost'])->name('admin.deletePost');
+Route::delete('/deleteComment/{comment}/delete', [AdminPanelController::class, 'deleteComment'])->name('admin.deleteComment');
+Route::post('/ban', [AdminPanelController::class, 'banUser'])->name('admin.banUser');
+Route::get('/api/users', [AdminPanelController::class, 'getAllUsers'])->name('adminPanel.getAllUsers');
+Route::get('/search', [AdminPanelController::class, 'search'])->name('adminPanel.search');
+Route::get('/searchById', [AdminPanelController::class, 'searchById'])->name('adminPanel.searchById');
+
+Route::get('/getAdmins', [AdminPanelController::class, 'getAdmins'])->name('adminPanel.getAdmins');
+Route::get('/getModerators', [AdminPanelController::class, 'getModerators'])->name('adminPanel.getModerators');
+Route::get('/getBannedUsers', [AdminPanelController::class, 'getBannedUsers'])->name('adminPanel.getBannedUsers');
 
 Route::get('/ban', [BanController::class, 'index'])->name('ban.index');
+
+Route::get('/api/permissions', [PermissionController::class, 'index'])->name('permission.index');
+Route::post('/api/assign-permissions', [PermissionController::class, 'assignPermissions'])->name('permission.assignPermissions');
+
+Route::get('/api/roles', [RoleController::class, 'index'])->name('role.index');
+Route::post('/api/assign-roles', [RoleController::class, 'assignRoles'])->name('role.assignRoles');
+
 
 Route::get('/react', function () {
     return view('react');

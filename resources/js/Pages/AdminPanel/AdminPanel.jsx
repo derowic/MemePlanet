@@ -71,14 +71,6 @@ export default function AdminPanel() {
                                         translation.t("Hidden posts"),
                                         "adminPanel.hiddenPosts",
                                     ],
-                                    [
-                                        translation.t("Reported comments"),
-                                        "post.trending",
-                                    ],
-                                    [
-                                        translation.t("Hidden comments"),
-                                        "post.fresh",
-                                    ],
                                 ]}
                                 setPosts={setPosts}
                                 setRout={setRout}

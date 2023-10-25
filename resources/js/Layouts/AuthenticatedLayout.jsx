@@ -17,7 +17,7 @@ import BanInfo from "./BanInfo";
 export default function Authenticated({ header, children }) {
     const translation = useTranslation(["dashboard"]);
     const user = usePage().props.auth.user;
-    console.log(usePage().props);
+    //console.log(usePage().props);
     /*
     toast.info("test");
     toast.success("test");
@@ -88,6 +88,15 @@ export default function Authenticated({ header, children }) {
                                         active={route().current("account")}
                                     >
                                         {translation.t("Account")}
+                                    </NavLink>
+
+                                    <NavLink
+                                        href={route("RoleAndPermissions")}
+                                        active={route().current(
+                                            "RoleAndPermissions",
+                                        )}
+                                    >
+                                        {translation.t("RoleAndPermissions")}
                                     </NavLink>
 
                                     {user.roles.some(
