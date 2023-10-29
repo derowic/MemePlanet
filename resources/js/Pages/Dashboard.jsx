@@ -17,6 +17,7 @@ import RefreshPosts from "./API/RefreshPosts";
 import FetchCategories from "./API/FetchCategories";
 import BanInfo from "@/Layouts/BanInfo";
 import { usePage } from "@inertiajs/react";
+import FetchIndex from "@/Pages/API/FetchIndex";
 
 export default function Dashboard() {
     const user = usePage().props.auth.user;
@@ -35,18 +36,23 @@ export default function Dashboard() {
         setChosenCategory(tmp);
     };
 
+    const checkIsUserBanned = async () =>
+    {
+        let t = await FetchIndex("ban.check", null);
+        console.log(t);
+    }
+
+
+
     useEffect(() => {
+        checkIsUserBanned();
         FetchTags("tag.index", null, setTags);
         FetchCategories("category.index", null, setCategories);
     }, []);
 
     return (
-        <AuthenticatedLayout
-            header={
-                <h2 className=" text-xl text-gray-800 dark:text-gray-200 leading-tight"></h2>
-            }
-        >
-            <div className="font-bold bg-[#231f20] ">
+        <AuthenticatedLayout>
+            <div className="font-bold bg-[#111]">
                 <div className="flex text-gray-100">
                     <div className=" w-1/4 mt-6">
                         <div className="w-full sticky top-20 p-4 sm:rounded-lg ">

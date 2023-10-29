@@ -8,7 +8,7 @@ const UploadPost = ({ fetchPosts, categories, tags }) => {
     const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
     const [imageUploaded, setImageUploaded] = useState(false);
 
-    const handleImageUpload = async (image, title, text, category, tags) => {
+    const handleImageUpload = async (image, title, text, category, tags, customTagText) => {
         if (image != null && title != null && title != "" && category != null) {
             try {
                 const formData = new FormData();
@@ -17,6 +17,7 @@ const UploadPost = ({ fetchPosts, categories, tags }) => {
                 formData.append("text", text);
                 formData.append("category", category);
                 formData.append("tags", tags);
+                formData.append("customTag", customTagText);
                 /* tags.forEach((tag) => {
                     formData.append('tags[]', tag);
                 });

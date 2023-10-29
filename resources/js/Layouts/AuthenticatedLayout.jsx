@@ -13,18 +13,13 @@ import "react-toastify/dist/ReactToastify.css";
 import Notify from "@/Components/Notify";
 import { useTranslation } from "react-i18next";
 import BanInfo from "./BanInfo";
+import FetchIndex from "@/Pages/API/FetchIndex";
+import axios from "axios";
+import CheckRole from "@/Pages/API/CheckRole";
 
 export default function Authenticated({ header, children }) {
     const translation = useTranslation(["dashboard"]);
     const user = usePage().props.auth.user;
-    //console.log(usePage().props);
-    /*
-    toast.info("test");
-    toast.success("test");
-    toast.warning("test");
-    toast.error("test");
-    toast("test");
-    */
 
     const { i18n } = useTranslation();
     const changeLanguage = (newLanguage) => {
@@ -36,7 +31,7 @@ export default function Authenticated({ header, children }) {
         useState(false);
 
     return (
-        <div className=" bg-[#231f20] h-screen">
+        <div className="bg-[#231f20] w-full h-screen">
             <ToastContainer
                 position="top-center"
                 autoClose={5000}
@@ -49,14 +44,14 @@ export default function Authenticated({ header, children }) {
                 pauseOnHover
                 theme="dark"
             />
-            <nav className="sticky top-0  border-b border-gray-100 dark:border-gray-700">
-                <div className=" bg-[#333333] ">
+            <nav className="text-white w-full border-b ">
+                <div className=" bg-[#111] ">
                     <div className="mx-auto px-4 sm:px-6 lg:px-8">
                         <div className=" flex justify-between h-10">
                             <div className=" flex">
                                 <div className="shrink-0 flex items-center">
                                     <Link href="/">
-                                        {/*<ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />*/}
+
                                         <img
                                             src="/icon.png"
                                             alt="Opis obrazka"
@@ -66,7 +61,7 @@ export default function Authenticated({ header, children }) {
                                     </Link>
                                 </div>
 
-                                <div className="text-white hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <div className="border-b bg-[#111]  hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                     <NavLink
                                         href={route("dashboard")}
                                         active={route().current("dashboard")}
@@ -90,18 +85,8 @@ export default function Authenticated({ header, children }) {
                                         {translation.t("Account")}
                                     </NavLink>
 
-                                    <NavLink
-                                        href={route("RoleAndPermissions")}
-                                        active={route().current(
-                                            "RoleAndPermissions",
-                                        )}
-                                    >
-                                        {translation.t("RoleAndPermissions")}
-                                    </NavLink>
-
-                                    {user.roles.some(
-                                        (role) => role.name === "admin",
-                                    ) && (
+                                    {CheckRole('admin')  &&
+                                     (
                                         <NavLink
                                             href={route("adminPanel")}
                                             active={route().current(
@@ -117,13 +102,13 @@ export default function Authenticated({ header, children }) {
                             <div className="hidden sm:flex sm:items-center sm:ml-6">
                                 <button
                                     onClick={() => changeLanguage("en")}
-                                    className="text-white font-bold mr-2"
+                                    className="white font-bold mr-2"
                                 >
                                     English
                                 </button>
                                 <button
                                     onClick={() => changeLanguage("pl")}
-                                    className="text-white font-bold"
+                                    className="white font-bold"
                                 >
                                     Polish
                                 </button>
@@ -135,7 +120,7 @@ export default function Authenticated({ header, children }) {
                                             <span className="inline-flex rounded-md">
                                                 <button
                                                     type="button"
-                                                    className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-[#231f20]  hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
+                                                    className="inline-flex items-center px-3 py-2 border border-transparent sm leading-4 font-medium rounded-md  bg-[#111]  focus:outline-none transition ease-in-out duration-150"
                                                 >
                                                     {user.name}
 
@@ -180,7 +165,7 @@ export default function Authenticated({ header, children }) {
                                             (previousState) => !previousState,
                                         )
                                     }
-                                    className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400  focus:outline-none  focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out"
+                                    className="inline-flex items-center justify-center p-2 rounded-md  focus:outline-none   transition duration-150 ease-in-out"
                                 >
                                     <svg
                                         className="h-6 w-6"
@@ -232,17 +217,17 @@ export default function Authenticated({ header, children }) {
                         </ResponsiveNavLink>
                     </div>
 
-                    <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+                    <div className="pt-4 pb-1 border-t ">
                         <div className="px-4">
-                            <div className="font-medium text-base text-gray-800 dark:text-gray-200">
+                            <div className="font-medium base ">
                                 {user.name}
                             </div>
-                            <div className="font-medium text-sm text-gray-500">
+                            <div className="font-medium sm ">
                                 {user.email}
                             </div>
                         </div>
 
-                        <div className="mt-3 bg-[#231f20] space-y-1">
+                        <div className="mt-3 bg-[#111] space-y-1">
                             <ResponsiveNavLink
                                 method="post"
                                 href={route("logout")}
@@ -256,7 +241,7 @@ export default function Authenticated({ header, children }) {
             </nav>
 
             {header && (
-                <header className="bg-[#231f20] shadow">
+                <header className="bg-[#111] shadow">
                     <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {header}
                     </div>

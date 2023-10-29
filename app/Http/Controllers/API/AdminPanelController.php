@@ -4,19 +4,19 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
+use App\Models\BanList;
 use App\Models\Comment;
-use App\Models\Notification;
 use App\Models\Post;
 use App\Models\ReportList;
-use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Inertia\Inertia;
-use Inertia\Response;
-use App\Models\BanList;
-use App\Models\User;
-
-
+use Spatie\Permission\Models\Role;
+use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Spatie\Permission\Models\Permission;
 
 class AdminPanelController extends Controller
 {
@@ -78,8 +78,6 @@ class AdminPanelController extends Controller
         }
     }
 
-
-
     public function sendToMainPage(Post $post)
     {
         Post::where('id', ($post->id))->update([
@@ -123,13 +121,17 @@ class AdminPanelController extends Controller
     {
         if (! BanList::where('user_id', $request->input('user_id'))->first()) {
 
+            $user = User::find($request->input('user_id')); // Znajdź użytkownika, któremu chcesz przypisać rolę
+
+            $user->syncRoles(['observer']); // Przypisz nową rolę
+
             $ban = new BanList();
             $ban->user_id = $request->input('user_id');
             $ban->ban_id = $request->input('ban_id');
             $ban->report_id = $request->input('report_id');
             $ban->save();
 
-            $tmp = User::find($request->input('user_id'))->update(['ban_list_id' => $ban->id]);
+            $tmp = $user->update(['ban_list_id' => $ban->id]);
 
             if ($ban->save()) {
                 return response()->json(['msg' => $tmp], 201);
@@ -143,7 +145,7 @@ class AdminPanelController extends Controller
 
     public function getAllUsers()
     {
-        $users = User::with(['permissions','roles'])->get();
+        $users = User::with(['permissions', 'roles'])->get();
 
         return response()->json(['data' => $users], 201);
     }
@@ -156,7 +158,7 @@ class AdminPanelController extends Controller
         //dd($query);
         if ($query) {
             $results = User::with('permissions', 'roles')
-            ->where('name', 'LIKE', "%$query%")->get();
+                ->where('name', 'LIKE', "%$query%")->get();
         } else {
             $results = [];
         }
@@ -167,6 +169,7 @@ class AdminPanelController extends Controller
     public function searchById(Request $request)
     {
         $user = User::with('permissions', 'roles')->find($request->input('id'));
+
         return response()->json(['data' => $user], 201);
     }
 
@@ -192,11 +195,10 @@ class AdminPanelController extends Controller
 
     public function getBannedUsers()
     {
-        $users = User::with('permissions', 'roles','ban.ban')
-        ->where('ban_list_id', '!=',NULL)->get();
+        $users = User::with('permissions', 'roles', 'ban.ban')
+            ->where('ban_list_id', '!=', null)->get();
 
         return response()->json(['data' => $users], 200);
 
     }
 }
-

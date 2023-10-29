@@ -6,15 +6,15 @@ import React, {
     useEffect,
 } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import CategoryList from "./Categories/CategoryList";
-import AccountView from "./Account/AccountView";
+import CategoryList from "../Categories/CategoryList";
+import AccountView from "./AccountView";
 import FetchIndex from "@/Pages/API/FetchIndex";
 import { Link } from "@inertiajs/react";
 import { ToastContainer } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import FetchTags from "./API/FetchTags";
-import FetchCategories from "./API/FetchCategories";
-import PostsColumn from "./EXPERIMENTAL/BAD GATE PostsColumn";
+import FetchTags from "../API/FetchTags";
+import FetchCategories from "../API/FetchCategories";
+import PostsColumn from "../EXPERIMENTAL/BAD GATE PostsColumn";
 
 export default function Account({}) {
     const accountTranslation = useTranslation(["dashboard"]);

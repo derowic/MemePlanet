@@ -37,7 +37,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         //place to check ban
-        //dd($request);
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }

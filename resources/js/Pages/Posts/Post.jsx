@@ -15,7 +15,9 @@ import BanDialog from "../AdminPanel/BanDialog";
 
 function Post({ post, tags, showOptions }) {
     //console.log(post);
-    const user = usePage().props.auth;
+
+    const user = usePage().props.auth.user;
+    //console.log(user );
     const [showFull, setShowFull] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [loadComments, setLoadComments] = useState(false);
@@ -71,7 +73,7 @@ function Post({ post, tags, showOptions }) {
                             />
                         </div>
                     )}
-                    {(user.role == "admin" || user.role == "moderator") && (
+                    {(user.roles.some((role) => role.name === "admin") ||user.roles.some((role) => role.name === "moderator")) && (
                         <>
                             <AdminPostsFuncs post={post} />
                             <ReportViewDialog

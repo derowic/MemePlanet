@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Dialog } from "@headlessui/react";
-import PrimaryButton from "./PrimaryButton";
+import PrimaryButton from "@/Components/PrimaryButton";
 import DefaultButton from "./DefaultButton";
-import SecondaryButton from "./SecondaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
 
 export default function DefaultModal({
     defaultButtonText,

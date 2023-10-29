@@ -7,13 +7,13 @@ use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\FavouriteController;
 use App\Http\Controllers\API\NotificationController;
+use App\Http\Controllers\API\PermissionController;
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\ReportController;
 use App\Http\Controllers\API\ReportListController;
+use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\TagController;
 use App\Http\Controllers\API\TagListController;
-use App\Http\Controllers\API\PermissionController;
-use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -37,7 +37,7 @@ Route::get('/MemeGenerator', function () {
 })->middleware(['auth', 'verified'])->name('memeGenerator');
 
 Route::get('/Account', function () {
-    return Inertia::render('Account');
+    return Inertia::render('Account/Account');
 })->middleware(['auth', 'verified'])->name('account');
 
 Route::get('/AdminPanel', function () {
@@ -47,6 +47,10 @@ Route::get('/AdminPanel', function () {
 Route::get('/RoleAndPermissions', function () {
     return Inertia::render('AdminPanel/RoleAndPermissions');
 })->middleware(['auth', 'verified'])->name('RoleAndPermissions');
+
+Route::get('/EditCategoriesAndTags', function () {
+    return Inertia::render('AdminPanel/EditCategoriesAndTags');
+})->middleware(['auth', 'verified'])->name('EditCategoriesAndTags');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -111,8 +115,6 @@ Route::post('/tagList', [TagListController::class, 'store'])->name('tagList.stor
 Route::put('/tagList/{tagList}', [TagListController::class, 'update'])->name('tagList.update');
 Route::delete('/tagList/{tagList}', [TagListController::class, 'delete'])->name('tagList.delete');
 
-
-
 Route::get('/report', [ReportController::class, 'index'])->name('report.index');
 
 Route::post('/reportList', [ReportListController::class, 'store'])->name('reportList.store');
@@ -134,13 +136,13 @@ Route::get('/getModerators', [AdminPanelController::class, 'getModerators'])->na
 Route::get('/getBannedUsers', [AdminPanelController::class, 'getBannedUsers'])->name('adminPanel.getBannedUsers');
 
 Route::get('/ban', [BanController::class, 'index'])->name('ban.index');
+Route::get('/check', [BanController::class, 'check'])->name('ban.check');
 
 Route::get('/api/permissions', [PermissionController::class, 'index'])->name('permission.index');
 Route::post('/api/assign-permissions', [PermissionController::class, 'assignPermissions'])->name('permission.assignPermissions');
 
 Route::get('/api/roles', [RoleController::class, 'index'])->name('role.index');
 Route::post('/api/assign-roles', [RoleController::class, 'assignRoles'])->name('role.assignRoles');
-
 
 Route::get('/react', function () {
     return view('react');

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
-import Button from "../BasicElements/Button";
 import { toast } from "react-toastify";
 import FetchBanTypes from "../API/FetchBanTypes";
 import BanUser from "../AdminAndModeratorFunctions/BanUser";
-import PrimaryButton from "@/Components/PrimaryButton";
+import Button from "../BasicElements/Button";
 import FetchReports from "../API/FetchReports";
 
 const BanDialog = ({
@@ -105,7 +104,11 @@ const BanDialog = ({
                             )}
                         </div>
                     </div>
-                    <PrimaryButton text={"ban"} onClick={ban} />
+                    <Button
+                        onClick={ban}
+                        text={"Ban"}
+                        customClass={"m-2 px-4 py-2 hover:border-b hover:border-[#ffbc40] bg-yellow-500 rounded-lg"}
+                    />
                 </Dialog.Panel>
             </Dialog>
         </div>

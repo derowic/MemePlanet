@@ -12,10 +12,6 @@ class Ban extends Model
     protected $fillable = [
         'name',
         'ban_length',
+        'created_at',
     ];
-
-    public function posts()
-    {
-        return $this->belongsToMany(Post::class);
-    }
 }

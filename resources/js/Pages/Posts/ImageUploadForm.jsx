@@ -7,8 +7,10 @@ import Button from "../BasicElements/Button";
 import Input from "../BasicElements/Input";
 import ButtonsList from "../BasicElements/ButtonsList";
 import { useTranslation } from "react-i18next";
+import CheckPermission from "../API/CheckPermission";
 
 const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
+
     const translation = useTranslation(["dashboard"]);
     const [image, setImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
@@ -17,7 +19,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
-
+    const [customTagText, setCustomTagText] = useState("");
     useEffect(() => {}, [tags, categories, selectedCategory, selectedTags]);
 
     const handleImageChange = (e) => {
@@ -48,7 +50,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
             for (const tag of selectedTags) {
                 tmp.push(tag);
             }
-            onImageUpload(image, title, text, selectedCategory, tmp);
+            onImageUpload(image, title, text, selectedCategory, tmp, customTagText);
             setPreviewImage(null);
             setImage(null);
             unHide();
@@ -98,13 +100,15 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
 
     return (
         <div className={isOpen == true ? " m-2 px-2 border" : " m-2 px-2"}>
-            <Button
-                onClick={unHide}
-                text={translation.t("Add new post")}
-                customClass={
-                    "text-2xl m-4 px-2 hover:border-b hover:border-[#ffbc40]"
-                }
-            />
+            {CheckPermission('post.create') &&
+                <Button
+                    onClick={unHide}
+                    text={translation.t("Add new post")}
+                    customClass={
+                        "text-2xl m-4 px-2 hover:border-b hover:border-[#ffbc40]"
+                    }
+                />
+            }
             <div id={"post"} hidden>
                 <input
                     type="file"
@@ -125,6 +129,8 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                     value={text}
                     func={setText}
                 />
+
+
                 <div className="flex flex-wrap justify-center mt-2">
                     {previewImage && (
                         <img id="attr" src={previewImage} alt="Preview" />
@@ -144,12 +150,20 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                     {translation.t("Tags")}
                 </h1>
                 <div className="flex flex-wrap justify-center">
+
                     <ButtonsList
                         elements={tags}
                         func={selectTag}
                         selected={selectedTags}
                     />
                 </div>
+                <Input
+                        type={"text"}
+                        title={translation.t("Custom tag")}
+                        value={customTagText}
+                        func={setCustomTagText}
+                    />
+                Example: #humor#mem#funny
                 <div className="text-2xl border-t border-[#bbb]">
                     <Button
                         onClick={handleUploadClick}

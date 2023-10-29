@@ -7,6 +7,7 @@ import FetchComments from "../API/FetchComments";
 import { Drawer } from "@mui/material";
 import { usePage } from "@inertiajs/react";
 import Img from "./Img";
+import CheckPermission from "../API/CheckPermission";
 
 function PostDetals({
     post,
@@ -113,13 +114,14 @@ function PostDetals({
                             <div className="text-center text-lg ">Comments</div>
                         </div>
 
-                        <CommentInput
-                            onSubmit={(commentText) =>
-                                handleSubmitComment(commentText, 0)
-                            }
-                            post={post.id}
-                        />
-
+                        {CheckPermission('comment.create') &&
+                            <CommentInput
+                                onSubmit={(commentText) =>
+                                    handleSubmitComment(commentText, 0)
+                                }
+                                post={post.id}
+                            />
+                        }
                         <div id="comments" className="">
                             {comments.map((comment) => (
                                 <Comment

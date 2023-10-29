@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PostResource;
-use App\Models\BanList;
-use App\Models\Comment;
-use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -29,7 +25,7 @@ class RoleController extends Controller
 
         $user = User::find($request->input('user_id'));
 
-        if (!$user) {
+        if (! $user) {
             return response()->json(['msg' => 'Użytkownik nie istnieje'], 404);
         }
 

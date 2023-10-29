@@ -6,7 +6,7 @@ import { createInertiaApp } from "@inertiajs/react";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 
 import React from "react";
-
+/*
 console.log(`
 
 
@@ -39,6 +39,7 @@ __        _______ _     ____ ___  __  __ _____
 
 We're happy you're here
 `);
+*/
 
 function App() {
     return (

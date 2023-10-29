@@ -246,6 +246,25 @@ class PostController extends Controller
             $tagList->save(); // Zapisz obiekt w bazie danych
         }
 
+        if($request->input('customTag'))
+        {
+            $customTagText = $request->input('customTag');
+            $tagsArray = explode('#', $customTagText);
+            $tagsArray = array_filter($tagsArray);
+
+            foreach ($tagsArray as $tagName) {
+                $tag = new Tag();
+                $tag->name = $tagName; // Użyj zmiennej $tagName, aby zachować oryginalny tag
+                $tag->save();
+
+                $tagList = new TagList();
+                $tagList->post_id = $post->id;
+                $tagList->tag_id = $tag->id;
+                $tagList->save();
+            }
+
+        }
+
         if ($post->save()) {
             return response()->json(['msg' => 'Post added'], 201);
 

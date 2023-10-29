@@ -20,23 +20,25 @@ function Img({ post, /*togglePanel*/ loadCommentsFunc }) {
         setImageDimensions({ width, height });
     };
 
+    const isTallImage = imageDimensions.height > window.innerHeight;
+
     return (
         <div className="w-full">
             <a
                 href={route("post.onePost", { post: post.id })}
-                //target="_blank"
-                //rel="noopener noreferrer"
             >
+                <div className="w-full  overflow-hidden">
                 <img
                     id="yourImageId"
                     src={"/images/" + post.path_to_image}
                     alt="Opis obrazka"
-                    className="w-full object-cover"
-                    onLoad={handleImageLoad} // Dodaj obsługę zdarzenia onLoad
+                    className="w-full object-cover  "
+                    onLoad={handleImageLoad}
                 ></img>
+                </div>
             </a>
 
-            {imageDimensions.height > 1000 && (
+            {isTallImage && (
                 <button
                     className="w-full bg-[#111]"
                     onClick={() => setShowFull(true)}
@@ -49,3 +51,4 @@ function Img({ post, /*togglePanel*/ loadCommentsFunc }) {
 }
 
 export default Img;
+
