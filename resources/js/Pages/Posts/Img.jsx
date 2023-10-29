@@ -13,12 +13,26 @@ function Img({ post, /*togglePanel*/ loadCommentsFunc }) {
         width: 0,
         height: 0,
     });
+    const [customClass, setCustomClass] = useState("");//h-[90vh]
 
     const handleImageLoad = (e) => {
         const width = e.target.width;
         const height = e.target.height;
         setImageDimensions({ width, height });
+
+        if(height>window.innerHeight)
+        {
+            setCustomClass("h-[100vh]  overflow-hidden");
+            console.log(height);
+            console.log("wysokś keranu"," ",window.innerHeight);
+        }
+
     };
+
+    const setFullImage = () => {
+        setCustomClass("");
+        setShowFull(true);
+    }
 
     const isTallImage = imageDimensions.height > window.innerHeight;
 
@@ -27,21 +41,21 @@ function Img({ post, /*togglePanel*/ loadCommentsFunc }) {
             <a
                 href={route("post.onePost", { post: post.id })}
             >
-                <div className="w-full  overflow-hidden">
-                <img
-                    id="yourImageId"
-                    src={"/images/" + post.path_to_image}
-                    alt="Opis obrazka"
-                    className="w-full object-cover  "
-                    onLoad={handleImageLoad}
-                ></img>
+                <div className={customClass}>
+                    <img
+                        id="yourImageId"
+                        src={"/images/" + post.path_to_image}
+                        alt="Opis obrazka"
+                        className="w-full "
+                        onLoad={handleImageLoad}
+                    ></img>
                 </div>
             </a>
 
             {isTallImage && (
                 <button
                     className="w-full bg-[#111]"
-                    onClick={() => setShowFull(true)}
+                    onClick={() => setFullImage()}
                 >
                     {showFull ? <></> : <>Show Full Image</>}
                 </button>
