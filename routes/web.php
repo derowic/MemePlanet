@@ -130,10 +130,10 @@ Route::post('/ban', [AdminPanelController::class, 'banUser'])->name('admin.banUs
 Route::get('/api/users', [AdminPanelController::class, 'getAllUsers'])->name('adminPanel.getAllUsers');
 Route::get('/search', [AdminPanelController::class, 'search'])->name('adminPanel.search');
 Route::get('/searchById', [AdminPanelController::class, 'searchById'])->name('adminPanel.searchById');
-
 Route::get('/getAdmins', [AdminPanelController::class, 'getAdmins'])->name('adminPanel.getAdmins');
 Route::get('/getModerators', [AdminPanelController::class, 'getModerators'])->name('adminPanel.getModerators');
 Route::get('/getBannedUsers', [AdminPanelController::class, 'getBannedUsers'])->name('adminPanel.getBannedUsers');
+Route::put('/improveTag/{tag}', [AdminPanelController::class, 'improveTag'])->name('adminPanel.improveTag');
 
 Route::get('/ban', [BanController::class, 'index'])->name('ban.index');
 Route::get('/check', [BanController::class, 'check'])->name('ban.check');

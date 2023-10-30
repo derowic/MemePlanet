@@ -47,7 +47,7 @@ const BanDialog = ({
                 onClick={openDialog}
                 text={defaultButtonText} //"!"
                 customClass={
-                    "mt-2 mb-2 mr-2 hover:bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
+                    "mt-2 mb-2 mr-2 hover:bg-yellow-400 text-white font-bold py-2 px-4 rounded-lg border border-yellow-500"
                 }
             />
             <Dialog
@@ -71,8 +71,8 @@ const BanDialog = ({
                                             text={banType.name}
                                             customClass={
                                                 selectedBan === banType.id
-                                                    ? "mt-2 mb-2 mr-2 bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
-                                                    : "mt-2 mb-2 mr-2 hover:bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
+                                                    ? "mt-2 mb-2 mr-2 bg-red-500 text-white font-bold py-2 px-4 rounded-lg border border-red-500"
+                                                    : "mt-2 mb-2 mr-2 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg border border-red-500"
                                             }
                                         />
                                     </div>
@@ -93,8 +93,8 @@ const BanDialog = ({
                                             text={report.name}
                                             customClass={
                                                 selectedReason === report.id
-                                                    ? "mt-2 mb-2 mr-2 bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
-                                                    : "mt-2 mb-2 mr-2 hover:bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
+                                                    ? "mt-2 mb-2 mr-2 bg-red-500 text-white font-bold py-2 px-4 rounded-lg border border-red-500"
+                                                    : "mt-2 mb-2 mr-2 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg border border-red-500"
                                             }
                                         />
                                     </div>

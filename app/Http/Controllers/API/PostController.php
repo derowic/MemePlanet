@@ -24,6 +24,7 @@ class PostController extends Controller
         });
 
         return $posts;
+
     }
 
     public function index(Request $request)
@@ -38,8 +39,14 @@ class PostController extends Controller
             ->take($perPage)
             ->get();
 
-        return PostResource::collection($this->addLikesAndFavs($posts));
-
+        if( auth()->check())
+        {
+            return PostResource::collection($this->addLikesAndFavs($posts));
+        }
+        else
+        {
+            return PostResource::collection($posts);
+        }
     }
 
     public function fresh(Request $request)
@@ -55,7 +62,15 @@ class PostController extends Controller
 
         $hasMorePosts = $posts->count() === $perPage;
 
-        return PostResource::collection($this->addLikesAndFavs($posts));
+
+        if( auth()->check())
+        {
+            return PostResource::collection($this->addLikesAndFavs($posts));
+        }
+        else
+        {
+            return PostResource::collection($posts);
+        }
     }
 
     public function trending(Request $request)
@@ -74,7 +89,15 @@ class PostController extends Controller
 
         $hasMorePosts = $posts->count() === $perPage;
 
-        return PostResource::collection($this->addLikesAndFavs($posts));
+
+        if( auth()->check())
+        {
+            return PostResource::collection($this->addLikesAndFavs($posts));
+        }
+        else
+        {
+            return PostResource::collection($posts);
+        }
     }
 
     public function show(Request $request)
@@ -118,7 +141,20 @@ class PostController extends Controller
             ->take(4)
             ->get();
 
-        return PostResource::collection($this->addLikesAndFavs($posts));
+        return response()->json([
+            'data' =>  $posts,
+
+        ]);
+
+
+        if( auth()->check())
+        {
+            return PostResource::collection($this->addLikesAndFavs($posts));
+        }
+        else
+        {
+            return PostResource::collection($posts);
+        }
     }
 
     public function onePost(Post $post): Response
@@ -145,51 +181,6 @@ class PostController extends Controller
         return response()->json(['msg' => 'success'], 201);
     }
 
-    /*
-    public function upload(Request $request)
-    {
-        if ($request->hasFile('image') &&
-            ($request->title != null) && ($request->title != '') &&
-            ($request->text != null) && ($request->text != '') &&
-            ($request->category != null) && ($request->category != 0) &&
-            ($request->tags != null) && ($request->tags != '')) {
-
-            $image = $request->file('image');
-            $imageName = auth()->user()->id.time().'_'.$image->getClientOriginalName();
-            $image->move(public_path('images'), $imageName);
-
-            $post = new Post();
-            $post->user = auth()->user()->id;
-            $post->title = $request->title;
-            $post->text = $request->text;
-            $post->likes = 0;
-            $post->category = $request->category;
-            $post->tags = $request->tags;
-            $post->path_to_image = $imageName;
-            $post->created_at = now();
-            $post->updated_at = now();
-            $post->save();
-
-            if ($post->save()) {
-                return response()->json([
-                    'imageUrl' => '/images/'.$imageName,
-                    'title' => $request->title,
-                    'text' => $request->text,
-                    'category' => $request->category,
-                    'tags' => $request->tags,
-                ], 201);
-            } else {
-
-                return response()->json(['msg' => 'Error'], 500);
-            }
-
-            return response()->json(['msg' => 'No image uploaded.'], 400);
-        } else {
-            return response()->json(['msg' => 'error while saving comment, refresh or try later'], 500);
-        }
-
-    }
-    */
     public function upload(Request $request)
     {
         // Pobieranie danych z formularza

@@ -10,7 +10,7 @@ const FetchPosts = async (rout, params, setPosts, page, setPage) => {
         if (setPage != null) {
             setPage(page + 1);
         }
-        //console.log("fetchPosts try load new posts ");
+        //console.log(response);
     } catch (error) {
         console.error(error);
     }

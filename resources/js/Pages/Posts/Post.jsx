@@ -29,8 +29,8 @@ function Post({ post, tags, showOptions }) {
 
     return (
         <>
-            {user.role === "user" && post.status === "hide" ? null : (
-                <div className="m-auto border-t py-2 w-4/5">
+            {post.status === "hide" ? null : (
+                <div className="m-auto  py-2 w-4/5">
                     <h3 className="text-left font-semibold mb-2 w-full">
                         {post.id} {post.title}
                     </h3>
@@ -73,25 +73,28 @@ function Post({ post, tags, showOptions }) {
                             />
                         </div>
                     )}
-                    {(user.roles.some((role) => role.name === "admin") ||user.roles.some((role) => role.name === "moderator")) && (
-                        <>
-                            <AdminPostsFuncs post={post} />
-                            <ReportViewDialog
-                                post={post}
-                                defaultButtonText={"Show reports"}
-                                modalTitle={"Reports"}
-                                modalDescription={"This post reports list"}
-                            />
-                            <BanDialog
-                                user={post.user}
-                                defaultButtonText={"Ban this user"}
-                                modalTitle={"Bans"}
-                                modalDescription={
-                                    "Select ban reason and length"
-                                }
-                            />
-                        </>
+                   {user && (
+                        (user.roles.some((role) => role.name === "admin") || user.roles.some((role) => role.name === "moderator")) && (
+                            <>
+                                <AdminPostsFuncs post={post} />
+                                <div className="flex text-center justify-center">
+                                <ReportViewDialog
+                                    post={post}
+                                    defaultButtonText={"Show reports"}
+                                    modalTitle={"Reports"}
+                                    modalDescription={"This post reports list"}
+                                />
+                                <BanDialog
+                                    user={post.user}
+                                    defaultButtonText={"Ban this user"}
+                                    modalTitle={"Bans"}
+                                    modalDescription={"Select ban reason and length"}
+                                />
+                                </div>
+                            </>
+                        )
                     )}
+
                 </div>
             )}
         </>

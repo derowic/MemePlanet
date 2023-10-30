@@ -23,8 +23,8 @@ function Img({ post, /*togglePanel*/ loadCommentsFunc }) {
         if(height>window.innerHeight)
         {
             setCustomClass("h-[100vh]  overflow-hidden");
-            console.log(height);
-            console.log("wysokś keranu"," ",window.innerHeight);
+            //console.log(height);
+            //console.log("wysokś keranu"," ",window.innerHeight);
         }
 
     };
@@ -57,7 +57,7 @@ function Img({ post, /*togglePanel*/ loadCommentsFunc }) {
                     className="w-full bg-[#111]"
                     onClick={() => setFullImage()}
                 >
-                    {showFull ? <></> : <>Show Full Image</>}
+                    {showFull ? <></> : <div className="bg-[#000] p-2">Show Full Image</div>}
                 </button>
             )}
         </div>

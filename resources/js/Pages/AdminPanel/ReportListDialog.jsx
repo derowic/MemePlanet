@@ -36,7 +36,7 @@ const ReportListDialog = ({
                 onClick={openDialog}
                 text={defaultButtonText} //"!"
                 customClass={
-                    "mt-2 mb-2 mr-2 hover:bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
+                    "mt-2 mb-2 mr-2 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-lg border border-blue-500"
                 }
             />
             <Dialog

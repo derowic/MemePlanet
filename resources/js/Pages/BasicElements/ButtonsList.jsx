@@ -18,10 +18,10 @@ function ButtonsList({ elements, func, selected }) {
                         customClass={
                             Array.isArray(selected)
                                 ? selected.includes(element.id)
-                                    ? "m-2 px-2  border-b border-[#7abcf5]"
+                                    ? "m-2 px-2  border-b border-[#3483eb]"
                                     : "m-2 px-2"
                                 : selected === element.id
-                                ? "m-2 px-2  border-b border-[#ffbc40]"
+                                ? "m-2 px-2  border-b border-[#3483eb]"
                                 : "m-2 px-2"
                         }
                     />

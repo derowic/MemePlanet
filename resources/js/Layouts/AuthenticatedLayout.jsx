@@ -31,7 +31,7 @@ export default function Authenticated({ header, children }) {
         useState(false);
 
     return (
-        <div className="bg-[#231f20] w-full h-screen">
+        <div className="bg-[#111] w-full h-screen">
             <ToastContainer
                 position="top-center"
                 autoClose={5000}
@@ -44,7 +44,7 @@ export default function Authenticated({ header, children }) {
                 pauseOnHover
                 theme="dark"
             />
-            <nav className="text-white w-full border-b ">
+            <nav className="text-white w-full border-b border-[#200589] ">
                 <div className=" bg-[#111] ">
                     <div className="mx-auto px-4 sm:px-6 lg:px-8">
                         <div className=" flex justify-between h-10">
@@ -52,16 +52,11 @@ export default function Authenticated({ header, children }) {
                                 <div className="shrink-0 flex items-center">
                                     <Link href="/">
 
-                                        <img
-                                            src="/icon.png"
-                                            alt="Opis obrazka"
-                                            width={25}
-                                            height={25}
-                                        ></img>
+                                        {/*place for icon */}
                                     </Link>
                                 </div>
 
-                                <div className="border-b bg-[#111]  hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <div className="border-b border-[#200589] bg-[#111]  hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                     <NavLink
                                         href={route("dashboard")}
                                         active={route().current("dashboard")}

@@ -54,11 +54,11 @@ export default function Dashboard() {
         <AuthenticatedLayout>
             <div className="font-bold bg-[#111]">
                 <div className="flex text-gray-100">
-                    <div className=" w-1/4 mt-6">
-                        <div className="w-full sticky top-20 p-4 sm:rounded-lg ">
-                            <h3 className="w-full text-center mb-2 text-3xl">
+                    <div className="w-1/4 mt-6">
+                        <div className="w-full sticky top-0 p-4 sm:rounded-lg ">
+                            <h3 className="w-full text-center mb-2 text-3xl border-b border-[#7d12ff]">
                                 {translation.t("Categories")}
-                                <hr />
+
                             </h3>
                             <CategoryList
                                 chosenCategory={chosenCategory}
@@ -70,9 +70,9 @@ export default function Dashboard() {
                     <div className="w-2/4 mt-2">
                         <div className="w-full text-center">
                             <BanInfo data={user} />
-                            <h2 className="mb-2 text-3xl">
+                            <h2 className="mb-2 text-3xl border-b border-[#7d12ff]">
                                 {translation.t("Meme Planet")}
-                                <hr />
+
                             </h2>
                             <PostsTypeSelect
                                 selected={selectedPostsType}
@@ -114,7 +114,7 @@ export default function Dashboard() {
 
                     <div className="w-1/4 mt-4 ml-4">
                         <div className="w-full p-4 text-center ">
-                            <h3 className=" w-full text-center mb-2 text-3xl w-full">
+                            <h3 className=" w-full text-center mb-2 text-3xl w-full border-b border-[#7d12ff]">
                                 {translation.t("Hot")}
                             </h3>
                             <TopPosts tags={tags} />

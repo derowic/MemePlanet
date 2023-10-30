@@ -40,7 +40,7 @@ export default function AdminPanel() {
 
     return (
         <AuthenticatedLayout>
-            <div className="font-bold bg-[#231f20] ">
+            <div className="font-bold bg-[#111] ">
                 <div className="flex text-gray-100">
                     <div className=" w-1/4 mt-6">
                         <div className="w-full sticky top-20 p-4 sm:rounded-lg ">
@@ -52,9 +52,9 @@ export default function AdminPanel() {
 
                     <div className="w-2/4 mt-2">
                         <div className="w-full text-center">
-                            <h2 className="mb-2 text-3xl">
+                            <h2 className="mb-2 text-3xl border-b border-[#7d12ff]">
                                 {translation.t("Admin Panel")}
-                                <hr />
+
                             </h2>
                             <PostsTypeSelect
                                 selected={selectedPostsType}

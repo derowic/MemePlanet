@@ -16,6 +16,8 @@ class CategorySeeder extends Seeder
             'name' => 'humor',
 
         ]);
+
+
         Category::create([
             'name' => 'Automotive',
 
@@ -42,7 +44,87 @@ class CategorySeeder extends Seeder
         ]);
 
         Category::create([
-            'name' => 'Technology',
+            'name' => 'Science&Technology',
+
+        ]);
+
+        Category::create([
+            'name' => 'Anime&Manga',
+
+        ]);
+
+        Category::create([
+            'name' => 'Latest News',
+
+        ]);
+
+        Category::create([
+            'name' => 'Women',
+
+        ]);
+
+        Category::create([
+            'name' => 'Men',
+
+        ]);
+
+        Category::create([
+            'name' => 'Meme',
+
+        ]);
+
+        Category::create([
+            'name' => 'Gaming',
+
+        ]);
+
+        Category::create([
+            'name' => 'Wtf',
+
+        ]);
+
+        Category::create([
+            'name' => 'Relationgship&Dating',
+
+        ]);
+
+        Category::create([
+            'name' => 'Animals&Pets',
+
+        ]);
+
+        Category::create([
+            'name' => 'Comic',
+
+        ]);
+
+        Category::create([
+            'name' => 'Q&A',
+
+        ]);
+
+        Category::create([
+            'name' => 'Movies&TV',
+
+        ]);
+
+        Category::create([
+            'name' => 'Food',
+
+        ]);
+
+        Category::create([
+            'name' => 'Life',
+
+        ]);
+
+        Category::create([
+            'name' => 'Woah',
+
+        ]);
+
+        Category::create([
+            'name' => 'Other',
 
         ]);
     }

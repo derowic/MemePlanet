@@ -12,7 +12,7 @@ class PostsSeeder extends Seeder
     public function run(): void
     {
         //
-        \App\Models\Post::factory(15)->create();
+        \App\Models\Post::factory(360)->create();
 
     }
 }

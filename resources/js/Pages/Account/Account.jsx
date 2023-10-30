@@ -33,12 +33,12 @@ export default function Account({}) {
 
     return (
         <AuthenticatedLayout>
-            <div className="bg-[#231f20] flex text-gray-100">
+            <div className="bg-[#111] flex text-gray-100">
                 <div className=" w-1/3 mt-6">
                     <div className=" fixed p-4 sm:rounded-lg w-1/4 ml-5">
-                        <h3 className="text-center font-semibold mb-2">
+                        <h3 className="text-center font-semibold mb-2 border-b border-[#7d12ff]">
                             {accountTranslation.t("Categories")}
-                            <hr />
+
                         </h3>
                         <CategoryList
                             chosenCategory={chosenCategory}
@@ -47,7 +47,7 @@ export default function Account({}) {
                     </div>
                 </div>
 
-                <div className="bg-[#231f20] w-full mt-4">
+                <div className="w-full mt-4">
                     <div className="w-full p-4 text-center ">
                         <AccountView
                             categoryId={chosenCategory}
@@ -59,21 +59,21 @@ export default function Account({}) {
 
                 <div className="w-1/3 mt-4 ml-4">
                     <div className="w-full  p-4 text-center sm:rounded-lg">
-                        <h3 className="text-center mb-2 text-3xl border-b">
+                        <h3 className="text-center mb-2 text-3xl  border-b border-[#7d12ff]">
                             {accountTranslation.t("Edit Profile")}
                         </h3>
 
                         <div className="grid">
                             <Link
                                 href={route("profile.edit")}
-                                className="text-2xl mt-4 hover:border-b border-[#ffbc40]"
+                                className="text-2xl mt-4 "
                             >
                                 {accountTranslation.t("Edit basic user data")}
                             </Link>
 
                             <Link
                                 href={route("profile.edit")}
-                                className="text-2xl mt-4 hover:border-b border-[#ffbc40]"
+                                className="text-2xl mt-4 "
                             >
                                 {accountTranslation.t("Edit posts preferences")}
                             </Link>

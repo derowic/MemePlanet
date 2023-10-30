@@ -47,8 +47,8 @@ function Like({ elementId, elementType, likes, is_liked }) {
                 text={"+"}
                 customClass={
                     isLiked
-                        ? "mb-2 mr-2 bg-[#ffbc40] text-white font-bold py-2 px-4 rounded-lg border border-[#ffbc40]"
-                        : "mb-2 mr-2 hover:bg-[#ffbc40] text-white font-bold py-2 px-4 rounded-lg border border-[#ffbc40]"
+                        ? "mb-2 mr-2 text-white font-bold py-2 px-4 rounded-lg border border-[#7d12ff]"
+                        : "mb-2 mr-2 text-white font-bold py-2 px-4 rounded-lg border"
                 }
             />
             <span className="count">{count}</span>
@@ -56,7 +56,7 @@ function Like({ elementId, elementType, likes, is_liked }) {
                 onClick={decrement}
                 text={"-"}
                 customClass={
-                    "ml-2 mb-2 mr-2 hover:bg-[#7abcf5] text-white font-bold py-2 px-4 rounded-lg border border-[#7abcf5]"
+                    "ml-2 mb-2 mr-2 text-white font-bold py-2 px-4 rounded-lg border"
                 }
             />
         </div>

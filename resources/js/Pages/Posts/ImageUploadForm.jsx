@@ -105,7 +105,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                     onClick={unHide}
                     text={translation.t("Add new post")}
                     customClass={
-                        "text-2xl m-4 px-2 hover:border-b hover:border-[#ffbc40]"
+                        "text-2xl m-4 px-2 hover:border-b hover:border-[#7d12ff]"
                     }
                 />
             }

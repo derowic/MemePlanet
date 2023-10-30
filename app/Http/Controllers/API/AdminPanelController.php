@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Models\BanList;
 use App\Models\Comment;
+use App\Models\Category;
+use App\Models\Tag;
 use App\Models\Post;
 use App\Models\ReportList;
 use App\Models\User;
@@ -200,5 +202,16 @@ class AdminPanelController extends Controller
 
         return response()->json(['data' => $users], 200);
 
+    }
+
+    public function improveTag(Tag $tag)
+    {
+        $category = new Category();
+        $category->name = $tag->name;
+        $category->save();
+
+        $tag->delete();
+
+        return response()->json(['data' => "success"], 200);
     }
 }

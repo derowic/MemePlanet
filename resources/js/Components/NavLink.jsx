@@ -14,7 +14,7 @@ export default function NavLink({
 
             <div className={
                     active
-                    ? "border-b border-[#7d12ff] dark:border-white-800 text-white-900 dark:text-white-100 focus:border-white-800 "
+                    ? " text-[#af45ff] dark:border-white-800 text-white-900 dark:text-white-100 focus:border-white-800 "
                     : " text-white-500 dark:text-white-400 hover:text-white-700 dark:hover:text-white-300 hover:border-gray-300 dark:hover:border-gray-700 focus:text-white-700 dark:focus:text-white-300 focus:border-gray-300 dark:focus:border-gray-700 "
                     }>
             {children}

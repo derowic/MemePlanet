@@ -34,7 +34,7 @@ const Fav = ({ postId, is_Fav }) => {
                 text={"+"}
                 customClass={
                     isFav == true
-                        ? "mt-2 mb-2 mr-2 bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
+                        ? "mt-2 mb-2 mr-2 bg-[#fce062] text-black font-bold py-2 px-4 rounded-lg border border-[#fce062]"
                         : "mt-2 mb-2 mr-2 hover:bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
                 }
             />

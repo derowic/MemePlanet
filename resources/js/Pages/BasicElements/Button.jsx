@@ -12,7 +12,7 @@ function Button({ onClick, text, customClass }) {
             onClick={onClick}
             //className={className ? "text-red font-bold px-2" : className}
             className={` ${
-                customClass || "m-2 px-2 hover:border-b hover:border-[#ffbc40]"
+                customClass || "m-2 px-2 "
             }`}
         >
             {text}

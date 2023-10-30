@@ -52,8 +52,8 @@ function PostsTypeSelect({
                         text={element[0]}
                         customClass={
                             selected == element[0]
-                                ? "text-2xl px-2 border-b border-[#ffbc40]"
-                                : "text-2xl px-2 border-b border-[#888]"
+                                ? "text-2xl px-2 border-b border-[#7d12ff]"
+                                : "text-2xl px-2 border-b "
                         }
                     />
                 ))}

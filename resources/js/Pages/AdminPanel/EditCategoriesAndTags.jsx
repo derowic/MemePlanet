@@ -16,6 +16,7 @@ import FetchTags from "../API/FetchTags";
 import FetchCategories from "../API/FetchCategories";
 import DefaultModal from "../BasicElements/DefaultModal";
 import EditTag from "../API/EditTag";
+import ImproveTag from "../API/ImproveTag";
 
 export default function EditCategoriesAndTags() {
 
@@ -41,8 +42,6 @@ export default function EditCategoriesAndTags() {
         console.log(t);
     }
 
-
-
     useEffect(() => {
         checkIsUserBanned();
         FetchTags("tag.index", null, setTags);
@@ -51,14 +50,26 @@ export default function EditCategoriesAndTags() {
 
     return (
         <AuthenticatedLayout>
-            <div className="text-white">
-            {tags && tags.map((tag) => (
-                    <div key={tag.id} className="text-base">
-                        {tag.name}
+            <div className="flex text-white">
+                <div className="w-1/2 ">
+                    <h2 className="mb-4">Categories</h2>
+                    {categories && categories.map((category) => (
+                        <div key={category.id} className="">
+                            {category.name}
+                        </div>
+                    ))}
+                </div>
 
+                <div className="w-1/2 ">
+                    <h2 className="mb-4">Tags</h2>
+                    {tags && tags.map((tag) => (
+                        <div key={tag.id} className="">
+                             <button onClick={() => ImproveTag("adminPanel.improveTag",tag.id)} className="bg-purple-900 hover:bg-purple-700 p-2 rounded-lg m-2"> Improve to category</button>
+                            {tag.name}
+                        </div>
+                    ))}
 
-                    </div>
-            ))}
+                </div>
             </div>
         </AuthenticatedLayout>
     );
