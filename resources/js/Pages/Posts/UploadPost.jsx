@@ -8,7 +8,14 @@ const UploadPost = ({ fetchPosts, categories, tags }) => {
     const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
     const [imageUploaded, setImageUploaded] = useState(false);
 
-    const handleImageUpload = async (image, title, text, category, tags, customTagText) => {
+    const handleImageUpload = async (
+        image,
+        title,
+        text,
+        category,
+        tags,
+        customTagText,
+    ) => {
         if (image != null && title != null && title != "" && category != null) {
             try {
                 const formData = new FormData();

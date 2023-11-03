@@ -9,7 +9,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useTranslation } from "react-i18next";
 import { usePage } from "@inertiajs/react";
 import { toast } from "react-toastify";
-import Button from "../BasicElements/Button";
+import DefaultButton from "../BasicElements/DefaultButton";
 import SearchUser from "./SearchUser";
 import FetchIndex from "../API/FetchIndex";
 
@@ -41,7 +41,6 @@ export default function RoleAndPermissions() {
 
         fetchData(); // Wywołujemy funkcję fetchData
     }, []);
-
 
     const togglePermission = (permissionId) => {
         if (selectedPermissions.includes(permissionId)) {
@@ -123,25 +122,20 @@ export default function RoleAndPermissions() {
                             */}
 
                         <div className="w-full flex">
-
-                                <div className="w-1/2 ">
-                                    <div className="text-2xl">
-                                        Permissions:{" "}
-                                    </div>
-                                    {selectedUser && selectedUser.permissions.map((permi) => (
-                                            <div>{permi.name}</div>
-                                        ))}
-                                </div>
-                                <div className="w-1/2 ">
-                                    <div className="text-2xl">
-                                        Role:{" "}
-                                    </div>
-                                    {selectedUser && selectedUser.roles.map((role) => (
-                                            <div>{role.name}</div>
-                                        ))}
-                                </div>
-
-
+                            <div className="w-1/2 ">
+                                <div className="text-2xl">Permissions: </div>
+                                {selectedUser &&
+                                    selectedUser.permissions.map((permi) => (
+                                        <div>{permi.name}</div>
+                                    ))}
+                            </div>
+                            <div className="w-1/2 ">
+                                <div className="text-2xl">Role: </div>
+                                {selectedUser &&
+                                    selectedUser.roles.map((role) => (
+                                        <div>{role.name}</div>
+                                    ))}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -167,7 +161,7 @@ export default function RoleAndPermissions() {
                                 </li>
                             ))}
                         </ul>
-                        <Button
+                        <DefaultButton
                             text={"Przypisz Uprawnienia"}
                             onClick={assignPermissions}
                             className
@@ -192,7 +186,7 @@ export default function RoleAndPermissions() {
                                 </li>
                             ))}
                         </ul>
-                        <Button
+                        <DefaultButton
                             text={"Przypisz Role"}
                             onClick={assignRoles}
                             className
@@ -202,22 +196,28 @@ export default function RoleAndPermissions() {
                 <div className="flex w-full text-center border-t-2 mt-5 text-2xl">
                     <div className="w-1/3">
                         Admins
-
-                        {admins && admins.map((admin) => (
-                             <div key={admin.id} className="text-base">{admin.name}</div>
-                        ))}
+                        {admins &&
+                            admins.map((admin) => (
+                                <div key={admin.id} className="text-base">
+                                    {admin.name}
+                                </div>
+                            ))}
                     </div>
 
                     <div className="w-1/3">
                         Moderators
                         {moderators.map((moderator) => (
-                            <div key={moderator.id} className="text-base">{moderator.name}</div>
+                            <div key={moderator.id} className="text-base">
+                                {moderator.name}
+                            </div>
                         ))}
                     </div>
                     <div className="w-1/3">
                         Banned Users
                         {bannedUsers.map((bannedUser) => (
-                            <div key={bannedUser.id} className="text-base">{bannedUser.name}</div>
+                            <div key={bannedUser.id} className="text-base">
+                                {bannedUser.name}
+                            </div>
                         ))}
                     </div>
                 </div>

@@ -38,7 +38,6 @@ export default function Account({}) {
                     <div className=" fixed p-4 sm:rounded-lg w-1/4 ml-5">
                         <h3 className="text-center font-semibold mb-2 border-b border-[#7d12ff]">
                             {accountTranslation.t("Categories")}
-
                         </h3>
                         <CategoryList
                             chosenCategory={chosenCategory}

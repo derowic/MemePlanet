@@ -40,13 +40,11 @@ export default function AdminPanel() {
 
     return (
         <AuthenticatedLayout>
-            <div className="font-bold bg-[#111] ">
+            <div className="font-bold bg-[#111] h-full">
                 <div className="flex text-gray-100">
                     <div className=" w-1/4 mt-6">
                         <div className="w-full sticky top-20 p-4 sm:rounded-lg ">
-                            <h3 className="w-full text-center mb-2 text-3xl">
-
-                            </h3>
+                            <h3 className="w-full text-center mb-2 text-3xl"></h3>
                         </div>
                     </div>
 
@@ -54,7 +52,6 @@ export default function AdminPanel() {
                         <div className="w-full text-center">
                             <h2 className="mb-2 text-3xl border-b border-[#7d12ff]">
                                 {translation.t("Admin Panel")}
-
                             </h2>
                             <PostsTypeSelect
                                 selected={selectedPostsType}
@@ -91,38 +88,46 @@ export default function AdminPanel() {
                                         RefreshPosts(rout, null, setPosts)
                                     }
                                 />
-                            )}
+                                )}
                         </div>
                     </div>
 
                     <div className="w-1/4 mt-4 ml-4">
                         <div className="w-full p-4 text-center ">
                             <h3 className=" w-full text-center mb-2 text-3xl w-full">
-                                {CheckRole('admin') &&
-                                     <>
+                                {CheckRole("admin") && (
+                                    <>
                                         <div>
                                             <NavLink
-                                                href={route("RoleAndPermissions")}
+                                                href={route(
+                                                    "RoleAndPermissions",
+                                                )}
                                                 active={route().current(
                                                     "RoleAndPermissions",
                                                 )}
-                                                >
-                                                {translation.t("Role and permissions")}
+                                            >
+                                                {translation.t(
+                                                    "Role and permissions",
+                                                )}
                                             </NavLink>
                                         </div>
 
                                         <div>
                                             <NavLink
-                                                href={route("EditCategoriesAndTags")}
+                                                href={route(
+                                                    "EditCategoriesAndTags",
+                                                )}
                                                 active={route().current(
                                                     "EditCategoriesAndTags",
                                                 )}
-                                                >
-                                                {translation.t("EditCategoriesAndTags")}
+                                            >
+                                                {translation.t(
+                                                    "EditCategoriesAndTags",
+                                                )}
                                             </NavLink>
                                         </div>
                                     </>
-                                }
+                                )}
                             </h3>
                         </div>
                     </div>

@@ -21,6 +21,7 @@ import FetchIndex from "@/Pages/API/FetchIndex";
 
 export default function Dashboard() {
     const user = usePage().props.auth.user;
+
     const translation = useTranslation(["dashboard"]);
     const [chosenCategory, setChosenCategory] = useState(0);
     const [posts, setPosts] = useState([]);
@@ -36,13 +37,10 @@ export default function Dashboard() {
         setChosenCategory(tmp);
     };
 
-    const checkIsUserBanned = async () =>
-    {
+    const checkIsUserBanned = async () => {
         let t = await FetchIndex("ban.check", null);
         console.log(t);
-    }
-
-
+    };
 
     useEffect(() => {
         checkIsUserBanned();
@@ -52,13 +50,12 @@ export default function Dashboard() {
 
     return (
         <AuthenticatedLayout>
-            <div className="font-bold bg-[#111]">
+            <div className="font-bold  h-full">
                 <div className="flex text-gray-100">
                     <div className="w-1/4 mt-6">
                         <div className="w-full sticky top-0 p-4 sm:rounded-lg ">
-                            <h3 className="w-full text-center mb-2 text-3xl border-b border-[#7d12ff]">
+                            <h3 className="w-full text-center mb-2 text-3xl border-b border-meme_violet">
                                 {translation.t("Categories")}
-
                             </h3>
                             <CategoryList
                                 chosenCategory={chosenCategory}
@@ -70,9 +67,8 @@ export default function Dashboard() {
                     <div className="w-2/4 mt-2">
                         <div className="w-full text-center">
                             <BanInfo data={user} />
-                            <h2 className="mb-2 text-3xl border-b border-[#7d12ff]">
+                            <h2 className="mb-2 text-3xl border-b border-meme_violet">
                                 {translation.t("Meme Planet")}
-
                             </h2>
                             <PostsTypeSelect
                                 selected={selectedPostsType}
@@ -114,7 +110,7 @@ export default function Dashboard() {
 
                     <div className="w-1/4 mt-4 ml-4">
                         <div className="w-full p-4 text-center ">
-                            <h3 className=" w-full text-center mb-2 text-3xl w-full border-b border-[#7d12ff]">
+                            <h3 className=" w-full text-center mb-2 text-3xl w-full border-b border-meme_violet">
                                 {translation.t("Hot")}
                             </h3>
                             <TopPosts tags={tags} />

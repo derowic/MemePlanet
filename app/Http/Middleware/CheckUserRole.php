@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class CheckUserRole
 {
@@ -11,10 +13,13 @@ class CheckUserRole
     {
         $user = auth()->user();
 
-        if ($user && $user->hasRole('user')) {
+        if ($user && ($user->hasRole('user') || $user->hasRole('admin') || $user->hasRole('moderator'))) {
             return $next($request);
         }
 
-        return response('Unauthorized action', 403);
+        return Inertia::render('UnAuthorizedView', []);
+        //return response('Unauthorized action', 403);
     }
 }
+
+

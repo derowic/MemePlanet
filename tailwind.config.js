@@ -19,25 +19,11 @@ export default {
             },
 
             colors:{
-                'black1':'#111',
-                'black3':'#666',
+                'meme_black':'#111',
+                'meme_violet': '#7d12ff',
+                'meme_blue': '#200589',
             },
 
-            backgroundColor: {
-                'black1':'#111',
-                'black3':'#555',
-                'black3-h':'#666',
-
-            },
-
-            textColor: {
-                'my-text': 'white',
-            },
-
-            borderColor: {
-                'my-border': '#555',
-                'my-focus-border': '#666',
-            },
         },
 
     },

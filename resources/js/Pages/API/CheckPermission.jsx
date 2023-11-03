@@ -7,24 +7,26 @@ import { usePage } from "@inertiajs/react";
 const CheckPermission = (permissionName) => {
     const user = usePage().props.auth.user;
 
-    if(user)
-    {
-        const hasPermission = user.roles.some(role => {
-            return role.permissions.some(permission => permission.name === permissionName);
+    if (user) {
+        let hasPermission = user.roles.some((role) => {
+            return role.permissions.some(
+                (permission) => permission.name === permissionName,
+            );
         });
 
-        if (hasPermission)
-        {
-            return true;
+        if (hasPermission == false) {
+            hasPermission = user.permissions.some(
+                (permission) => permission.name === permissionName,
+            );
         }
-        else
-        {
+
+        if (hasPermission) {
+            return true;
+        } else {
             return false;
         }
-    }
-    else
-    {
-        return true;
+    } else {
+        return false;
     }
 };
 export default CheckPermission;

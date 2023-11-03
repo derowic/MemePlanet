@@ -5,13 +5,13 @@ import FetchIndex from "./FetchIndex";
 import { usePage } from "@inertiajs/react";
 
 const CheckRole = (roleName) => {
+
     const user = usePage().props.auth.user;
-    if(user.roles.some((role) => role.name === roleName))
-    {
+    //console.log(user);
+    if (user && user.roles.some((role) => role.name === roleName)) {
         return true;
-    }
-    else
-    {
+    } else {
+        return true;
         return false;
     }
 };

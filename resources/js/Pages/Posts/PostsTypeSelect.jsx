@@ -5,7 +5,7 @@ import React, {
     useRef,
     useEffect,
 } from "react";
-import Button from "../BasicElements/Button";
+import DefaultButton from "../BasicElements/DefaultButton";
 import FetchIndex from "@/Pages/API/FetchIndex";
 
 function PostsTypeSelect({
@@ -46,13 +46,13 @@ function PostsTypeSelect({
             {elements != undefined &&
                 elements.length > 0 &&
                 elements.map((element) => (
-                    <Button
+                    <DefaultButton
                         key={element + " posts type"}
                         onClick={() => handleSelectedPostsType(element)}
                         text={element[0]}
-                        customClass={
+                        className={
                             selected == element[0]
-                                ? "text-2xl px-2 border-b border-[#7d12ff]"
+                                ? "text-2xl px-2 border-b border-meme_violet"
                                 : "text-2xl px-2 border-b "
                         }
                     />

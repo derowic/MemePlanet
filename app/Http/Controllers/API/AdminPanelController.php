@@ -212,6 +212,24 @@ class AdminPanelController extends Controller
 
         $tag->delete();
 
-        return response()->json(['data' => "success"], 200);
+        return response()->json(['data' => "Success"], 200);
+    }
+
+    public function addCategory(Request $request)
+    {
+        $category = new Category();
+        $category->name = $request->input('name');
+        $category->save();
+
+        return response()->json(['data' => "Success"], 200);
+    }
+
+    public function deleteCategory(Category $category)
+    {
+        $category->delete();
+
+
+        return response()->json(['msg' => "Success"], 200);
     }
 }
+

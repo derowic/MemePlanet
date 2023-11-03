@@ -1,6 +1,12 @@
 import React, { useState } from "react";
+import CheckPermission from "../API/CheckPermission";
+import LogedIn from "../API/LogedIn";
+import Notify from "@/Components/Notify";
 
 const CommentInput = ({ onSubmit, post }) => {
+
+    let loged = LogedIn();
+    let permission = CheckPermission("comment.create");
     const [commentText, setCommentText] = useState("");
     const [submittedComment, setSubmittedComment] = useState(null);
 
@@ -9,8 +15,22 @@ const CommentInput = ({ onSubmit, post }) => {
     };
 
     const handleSubmit = () => {
-        onSubmit(commentText);
-        setCommentText("");
+        if(loged)
+        {
+            if(permission)
+            {
+                onSubmit(commentText);
+                setCommentText("");
+            }
+            else
+            {
+                Notify("You don't have permission","info");
+            }
+        }
+        else
+        {
+            Notify("You need to be log in","info");
+        }
     };
 
     return (
@@ -18,7 +38,7 @@ const CommentInput = ({ onSubmit, post }) => {
             {submittedComment ? (
                 <div></div>
             ) : (
-                <div className="bg-[#333333] flex justify-center">
+                <div className="bg-meme_black flex justify-center">
                     <textarea
                         value={commentText}
                         onChange={handleInputChange}
@@ -27,7 +47,7 @@ const CommentInput = ({ onSubmit, post }) => {
                     />
                     <button
                         onClick={handleSubmit}
-                        className="bg-white hover:bg-white-600 text-black font-bold py-2 px-4 rounded-lg border border-white-600"
+                        className="bg-[#4a12ff] text-white hover:bg-[#5b23ff] text-black font-bold py-2 px-4 rounded-lg border border-[#4a00ff]"
                     >
                         Add comment
                     </button>

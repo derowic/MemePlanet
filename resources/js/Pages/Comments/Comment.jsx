@@ -63,12 +63,12 @@ const Comment = ({
                 <div
                     id={comment.id + "t"}
                     className={
-                        " mt-10 mb-10 ml-5 bg-[#333333] border-l-2 border-white-400 p-4"
+                        " mt-10 mb-10 ml-5 bg-meme_black border-l-2 border-white-400 p-4"
                     }
                 >
-                    <div className="ml-5 mb-2 bg-[#333333]  sm:rounded-lg p-4">
-                        <div className="flex bg-[#333333] ">
-                            <div className="w-5/6 bg-[#333333] ">
+                    <div className="ml-5 mb-2 bg-meme_black  sm:rounded-lg p-4">
+                        <div className="flex bg-meme_black ">
+                            <div className="w-5/6 bg-mem_black ">
                                 <div>
                                     <div>user: {comment.user.name}</div>
                                     {comment.reply_to && (

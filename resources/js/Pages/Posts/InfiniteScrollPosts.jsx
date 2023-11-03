@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import UploadPost from "./UploadPost";
 import Post from "./Post";
-import Button from "../BasicElements/Button";
+import DefaultButton from "../BasicElements/DefaultButton";
 import { useTranslation } from "react-i18next";
+import CheckPermission from "../API/CheckPermission";
 
 const InfiniteScrollPosts = ({
     chosenCategory,
@@ -26,12 +27,14 @@ const InfiniteScrollPosts = ({
         <div>
             <div className="p-4 ">
                 To hide:
-                <Button onClick={refreshPosts} text={"Refresh"} />
-                <UploadPost
-                    fetchPosts={refreshPosts}
-                    categories={categories}
-                    tags={tags}
-                />
+                <DefaultButton onClick={refreshPosts} text={"Refresh"} />
+                {CheckPermission("post.create") && (
+                    <UploadPost
+                        fetchPosts={refreshPosts}
+                        categories={categories}
+                        tags={tags}
+                    />
+                )}
             </div>
             <InfiniteScroll
                 dataLength={posts.length}

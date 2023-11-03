@@ -19,8 +19,10 @@ import FetchCategories from "./API/FetchCategories";
 import BanInfo from "@/Layouts/BanInfo";
 import { usePage } from "@inertiajs/react";
 import FetchIndex from "@/Pages/API/FetchIndex";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
+
     const translation = useTranslation(["dashboard"]);
     const [chosenCategory, setChosenCategory] = useState(0);
     const [posts, setPosts] = useState([]);
@@ -39,23 +41,48 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
         setChosenCategory(tmp);
     };
 
-
-
-
     useEffect(() => {
-
         FetchTags("tag.index", null, setTags);
         FetchCategories("category.index", null, setCategories);
     }, []);
     return (
         <>
-            <div className="font-bold bg-[#111]">
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
+
+            <div className="w-full p-6 text-center text-white font-bold bg-meme_black text-2xl">
+                {auth.user ? (
+                    <Link href={route("dashboard")} className="">
+                        Dashboard
+                    </Link>
+                ) : (
+                    <>
+                        <Link href={route("login")} className="border-r-2 px-2 border-meme_violet">
+                            Log in
+                        </Link>
+
+                        <Link href={route("register")} className="ml-2">
+                            Register
+                        </Link>
+                    </>
+                )}
+            </div>
+            <div className="font-bold bg-meme_black">
                 <div className="flex text-gray-100">
                     <div className=" w-1/4 mt-6">
                         <div className="w-full sticky top-20 p-4 sm:rounded-lg ">
-                            <h3 className="w-full text-center mb-2 text-3xl border-b border-[#7d12ff]">
+                            <h3 className="w-full text-center mb-2 text-3xl border-b border-meme_violet">
                                 {translation.t("Categories")}
-
                             </h3>
                             <CategoryList
                                 chosenCategory={chosenCategory}
@@ -66,10 +93,8 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
 
                     <div className="w-2/4 mt-2">
                         <div className="w-full text-center">
-
-                            <h2 className="mb-2 text-3xl border-b border-[#7d12ff]">
+                            <h2 className="mb-2 text-3xl border-b border-meme_violet">
                                 {translation.t("Meme Planet")}
-
                             </h2>
                             <PostsTypeSelect
                                 selected={selectedPostsType}
@@ -111,7 +136,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
 
                     <div className="w-1/4 mt-4 ml-4">
                         <div className="w-full p-4 text-center ">
-                            <h3 className=" w-full text-center mb-2 text-3xl w-full border-b border-[#7d12ff]">
+                            <h3 className=" w-full text-center mb-2 text-3xl w-full border-b border-meme_violet">
                                 {translation.t("Hot")}
                             </h3>
                             <TopPosts tags={tags} />

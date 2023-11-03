@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 function ChangeLog() {
     const [isEndOfPage, setIsEndOfPage] = useState(false);
-
+    /*
     useEffect(() => {
         function handleScroll() {
             if (
@@ -20,25 +20,20 @@ function ChangeLog() {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
+    */
 
     return (
-        <div className="text-white text-center bg-[#000] ">
-            {isEndOfPage ? (
-                <div className="p-3 text-3xl ">
-                    THERE IS NO CAKE !!!
-                    {/*<img
+        <div className="text-white text-center bg-[#000] h-full ">
+            {/*isEndOfPage ? (*/}
+            <div className="p-3 text-3xl ">
+                THERE IS NO CAKE !!!
+                {/*<img
                         src={"/cake2.png"}
                         alt="Opis obrazka"
                         className="w-[50vw] m-auto"
                         ></img>*/}
-                    <p>Change Log:</p>
-                    <p>21.10.2023</p>
-                    <ul className="text-2xl">
-                        <li>repair tags showing</li>
-                        <li>add possibles to open post in the new page</li>
-                    </ul>
-                </div>
-            ) : null}
+            </div>
+            {/*) : null*/}
         </div>
     );
 }

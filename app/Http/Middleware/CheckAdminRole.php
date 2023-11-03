@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class CheckAdminRole
 {
@@ -15,6 +17,7 @@ class CheckAdminRole
             return $next($request);
         }
 
-        return response('Unauthorized action', 403);
+        return Inertia::render('UnAuthorizedView', []);
+        //return response('Unauthorized action', 403);
     }
 }

@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import Notification from "@/Components/Notify";
-
-import Button from "../../BasicElements/Button";
+import DefaultButton from "../../BasicElements/DefaultButton";
+//import LogedIn from "@/Pages/API/LogedIn";
+import { usePage } from "@inertiajs/react";
+import Notify from "@/Components/Notify";
+import LogedIn from "@/Pages/API/LogedIn";
 
 function Like({ elementId, elementType, likes, is_liked }) {
+    //console.log(usePage().props.auth);
+    let loged = LogedIn();
+
     if (likes == null) {
         likes = 0;
     }
@@ -19,43 +25,51 @@ function Like({ elementId, elementType, likes, is_liked }) {
     };
 
     const like = async (tmp) => {
-        try {
-            let rout = "";
-            if (elementType == "post") {
-                rout = "post.like";
-            } else if (elementType == "comment") {
-                rout = "comment.like";
-            }
 
-            const response = await axios.post(route(rout), {
-                like: tmp,
-                id: elementId,
-            });
-            //console.log(response);
-            setCount(response.data.like);
-            setIsLiked(response.data.is_liked);
-        } catch (error) {
-            //Notification(error.response.data.msg);
-            console.error("Like -> like error: ", error);
+        if(loged)
+        {
+            try {
+                let rout = "";
+                if (elementType == "post") {
+                    rout = "post.like";
+                } else if (elementType == "comment") {
+                    rout = "comment.like";
+                }
+
+                const response = await axios.post(route(rout), {
+                    like: tmp,
+                    id: elementId,
+                });
+                //console.log(response);
+                setCount(response.data.like);
+                setIsLiked(response.data.is_liked);
+            } catch (error) {
+                //Notification(error.response.data.msg);
+                console.error("Like -> like error: ", error);
+            }
+        }
+        else
+        {
+            Notify("You need to be log in","info");
         }
     };
 
     return (
         <div className="mt-2">
-            <Button
+            <DefaultButton
                 onClick={increment}
                 text={"+"}
-                customClass={
+                className={
                     isLiked
-                        ? "mb-2 mr-2 text-white font-bold py-2 px-4 rounded-lg border border-[#7d12ff]"
+                        ? "mb-2 mr-2 text-white font-bold py-2 px-4 rounded-lg border border-meme_violet"
                         : "mb-2 mr-2 text-white font-bold py-2 px-4 rounded-lg border"
                 }
             />
             <span className="count">{count}</span>
-            <Button
+            <DefaultButton
                 onClick={decrement}
                 text={"-"}
-                customClass={
+                className={
                     "ml-2 mb-2 mr-2 text-white font-bold py-2 px-4 rounded-lg border"
                 }
             />

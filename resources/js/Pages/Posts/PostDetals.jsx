@@ -98,30 +98,30 @@ function PostDetals({
                 onClose={togglePanel}
                 className="items-center justify-center "
             >
-                <div className="bg-[#333333] text-white  h-full">
+                <div className="bg-meme_black text-white  h-full">
                     <div className="w-4/5 m-auto">
                         <div className="m-auto ">
                             <button
                                 onClick={togglePanel}
-                                className="sticky top-0 p-4 border rounded-lg m-2 bg-[#555]"
+                                className="sticky top-0 p-4 border rounded-lg m-2 bg-meme_black"
                             >
                                 close
                             </button>
                             <Img post={post} loadCommentsFunc={null} />
                         </div>
 
-                        <div className="flex items-center justify-center bg-[#333] ">
+                        <div className="flex items-center justify-center bg-meme_black ">
                             <div className="text-center text-lg ">Comments</div>
                         </div>
 
-                        {CheckPermission('comment.create') &&
-                            <CommentInput
-                                onSubmit={(commentText) =>
-                                    handleSubmitComment(commentText, 0)
-                                }
-                                post={post.id}
-                            />
-                        }
+
+                        <CommentInput
+                            onSubmit={(commentText) =>
+                                handleSubmitComment(commentText, 0)
+                            }
+                            post={post.id}
+                        />
+
                         <div id="comments" className="">
                             {comments.map((comment) => (
                                 <Comment

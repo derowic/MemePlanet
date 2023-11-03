@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import Button from "../../BasicElements/Button";
+import DefaultButton from "../../BasicElements/DefaultButton";
+import LogedIn from "@/Pages/API/LogedIn";
+import Notify from "@/Components/Notify";
 
 const Fav = ({ postId, is_Fav }) => {
+    let loged = LogedIn();
     const addPostToFavourite = () => {
         setPostToFavourite(postId);
     };
@@ -9,33 +12,40 @@ const Fav = ({ postId, is_Fav }) => {
     const [isFav, setIsFav] = useState(is_Fav);
 
     const setPostToFavourite = async (postId) => {
-        try {
-            const response = await axios.post(route("post.fav"), {
-                post: postId,
-            });
+        if(loged)
+        {
+            try {
+                const response = await axios.post(route("post.fav"), {
+                    post: postId,
+                });
 
-            if (response.data.message == "added") {
-                setIsFav(true);
-            } else if (response.data.message == "removed") {
-                setIsFav(false);
-            } else {
-                console.error("Fav.jsx -> setPostToFavourite error");
+                if (response.data.message == "added") {
+                    setIsFav(true);
+                } else if (response.data.message == "removed") {
+                    setIsFav(false);
+                } else {
+                    console.error("Fav.jsx -> setPostToFavourite error");
+                }
+            } catch (error) {
+                console.error("Fav.jsx -> setPostToFavourite error: ", error);
             }
-        } catch (error) {
-            console.error("Fav.jsx -> setPostToFavourite error: ", error);
+        }
+        else
+        {
+            Notify("You need to be log in", "info");
         }
     };
 
     return (
         <div className="ml-2 ">
-            <Button
+            <DefaultButton
                 onClick={addPostToFavourite}
                 //selected={selectedCategory === category.id}
                 text={"+"}
-                customClass={
+                className={
                     isFav == true
                         ? "mt-2 mb-2 mr-2 bg-[#fce062] text-black font-bold py-2 px-4 rounded-lg border border-[#fce062]"
-                        : "mt-2 mb-2 mr-2 hover:bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
+                        : "mt-2 mb-2 mr-2 hover:bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fce062]"
                 }
             />
         </div>

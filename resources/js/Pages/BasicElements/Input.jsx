@@ -6,10 +6,11 @@ import React, {
     useEffect,
 } from "react";
 
-function Input({ type, title, value, func, required = null }) {
-    const handleInputChange = (event) => {
+function Input({ type, title, value, onChange, required = null }) {
+    /*const handleInputChange = (event) => {
         func(event.target.value);
     };
+    */
 
     return (
         <div>
@@ -17,7 +18,7 @@ function Input({ type, title, value, func, required = null }) {
             <input
                 type={type}
                 value={value}
-                onChange={handleInputChange}
+                onChange={onChange}
                 className="bg-black3 hover:bg-black3-h text-white font-bold py-2 px-2 border border-[#555] focus:border-[#666]  w-full"
                 required={required}
             />

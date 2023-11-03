@@ -3,7 +3,7 @@ import axios from "axios";
 
 const ImproveTag = async (path, id) => {
     try {
-        const response = await axios.put(route(path,{tag: id}));
+        const response = await axios.put(route(path, { tag: id }));
 
         console.log(response);
         return response.data.data;

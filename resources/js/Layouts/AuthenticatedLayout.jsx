@@ -21,6 +21,7 @@ export default function Authenticated({ header, children }) {
     const translation = useTranslation(["dashboard"]);
     const user = usePage().props.auth.user;
 
+
     const { i18n } = useTranslation();
     const changeLanguage = (newLanguage) => {
         i18n.changeLanguage(newLanguage);
@@ -31,7 +32,7 @@ export default function Authenticated({ header, children }) {
         useState(false);
 
     return (
-        <div className="bg-[#111] w-full h-screen">
+        <div className="bg-meme_black w-full h-full">
             <ToastContainer
                 position="top-center"
                 autoClose={5000}
@@ -44,158 +45,154 @@ export default function Authenticated({ header, children }) {
                 pauseOnHover
                 theme="dark"
             />
-            <nav className="text-white w-full border-b border-[#200589] ">
-                <div className=" bg-[#111] ">
-                    <div className="mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className=" flex justify-between h-10">
-                            <div className=" flex">
-                                <div className="shrink-0 flex items-center">
-                                    <Link href="/">
+            <nav className="text-white w-full border-b border-meme_blue ">
 
-                                        {/*place for icon */}
-                                    </Link>
-                                </div>
+                <div className="mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className=" flex justify-between h-10">
+                        <div className=" flex">
+                            <div className="shrink-0 flex items-center">
+                                <Link href="/">{/*place for icon */}</Link>
+                            </div>
 
-                                <div className="border-b border-[#200589] bg-[#111]  hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div className="border-b border-meme_blue hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink
+                                    href={route("dashboard")}
+                                    active={route().current("dashboard")}
+                                >
+                                    {translation.t("Meme Planet")}
+                                </NavLink>
+
+                                <NavLink
+                                    href={route("memeGenerator")}
+                                    active={route().current(
+                                        "memeGenerator",
+                                    )}
+                                >
+                                    {translation.t("Meme Generator")}
+                                </NavLink>
+
+                                <NavLink
+                                    href={route("account")}
+                                    active={route().current("account")}
+                                >
+                                    {translation.t("Account")}
+                                </NavLink>
+
+                                {CheckRole("admin") && (
                                     <NavLink
-                                        href={route("dashboard")}
-                                        active={route().current("dashboard")}
-                                    >
-                                        {translation.t("Meme Planet")}
-                                    </NavLink>
-
-                                    <NavLink
-                                        href={route("memeGenerator")}
+                                        href={route("adminPanel")}
                                         active={route().current(
-                                            "memeGenerator",
+                                            "adminPanel",
                                         )}
                                     >
-                                        {translation.t("Meme Generator")}
+                                        {translation.t("Admin Panel")}
                                     </NavLink>
-
-                                    <NavLink
-                                        href={route("account")}
-                                        active={route().current("account")}
-                                    >
-                                        {translation.t("Account")}
-                                    </NavLink>
-
-                                    {CheckRole('admin')  &&
-                                     (
-                                        <NavLink
-                                            href={route("adminPanel")}
-                                            active={route().current(
-                                                "adminPanel",
-                                            )}
-                                        >
-                                            {translation.t("Admin Panel")}
-                                        </NavLink>
-                                    )}
-                                </div>
+                                )}
                             </div>
+                        </div>
 
-                            <div className="hidden sm:flex sm:items-center sm:ml-6">
-                                <button
-                                    onClick={() => changeLanguage("en")}
-                                    className="white font-bold mr-2"
-                                >
-                                    English
-                                </button>
-                                <button
-                                    onClick={() => changeLanguage("pl")}
-                                    className="white font-bold"
-                                >
-                                    Polish
-                                </button>
-                                <NotificationBell />
+                        <div className="hidden sm:flex sm:items-center sm:ml-6">
+                            <button
+                                onClick={() => changeLanguage("en")}
+                                className="white font-bold mr-2"
+                            >
+                                English
+                            </button>
+                            <button
+                                onClick={() => changeLanguage("pl")}
+                                className="white font-bold"
+                            >
+                                Polish
+                            </button>
+                            <NotificationBell />
 
-                                <div className="ml-3 relative">
-                                    <Dropdown>
-                                        <Dropdown.Trigger>
-                                            <span className="inline-flex rounded-md">
-                                                <button
-                                                    type="button"
-                                                    className="inline-flex items-center px-3 py-2 border border-transparent sm leading-4 font-medium rounded-md  bg-[#111]  focus:outline-none transition ease-in-out duration-150"
+                            <div className="ml-3 relative">
+                                <Dropdown>
+                                    <Dropdown.Trigger>
+                                        <span className="inline-flex rounded-md">
+                                            <button
+                                                type="button"
+                                                className="inline-flex items-center px-3 py-2 border border-transparent sm leading-4 font-medium rounded-md  bg-[#111]  focus:outline-none transition ease-in-out duration-150"
+                                            >
+                                                {user.name}
+
+                                                <svg
+                                                    className="ml-2 -mr-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
                                                 >
-                                                    {user.name}
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                    </Dropdown.Trigger>
 
-                                                    <svg
-                                                        className="ml-2 -mr-0.5 h-4 w-4"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 20 20"
-                                                        fill="currentColor"
-                                                    >
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-                                                </button>
-                                            </span>
-                                        </Dropdown.Trigger>
-
-                                        <Dropdown.Content>
-                                            {/*<Dropdown.Link
-                                                href={route("profile.edit")}
-                                            >
-                                                Profile
-                                        </Dropdown.Link>*/}
-                                            <Dropdown.Link
-                                                href={route("logout")}
-                                                method="post"
-                                                as="button"
-                                            >
-                                                {translation.t("Log Out")}
-                                            </Dropdown.Link>
-                                        </Dropdown.Content>
-                                    </Dropdown>
-                                </div>
+                                    <Dropdown.Content>
+                                        {/*<Dropdown.Link
+                                            href={route("profile.edit")}
+                                        >
+                                            Profile
+                                    </Dropdown.Link>*/}
+                                        <Dropdown.Link
+                                            href={route("logout")}
+                                            method="post"
+                                            as="button"
+                                        >
+                                            {translation.t("Log Out")}
+                                        </Dropdown.Link>
+                                    </Dropdown.Content>
+                                </Dropdown>
                             </div>
+                        </div>
 
-                            <div className="-mr-2 flex items-center sm:hidden">
-                                <button
-                                    onClick={() =>
-                                        setShowingNavigationDropdown(
-                                            (previousState) => !previousState,
-                                        )
-                                    }
-                                    className="inline-flex items-center justify-center p-2 rounded-md  focus:outline-none   transition duration-150 ease-in-out"
+                        <div className="-mr-2 flex items-center sm:hidden">
+                            <button
+                                onClick={() =>
+                                    setShowingNavigationDropdown(
+                                        (previousState) => !previousState,
+                                    )
+                                }
+                                className="inline-flex items-center justify-center p-2 rounded-md  focus:outline-none   transition duration-150 ease-in-out"
+                            >
+                                <svg
+                                    className="h-6 w-6"
+                                    stroke="currentColor"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
                                 >
-                                    <svg
-                                        className="h-6 w-6"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            className={
-                                                !showingNavigationDropdown
-                                                    ? "inline-flex"
-                                                    : "hidden"
-                                            }
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M4 6h16M4 12h16M4 18h16"
-                                        />
-                                        <path
-                                            className={
-                                                showingNavigationDropdown
-                                                    ? "inline-flex"
-                                                    : "hidden"
-                                            }
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M6 18L18 6M6 6l12 12"
-                                        />
-                                    </svg>
-                                </button>
-                            </div>
+                                    <path
+                                        className={
+                                            !showingNavigationDropdown
+                                                ? "inline-flex"
+                                                : "hidden"
+                                        }
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M4 6h16M4 12h16M4 18h16"
+                                    />
+                                    <path
+                                        className={
+                                            showingNavigationDropdown
+                                                ? "inline-flex"
+                                                : "hidden"
+                                        }
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
+
 
                 <div
                     className={
@@ -214,12 +211,8 @@ export default function Authenticated({ header, children }) {
 
                     <div className="pt-4 pb-1 border-t ">
                         <div className="px-4">
-                            <div className="font-medium base ">
-                                {user.name}
-                            </div>
-                            <div className="font-medium sm ">
-                                {user.email}
-                            </div>
+                            <div className="font-medium base ">{user.name}</div>
+                            <div className="font-medium sm ">{user.email}</div>
                         </div>
 
                         <div className="mt-3 bg-[#111] space-y-1">

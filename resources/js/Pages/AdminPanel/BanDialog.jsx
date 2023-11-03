@@ -3,7 +3,7 @@ import { Dialog } from "@headlessui/react";
 import { toast } from "react-toastify";
 import FetchBanTypes from "../API/FetchBanTypes";
 import BanUser from "../AdminAndModeratorFunctions/BanUser";
-import Button from "../BasicElements/Button";
+import DefaultButton from "../BasicElements/DefaultButton";
 import FetchReports from "../API/FetchReports";
 
 const BanDialog = ({
@@ -43,10 +43,10 @@ const BanDialog = ({
 
     return (
         <div className="ml-2 ">
-            <Button
+            <DefaultButton
                 onClick={openDialog}
                 text={defaultButtonText} //"!"
-                customClass={
+                className={
                     "mt-2 mb-2 mr-2 hover:bg-yellow-400 text-white font-bold py-2 px-4 rounded-lg border border-yellow-500"
                 }
             />
@@ -56,7 +56,7 @@ const BanDialog = ({
                 className="rounded-lg fixed inset-0 flex items-center justify-center z-50 "
             >
                 <Dialog.Panel className="bg-[#222] text-white p-4 rounded-lg shadow-md w-1/2 border border-[#000]">
-                    <Button onClick={closeDialog} text={"Close"} />
+                    <DefaultButton onClick={closeDialog} text={"Close"} />
                     <Dialog.Title>{modalTitle}</Dialog.Title>
                     <Dialog.Description>{modalDescription}</Dialog.Description>
                     <div className="mt-4 ">
@@ -64,12 +64,12 @@ const BanDialog = ({
                             {banTypes ? (
                                 banTypes.map((banType) => (
                                     <div key={banType.id}>
-                                        <Button
+                                        <DefaultButton
                                             onClick={() =>
                                                 setSelectedBan(banType.id)
                                             }
                                             text={banType.name}
-                                            customClass={
+                                            className={
                                                 selectedBan === banType.id
                                                     ? "mt-2 mb-2 mr-2 bg-red-500 text-white font-bold py-2 px-4 rounded-lg border border-red-500"
                                                     : "mt-2 mb-2 mr-2 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg border border-red-500"
@@ -91,7 +91,7 @@ const BanDialog = ({
                                                 setSelectedReason(report.id)
                                             }
                                             text={report.name}
-                                            customClass={
+                                            className={
                                                 selectedReason === report.id
                                                     ? "mt-2 mb-2 mr-2 bg-red-500 text-white font-bold py-2 px-4 rounded-lg border border-red-500"
                                                     : "mt-2 mb-2 mr-2 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg border border-red-500"
@@ -104,10 +104,12 @@ const BanDialog = ({
                             )}
                         </div>
                     </div>
-                    <Button
+                    <DefaultButton
                         onClick={ban}
                         text={"Ban"}
-                        customClass={"m-2 px-4 py-2 hover:border-b hover:border-[#ffbc40] bg-yellow-500 rounded-lg"}
+                        className={
+                            "m-2 px-4 py-2 hover:border-b hover:border-[#ffbc40] bg-yellow-500 rounded-lg"
+                        }
                     />
                 </Dialog.Panel>
             </Dialog>

@@ -30,8 +30,6 @@ export default function Login({ status, canResetPassword }) {
         <GuestLayout>
             <Head title="Log in" />
 
-
-
             {status && (
                 <div className="mb-4 font-medium text-sm text-green-600">
                     {status}
@@ -86,7 +84,6 @@ export default function Login({ status, canResetPassword }) {
                         </span>
                     </label>
                 </div>
-
 
                 <div className="flex items-center justify-end mt-4">
                     {canResetPassword && (

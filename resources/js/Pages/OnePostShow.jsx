@@ -54,10 +54,10 @@ export default function OnePostShow({ post, tags }) {
     const addComment = (commentText) => {
         const divElement0 = document.createElement("div");
         divElement0.className =
-            "mt-10 mb-10 ml-5 bg-[#333333] border-l-2 border-white-400 p-4";
+            "mt-10 mb-10 ml-5 bg-meme_black border-l-2 border-white-400 p-4";
 
         const divElement = document.createElement("div");
-        divElement.className = "ml-5 mb-2 bg-[#333333] sm:rounded-lg p-4";
+        divElement.className = "ml-5 mb-2 bg-meme_black sm:rounded-lg p-4";
 
         const divElement2 = document.createElement("div");
         divElement2.textContent = "user: "; //+ userData.name;
@@ -73,10 +73,10 @@ export default function OnePostShow({ post, tags }) {
     };
 
     return (
-        <AuthenticatedLayout>
+        <>
             <ToastContainer />
 
-            <div className="bg-[#333] text-white">
+            <div className="bg-meme_black text-white">
                 <div className="m-auto text-white w-3/4 ">
                     <div className="p-4 ">
                         <h3 className="text-left font-semibold mb-2">
@@ -128,7 +128,7 @@ export default function OnePostShow({ post, tags }) {
                         />
                         <div
                             id="comments"
-                            className="bg-[#333333] dark:bg-white-700 "
+                            className="bg-meme_black dark:bg-white-700 "
                         >
                             {comments.map((comment) => (
                                 <Comment
@@ -148,6 +148,6 @@ export default function OnePostShow({ post, tags }) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </>
     );
 }

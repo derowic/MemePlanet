@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
-import Button from "../../BasicElements/Button";
+import DefaultButton from "../../BasicElements/DefaultButton";
 import { toast } from "react-toastify";
 import FetchReports from "@/Pages/API/FetchReports";
+import LogedIn from "@/Pages/API/LogedIn";
+import Notify from "@/Components/Notify";
 
 const ReportDialog = ({
     post,
@@ -10,6 +12,7 @@ const ReportDialog = ({
     modalTitle,
     modalDescription,
 }) => {
+    let loged = LogedIn();
     const [reports, setReports] = useState([]);
     const setReport = async (report_id) => {
         try {
@@ -26,9 +29,16 @@ const ReportDialog = ({
 
     const [isOpen, setIsOpen] = useState(false);
     const openDialog = () => {
-        setIsOpen(true);
-        if (reports.length == 0) {
-            FetchReports("report.index", null, setReports);
+        if(loged)
+        {
+            setIsOpen(true);
+            if (reports.length == 0) {
+                FetchReports("report.index", null, setReports);
+            }
+        }
+        else
+        {
+            Notify("You need to be log in","info");
         }
     };
     const closeDialog = () => {
@@ -39,10 +49,10 @@ const ReportDialog = ({
 
     return (
         <div className="ml-2 ">
-            <Button
+            <DefaultButton
                 onClick={openDialog}
                 text={defaultButtonText} //"!"
-                customClass={
+                className={
                     "mt-2 mb-2 mr-2 hover:bg-[#fa3232] text-white font-bold py-2 px-4 rounded-lg border border-[#fa3232]"
                 }
             />
@@ -51,19 +61,19 @@ const ReportDialog = ({
                 onClose={closeDialog}
                 className="rounded-lg fixed inset-0 flex items-center justify-center z-50 "
             >
-                <Dialog.Panel className="bg-[#222] text-white p-4 rounded-lg shadow-md w-1/2 border border-[#000]">
-                    <Button onClick={closeDialog} text={"Close"} />
+                <Dialog.Panel className="bg-meme_black text-white p-4 rounded-lg shadow-md w-1/2 border border-meme_violet">
+                    <DefaultButton onClick={closeDialog} text={"Close"} className={"border-2 border-red-500 px-4 py-2 rounded-lg"} />
                     <Dialog.Title>{modalTitle}</Dialog.Title>
                     <Dialog.Description>{modalDescription}</Dialog.Description>
                     <div className="mt-4 justify-end">
                         {reports ? (
                             reports.map((report) => (
                                 <div key={report.id}>
-                                    <Button
+                                    <DefaultButton
                                         onClick={() => setReport(report.id)}
                                         text={report.name}
-                                        customClass={
-                                            "mt-2 mb-2 mr-2 hover:bg-[#aaa] text-white font-bold py-2 px-4 rounded-lg border border-[#fff]"
+                                        className={
+                                            "mt-2 mb-2 mr-2 hover:bg-meme_violet text-white font-bold py-2 px-4 rounded-lg border border-meme_violet"
                                         }
                                     />
                                 </div>

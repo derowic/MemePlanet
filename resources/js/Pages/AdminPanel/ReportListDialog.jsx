@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
-import Button from "../BasicElements/Button";
+import DefaultButton from "../BasicElements/DefaultButton";
 import { toast } from "react-toastify";
 import FetchReports from "@/Pages/API/FetchReports";
 import FetchPostReports from "@/Pages/API/FetchPostReports";
@@ -32,10 +32,10 @@ const ReportListDialog = ({
 
     return (
         <div className="ml-2 ">
-            <Button
+            <DefaultButton
                 onClick={openDialog}
                 text={defaultButtonText} //"!"
-                customClass={
+                className={
                     "mt-2 mb-2 mr-2 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-lg border border-blue-500"
                 }
             />
@@ -45,7 +45,7 @@ const ReportListDialog = ({
                 className="rounded-lg fixed inset-0 flex items-center justify-center z-50 "
             >
                 <Dialog.Panel className="bg-[#222] text-white p-4 rounded-lg shadow-md w-1/2 border border-[#000]">
-                    <Button onClick={closeDialog} text={"Close"} />
+                    <DefaultButton onClick={closeDialog} text={"Close"} />
                     <Dialog.Title>{modalTitle}</Dialog.Title>
                     <Dialog.Description>{modalDescription}</Dialog.Description>
                     <div className="mt-4 justify-end">
