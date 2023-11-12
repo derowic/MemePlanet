@@ -1,5 +1,4 @@
 import { useState } from "react";
-import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
@@ -7,20 +6,15 @@ import { Link } from "@inertiajs/react";
 import NotificationBell from "../Pages/Notifications/NotificationBell";
 import { usePage } from "@inertiajs/react";
 import ChangeLog from "./ChangeLog";
-import { router } from "@inertiajs/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Notify from "@/Components/Notify";
 import { useTranslation } from "react-i18next";
-import BanInfo from "./BanInfo";
-import FetchIndex from "@/Pages/API/FetchIndex";
-import axios from "axios";
 import CheckRole from "@/Pages/API/CheckRole";
+import NavBar from "./NavBar";
 
 export default function Authenticated({ header, children }) {
     const translation = useTranslation(["dashboard"]);
     const user = usePage().props.auth.user;
-
 
     const { i18n } = useTranslation();
     const changeLanguage = (newLanguage) => {
@@ -34,7 +28,7 @@ export default function Authenticated({ header, children }) {
     return (
         <div className="bg-meme_black w-full h-full">
             <ToastContainer
-                position="top-center"
+                position="top-right"
                 autoClose={5000}
                 hideProgressBar={false}
                 newestOnTop={false}
@@ -45,49 +39,16 @@ export default function Authenticated({ header, children }) {
                 pauseOnHover
                 theme="dark"
             />
-            <nav className="text-white w-full border-b border-meme_blue ">
-
-                <div className="mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className=" flex justify-between h-10">
-                        <div className=" flex">
+            <nav className="sticky top-0 text-white w-full border-b border-meme_blue bg-meme_black ">
+                <div className="sticky top-0 mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="sticky top-0 flex justify-between h-10">
+                        <div className="sticky top-0 flex">
                             <div className="shrink-0 flex items-center">
                                 <Link href="/">{/*place for icon */}</Link>
                             </div>
 
-                            <div className="border-b border-meme_blue hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink
-                                    href={route("dashboard")}
-                                    active={route().current("dashboard")}
-                                >
-                                    {translation.t("Meme Planet")}
-                                </NavLink>
-
-                                <NavLink
-                                    href={route("memeGenerator")}
-                                    active={route().current(
-                                        "memeGenerator",
-                                    )}
-                                >
-                                    {translation.t("Meme Generator")}
-                                </NavLink>
-
-                                <NavLink
-                                    href={route("account")}
-                                    active={route().current("account")}
-                                >
-                                    {translation.t("Account")}
-                                </NavLink>
-
-                                {CheckRole("admin") && (
-                                    <NavLink
-                                        href={route("adminPanel")}
-                                        active={route().current(
-                                            "adminPanel",
-                                        )}
-                                    >
-                                        {translation.t("Admin Panel")}
-                                    </NavLink>
-                                )}
+                            <div className="sticky top-0 border-b border-meme_blue hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavBar translation={translation} />
                             </div>
                         </div>
 
@@ -192,7 +153,6 @@ export default function Authenticated({ header, children }) {
                         </div>
                     </div>
                 </div>
-
 
                 <div
                     className={

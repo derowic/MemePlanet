@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
 import { toast } from "react-toastify";
-import FetchBanTypes from "../API/FetchBanTypes";
 import BanUser from "../AdminAndModeratorFunctions/BanUser";
 import DefaultButton from "../BasicElements/DefaultButton";
-import FetchReports from "../API/FetchReports";
+import AxiosGet from "../API/AxiosGet";
 
 const BanDialog = ({
     user,
@@ -20,7 +19,6 @@ const BanDialog = ({
     const ban = async () => {
         try {
             BanUser(user.id, selectedBan, selectedReason);
-            toast.success("User banned");
         } catch (error) {
             console.error("Report.jsx -> ", error);
         }
@@ -30,9 +28,8 @@ const BanDialog = ({
     const openDialog = () => {
         setIsOpen(true);
         if (banTypes.length == 0) {
-            //FetchReports("report.index", null, bans);
-            FetchBanTypes("ban.index", null, setBanTypes);
-            FetchReports("report.index", null, setReports);
+            AxiosGet("ban.index", null, null, setBanTypes);
+            AxiosGet("report.index", null, null, setReports);
         }
     };
     const closeDialog = () => {
@@ -86,7 +83,7 @@ const BanDialog = ({
                             {reports ? (
                                 reports.map((report) => (
                                     <div key={report.id}>
-                                        <Button
+                                        <DefaultButton
                                             onClick={() =>
                                                 setSelectedReason(report.id)
                                             }

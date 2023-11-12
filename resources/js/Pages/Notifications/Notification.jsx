@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { router } from "@inertiajs/react";
+import AxiosGet from "../API/AxiosGet";
 
 const Notification = (notification, index) => {
     return (
@@ -8,7 +9,7 @@ const Notification = (notification, index) => {
                 router.get(
                     route("notification.show", {
                         notification: notification.notification.id,
-                    }),
+                    })
                 )
             }
         >

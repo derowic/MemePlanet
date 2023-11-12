@@ -3,11 +3,12 @@ import Comment from "../Comments/Comment";
 import CommentInput from "../Comments/CommentInput";
 import SendComment from "../Comments/SendComment";
 import Notify from "@/Components/Notify";
-import FetchComments from "../API/FetchComments";
 import { Drawer } from "@mui/material";
 import { usePage } from "@inertiajs/react";
 import Img from "./Img";
 import CheckPermission from "../API/CheckPermission";
+import AxiosGet from "../API/AxiosGet";
+
 
 function PostDetals({
     post,
@@ -27,7 +28,8 @@ function PostDetals({
     }, [loadComments]);
 
     const fetchComments = async () => {
-        FetchComments(post.id, "comment.index", setComments);
+        //FetchComments(post.id, "comment.index", setComments);
+        AxiosGet("comment.index", {id: post.id},null, setComments);
     };
 
     const togglePanel = () => {
@@ -113,7 +115,6 @@ function PostDetals({
                         <div className="flex items-center justify-center bg-meme_black ">
                             <div className="text-center text-lg ">Comments</div>
                         </div>
-
 
                         <CommentInput
                             onSubmit={(commentText) =>

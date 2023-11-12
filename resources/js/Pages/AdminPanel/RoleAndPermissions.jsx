@@ -11,7 +11,7 @@ import { usePage } from "@inertiajs/react";
 import { toast } from "react-toastify";
 import DefaultButton from "../BasicElements/DefaultButton";
 import SearchUser from "./SearchUser";
-import FetchIndex from "../API/FetchIndex";
+import AxiosGet from "../API/AxiosGet";
 
 export default function RoleAndPermissions() {
     const user = usePage().props.auth.user;
@@ -27,19 +27,11 @@ export default function RoleAndPermissions() {
     const [moderators, setModerators] = useState([]);
     const [bannedUsers, setBannedUsers] = useState([]);
     useEffect(() => {
-        const fetchData = async () => {
-            setAdmins(await FetchIndex("adminPanel.getAdmins"));
-            setModerators(await FetchIndex("adminPanel.getModerators"));
-            setBannedUsers(await FetchIndex("adminPanel.getBannedUsers"));
-
-            setRoles(await FetchIndex("role.index"));
-            setPermissions(await FetchIndex("permission.index"));
-            //setUsers(await FetchIndex("adminPanel.getAllUsers"));
-
-            // Tutaj możesz kontynuować inne operacje po pobraniu danych
-        };
-
-        fetchData(); // Wywołujemy funkcję fetchData
+            AxiosGet("user.getAdmins", null, null, setAdmins);
+            AxiosGet("user.getModerators", null, null, setModerators);
+            AxiosGet("user.getBannedUsers", null, null, setBannedUsers);
+            AxiosGet("role.index", null, null, setRoles);
+            AxiosGet("permission.index", null, null, setPermissions);
     }, []);
 
     const togglePermission = (permissionId) => {
@@ -90,13 +82,9 @@ export default function RoleAndPermissions() {
     };
 
     const refreshUser = async (userId) => {
-        const tmp = await FetchIndex("adminPanel.searchById", {
-            id: userId,
-        });
-        console.log(tmp);
-        setSelectedUser(tmp);
+        AxiosGet("user.searchById", {id: userId}, null,setSelectedUser);
     };
-    //console.log(selectedUser);
+
     return (
         <AuthenticatedLayout>
             <div className="font-bold bg-[#231f20] text-white justify-center items-center ">

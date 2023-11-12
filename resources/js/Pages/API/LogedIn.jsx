@@ -5,12 +5,9 @@ import Notify from "@/Components/Notify";
 
 function LogedIn() {
     //console.log(usePage().props.auth);
-    if(usePage().props.auth.user)
-    {
+    if (usePage().props.auth.user) {
         return true;
-    }
-    else
-    {
+    } else {
         return false;
     }
 }

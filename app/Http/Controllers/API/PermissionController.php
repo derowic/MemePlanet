@@ -24,10 +24,8 @@ class PermissionController extends Controller
         ]);
 
         $user = User::find($data['user_id']);
-
-        // Przypisz wybrane uprawnienia do użytkownika
         $user->permissions()->sync($data['permission_ids']);
 
-        return response()->json(['msg' => 'Uprawnienia zostały przypisane do użytkownika.']);
+        return response()->json(['msg' => 'Permission assigned']);
     }
 }

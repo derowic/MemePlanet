@@ -21,5 +21,3 @@ class CheckUserRole
         //return response('Unauthorized action', 403);
     }
 }
-
-

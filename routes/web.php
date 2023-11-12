@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\API\AccountController;
-use App\Http\Controllers\API\AdminPanelController;
 use App\Http\Controllers\API\BanController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\CommentController;
@@ -13,7 +11,8 @@ use App\Http\Controllers\API\ReportController;
 use App\Http\Controllers\API\ReportListController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\TagController;
-use App\Http\Controllers\API\TagListController;
+use App\Http\Controllers\API\UserController;
+//use App\Http\Controllers\API\TagListController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -30,18 +29,18 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->name('dashboard'); //middleware(['auth', 'verified'])->
 
 Route::get('/MemeGenerator', function () {
     return Inertia::render('MemeGenerator');
-})->middleware(['auth', 'verified'])->name('memeGenerator');
+})->name('memeGenerator'); //middleware(['auth', 'verified'])->
 
 Route::get('/post', [PostController::class, 'index'])->name('post.index');
 Route::get('/top', [PostController::class, 'top'])->name('post.top');
 Route::get('/trending', [PostController::class, 'trending'])->name('post.trending');
 Route::get('/fresh', [PostController::class, 'fresh'])->name('post.fresh');
-Route::post('/show', [PostController::class, 'show'])->name('post.show');
-Route::get('/onePost/{post}', [PostController::class, 'onePost'])->name('post.onePost');
+//Route::get('/show', [PostController::class, 'show'])->name('post.show');
+Route::get('/show/{post}', [PostController::class, 'show'])->name('post.show');
 
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
 
@@ -59,21 +58,21 @@ Route::get('/ban', [BanController::class, 'index'])->name('ban.index');
 
 Route::get('/report', [ReportController::class, 'index'])->name('report.index');
 
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
+
     Route::middleware(['checkUserRole'])->group(function () {
         Route::get('/Account', function () {
-            return Inertia::render('Account/Account');
+            return Inertia::render('Account');
         })->middleware(['auth', 'verified'])->name('account');
 
-        Route::get('/account', [AccountController::class, 'index'])->name('account.index');
+        Route::get('/userPosts', [PostController::class, 'userPosts'])->name('post.userPosts');
 
-        Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
         Route::post('/notification', [NotificationController::class, 'store'])->name('notification.store');
         Route::get('/notification/{notification}', [NotificationController::class, 'show'])->name('notification.show');
         Route::put('/notification/{notification}', [NotificationController::class, 'update'])->name('notification.update');
@@ -81,14 +80,10 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/post', [PostController::class, 'store'])->name('post.store');
         Route::post('/like', [PostController::class, 'like'])->name('post.like');
-        Route::post('/post/fav', [PostController::class, 'favourite'])->name('post.fav');
-
-        //Route::post('/upload', [PostController::class, 'upload'])->name('post.upload');
+        //Route::post('/post/fav', [PostController::class, 'favourite'])->name('post.fav');
         Route::put('/post/{post}', [PostController::class, 'update'])->name('post.update');
         Route::delete('/post/{post}', [PostController::class, 'delete'])->name('post.delete');
-
-        Route::post('/report/{post}', [PostController::class, 'report'])->name('post.report');
-
+        //Route::post('/report/{post}', [ReportController::class, 'report'])->name('report.report');
 
         Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
         Route::post('/comment/like', [CommentController::class, 'like'])->name('comment.like');
@@ -103,11 +98,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/tag', [TagController::class, 'store'])->name('tag.store');
         Route::put('/tag/{tag}', [TagController::class, 'update'])->name('tag.update');
         Route::delete('/tag/{tag}', [TagController::class, 'delete'])->name('tag.delete');
-
+        /*
         Route::post('/tagList', [TagListController::class, 'store'])->name('tagList.store');
         Route::put('/tagList/{tagList}', [TagListController::class, 'update'])->name('tagList.update');
         Route::delete('/tagList/{tagList}', [TagListController::class, 'delete'])->name('tagList.delete');
-
+        */
     });
 
     Route::middleware(['checkAdminRole'])->group(function () {
@@ -124,39 +119,43 @@ Route::middleware('auth')->group(function () {
             return Inertia::render('AdminPanel/EditCategoriesAndTags');
         })->middleware(['auth', 'verified'])->name('EditCategoriesAndTags');
 
-        Route::get('/adminPanel', [AdminPanelController::class, 'index'])->name('adminPanel.index');
-        Route::get('/hide', [AdminPanelController::class, 'hiddenPosts'])->name('adminPanel.hiddenPosts');
-        Route::get('/postReports', [AdminPanelController::class, 'postReports'])->name('adminPanel.postReports');
-        Route::post('/admin/{post}', [AdminPanelController::class, 'sendToMainPage'])->name('admin.mainPage');
-        Route::post('/admin/{post}/hide', [AdminPanelController::class, 'hidePost'])->name('admin.hidePost');
-        Route::delete('/admin/{post}/delete', [AdminPanelController::class, 'deletePost'])->name('admin.deletePost');
-        Route::delete('/deleteComment/{comment}/delete', [AdminPanelController::class, 'deleteComment'])->name('admin.deleteComment');
-        Route::post('/ban', [AdminPanelController::class, 'banUser'])->name('admin.banUser');
-        Route::get('/api/users', [AdminPanelController::class, 'getAllUsers'])->name('adminPanel.getAllUsers');
-        Route::get('/search', [AdminPanelController::class, 'search'])->name('adminPanel.search');
-        Route::get('/searchById', [AdminPanelController::class, 'searchById'])->name('adminPanel.searchById');
-        Route::get('/getAdmins', [AdminPanelController::class, 'getAdmins'])->name('adminPanel.getAdmins');
-        Route::get('/getModerators', [AdminPanelController::class, 'getModerators'])->name('adminPanel.getModerators');
-        Route::get('/getBannedUsers', [AdminPanelController::class, 'getBannedUsers'])->name('adminPanel.getBannedUsers');
-        Route::put('/improveTag/{tag}', [AdminPanelController::class, 'improveTag'])->name('adminPanel.improveTag');
-        Route::post('/addCategory', [AdminPanelController::class, 'addCategory'])->name('adminPanel.addCategory');
-        Route::delete('/deleteCategory/{category}', [AdminPanelController::class, 'deleteCategory'])->name('adminPanel.deleteCategory');
+        Route::get('/getAdmins', [UserController::class, 'getAdmins'])->name('user.getAdmins');
+        Route::get('/getModerators', [UserController::class, 'getModerators'])->name('user.getModerators');
+        Route::get('/getBannedUsers', [UserController::class, 'getBannedUsers'])->name('user.getBannedUsers');
+
+        Route::get('/reportedPosts', [PostController::class, 'reportedPosts'])->name('post.reportedPosts');
+        Route::get('/hiddenPosts', [PostController::class, 'hiddenPosts'])->name('post.hiddenPosts');
+
+        Route::put('/post/{post}', [PostController::class, 'sendToMainPage'])->name('post.mainPage');
+        Route::put('/hdie/{post}/hide', [PostController::class, 'hidePost'])->name('post.hidePost');
+
+        Route::delete('/admin/{post}/delete', [PostController::class, 'destroy'])->name('post.destroy');
+
+        Route::delete('/deleteComment/{comment}/delete', [CommentController::class, 'destroy'])->name('comment.destroy');
+
+        Route::post('/ban', [BanController::class, 'banUser'])->name('ban.banUser');
+        Route::get('/api/users', [UserController::class, 'getAllUsers'])->name('user.getAllUsers');
+        Route::get('/search', [UserController::class, 'search'])->name('user.search');
+        Route::get('/searchById', [UserController::class, 'searchById'])->name('user.searchById');
+
+        Route::put('/improveTag/{tag}', [TagController::class, 'improveTag'])->name('tag.improveTag');
+        Route::delete('/deleteCategory/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
         Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
         Route::put('/category/{category}', [CategoryController::class, 'update'])->name('category.update');
         Route::delete('/category/{category}', [CategoryController::class, 'delete'])->name('category.delete');
 
         Route::post('/reportList', [ReportListController::class, 'store'])->name('reportList.store');
+        Route::get('/reportList', [ReportListController::class, 'index'])->name('reportList.index');
 
         Route::get('/check', [BanController::class, 'check'])->name('ban.check');
 
         Route::post('/api/assign-permissions', [PermissionController::class, 'assignPermissions'])->name('permission.assignPermissions');
 
         Route::post('/api/assign-roles', [RoleController::class, 'assignRoles'])->name('role.assignRoles');
+
     });
 });
-
-
 
 Route::get('/react', function () {
     return view('react');

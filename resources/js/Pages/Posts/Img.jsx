@@ -36,7 +36,7 @@ function Img({ post, /*togglePanel*/ loadCommentsFunc }) {
 
     return (
         <div className="w-full">
-            <a href={route("post.onePost", { post: post.id })}>
+            <a href={route("post.show", { post: post.id })}>
                 <div className={customClass}>
                     <img
                         id="yourImageId"

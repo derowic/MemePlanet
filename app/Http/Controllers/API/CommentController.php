@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
-use App\Models\Post;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -18,30 +17,6 @@ class CommentController extends Controller
             ->get();
 
         return CommentResource::collection($comments);
-    }
-
-    public function getComments(Request $request)
-    {
-        if (($request->id != null) && ($request->id != 0)) {
-            $postId = $request->id;
-
-            $comments = Post::with(['comments', 'comments.user', 'comments.comment', 'comments.comment.user'])
-                ->where('id', $postId)
-                ->orderBy('created_at', 'desc')
-                ->get();
-
-            $user = auth()->user();
-
-            return response()->json([
-                'dane' => $comments,
-                'id' => $postId,
-                'user' => $user,
-
-            ]);
-        } else {
-            return response()->json(['msg' => 'error while downloading comment, refresh or try later'], 500);
-        }
-
     }
 
     public function like(Request $request)
@@ -66,7 +41,7 @@ class CommentController extends Controller
 
             return response()->json(['like' => $article->likeCount]);
         } else {
-            return response()->json(['msg' => 'error while saving like, refresh or try later'], 500);
+            return response()->json(['msg' => 'Error while saving like'], 500);
         }
     }
 
@@ -81,29 +56,19 @@ class CommentController extends Controller
         $com->created_at = now();
         $com->updated_at = now();
 
-        $com->save();
-
         if ($com->save()) {
-
-            return response()->json(['msg' => 'comment added'], 201);
+            return response()->json(['msg' => 'Comment added'], 201);
         } else {
-
-            return response()->json(['msg' => 'error while saving comment, refresh or try later'], 500);
+            return response()->json(['msg' => 'Error while saving comment'], 500);
         }
     }
 
-    public function edit($id)
+    public function destroy(Comment $comment)
     {
+        $comment->delete();
 
-    }
+        session()->flash('toast', 'Success');
 
-    public function destroy($id)
-    {
-
-    }
-
-    public function softDeletePost(string $id)
-    {
-
+        return response()->json(['msg' => 'Success deleting comment'], 201);
     }
 }

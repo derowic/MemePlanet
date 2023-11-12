@@ -5,11 +5,10 @@ import React, {
     useRef,
     useEffect,
 } from "react";
-import FetchIndex from "@/Pages/API/FetchIndex";
 import DefaultButton from "../BasicElements/DefaultButton";
 import { useTranslation } from "react-i18next";
-import FetchCategories from "../API/FetchCategories";
-import "./scrollbar.css"; // Import pliku CSS
+import AxiosGet from "../API/AxiosGet";
+import "../scrollbar.css";
 
 function CategoryList({ chosenCategory, changeCategory }) {
     const categoryTranslation = useTranslation(["dashboard"]);
@@ -17,7 +16,7 @@ function CategoryList({ chosenCategory, changeCategory }) {
     const [selectedCategory, setSelectedCategory] = useState(null);
 
     useEffect(() => {
-        FetchCategories("category.index", null, setCategories);
+        AxiosGet("category.index", null, null, setCategories);
     }, []);
 
     const beforeChangeCategory = (tmp) => {
@@ -31,7 +30,7 @@ function CategoryList({ chosenCategory, changeCategory }) {
     };
 
     return (
-        <div className="w-full h-[85vh] overflow-y-auto grid custom-scroll flex items-center ">
+        <div className="h-[90vh] overflow-y-auto grid custom-scroll flex items-center ">
             {categories.map((category) => (
                 <DefaultButton
                     key={category.id + " categoryList"}

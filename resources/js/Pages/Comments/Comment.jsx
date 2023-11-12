@@ -6,7 +6,7 @@ import AddComment from "./AddComment";
 import "react-quill/dist/quill.snow.css";
 import Notify from "@/Components/Notify";
 import { usePage } from "@inertiajs/react";
-import DeleteComment from "../AdminAndModeratorFunctions/DeleteComment";
+import AxiosDelete from "../API/AxiosDelete";
 
 const Comment = ({
     usedComments,
@@ -56,7 +56,6 @@ const Comment = ({
 
     return (
         <div>
-            {" "}
             {(comment.parent_comment == null ||
                 (prevComment != undefined &&
                     comment.parent_comment.id == prevComment.id)) && (
@@ -121,7 +120,7 @@ const Comment = ({
                                     <button
                                         className="p-3 rounded-lg bg-red-500 m-2"
                                         onClick={() =>
-                                            DeleteComment(comment.id)
+                                            AxiosDelete("comment.destroy", { comment: comment.id })
                                         }
                                     >
                                         Delete Comment

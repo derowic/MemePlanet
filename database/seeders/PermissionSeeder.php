@@ -20,7 +20,7 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'post.hide']);
         Permission::create(['name' => 'post.showReport']);
         Permission::create(['name' => 'post.delete']);
-        Permission::create(['name' => 'post.create']);//create posts
+        Permission::create(['name' => 'post.create']); //create posts
         Permission::create(['name' => 'user.ban']);
         Permission::create(['name' => 'comment.create']);
         Permission::create(['name' => 'comment.delete']);

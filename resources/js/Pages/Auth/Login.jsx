@@ -95,7 +95,10 @@ export default function Login({ status, canResetPassword }) {
                         </Link>
                     )}
 
-                    <PrimaryButton className="ml-4" disabled={processing}>
+                    <PrimaryButton
+                        className="ml-4 bg-meme_dark_violet hover:bg-meme_violet"
+                        disabled={processing}
+                    >
                         Log in
                     </PrimaryButton>
                 </div>

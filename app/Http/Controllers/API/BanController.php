@@ -5,9 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Ban;
 use App\Models\BanList;
-//use App\Http\Requests\CategoryRequest;
-use DateTime;
+use App\Models\User;
 use DateInterval;
+use DateTime;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -22,13 +22,12 @@ class BanController extends Controller
 
     public function check()
     {
-
         $user = auth()->user();
         $banList = BanList::where('user_id', $user->id)->first();
 
-        if (!$banList) {
+        if (! $banList) {
             return response()->json([
-                'data' => 'Użytkownik nie znaleziony na liście zbanowanych',
+                'data' => false,
             ]);
         }
 
@@ -41,19 +40,42 @@ class BanController extends Controller
 
         if ($targetDate < $currentDate) {
             $banList->delete();
-            $user->roles()->sync(Role::where('name','user')->first()->id);
+            $user->roles()->sync(Role::where('name', 'user')->first()->id);
+
             return response()->json([
-                'data' => 'Zakaz wygasł i został usunięty',
+                'data' => false,
             ]);
         } elseif ($targetDate > $currentDate) {
             return response()->json([
-                'data' => 'Użytkownik jest zbanowany',
+                'data' => true,
             ]);
         } else {
             return response()->json([
-                'data' => 'Nieoczekiwana sytuacja',
+                'msg' => 'Error',
             ]);
         }
     }
 
+    public function banUser(Request $request)
+    {
+        if (! BanList::where('user_id', $request->input('user_id'))->first()) {
+
+            $user = User::find($request->input('user_id'));
+            $user->syncRoles(['observer']);
+            $ban = new BanList();
+            $ban->user_id = $request->input('user_id');
+            $ban->ban_id = $request->input('ban_id');
+            $ban->report_id = $request->input('report_id');
+            $ban->save();
+            $tmp = $user->update(['ban_list_id' => $ban->id]);
+
+            if ($ban->save()) {
+                return response()->json(['msg' => $tmp], 201);
+            } else {
+                return response()->json(['msg' => 'Error'], 500);
+            }
+        }
+
+        return response()->json(['msg' => 'This user is already banned'], 201);
+    }
 }

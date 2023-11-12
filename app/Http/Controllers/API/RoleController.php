@@ -26,14 +26,13 @@ class RoleController extends Controller
         $user = User::find($request->input('user_id'));
 
         if (! $user) {
-            return response()->json(['msg' => 'Użytkownik nie istnieje'], 404);
+            return response()->json(['msg' => "This user don't exist"], 404);
         }
 
         $roleIds = $request->input('role_ids');
 
-        // Przypisz wybrane role do użytkownika
         $user->roles()->sync($roleIds);
 
-        return response()->json(['msg' => 'Role zostały przypisane pomyślnie']);
+        return response()->json(['msg' => 'Role assigned']);
     }
 }

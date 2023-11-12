@@ -11,15 +11,12 @@ import { usePage } from "@inertiajs/react";
 import { toast } from "react-toastify";
 import Button from "../BasicElements/Button";
 import SearchUser from "./SearchUser";
-import FetchIndex from "../API/FetchIndex";
-import FetchTags from "../API/FetchTags";
-import FetchCategories from "../API/FetchCategories";
 import DefaultModal from "../BasicElements/DefaultModal";
-import EditTag from "../API/EditTag";
-import ImproveTag from "../API/ImproveTag";
 import AddNewCategory from "./AddNewCategory";
 import AxiosDelete from "../API/AxiosDelete";
 import DefaultButton from "../BasicElements/DefaultButton";
+import AxiosGet from "../API/AxiosGet";
+import AxiosPut from "../API/AxiosPut";
 
 export default function EditCategoriesAndTags() {
     const user = usePage().props.auth.user;
@@ -39,14 +36,13 @@ export default function EditCategoriesAndTags() {
     };
 
     const checkIsUserBanned = async () => {
-        let t = await FetchIndex("ban.check", null);
-        console.log(t);
+        let t = await AxiosGet("ban.check", null, null, null);
     };
 
     useEffect(() => {
         checkIsUserBanned();
-        FetchTags("tag.index", null, setTags);
-        FetchCategories("category.index", null, setCategories);
+        AxiosGet("tag.index", null, null,  setTags);
+        AxiosGet("category.index", null, null, setCategories);
     }, []);
 
     return (
@@ -74,7 +70,7 @@ export default function EditCategoriesAndTags() {
                                     text={"Delete"}
                                     onClick={() =>
                                         AxiosDelete(
-                                            "adminPanel.deleteCategory",
+                                            "category.destroy",
                                             { id: category.id },
                                             null,
                                         )
@@ -91,10 +87,7 @@ export default function EditCategoriesAndTags() {
                             <div key={tag.id} className="">
                                 <DefaultButton
                                     onClick={() =>
-                                        ImproveTag(
-                                            "adminPanel.improveTag",
-                                            tag.id,
-                                        )
+                                         AxiosPut("tag.improveTag",{ tag:tag.id }, null)
                                     }
                                     className="bg-purple-900 hover:bg-purple-700 p-2 rounded-lg m-2"
                                     text={" Improve to category" + tag.name}

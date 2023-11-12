@@ -4,7 +4,8 @@ import Notify from "@/Components/Notify";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const UploadPost = ({ fetchPosts, categories, tags }) => {
+
+const UploadPost = ({ categories, tags }) => {
     const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
     const [imageUploaded, setImageUploaded] = useState(false);
 
@@ -25,11 +26,6 @@ const UploadPost = ({ fetchPosts, categories, tags }) => {
                 formData.append("category", category);
                 formData.append("tags", tags);
                 formData.append("customTag", customTagText);
-                /* tags.forEach((tag) => {
-                    formData.append('tags[]', tag);
-                });
-                */
-
                 const response = await axios.post(
                     route("post.store"),
                     formData,
@@ -39,12 +35,10 @@ const UploadPost = ({ fetchPosts, categories, tags }) => {
                         },
                     },
                 );
-
-                console.log(response);
                 setUploadedImageUrl(response.data.imageUrl);
                 setImageUploaded(true);
-                fetchPosts();
-                Notify(response.data.msg);
+                Notify(response.data.msg,"success");
+
             } catch (error) {
                 console.error("UploadPost error: ", error);
                 Notify(error);

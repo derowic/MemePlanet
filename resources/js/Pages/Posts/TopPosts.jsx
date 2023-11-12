@@ -4,7 +4,7 @@ import React, {
     forwardRef,
     useImperativeHandle,
 } from "react";
-import FetchPosts from "../API/FetchPosts";
+import FetchPosts from "../API/FetchWithPagination";
 import Post from "./Post";
 
 const TopPosts = (tags) => {

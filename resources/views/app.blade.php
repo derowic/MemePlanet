@@ -19,6 +19,37 @@
         @viteReactRefresh
         @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
         @inertiaHead
+
+        <style>
+            html, body {
+                scrollbar-width: thin;
+                scrollbar-color: purple #555;
+                background-color: #111;
+            }
+
+            ::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            ::-webkit-scrollbar-track {
+                width: 8px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background-color: #8f43ec;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background-color: #af65fe;
+            }
+            ::-webkit-scrollbar-track {
+                background-color: rgba(0, 0, 0, 0);
+            }
+
+            ::-webkit-scrollbar-track:hover {
+                /*background-color: #fff;*/
+            }
+        </style>
     </head>
     <body class="font-sans antialiased">
         @inertia

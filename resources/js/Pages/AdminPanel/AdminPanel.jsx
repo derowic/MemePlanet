@@ -7,16 +7,12 @@ import React, {
 } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import InfiniteScrollPosts from "../Posts/InfiniteScrollPosts";
-import CategoryList from "../Categories/CategoryList";
-import TopPosts from "../Posts/TopPosts";
 import PostsTypeSelect from "../Posts/PostsTypeSelect";
 import { useTranslation } from "react-i18next";
-import FetchPosts from "../API/FetchPosts";
-import FetchTags from "../API/FetchTags";
-import RefreshPosts from "../API/RefreshPosts";
-import FetchCategories from "../API/FetchCategories";
+import FetchPosts from "../API/FetchWithPagination";
 import NavLink from "@/Components/NavLink";
 import CheckRole from "../API/CheckRole";
+import AxiosGet from "../API/AxiosGet";
 
 export default function AdminPanel() {
     const translation = useTranslation(["dashboard"]);
@@ -25,17 +21,18 @@ export default function AdminPanel() {
     const [tags, setTags] = useState([]);
     const [categories, setCategories] = useState([]);
     const [selectedPostsType, setSelectedPostsType] = useState(
-        translation.t("Reported posts"),
+        translation.t("Reported Posts"),
     );
-    const [rout, setRout] = useState("adminPanel.index");
+    const [rout, setRout] = useState("post.reportedPosts");
 
     const changeCategory = (tmp) => {
         setChosenCategory(tmp);
     };
 
     useEffect(() => {
-        FetchTags("tag.index", null, setTags);
-        FetchCategories("category.index", null, setCategories);
+        AxiosGet("tag.index", null, null,  setTags);
+        AxiosGet("category.index", null, null, setCategories);
+        FetchPosts(rout, { page: page }, setPosts, page, setPage);
     }, []);
 
     return (
@@ -50,44 +47,43 @@ export default function AdminPanel() {
 
                     <div className="w-2/4 mt-2">
                         <div className="w-full text-center">
-                            <h2 className="mb-2 text-3xl border-b border-[#7d12ff]">
-                                {translation.t("Admin Panel")}
+                            <h2 className="mb-2 text-3xl border-b border-meme_violet">
+                                {translation.t("Meme Planet")}
                             </h2>
                             <PostsTypeSelect
                                 selected={selectedPostsType}
                                 setSelected={setSelectedPostsType}
                                 elements={[
                                     [
-                                        translation.t("Reported posts"),
-                                        "adminPanel.index",
+                                        translation.t("Reported Posts"),
+                                        "post.reportedPosts",
                                     ],
                                     [
-                                        translation.t("Hidden posts"),
-                                        "adminPanel.hiddenPosts",
+                                        translation.t("Hidden Posts"),
+                                        "post.hiddenPosts",
                                     ],
                                 ]}
                                 setPosts={setPosts}
                                 setRout={setRout}
                             />
-                            {tags.length > 0 && categories.length > 0 && (
-                                <InfiniteScrollPosts
-                                    chosenCategory={0}
-                                    posts={posts}
-                                    fetchPosts={() =>
-                                        FetchPosts(
-                                            rout,
-                                            { page: page },
-                                            setPosts,
-                                            page,
-                                            setPage,
-                                        )
-                                    }
-                                    categories={categories}
-                                    tags={tags}
-                                    refreshPosts={() =>
-                                        RefreshPosts(rout, null, setPosts)
-                                    }
-                                />
+                            {tags.length > 0 &&
+                                categories.length > 0 &&
+                                posts.length > 0 && (
+                                    <InfiniteScrollPosts
+                                        chosenCategory={0}
+                                        posts={posts}
+                                        fetchPosts={() =>
+                                            FetchPosts(
+                                                rout,
+                                                { page: page },
+                                                setPosts,
+                                                page,
+                                                setPage,
+                                            )
+                                        }
+                                        categories={categories}
+                                        tags={tags}
+                                    />
                                 )}
                         </div>
                     </div>

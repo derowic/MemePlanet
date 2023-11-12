@@ -10,10 +10,11 @@ class NotificationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'text' => $this->text,
-            'likes' => $this->likes,
-            'parent_comment' => $this->comment,
-            'user' => $this->user,
+            'sender' => $this->sender,
+            'receiver_id' => $this->receiver_id,
+            'type' => $this->type,
+            'element_id' => $this->element_id,
+            'seen' => $this->seen,
         ];
     }
 }

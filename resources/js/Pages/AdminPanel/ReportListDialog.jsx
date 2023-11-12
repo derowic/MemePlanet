@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
 import DefaultButton from "../BasicElements/DefaultButton";
-import { toast } from "react-toastify";
-import FetchReports from "@/Pages/API/FetchReports";
-import FetchPostReports from "@/Pages/API/FetchPostReports";
+import AxiosGet from "../API/AxiosGet";
 
 const ReportListDialog = ({
     post,
@@ -16,12 +14,7 @@ const ReportListDialog = ({
     const openDialog = () => {
         setIsOpen(true);
         if (postReports.length == 0) {
-            //FetchReports("report.index", null, setReports);
-            FetchPostReports(
-                "adminPanel.postReports",
-                { post_id: post.id },
-                setPostReports,
-            );
+            AxiosGet("reportList.index",{ post_id: post.id }, null, setPostReports)
         }
     };
     const closeDialog = () => {

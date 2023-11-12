@@ -12,17 +12,15 @@ import CategoryList from "./Categories/CategoryList";
 import TopPosts from "./Posts/TopPosts";
 import PostsTypeSelect from "./Posts/PostsTypeSelect";
 import { useTranslation } from "react-i18next";
-import FetchPosts from "./API/FetchPosts";
-import FetchTags from "./API/FetchTags";
-import RefreshPosts from "./API/RefreshPosts";
-import FetchCategories from "./API/FetchCategories";
+import FetchPosts from "./API/FetchWithPagination";
+
 import BanInfo from "@/Layouts/BanInfo";
 import { usePage } from "@inertiajs/react";
-import FetchIndex from "@/Pages/API/FetchIndex";
 import { ToastContainer, toast } from "react-toastify";
+import NavBar from "@/Layouts/NavBar";
+import AxiosGet from "./API/AxiosGet";
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
-
     const translation = useTranslation(["dashboard"]);
     const [chosenCategory, setChosenCategory] = useState(0);
     const [posts, setPosts] = useState([]);
@@ -42,11 +40,11 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
     };
 
     useEffect(() => {
-        FetchTags("tag.index", null, setTags);
-        FetchCategories("category.index", null, setCategories);
+        AxiosGet("tag.index", null, null,  setTags);
+        AxiosGet("category.index", null, null, setCategories);
     }, []);
     return (
-        <>
+        <div className="bg-meme_black text-white">
             <ToastContainer
                 position="top-center"
                 autoClose={5000}
@@ -60,6 +58,12 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 theme="dark"
             />
 
+            {/*
+            <div className="bg-meme_black sticky top-0 border-b border-meme_blue hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <NavBar translation={translation}/>
+            </div>
+            */}
+
             <div className="w-full p-6 text-center text-white font-bold bg-meme_black text-2xl">
                 {auth.user ? (
                     <Link href={route("dashboard")} className="">
@@ -67,7 +71,10 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                     </Link>
                 ) : (
                     <>
-                        <Link href={route("login")} className="border-r-2 px-2 border-meme_violet">
+                        <Link
+                            href={route("login")}
+                            className="border-r-2 px-2 border-meme_violet"
+                        >
                             Log in
                         </Link>
 
@@ -126,9 +133,6 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                     }
                                     categories={categories}
                                     tags={tags}
-                                    refreshPosts={() =>
-                                        RefreshPosts(rout, null, setPosts)
-                                    }
                                 />
                             )}
                         </div>
@@ -144,6 +148,6 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }

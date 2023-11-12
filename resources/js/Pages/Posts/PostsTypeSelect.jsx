@@ -6,7 +6,7 @@ import React, {
     useEffect,
 } from "react";
 import DefaultButton from "../BasicElements/DefaultButton";
-import FetchIndex from "@/Pages/API/FetchIndex";
+import AxiosGet from "../API/AxiosGet";
 
 function PostsTypeSelect({
     selected,
@@ -36,7 +36,7 @@ function PostsTypeSelect({
     };
 
     const loadNewPost = async (rout) => {
-        const response = await FetchIndex(rout, null);
+        const response = await AxiosGet(rout,null,null,null);
         setPosts((prevPosts) => [...prevPosts, ...response]);
     };
 

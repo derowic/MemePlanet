@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NotificationsList from "./NotificationsList";
+import AxiosGet from "../API/AxiosGet";
 
 const NotificationBell = () => {
     const [notifications, setNotifications] = useState([]);
@@ -9,15 +10,11 @@ const NotificationBell = () => {
     const fetchNotification = async () => {
         try {
             let params = { page: page };
-            const response = await axios.get(route("notification.index"), {
+            const response = await  AxiosGet("notification.index",null,{
                 params,
             });
             setPage(page + 1);
-            //setNotifications((prevNotifications) => [...prevNotifications, ...response.data.notifications]);
-            //console.log(notifications);
-            const newNotifications = response.data.notifications;
-            //console.log(newNotifications);
-            // Aktualizujemy `notifications` za pomocą nowych danych
+            const newNotifications = response;
             setNotifications((prevNotifications) => [
                 ...prevNotifications,
                 ...newNotifications,
@@ -28,7 +25,7 @@ const NotificationBell = () => {
             const countOfNotificationsWithSeen1 = notificationsWithSeen1.length;
             setUnSeen(countOfNotificationsWithSeen1);
         } catch (error) {
-            //Notification(error.response.data.msg);
+            Notification(error.response.data.msg);
             console.error("CommentSection -> fetchComments error: ", error);
         }
     };
@@ -40,8 +37,9 @@ const NotificationBell = () => {
     };
 
     useEffect(() => {
+        fetchNotification();
+
         const intervalId = setInterval(() => {
-            console.log("Wykonywanie co 5 sekund");
             fetchNotification();
         }, 60000);
 
@@ -49,8 +47,6 @@ const NotificationBell = () => {
             clearInterval(intervalId);
         };
     }, []);
-
-    //console.log(notifications.length);
 
     return (
         <div className="">

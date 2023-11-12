@@ -11,13 +11,11 @@ import CategoryList from "./Categories/CategoryList";
 import TopPosts from "./Posts/TopPosts";
 import PostsTypeSelect from "./Posts/PostsTypeSelect";
 import { useTranslation } from "react-i18next";
-import FetchPosts from "./API/FetchPosts";
-import FetchTags from "./API/FetchTags";
-import RefreshPosts from "./API/RefreshPosts";
-import FetchCategories from "./API/FetchCategories";
+import FetchWithPagination from "./API/FetchWithPagination";
 import BanInfo from "@/Layouts/BanInfo";
 import { usePage } from "@inertiajs/react";
-import FetchIndex from "@/Pages/API/FetchIndex";
+import Composition from "./providerTest/Index";
+import AxiosGet from "./API/AxiosGet";
 
 export default function Dashboard() {
     const user = usePage().props.auth.user;
@@ -38,23 +36,22 @@ export default function Dashboard() {
     };
 
     const checkIsUserBanned = async () => {
-        let t = await FetchIndex("ban.check", null);
-        console.log(t);
+        let t = await AxiosGet("ban.check", null,null,null);
     };
 
     useEffect(() => {
         checkIsUserBanned();
-        FetchTags("tag.index", null, setTags);
-        FetchCategories("category.index", null, setCategories);
+        AxiosGet("tag.index", null, null,  setTags);
+        AxiosGet("category.index", null, null, setCategories);
     }, []);
 
     return (
         <AuthenticatedLayout>
-            <div className="font-bold  h-full">
+            <div className="font-bold h-full">
                 <div className="flex text-gray-100">
-                    <div className="w-1/4 mt-6">
-                        <div className="w-full sticky top-0 p-4 sm:rounded-lg ">
-                            <h3 className="w-full text-center mb-2 text-3xl border-b border-meme_violet">
+                    <div className="w-1/4">
+                        <div className=" sticky top-7 p-4 sm:rounded-lg ">
+                            <h3 className="text-center mb-2 text-3xl border-b border-meme_violet">
                                 {translation.t("Categories")}
                             </h3>
                             <CategoryList
@@ -85,12 +82,12 @@ export default function Dashboard() {
                                 setPosts={setPosts}
                                 setRout={setRout}
                             />
-                            {tags.length > 0 && categories.length > 0 && (
+                            {tags.length >= 0 && categories.length > 0 && (
                                 <InfiniteScrollPosts
                                     chosenCategory={chosenCategory}
                                     posts={posts}
                                     fetchPosts={() =>
-                                        FetchPosts(
+                                        FetchWithPagination(
                                             rout,
                                             { page: page },
                                             setPosts,
@@ -100,15 +97,12 @@ export default function Dashboard() {
                                     }
                                     categories={categories}
                                     tags={tags}
-                                    refreshPosts={() =>
-                                        RefreshPosts(rout, null, setPosts)
-                                    }
                                 />
                             )}
                         </div>
                     </div>
 
-                    <div className="w-1/4 mt-4 ml-4">
+                    <div className="w-1/4 mt-4 ">
                         <div className="w-full p-4 text-center ">
                             <h3 className=" w-full text-center mb-2 text-3xl w-full border-b border-meme_violet">
                                 {translation.t("Hot")}

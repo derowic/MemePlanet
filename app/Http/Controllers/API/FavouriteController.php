@@ -44,22 +44,34 @@ class FavouriteController extends Controller
         return PostResource::collection($this->addLikesAndFavs($posts));
     }
 
-    public function getTags()
+    public function store(Request $request)
     {
-        $tags = Tag::all();
+        if (($request->post != null) && ($request->post != 0)) {
+            $favouriteRecord = Favourite::where('user_id', auth()->user()->id)
+                ->where('post_id', $request->post)
+                ->first();
 
-        return response()->json([
-            'tags' => $tags,
-        ]);
-    }
+            if ($favouriteRecord == true) {
+                Favourite::find($favouriteRecord->id)->forceDelete();
 
-    public function destroy($id)
-    {
+                return response()->json(['msg' => 'Post removed from favourites']);
 
-    }
+            } else {
+                $tmp = new Favourite();
+                $tmp->user_id = auth()->user()->id;
+                $tmp->post_id = $request->post;
+                $tmp->created_at = now();
+                $tmp->updated_at = now();
+                $tmp->save();
+                if ($tmp->save()) {
 
-    public function softDeletePost(string $id)
-    {
-
+                    return response()->json(['msg' => 'Post added to favourite'], 201);
+                } else {
+                    return response()->json(['msg' => 'Error while adding post to favourites'], 500);
+                }
+            }
+        } else {
+            return response()->json(['msg' => 'Error'], 500);
+        }
     }
 }

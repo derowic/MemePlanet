@@ -4,7 +4,6 @@ import LogedIn from "../API/LogedIn";
 import Notify from "@/Components/Notify";
 
 const CommentInput = ({ onSubmit, post }) => {
-
     let loged = LogedIn();
     let permission = CheckPermission("comment.create");
     const [commentText, setCommentText] = useState("");
@@ -15,21 +14,15 @@ const CommentInput = ({ onSubmit, post }) => {
     };
 
     const handleSubmit = () => {
-        if(loged)
-        {
-            if(permission)
-            {
+        if (loged) {
+            if (permission) {
                 onSubmit(commentText);
                 setCommentText("");
+            } else {
+                Notify("You don't have permission", "info");
             }
-            else
-            {
-                Notify("You don't have permission","info");
-            }
-        }
-        else
-        {
-            Notify("You need to be log in","info");
+        } else {
+            Notify("You need to be log in", "info");
         }
     };
 

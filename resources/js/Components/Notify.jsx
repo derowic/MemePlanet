@@ -2,11 +2,10 @@ import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Notify = (text,type = "default") => {
-    if(type == "default")
-    {
+const Notify = (text, type = "default", code = null) => {
+    if (type == "default") {
         toast(text, {
-            position: "top-center",
+            position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -15,21 +14,13 @@ const Notify = (text,type = "default") => {
             progress: undefined,
             theme: "dark",
         });
-    }
-    else if(type == "success")
-    {
+    } else if ((type == "success") || (code == 201)) {
         toast.success(text);
-    }
-    else if(type == "error")
-    {
+    } else if ((type == "error") || (code == 500)) {
         toast.error(text);
-    }
-    else if(type == "warning")
-    {
+    } else if ((type == "warning") || (code == 404)) {
         toast.warning(text);
-    }
-    else if(type == "info")
-    {
+    } else if ((type == "info") || (code == 200)) {
         toast.info(text);
     }
 };

@@ -11,7 +11,6 @@ class SystemController extends Controller
 {
     public function index(): Response
     {
-
         return Inertia::render('Dashboard');
     }
 }

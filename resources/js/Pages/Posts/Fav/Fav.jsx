@@ -12,26 +12,26 @@ const Fav = ({ postId, is_Fav }) => {
     const [isFav, setIsFav] = useState(is_Fav);
 
     const setPostToFavourite = async (postId) => {
-        if(loged)
-        {
+        if (loged) {
             try {
-                const response = await axios.post(route("post.fav"), {
+                const response = await axios.post(route("favourite.store"), {
                     post: postId,
                 });
 
-                if (response.data.message == "added") {
+
+                if (response.data.msg == "Post added to favourite") {
                     setIsFav(true);
-                } else if (response.data.message == "removed") {
+                    Notify("Post added to favourite", "success");
+                } else if (response.data.msg == "Post removed from favourites") {
                     setIsFav(false);
+                    Notify("Post removed from favourites", "success");
                 } else {
                     console.error("Fav.jsx -> setPostToFavourite error");
                 }
             } catch (error) {
                 console.error("Fav.jsx -> setPostToFavourite error: ", error);
             }
-        }
-        else
-        {
+        } else {
             Notify("You need to be log in", "info");
         }
     };

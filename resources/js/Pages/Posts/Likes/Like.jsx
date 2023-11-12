@@ -25,9 +25,7 @@ function Like({ elementId, elementType, likes, is_liked }) {
     };
 
     const like = async (tmp) => {
-
-        if(loged)
-        {
+        if (loged) {
             try {
                 let rout = "";
                 if (elementType == "post") {
@@ -47,10 +45,8 @@ function Like({ elementId, elementType, likes, is_liked }) {
                 //Notification(error.response.data.msg);
                 console.error("Like -> like error: ", error);
             }
-        }
-        else
-        {
-            Notify("You need to be log in","info");
+        } else {
+            Notify("You need to be log in", "info");
         }
     };
 

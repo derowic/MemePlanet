@@ -17,7 +17,6 @@ class CategorySeeder extends Seeder
 
         ]);
 
-
         Category::create([
             'name' => 'Automotive',
 

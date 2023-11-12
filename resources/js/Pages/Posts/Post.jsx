@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Like from "./Likes/Like";
-import CommentSection from "../EXPERIMENTAL/CommentSection";
 import Tags from "../Tags/Tags";
 import PostDetals from "./PostDetals";
 import { Button, Drawer } from "@mui/material";
@@ -9,29 +8,28 @@ import Img from "./Img";
 import { usePage } from "@inertiajs/react";
 import AdminPostsFuncs from "../AdminAndModeratorFunctions/AdminPostsFuncs";
 import ReportDialog from "./Reports/ReportDialog";
-import ReportViewDialog from "../AdminPanel/ReportListDialog";
+import ReportListDialog from "../AdminPanel/ReportListDialog";
 import BanUser from "../AdminAndModeratorFunctions/BanUser";
 import BanDialog from "../AdminPanel/BanDialog";
+import CheckRole from "../API/CheckRole";
+import LogedIn from "../API/LogedIn";
 
 function Post({ post, tags, showOptions }) {
-    //console.log(post);
-
     const user = usePage().props.auth.user;
-    //console.log(user );
     const [showFull, setShowFull] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [loadComments, setLoadComments] = useState(false);
-    //console.log(loadComments);
+
     const loadCommentsFunc = () => {
         setLoadComments(true);
-        //console.log(loadComments);
     };
-
-
 
     return (
         <>
-            {post.status === "hide" ? null : (
+            {(CheckRole("admin") ||
+                ((CheckRole("user") || LogedIn() == false) &&
+                    post.status != "hide") ||
+                CheckRole("moderator")) && (
                 <div className="m-auto  py-2 w-4/5">
                     <h3 className="text-left font-semibold mb-2 w-full">
                         {post.id} {post.title}
@@ -83,7 +81,7 @@ function Post({ post, tags, showOptions }) {
                             <>
                                 <AdminPostsFuncs post={post} />
                                 <div className="flex text-center justify-center">
-                                    <ReportViewDialog
+                                    <ReportListDialog
                                         post={post}
                                         defaultButtonText={"Show reports"}
                                         modalTitle={"Reports"}

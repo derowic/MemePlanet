@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import FetchIndex from "../API/FetchIndex";
+import AxiosGet from "../API/AxiosGet";
 
 function SearchUser({ setSelectedUser }) {
     const [query, setQuery] = useState("");
@@ -9,18 +9,14 @@ function SearchUser({ setSelectedUser }) {
     const handleUserClick = (user) => {
         setSelectedUser(user);
         setShowResults(false);
-        setQuery(""); // Opcjonalnie wyczyść pole wyszukiwania po wyborze użytkownika
+        setQuery("");
     };
 
     useEffect(() => {
         const fetchData = async () => {
             if (query) {
                 try {
-                    const tmp = await FetchIndex("adminPanel.search", {
-                        dane: query,
-                    });
-                    console.log(tmp);
-                    setResults(tmp);
+                    AxiosGet("user.search", {dane: query,}, null, setResults);
                     setShowResults(true);
                 } catch (error) {
                     console.error("Błąd podczas pobierania danych:", error);

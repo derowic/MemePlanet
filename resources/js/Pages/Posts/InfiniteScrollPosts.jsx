@@ -12,7 +12,6 @@ const InfiniteScrollPosts = ({
     fetchPosts,
     categories,
     tags,
-    refreshPosts,
 }) => {
     const translation = useTranslation(["dashboard"]);
     const [favs, setFavs] = useState([]);
@@ -26,11 +25,8 @@ const InfiniteScrollPosts = ({
     return (
         <div>
             <div className="p-4 ">
-                To hide:
-                <DefaultButton onClick={refreshPosts} text={"Refresh"} />
                 {CheckPermission("post.create") && (
                     <UploadPost
-                        fetchPosts={refreshPosts}
                         categories={categories}
                         tags={tags}
                     />

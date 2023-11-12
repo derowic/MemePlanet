@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import FetchIndex from "./FetchIndex";
 import { usePage } from "@inertiajs/react";
 
 const CheckPermission = (permissionName) => {

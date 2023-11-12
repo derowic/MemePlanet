@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Notification from "@/Components/Notify";
 import FetchCategories from "@/Components/FetchCategories";
 import axios from "axios";
-import FetchIndex from "@/Pages/API/FetchIndex";
 import DefaultButton from "../BasicElements/DefaultButton";
 import Input from "../BasicElements/Input";
 import ButtonsList from "../BasicElements/ButtonsList";
@@ -124,18 +123,24 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                     accept="image/*"
                 />
                 <Input
+                    className={
+                        "bg-black3 hover:bg-black3-h text-black font-bold py-2 px-2 border border-[#555] focus:border-[#666] w-full"
+                    }
                     key={"title"}
                     type={"text"}
                     title={translation.t("Title")}
                     value={title}
-                    func={setTitle}
+                    onChange={(e) => setTitle(e.target.value)}
                 />
                 <Input
+                    className={
+                        "bg-black3 hover:bg-black3-h text-black font-bold py-2 px-2 border border-[#555] focus:border-[#666] w-full"
+                    }
                     key={"text"}
                     type={"text"}
                     title={translation.t("Text")}
                     value={text}
-                    func={setText}
+                    onChange={(e) => setText(e.target.value)}
                 />
                 <div className="flex flex-wrap justify-center mt-2">
                     {previewImage && (
@@ -163,27 +168,36 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                     />
                 </div>
                 <Input
+                    className={
+                        "bg-black3 hover:bg-black3-h text-black font-bold py-2 px-2 border border-[#555] focus:border-[#666] w-full"
+                    }
                     type={"text"}
                     title={translation.t("Custom tag")}
                     value={customTagText}
-                    func={setCustomTagText}
+                    onChange={(e) => setCustomTagText(e.target.value)}
                 />
                 Example: #humor#mem#funny
                 <div className=" border-t border-meme_violet p-2">
                     <DefaultButton
                         onClick={handleUploadClick}
                         text={translation.t("Upload")}
-                        className={"border-2 border-green-500 rounded-lg p-2 mx-2"}
+                        className={
+                            "border-2 border-green-500 rounded-lg p-2 mx-2"
+                        }
                     />
                     <DefaultButton
                         onClick={clearImg}
                         text={translation.t("Clear")}
-                        className={"border-2 border-yellow-500 rounded-lg p-2 mx-2"}
+                        className={
+                            "border-2 border-yellow-500 rounded-lg p-2 mx-2"
+                        }
                     />
                     <DefaultButton
                         onClick={close}
                         text={translation.t("Close")}
-                        className={"border-2 border-red-500 rounded-lg p-2 mx-2"}
+                        className={
+                            "border-2 border-red-500 rounded-lg p-2 mx-2"
+                        }
                     />
                 </div>
             </div>

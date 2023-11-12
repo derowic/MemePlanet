@@ -22,6 +22,8 @@ export default {
                 'meme_black':'#111',
                 'meme_violet': '#7d12ff',
                 'meme_blue': '#200589',
+                'meme_dark_violet':'#5b00dd'
+
             },
 
         },

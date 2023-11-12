@@ -6,23 +6,11 @@ import React, {
     useRef,
     useEffect,
 } from "react";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import InfiniteScrollPosts from "./Posts/InfiniteScrollPosts";
-import CategoryList from "./Categories/CategoryList";
-import TopPosts from "./Posts/TopPosts";
-import PostsTypeSelect from "./Posts/PostsTypeSelect";
 import { useTranslation } from "react-i18next";
-import FetchPosts from "./API/FetchPosts";
-import FetchTags from "./API/FetchTags";
-import RefreshPosts from "./API/RefreshPosts";
-import FetchCategories from "./API/FetchCategories";
-import BanInfo from "@/Layouts/BanInfo";
 import { usePage } from "@inertiajs/react";
-import FetchIndex from "@/Pages/API/FetchIndex";
-import { ToastContainer, toast } from "react-toastify";
 
-export default function UnAuthorizedView({ }) {
 
+export default function UnAuthorizedView({}) {
     const user = usePage().props.auth.user;
     const translation = useTranslation(["dashboard"]);
 
@@ -49,7 +37,6 @@ export default function UnAuthorizedView({ }) {
                     </>
                 )}
             </div>
-
         </div>
     );
 }

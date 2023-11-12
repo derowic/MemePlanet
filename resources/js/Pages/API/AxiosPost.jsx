@@ -4,13 +4,13 @@ import Notify from "@/Components/Notify";
 
 const AxiosPost = async (rout, routData, data) => {
     try {
-        console.log(data);
         const response = await axios.post(route(rout, routData), data);
-        Notify(response.data.msg);
         console.log(response);
-        return response;
+        Notify(response.data.msg,null,response.status);
+
+        return response.data.data;
     } catch (error) {
-        console.error("Store error: ", error);
+        console.error("Axios post error: ", error);
         Notify(error);
     }
 };

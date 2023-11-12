@@ -47,18 +47,15 @@ class Post extends Model
 
     public function getIsFavoriteAttribute()
     {
-        if( auth()->check())
-        {
+        if (auth()->check()) {
             $favorite = Favourite::where('user_id', auth()->user()->id)
-            ->where('post_id', $this->id)
-            ->first();
+                ->where('post_id', $this->id)
+                ->first();
+
             return $favorite !== null;
-        }
-        else
-        {
+        } else {
             return false;
         }
-
 
     }
 

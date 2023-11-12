@@ -17,37 +17,19 @@ class CategoryController extends Controller
         return CategoryResource::collection($categories);
     }
 
-    public function getCategories()
+    public function store(Request $request)
     {
-        $categories = Category::all();
+        $category = new Category();
+        $category->name = $request->input('name');
+        $category->save();
 
-        return response()->json([
-            'categories' => $categories,
-        ]);
+        return response()->json(['msg' => 'Success, category added'], 200);
     }
 
-    public function create(Request $request)
+    public function destroy(Category $category)
     {
+        $category->delete();
 
-    }
-
-    public function store()
-    {
-
-    }
-
-    public function edit($id)
-    {
-
-    }
-
-    public function destroy($id)
-    {
-
-    }
-
-    public function softDeletePost(string $id)
-    {
-
+        return response()->json(['msg' => 'Success, category deleted'], 200);
     }
 }
