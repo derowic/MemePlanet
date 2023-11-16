@@ -8,10 +8,10 @@ use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\TagList;
+use App\Repositories\PostRepository;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Repositories\PostRepository;
 
 class PostController extends Controller
 {

@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Models\Favourite;
 use App\Models\Post;
-use Illuminate\Http\Request;
 use App\Repositories\PostRepository;
+use Illuminate\Http\Request;
 
 class FavouriteController extends Controller
 {
@@ -37,7 +37,7 @@ class FavouriteController extends Controller
 
         $hasMorePosts = $posts->count() === $perPage;
 
-        return PostResource::collection($this->postRepository->addLikesAndFavs($posts) );
+        return PostResource::collection($this->postRepository->addLikesAndFavs($posts));
     }
 
     public function store(Request $request)
