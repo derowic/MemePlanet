@@ -198,7 +198,7 @@ export default function Authenticated({ header, children }) {
 
             <main>{children}</main>
 
-            {<ChangeLog />}
+            {/*<ChangeLog />*/}
         </div>
     );
 }

@@ -29,13 +29,13 @@ export default function AddNewCategory({
     };
     return (
         <div>
-            <DefaultButton text={defaultButtonText} onClick={openDialog} />
+            <DefaultButton text={defaultButtonText} onClick={openDialog}  className={"text-center bg-meme_violet p-2 m-2 rounded-lg"}/>
             <Dialog
                 open={isOpen}
                 onClose={closeDialog}
                 className="rounded-lg fixed inset-0 flex items-center justify-center z-50 "
             >
-                <Dialog.Panel className="bg-white p-4 rounded shadow-md w-1/2">
+                <Dialog.Panel className="bg-[#333] text-white p-4 rounded shadow-md w-1/2">
                     <Dialog.Title>{modalTitle}</Dialog.Title>
                     <Dialog.Description>{modalDescription}</Dialog.Description>
                     <div className="mt-4 flex justify-end">
@@ -44,20 +44,21 @@ export default function AddNewCategory({
                             title={"name"}
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            className={"rounded-lg text-black m-2 p-2"}
                         />
                         <DefaultButton
                             onClick={() =>
-                                AxiosPost("adminPanel.addCategory", null, {
+                                AxiosPost("category.store", null, {
                                     name: name,
                                 })
                             }
                             text={primaryButtonText}
-                            //customClass
+                            className={"rounded-lg m-2 p-2 bg-meme_violet"}
                         />
                         <DefaultButton
                             text={secondaryButtonText}
                             onClick={() => closeDialog()}
-                            //customClass
+                            className={"rounded-lg m-2  p-2 bg-red-500"}
                         />
                     </div>
                 </Dialog.Panel>
