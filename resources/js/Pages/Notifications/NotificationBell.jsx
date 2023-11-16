@@ -10,7 +10,7 @@ const NotificationBell = () => {
     const fetchNotification = async () => {
         try {
             let params = { page: page };
-            const response = await  AxiosGet("notification.index",null,{
+            const response = await AxiosGet("notification.index", null, {
                 params,
             });
             setPage(page + 1);

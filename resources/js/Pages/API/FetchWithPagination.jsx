@@ -5,7 +5,7 @@ import AxiosGet from "./AxiosGet";
 
 const FetchWithPagination = async (rout, params, setDatas, page, setData) => {
     try {
-        const response = await AxiosGet(rout, params, null,null);
+        const response = await AxiosGet(rout, params, null, null);
         setDatas((prevData) => [...prevData, ...response]);
         if (setData != null) {
             setData(page + 1);

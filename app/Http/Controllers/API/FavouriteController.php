@@ -7,19 +7,15 @@ use App\Http\Resources\PostResource;
 use App\Models\Favourite;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Repositories\PostRepository;
 
 class FavouriteController extends Controller
 {
-    private function addLikesAndFavs($posts)
+    protected $postRepository;
+
+    public function __construct(PostRepository $postRepository)
     {
-        $favoritePosts = auth()->user()->favourites;
-
-        $posts->each(function ($post) use ($favoritePosts) {
-            $post->is_favorite = $favoritePosts->contains('post_id', $post->id);
-            $post->is_liked = $post->likes()->where('user_id', auth()->id())->exists();
-        });
-
-        return $posts;
+        $this->postRepository = $postRepository;
     }
 
     public function index(Request $request)
@@ -41,7 +37,7 @@ class FavouriteController extends Controller
 
         $hasMorePosts = $posts->count() === $perPage;
 
-        return PostResource::collection($this->addLikesAndFavs($posts));
+        return PostResource::collection($this->postRepository->addLikesAndFavs($posts) );
     }
 
     public function store(Request $request)

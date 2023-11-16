@@ -41,7 +41,7 @@ export default function EditCategoriesAndTags() {
 
     useEffect(() => {
         checkIsUserBanned();
-        AxiosGet("tag.index", null, null,  setTags);
+        AxiosGet("tag.index", null, null, setTags);
         AxiosGet("category.index", null, null, setCategories);
     }, []);
 
@@ -87,7 +87,11 @@ export default function EditCategoriesAndTags() {
                             <div key={tag.id} className="">
                                 <DefaultButton
                                     onClick={() =>
-                                         AxiosPut("tag.improveTag",{ tag:tag.id }, null)
+                                        AxiosPut(
+                                            "tag.improveTag",
+                                            { tag: tag.id },
+                                            null,
+                                        )
                                     }
                                     className="bg-purple-900 hover:bg-purple-700 p-2 rounded-lg m-2"
                                     text={" Improve to category" + tag.name}

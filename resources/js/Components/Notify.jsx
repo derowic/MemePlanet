@@ -14,13 +14,13 @@ const Notify = (text, type = "default", code = null) => {
             progress: undefined,
             theme: "dark",
         });
-    } else if ((type == "success") || (code == 201)) {
+    } else if (type == "success" || code == 201) {
         toast.success(text);
-    } else if ((type == "error") || (code == 500)) {
+    } else if (type == "error" || code == 500) {
         toast.error(text);
-    } else if ((type == "warning") || (code == 404)) {
+    } else if (type == "warning" || code == 404) {
         toast.warning(text);
-    } else if ((type == "info") || (code == 200)) {
+    } else if (type == "info" || code == 200) {
         toast.info(text);
     }
 };

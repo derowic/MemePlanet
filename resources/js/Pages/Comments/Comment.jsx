@@ -120,7 +120,9 @@ const Comment = ({
                                     <button
                                         className="p-3 rounded-lg bg-red-500 m-2"
                                         onClick={() =>
-                                            AxiosDelete("comment.destroy", { comment: comment.id })
+                                            AxiosDelete("comment.destroy", {
+                                                comment: comment.id,
+                                            })
                                         }
                                     >
                                         Delete Comment

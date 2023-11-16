@@ -27,11 +27,11 @@ export default function RoleAndPermissions() {
     const [moderators, setModerators] = useState([]);
     const [bannedUsers, setBannedUsers] = useState([]);
     useEffect(() => {
-            AxiosGet("user.getAdmins", null, null, setAdmins);
-            AxiosGet("user.getModerators", null, null, setModerators);
-            AxiosGet("user.getBannedUsers", null, null, setBannedUsers);
-            AxiosGet("role.index", null, null, setRoles);
-            AxiosGet("permission.index", null, null, setPermissions);
+        AxiosGet("user.getAdmins", null, null, setAdmins);
+        AxiosGet("user.getModerators", null, null, setModerators);
+        AxiosGet("user.getBannedUsers", null, null, setBannedUsers);
+        AxiosGet("role.index", null, null, setRoles);
+        AxiosGet("permission.index", null, null, setPermissions);
     }, []);
 
     const togglePermission = (permissionId) => {
@@ -82,7 +82,7 @@ export default function RoleAndPermissions() {
     };
 
     const refreshUser = async (userId) => {
-        AxiosGet("user.searchById", {id: userId}, null,setSelectedUser);
+        AxiosGet("user.searchById", { id: userId }, null, setSelectedUser);
     };
 
     return (

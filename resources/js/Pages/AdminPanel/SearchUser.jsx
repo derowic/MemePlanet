@@ -16,7 +16,7 @@ function SearchUser({ setSelectedUser }) {
         const fetchData = async () => {
             if (query) {
                 try {
-                    AxiosGet("user.search", {dane: query,}, null, setResults);
+                    AxiosGet("user.search", { dane: query }, null, setResults);
                     setShowResults(true);
                 } catch (error) {
                     console.error("Błąd podczas pobierania danych:", error);

@@ -17,7 +17,7 @@ const ReportDialog = ({
     const [reports, setReports] = useState([]);
     const setReport = async (report_id) => {
         try {
-            AxiosPost("reportList.store",{
+            AxiosPost("reportList.store", {
                 post_id: post.id,
                 report_id: report_id,
             });
@@ -31,7 +31,6 @@ const ReportDialog = ({
         if (loged) {
             setIsOpen(true);
             if (reports.length == 0) {
-
                 AxiosGet("report.index", null, null, setReports);
             }
         } else {

@@ -14,7 +14,6 @@ import InfiniteScrollPosts from "./Posts/InfiniteScrollPosts";
 import PostsTypeSelect from "./Posts/PostsTypeSelect";
 import FetchWithPagination from "./API/FetchWithPagination";
 
-
 export default function Account({}) {
     const translation = useTranslation(["dashboard"]);
     const [chosenCategory, setChosenCategory] = useState(0);
@@ -32,9 +31,8 @@ export default function Account({}) {
     const [page, setPage] = useState(1);
     const [rout, setRout] = useState("post.userPosts");
 
-
     useEffect(() => {
-        AxiosGet("tag.index", null, null,  setTags);
+        AxiosGet("tag.index", null, null, setTags);
         AxiosGet("category.index", null, null, setCategories);
     }, []);
 

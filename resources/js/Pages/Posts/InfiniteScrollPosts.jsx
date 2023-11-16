@@ -26,10 +26,7 @@ const InfiniteScrollPosts = ({
         <div>
             <div className="p-4 ">
                 {CheckPermission("post.create") && (
-                    <UploadPost
-                        categories={categories}
-                        tags={tags}
-                    />
+                    <UploadPost categories={categories} tags={tags} />
                 )}
             </div>
             <InfiniteScroll

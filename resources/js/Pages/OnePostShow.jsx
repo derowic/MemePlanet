@@ -19,7 +19,7 @@ export default function OnePostShow({ post, tags }) {
     const fetchComments = async () => {
         try {
             let params = { id: post.id };
-            AxiosGet("comment.index",params,null, setComments)
+            AxiosGet("comment.index", params, null, setComments);
         } catch (error) {
             console.error("CommentSection -> fetchComments error: ", error);
         } finally {

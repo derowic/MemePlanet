@@ -30,7 +30,7 @@ export default function AdminPanel() {
     };
 
     useEffect(() => {
-        AxiosGet("tag.index", null, null,  setTags);
+        AxiosGet("tag.index", null, null, setTags);
         AxiosGet("category.index", null, null, setCategories);
         FetchPosts(rout, { page: page }, setPosts, page, setPage);
     }, []);

@@ -18,11 +18,12 @@ const Fav = ({ postId, is_Fav }) => {
                     post: postId,
                 });
 
-
                 if (response.data.msg == "Post added to favourite") {
                     setIsFav(true);
                     Notify("Post added to favourite", "success");
-                } else if (response.data.msg == "Post removed from favourites") {
+                } else if (
+                    response.data.msg == "Post removed from favourites"
+                ) {
                     setIsFav(false);
                     Notify("Post removed from favourites", "success");
                 } else {

@@ -3,17 +3,18 @@ import axios from "axios";
 import Notify from "@/Components/Notify";
 
 const AxiosGet = async (rout, routData, data, setData) => {
-    return await axios.get(route(rout, routData), data)
-    .then((response) => {
-        Notify(response.data.msg,null,response.status);
-        if (setData){
-            setData(response.data.data);
-        }
-        return response.data.data;
-    })
-    .catch((error) => {
-        console.error(error);
-    });;
+    return await axios
+        .get(route(rout, routData), data)
+        .then((response) => {
+            Notify(response.data.msg, null, response.status);
+            if (setData) {
+                setData(response.data.data);
+            }
+            return response.data.data;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 };
 
 /*
