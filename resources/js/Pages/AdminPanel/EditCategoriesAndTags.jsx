@@ -35,80 +35,71 @@ export default function EditCategoriesAndTags() {
         setChosenCategory(tmp);
     };
 
+    const checkIsUserBanned = async () => {
+        let t = await AxiosGet("ban.check", null, null, null);
+    };
+
     useEffect(() => {
-        AxiosGet("tag.index", null, null,  setTags);
+        checkIsUserBanned();
+        AxiosGet("tag.index", null, null, setTags);
         AxiosGet("category.index", null, null, setCategories);
     }, []);
 
     return (
         <AuthenticatedLayout>
-            <>
-            <div className="text-white w-full items-center justify-center text-center">
-            <AddNewCategory
-                    defaultButtonText={"Add new category"}
-                    modalTitle={"Adding new category"}
-                    modalDescription
-                    primaryButtonText={"Add"}
-                    primaryButtonOnClick={null}
-                    secondaryButtonText={"Cancel"}
-                    secondaryButtonOnClick={null}
-                   
-                />
-            <div className="flex">
+            <div className="flex text-white">
                 <div className="w-1/2 ">
-                    <h2 className="mb-4 text-center w-full">Categories</h2>
-                    <div className="h-[80vh] overflow-y-auto grid custom-scroll flex items-center ">
-                        {categories &&
-                            categories.map((category) => (
-                                <div key={category.id} className="bg-red-yellow flex justify-between m-2">
+                    <AddNewCategory
+                        defaultButtonText={"Add new category"}
+                        modalTitle={"Adding new category"}
+                        modalDescription
+                        primaryButtonText={"Add"}
+                        primaryButtonOnClick={null}
+                        secondaryButtonText={"Cancel"}
+                        secondaryButtonOnClick={null}
+                    />
+                    <h2 className="mb-4">Categories</h2>
+                    {categories &&
+                        categories.map((category) => (
+                            <div key={category.id} className="">
                                 {category.name}
-                                
-                                    <DefaultButton
-                                        className={
-                                            "p-2 m-2 bg-red-500 hover:bg-red-400 rounded-lg text-right align-right item-right"
-                                        }
-                                        text={"Delete"}
-                                        onClick={() =>
-                                            AxiosDelete(
-                                                "category.destroy",
-                                                { id: category.id },
-                                                null,
-                                            )
-                                        }
-                                    />
-                                
+                                <DefaultButton
+                                    className={
+                                        "p-2 m-2 bg-red-500 hover:bg-red-400 rounded-lg"
+                                    }
+                                    text={"Delete"}
+                                    onClick={() =>
+                                        AxiosDelete(
+                                            "category.destroy",
+                                            { id: category.id },
+                                            null,
+                                        )
+                                    }
+                                />
                             </div>
-                            
                         ))}
-                    </div>
                 </div>
-
-                
 
                 <div className="w-1/2 ">
-                    <h2 className="mb-4 text-center w-full">Tags</h2>
-                    <div className="h-[80vh] overflow-y-auto grid custom-scroll flex items-center  m-2">
-                        {tags &&
-                            tags.map((tag) => (
-                                <div key={tag.id} className="bg-red-yellow flex justify-between m-2">
-                                {tag.name}
-                                
-                                    <DefaultButton
-                                        className="bg-purple-900 hover:bg-purple-700 p-2 rounded-lg m-2"
-                                        text={"Improve to category "}
-                                        onClick={() =>
-                                            AxiosPut("tag.improveTag",{ tag:tag.id }, null)
-                                        }
-                                    />
-                                
+                    <h2 className="mb-4">Tags</h2>
+                    {tags &&
+                        tags.map((tag) => (
+                            <div key={tag.id} className="">
+                                <DefaultButton
+                                    onClick={() =>
+                                        AxiosPut(
+                                            "tag.improveTag",
+                                            { tag: tag.id },
+                                            null,
+                                        )
+                                    }
+                                    className="bg-purple-900 hover:bg-purple-700 p-2 rounded-lg m-2"
+                                    text={" Improve to category" + tag.name}
+                                />
                             </div>
-                            
                         ))}
-                    </div>
                 </div>
             </div>
-            </div>
-            </>
         </AuthenticatedLayout>
     );
 }

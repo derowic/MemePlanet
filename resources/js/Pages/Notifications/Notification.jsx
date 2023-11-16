@@ -9,7 +9,7 @@ const Notification = (notification, index) => {
                 router.get(
                     route("notification.show", {
                         notification: notification.notification.id,
-                    })
+                    }),
                 )
             }
         >

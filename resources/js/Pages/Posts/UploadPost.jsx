@@ -4,7 +4,6 @@ import Notify from "@/Components/Notify";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
 const UploadPost = ({ categories, tags }) => {
     const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
     const [imageUploaded, setImageUploaded] = useState(false);
@@ -37,8 +36,7 @@ const UploadPost = ({ categories, tags }) => {
                 );
                 setUploadedImageUrl(response.data.imageUrl);
                 setImageUploaded(true);
-                Notify(response.data.msg,"success");
-
+                Notify(response.data.msg, "success");
             } catch (error) {
                 console.error("UploadPost error: ", error);
                 Notify(error);

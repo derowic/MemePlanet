@@ -11,19 +11,15 @@ use App\Models\TagList;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Repositories\PostRepository;
 
 class PostController extends Controller
 {
-    private function addLikesAndFavs($posts)
+    protected $postRepository;
+
+    public function __construct(PostRepository $postRepository)
     {
-        $favoritePosts = auth()->user()->favourites;
-
-        $posts->each(function ($post) use ($favoritePosts) {
-            $post->is_favorite = $favoritePosts->contains('post_id', $post->id);
-            $post->is_liked = $post->likes()->where('user_id', auth()->id())->exists();
-        });
-
-        return $posts;
+        $this->postRepository = $postRepository;
     }
 
     public function index(Request $request)
@@ -38,7 +34,7 @@ class PostController extends Controller
             ->take($perPage)
             ->get();
 
-        return PostResource::collection(auth()->check() ? $this->addLikesAndFavs($posts) : $posts);
+        return PostResource::collection(auth()->check() ? $this->postRepository->addLikesAndFavs($posts) : $posts);
     }
 
     public function fresh(Request $request)
@@ -54,7 +50,7 @@ class PostController extends Controller
 
         $hasMorePosts = $posts->count() === $perPage;
 
-        return PostResource::collection(auth()->check() ? $this->addLikesAndFavs($posts) : $posts);
+        return PostResource::collection(auth()->check() ? $this->postRepository->addLikesAndFavs($posts) : $posts);
     }
 
     public function trending(Request $request)
@@ -73,7 +69,7 @@ class PostController extends Controller
 
         $hasMorePosts = $posts->count() === $perPage;
 
-        return PostResource::collection(auth()->check() ? $this->addLikesAndFavs($posts) : $posts);
+        return PostResource::collection(auth()->check() ? $this->postRepository->addLikesAndFavs($posts) : $posts);
     }
 
     public function top()
@@ -83,13 +79,8 @@ class PostController extends Controller
             ->take(4)
             ->get();
 
-        return response()->json([
-            'data' => $posts,
-
-        ]);
-
         if (auth()->check()) {
-            return PostResource::collection($this->addLikesAndFavs($posts));
+            return PostResource::collection($this->postRepository->addLikesAndFavs($posts));
         } else {
             return PostResource::collection($posts);
         }
@@ -200,7 +191,7 @@ class PostController extends Controller
             ->take($perPage)
             ->get();
 
-        return PostResource::collection(auth()->check() ? $this->addLikesAndFavs($posts) : $posts);
+        return PostResource::collection(auth()->check() ? $this->postRepository->addLikesAndFavs($posts) : $posts);
     }
 
     public function hiddenPosts(Request $request)
@@ -215,7 +206,7 @@ class PostController extends Controller
             ->take($perPage)
             ->get();
 
-        return PostResource::collection(auth()->check() ? $this->addLikesAndFavs($posts) : $posts);
+        return PostResource::collection(auth()->check() ? $this->postRepository->addLikesAndFavs($posts) : $posts);
     }
 
     public function userPosts(Request $request)
@@ -233,7 +224,7 @@ class PostController extends Controller
 
         $hasMorePosts = $posts->count() === $perPage;
 
-        return PostResource::collection($this->addLikesAndFavs($posts));
+        return PostResource::collection($this->postRepository->addLikesAndFavs($posts));
     }
 
     public function destroy(Post $post)

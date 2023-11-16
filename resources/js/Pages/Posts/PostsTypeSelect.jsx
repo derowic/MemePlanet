@@ -36,7 +36,7 @@ function PostsTypeSelect({
     };
 
     const loadNewPost = async (rout) => {
-        const response = await AxiosGet(rout,null,null,null);
+        const response = await AxiosGet(rout, null, null, null);
         setPosts((prevPosts) => [...prevPosts, ...response]);
     };
 

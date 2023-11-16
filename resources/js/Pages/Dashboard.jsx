@@ -36,12 +36,12 @@ export default function Dashboard() {
     };
 
     const checkIsUserBanned = async () => {
-        let t = await AxiosGet("ban.check", null,null,null);
+        let t = await AxiosGet("ban.check", null, null, null);
     };
 
     useEffect(() => {
         checkIsUserBanned();
-        AxiosGet("tag.index", null, null,  setTags);
+        AxiosGet("tag.index", null, null, setTags);
         AxiosGet("category.index", null, null, setCategories);
     }, []);
 

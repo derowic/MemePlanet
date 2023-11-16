@@ -40,7 +40,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
     };
 
     useEffect(() => {
-        AxiosGet("tag.index", null, null,  setTags);
+        AxiosGet("tag.index", null, null, setTags);
         AxiosGet("category.index", null, null, setCategories);
     }, []);
     return (

@@ -39,6 +39,7 @@ class NotificationController extends Controller
         } else {
             $notifications = $notificationsSeen0;
         }
+
         //return response()->json(['data' => $notifications], 201);
         return NotificationResource::collection($notifications);
     }

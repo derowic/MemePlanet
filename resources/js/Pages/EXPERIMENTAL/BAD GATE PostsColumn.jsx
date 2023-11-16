@@ -3,7 +3,6 @@ import InfiniteScrollPosts from "../Posts/InfiniteScrollPosts";
 import PostsTypeSelect from "../Posts/PostsTypeSelect";
 import FetchPosts from "../API/FetchWithPagination";
 
-
 function PostsColumn({ elements, categoryId, categories, tags }) {
     const [selectedPostsType, setSelectedPostsType] = useState(elements[0][0]);
     const [posts, setPosts] = useState([]);

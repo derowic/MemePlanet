@@ -4,7 +4,8 @@ import Notify from "@/Components/Notify";
 import AxiosPost from "../API/AxiosPost";
 
 const SendComment = async (postId, text, parentId) => {
-    try {/*
+    try {
+        /*
         const response = await axios.post(route("comment.store"), {
             post_id: postId,
             comment_id: parentId,

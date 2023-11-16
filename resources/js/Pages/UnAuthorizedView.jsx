@@ -9,7 +9,6 @@ import React, {
 import { useTranslation } from "react-i18next";
 import { usePage } from "@inertiajs/react";
 
-
 export default function UnAuthorizedView({}) {
     const user = usePage().props.auth.user;
     const translation = useTranslation(["dashboard"]);

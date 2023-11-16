@@ -14,7 +14,12 @@ const ReportListDialog = ({
     const openDialog = () => {
         setIsOpen(true);
         if (postReports.length == 0) {
-            AxiosGet("reportList.index",{ post_id: post.id }, null, setPostReports)
+            AxiosGet(
+                "reportList.index",
+                { post_id: post.id },
+                null,
+                setPostReports,
+            );
         }
     };
     const closeDialog = () => {

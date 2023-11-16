@@ -9,7 +9,6 @@ import Img from "./Img";
 import CheckPermission from "../API/CheckPermission";
 import AxiosGet from "../API/AxiosGet";
 
-
 function PostDetals({
     post,
     isOpen,
@@ -29,7 +28,7 @@ function PostDetals({
 
     const fetchComments = async () => {
         //FetchComments(post.id, "comment.index", setComments);
-        AxiosGet("comment.index", {id: post.id},null, setComments);
+        AxiosGet("comment.index", { id: post.id }, null, setComments);
     };
 
     const togglePanel = () => {
