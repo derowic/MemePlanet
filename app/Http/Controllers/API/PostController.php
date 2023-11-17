@@ -116,6 +116,10 @@ class PostController extends Controller
             $tagsArray = explode(',', $tagsString);
 
             foreach ($tagsArray as $tagId) {
+                $tag = Tag::find($tagId);
+                $tag->use_count = ((($tag->use_count > 0)&&($tag->use_count != null))  ? $tag->use_count+1: 1);
+                $tag->save();
+
                 $tagList = new TagList();
                 $tagList->post_id = $post->id;
                 $tagList->tag_id = $tagId;
@@ -129,14 +133,25 @@ class PostController extends Controller
             $tagsArray = array_filter($tagsArray);
 
             foreach ($tagsArray as $tagName) {
-                $tag = new Tag();
-                $tag->name = $tagName;
-                $tag->save();
+                $tag = Tag::where('name', trim(strtolower($tagName)))->first();
 
+                if ($tag) {
+                    $tag->use_count = ((($tag->use_count > 0)&&($tag->use_count != null))  ? $tag->use_count+1: 1);
+                    $tag->save();
+                } else {
+                    $tag = new Tag();
+                    $tag->name = strtolower($tagName);
+                    $tag->use_count = 1;
+                    $tag->save();
+                }
                 $tagList = new TagList();
                 $tagList->post_id = $post->id;
                 $tagList->tag_id = $tag->id;
                 $tagList->save();
+
+
+
+
             }
         }
 

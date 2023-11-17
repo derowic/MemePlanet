@@ -11,7 +11,8 @@ class TagController extends Controller
 {
     public function index()
     {
-        $tags = Tag::all();
+        $tags = Tag::orderBy('use_count', 'desc')->get();
+
 
         return TagResource::collection($tags);
     }
@@ -21,8 +22,6 @@ class TagController extends Controller
         $category = new Category();
         $category->name = $tag->name;
         $category->save();
-
-        $tag->delete();
 
         return response()->json(['msg' => 'Success, tag is now category'], 200);
     }
