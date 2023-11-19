@@ -51,7 +51,7 @@ const NotificationBell = () => {
     return (
         <div className="">
             <button onClick={toggleNotifications} className="text-2xl flex">
-                <div className="text-red-400 mr-1">{unSeen > 0 && unSeen}</div>
+                <div className="text-red-500 mx-1">{unSeen > 0 && unSeen}</div>
                 <img src="/bell2.png" alt="Twoja Ikona" className="w-5 mt-1 " />
             </button>
 

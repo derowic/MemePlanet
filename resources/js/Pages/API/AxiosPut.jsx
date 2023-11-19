@@ -9,8 +9,8 @@ const AxiosPut = async (rout, routData, data) => {
 
         return response.data.data;
     } catch (error) {
+        Notify(error.response.data.message,'error');
         console.error("Axios put error: ", error);
-        Notify(error);
     }
 };
 export default AxiosPut;

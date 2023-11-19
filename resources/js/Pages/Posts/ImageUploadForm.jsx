@@ -41,7 +41,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
         if (
             image != null &&
             title != null &&
-            title != "" &&
+            text != "" &&
             selectedCategory != null
         ) {
             let tmp = [];
@@ -65,7 +65,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
             setTitle("");
             setText("");
         } else {
-            Notification("Image, title and category are required");
+            Notification("Image, title and category are required",'warning');
         }
     };
 

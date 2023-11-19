@@ -16,7 +16,7 @@ const UploadPost = ({ categories, tags }) => {
         tags,
         customTagText,
     ) => {
-        if (image != null && title != null && title != "" && category != null) {
+        if (image != null && title != null && text != "" && category != null) {
             try {
                 const formData = new FormData();
                 formData.append("image", image);
@@ -39,7 +39,8 @@ const UploadPost = ({ categories, tags }) => {
                 Notify(response.data.msg, "success");
             } catch (error) {
                 console.error("UploadPost error: ", error);
-                Notify(error);
+                //Notify(error);
+                Notify(error.response.data.message,'error');
             }
         } else {
             toast.warning("Set all inputs");

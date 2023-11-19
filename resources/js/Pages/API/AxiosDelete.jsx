@@ -9,7 +9,7 @@ const AxiosDelete = async (rout, routData, data) => {
 
         return response.data.data;
     } catch (error) {
-        Notify(error, "error");
+        Notify(error.response.data.message,'error');
         console.error("Axios delete error: ", error);
     }
 };

@@ -13,6 +13,7 @@ const AxiosGet = async (rout, routData, data, setData) => {
             return response.data.data;
         })
         .catch((error) => {
+            Notify(error.response.data.message,'error');
             console.error(error);
         });
 };

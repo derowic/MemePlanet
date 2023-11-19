@@ -14,11 +14,13 @@ const Comment = ({
     allComments,
     setCom,
     post,
-    fetchComments,
+    updateComments,
     prevComment,
 }) => {
+
     const user = usePage().props.auth;
     const post2 = post;
+    console.log(comment);
 
     const unHide = () => {
         const element = document.getElementById(comment.id);
@@ -29,12 +31,10 @@ const Comment = ({
         commentText,
         postId,
         parentCommentId,
-        fetchComments,
-        replyToName,
     ) => {
         if (commentText != "") {
             await SendComment(postId, commentText, parentCommentId);
-            AddComment(comment.id + "t", commentText, replyToName, user.name);
+            updateComments();
             unHide();
         } else {
             Notify("Comment filed is empty, write something");
@@ -91,7 +91,7 @@ const Comment = ({
                                                     commentText,
                                                     post2,
                                                     comment.id,
-                                                    fetchComments,
+                                                    updateComments,
                                                     comment.user.name,
                                                 )
                                             }
@@ -142,7 +142,7 @@ const Comment = ({
                                     setCom={setCom}
                                     post={post}
                                     parent_id={comment.id}
-                                    fetchComments={fetchComments}
+                                    updateComments={updateComments}
                                     prevComment={comment}
                                 />
                             ))}

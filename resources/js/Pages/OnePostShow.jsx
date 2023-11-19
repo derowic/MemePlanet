@@ -41,12 +41,14 @@ export default function OnePostShow({ post, tags }) {
     ) => {
         if (commentText != "") {
             await SendComment(postId, commentText, parentCommentId);
-            addComment(commentText);
+            //addComment(commentText);
+            updateCommentSection();
         } else {
             Notify("Comment filed is empty, write something");
         }
     };
 
+    /*
     const addComment = (commentText) => {
         const divElement0 = document.createElement("div");
         divElement0.className =
@@ -67,6 +69,7 @@ export default function OnePostShow({ post, tags }) {
         divElement0.appendChild(divElement);
         element.appendChild(divElement0);
     };
+    */
 
     return (
         <>

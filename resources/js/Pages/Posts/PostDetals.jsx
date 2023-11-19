@@ -8,6 +8,7 @@ import { usePage } from "@inertiajs/react";
 import Img from "./Img";
 import CheckPermission from "../API/CheckPermission";
 import AxiosGet from "../API/AxiosGet";
+import AddComment from "../Comments/AddComment";
 
 function PostDetals({
     post,
@@ -20,6 +21,8 @@ function PostDetals({
     const [usedComments, setUsedComments] = useState([]);
     const user = usePage().props.auth.user;
 
+    const [forceRerender, setForceRerender] = useState(false);
+
     useEffect(() => {
         if (loadComments == true) {
             togglePanel();
@@ -27,56 +30,38 @@ function PostDetals({
     }, [loadComments]);
 
     const fetchComments = async () => {
-        //FetchComments(post.id, "comment.index", setComments);
         AxiosGet("comment.index", { id: post.id }, null, setComments);
     };
 
     const togglePanel = () => {
+        console.log(comments);
         setUsedComments([]);
         setComments([]);
         setIsOpen(!isOpen);
         if (isOpen == false) {
-            //console.log("open");
             fetchComments();
+
         }
         setLoadComments(false);
     };
 
     const updateCommentSection = async () => {
         setUsedComments([]);
-        setComments([]);
         await fetchComments();
+        //setComments([]);
+
     };
 
     const handleSubmitComment = async (commentText, parentCommentId) => {
         if (commentText != "") {
             await SendComment(post.id, commentText, parentCommentId);
-            addComment(commentText);
+            //AddComment(commentText, user, 0, null,comments, setComments);
+            updateCommentSection();
         } else {
             Notify("Comment filed is empty, write something");
         }
     };
 
-    const addComment = (commentText) => {
-        const divElement0 = document.createElement("div");
-        divElement0.className =
-            "mt-10 mb-10 ml-5 bg-[#333333] border-l-2 border-white-400 p-4";
-
-        const divElement = document.createElement("div");
-        divElement.className = "ml-5 mb-2 bg-[#333333] sm:rounded-lg p-4";
-
-        const divElement2 = document.createElement("div");
-        divElement2.textContent = "user: " + user.name;
-        divElement.appendChild(divElement2);
-
-        const divElement4 = document.createElement("div");
-        divElement4.textContent = "koemntarz: " + commentText;
-        divElement.appendChild(divElement4);
-
-        const element = document.getElementById("comments");
-        divElement0.appendChild(divElement);
-        element.appendChild(divElement0);
-    };
 
     return (
         <div>
@@ -131,7 +116,7 @@ function PostDetals({
                                     allComments={comments}
                                     setComs={setComments}
                                     post={post.id}
-                                    fetchComments={updateCommentSection}
+                                    updateComments={updateCommentSection}
                                     prevComment={null}
                                 />
                             ))}

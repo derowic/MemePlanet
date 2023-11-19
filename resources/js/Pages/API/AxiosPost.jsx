@@ -10,8 +10,8 @@ const AxiosPost = async (rout, routData, data) => {
 
         return response.data.data;
     } catch (error) {
+        Notify(error.response.data.message,'error');
         console.error("Axios post error: ", error);
-        Notify(error);
     }
 };
 export default AxiosPost;
