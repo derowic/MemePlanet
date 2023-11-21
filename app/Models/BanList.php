@@ -13,6 +13,7 @@ class BanList extends Model
         'user_id',
         'ban_id',
         'report_id',
+        'created_at'
     ];
 
     public function report()

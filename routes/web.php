@@ -58,6 +58,8 @@ Route::get('/ban', [BanController::class, 'index'])->name('ban.index');
 
 Route::get('/report', [ReportController::class, 'index'])->name('report.index');
 
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -65,11 +67,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
+    Route::get('/check', [BanController::class, 'check'])->name('ban.check');
+
 
     Route::middleware(['checkUserRole'])->group(function () {
         Route::get('/Account', function () {
             return Inertia::render('Account');
         })->middleware(['auth', 'verified'])->name('account');
+
 
         Route::get('/userPosts', [PostController::class, 'userPosts'])->name('post.userPosts');
 
@@ -103,7 +108,10 @@ Route::middleware('auth')->group(function () {
         Route::put('/tagList/{tagList}', [TagListController::class, 'update'])->name('tagList.update');
         Route::delete('/tagList/{tagList}', [TagListController::class, 'delete'])->name('tagList.delete');
         */
+
+
     });
+
 
     Route::middleware(['checkAdminRole'])->group(function () {
 
@@ -148,7 +156,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/reportList', [ReportListController::class, 'store'])->name('reportList.store');
         Route::get('/reportList', [ReportListController::class, 'index'])->name('reportList.index');
 
-        Route::get('/check', [BanController::class, 'check'])->name('ban.check');
+
 
         Route::post('/api/assign-permissions', [PermissionController::class, 'assignPermissions'])->name('permission.assignPermissions');
 

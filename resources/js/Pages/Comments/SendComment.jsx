@@ -14,7 +14,7 @@ const SendComment = async (postId, text, parentId) => {
         */
 
         AxiosPost("comment.store", {
-            post_id: postId,
+            post_id: null,
             comment_id: parentId,
             text: text,
         });
