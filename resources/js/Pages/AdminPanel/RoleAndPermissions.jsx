@@ -87,7 +87,7 @@ export default function RoleAndPermissions() {
 
     return (
         <AuthenticatedLayout>
-            <div className="font-bold bg-[#231f20] text-white justify-center items-center ">
+            <div className="font-bold bg-meme_black text-white justify-center items-center ">
                 <div className="text-center">
                     <h1>Wybierz Uprawnienia i Przypisz do Użytkownika</h1>
                     <div className=" border-b-2 ">
