@@ -142,9 +142,12 @@ Route::middleware('auth')->group(function () {
         Route::delete('/deleteComment/{comment}/delete', [CommentController::class, 'destroy'])->name('comment.destroy');
 
         Route::post('/ban', [BanController::class, 'banUser'])->name('ban.banUser');
+        Route::post('/unBan/{user}', [BanController::class, 'unBan'])->name('ban.unBan');
+
         Route::get('/api/users', [UserController::class, 'getAllUsers'])->name('user.getAllUsers');
         Route::get('/search', [UserController::class, 'search'])->name('user.search');
         Route::get('/searchById', [UserController::class, 'searchById'])->name('user.searchById');
+
 
         Route::put('/improveTag/{tag}', [TagController::class, 'improveTag'])->name('tag.improveTag');
         Route::delete('/deleteCategory/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');

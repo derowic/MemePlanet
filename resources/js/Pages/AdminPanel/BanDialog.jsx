@@ -44,7 +44,7 @@ const BanDialog = ({
                 onClick={openDialog}
                 text={defaultButtonText} //"!"
                 className={
-                    "mt-2 mb-2 mr-2 hover:bg-yellow-400 text-white font-bold py-2 px-4 rounded-lg border border-yellow-500"
+                    "mt-2 mb-2 mr-2 hover:bg-red-400 text-white font-bold py-2 px-4 rounded-lg border border-red-700"
                 }
             />
             <Dialog
@@ -53,7 +53,7 @@ const BanDialog = ({
                 className="rounded-lg fixed inset-0 flex items-center justify-center z-50 "
             >
                 <Dialog.Panel className="bg-[#222] text-white p-4 rounded-lg shadow-md w-1/2 border border-[#000]">
-                    <DefaultButton onClick={closeDialog} text={"Close"} />
+                    <DefaultButton onClick={closeDialog} text={"Close"} className={"p-2 m-2 border border-white rounded-lg"} />
                     <Dialog.Title>{modalTitle}</Dialog.Title>
                     <Dialog.Description>{modalDescription}</Dialog.Description>
                     <div className="mt-4 ">
@@ -68,8 +68,8 @@ const BanDialog = ({
                                             text={banType.name}
                                             className={
                                                 selectedBan === banType.id
-                                                    ? "mt-2 mb-2 mr-2 bg-red-500 text-white font-bold py-2 px-4 rounded-lg border border-red-500"
-                                                    : "mt-2 mb-2 mr-2 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg border border-red-500"
+                                                    ? "mt-2 mb-2 mr-2 bg-red-700 text-white font-bold py-2 px-4 rounded-lg border border-red-700"
+                                                    : "mt-2 mb-2 mr-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg border border-red-700"
                                             }
                                         />
                                     </div>
@@ -90,8 +90,8 @@ const BanDialog = ({
                                             text={report.name}
                                             className={
                                                 selectedReason === report.id
-                                                    ? "mt-2 mb-2 mr-2 bg-red-500 text-white font-bold py-2 px-4 rounded-lg border border-red-500"
-                                                    : "mt-2 mb-2 mr-2 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg border border-red-500"
+                                                    ? "mt-2 mb-2 mr-2 bg-red-700 text-white font-bold py-2 px-4 rounded-lg border border-red-700"
+                                                    : "mt-2 mb-2 mr-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg border border-red-700"
                                             }
                                         />
                                     </div>
@@ -105,7 +105,7 @@ const BanDialog = ({
                         onClick={ban}
                         text={"Ban"}
                         className={
-                            "m-2 px-4 py-2 hover:border-b hover:border-[#ffbc40] bg-yellow-500 rounded-lg"
+                            "m-2 px-4 py-2 hover:bg-red-500 hover:border-[#ffbc40] bg-red-700 rounded-lg"
                         }
                     />
                 </Dialog.Panel>

@@ -29,7 +29,7 @@ class UserController extends Controller
     public function getBannedUsers()
     {
         $users = User::with('permissions', 'roles', 'ban.ban')
-            ->where('ban_list_id', '!=', null)->get();
+            ->where('ban_list_id', '!=', 0)->get();
 
         return response()->json(['data' => $users], 200);
     }

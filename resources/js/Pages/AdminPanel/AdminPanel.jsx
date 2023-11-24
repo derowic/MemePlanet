@@ -93,7 +93,7 @@ export default function AdminPanel() {
                             <h3 className=" w-full text-center mb-2 text-3xl w-full">
                                 {CheckRole("admin") && (
                                     <>
-                                        <div>
+                                        <div className="">
                                             <NavLink
                                                 href={route(
                                                     "RoleAndPermissions",
@@ -107,7 +107,7 @@ export default function AdminPanel() {
                                                 )}
                                             </NavLink>
                                         </div>
-
+                                        {/*
                                         <div>
                                             <NavLink
                                                 href={route(
@@ -122,6 +122,7 @@ export default function AdminPanel() {
                                                 )}
                                             </NavLink>
                                         </div>
+                                        */}
                                     </>
                                 )}
                             </h3>

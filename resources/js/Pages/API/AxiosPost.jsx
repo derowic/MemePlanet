@@ -5,8 +5,7 @@ import Notify from "@/Components/Notify";
 const AxiosPost = async (rout, routData, data) => {
     try {
         const response = await axios.post(route(rout, routData), data);
-        console.log(response);
-        Notify(response.data.msg, null, response.status);
+        Notify(response.data.message, null, response.status);
 
         return response.data.data;
     } catch (error) {

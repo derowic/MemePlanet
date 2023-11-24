@@ -58,7 +58,7 @@ class BanTest extends TestCase
         $response = $this->actingAs($user)
             ->postJson(route('ban.banUser'), $data);
 
-        $response->assertStatus(201)->assertJson(['msg' => true]);
+        $response->assertStatus(201)->assertJson(['message' => true]);
 
         $response = $this->actingAs($bannedUser)
         ->getJson(route('ban.check'));

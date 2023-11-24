@@ -12,6 +12,8 @@ import { toast } from "react-toastify";
 import DefaultButton from "../BasicElements/DefaultButton";
 import SearchUser from "./SearchUser";
 import AxiosGet from "../API/AxiosGet";
+import AxiosPost from "../API/AxiosPost";
+import EditCategoriesAndTags from "./EditCategoriesAndTags";
 
 export default function RoleAndPermissions() {
     const user = usePage().props.auth.user;
@@ -85,9 +87,22 @@ export default function RoleAndPermissions() {
         AxiosGet("user.searchById", { id: userId }, null, setSelectedUser);
     };
 
+    const removeBannedUser = (bannedUser) => {
+        setBannedUsers((prevBannedUsers) =>
+            prevBannedUsers.filter((user) => user !== bannedUser)
+        );
+    };
+
+    const unBan = async (user) =>
+    {
+        AxiosPost("ban.unBan",{ user: user.id },null);
+        removeBannedUser(user);
+    }
+
     return (
         <AuthenticatedLayout>
-            <div className="font-bold bg-meme_black text-white justify-center items-center ">
+            <div className="flex">
+            <div className="p-2 font-bold bg-meme_black text-white justify-center items-center w-1/2 ">
                 <div className="text-center">
                     <h1>Wybierz Uprawnienia i Przypisz do Użytkownika</h1>
                     <div className=" border-b-2 ">
@@ -152,7 +167,7 @@ export default function RoleAndPermissions() {
                         <DefaultButton
                             text={"Przypisz Uprawnienia"}
                             onClick={assignPermissions}
-                            className
+                            className={"p-3 rounded-lg border border-green-500  hover:bg-green-400 m-2"}
                         />
                     </div>
                     <div className="w-1/2 text-white text-center justify-center items-center">
@@ -177,7 +192,7 @@ export default function RoleAndPermissions() {
                         <DefaultButton
                             text={"Przypisz Role"}
                             onClick={assignRoles}
-                            className
+                            className={"p-3 rounded-lg border border-green-500  hover:bg-green-400 m-2"}
                         />
                     </div>
                 </div>
@@ -203,12 +218,24 @@ export default function RoleAndPermissions() {
                     <div className="w-1/3">
                         Banned Users
                         {bannedUsers.map((bannedUser) => (
-                            <div key={bannedUser.id} className="text-base">
-                                {bannedUser.name}
+                            <div className="flex text-base justify-between">
+                                <div key={bannedUser.id}
+                                    className="text-base h-full p-3 m-2 items-center justify-center">
+                                    {bannedUser.name}
+                                </div>
+                                <DefaultButton
+                                    text={"Unban user"}
+                                    onClick={() => unBan(bannedUser)}
+                                    className={"p-3 rounded-lg border border-yellow-500  hover:bg-yellow-400 m-2"}
+                                />
                             </div>
                         ))}
                     </div>
                 </div>
+            </div>
+            <div className="w-1/2 px-2">
+                <EditCategoriesAndTags/>
+            </div>
             </div>
         </AuthenticatedLayout>
     );

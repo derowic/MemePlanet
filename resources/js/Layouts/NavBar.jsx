@@ -11,21 +11,22 @@ function NavBar({ translation }) {
             >
                 {translation.t("Meme Planet")}
             </NavLink>
-
+            {/*
             <NavLink
                 href={route("memeGenerator")}
                 active={route().current("memeGenerator")}
             >
                 {translation.t("Meme Generator")}
             </NavLink>
-            {(CheckRole("admin") || CheckRole("user")) && (
+            */}
+            {/*{(CheckRole("admin") || CheckRole("user")) && (
                 <NavLink
                     href={route("account")}
                     active={route().current("account")}
                 >
                     {translation.t("Account")}
                 </NavLink>
-            )}
+            )}*/}
 
             {CheckRole("admin") && (
                 <NavLink

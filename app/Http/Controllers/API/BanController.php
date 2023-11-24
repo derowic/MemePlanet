@@ -51,7 +51,7 @@ class BanController extends Controller
             ]);
         } else {
             return response()->json([
-                'msg' => 'Error',
+                'message' => 'Error',
             ]);
         }
     }
@@ -70,12 +70,26 @@ class BanController extends Controller
             $tmp = $user->update(['ban_list_id' => $ban->id]);
 
             if ($ban->save()) {
-                return response()->json(['msg' => true], 201);
+                return response()->json(['message' => "User banned"], 201);
             } else {
-                return response()->json(['msg' => 'Error'], 500);
+                return response()->json(['message' => 'Error'], 500);
             }
         }
 
-        return response()->json(['msg' => 'This user is already banned'], 201);
+        return response()->json(['message' => 'This user is already banned'], 201);
+    }
+
+    public function unBan(User $user)
+    {
+        $ban = BanList::where('user_id', $user->id)->first();
+        if($ban)
+        {
+            $ban->delete();
+            $user->ban_list_id = null;
+            $user->save();
+            return response()->json(['msg' => 'User unbanned'], 201);
+        }
+        return response()->json(['msg' => 'Not found user'], 201);
+
     }
 }

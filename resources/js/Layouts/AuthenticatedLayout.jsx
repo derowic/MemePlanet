@@ -94,11 +94,25 @@ export default function Authenticated({ header, children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        {/*<Dropdown.Link
+                                        {/*
+                                        <Dropdown.Link
                                             href={route("profile.edit")}
                                         >
                                             Profile
-                                    </Dropdown.Link>*/}
+                                        </Dropdown.Link>
+                                        */}
+                                         <Dropdown.Link
+                                            href={route("profile.edit")}
+                                        >
+                                            {(CheckRole("admin") || CheckRole("user")) && (
+                                                <NavLink
+                                                    href={route("account")}
+                                                    active={route().current("account")}
+                                                >
+                                                    {translation.t("Account")}
+                                                </NavLink>
+                                            )}
+                                        </Dropdown.Link>
                                         <Dropdown.Link
                                             href={route("logout")}
                                             method="post"

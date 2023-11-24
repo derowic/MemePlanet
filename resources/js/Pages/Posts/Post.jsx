@@ -92,9 +92,9 @@ function Post({ post, tags, showOptions }) {
                                     <BanDialog
                                         user={post.user}
                                         defaultButtonText={"Ban this user"}
-                                        modalTitle={"Bans"}
+                                        modalTitle={""}
                                         modalDescription={
-                                            "Select ban reason and length"
+                                            "Select ban reason and ban length"
                                         }
                                     />
                                 </div>
