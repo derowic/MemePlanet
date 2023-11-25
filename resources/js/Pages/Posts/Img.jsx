@@ -40,7 +40,7 @@ function Img({ post, /*togglePanel*/ loadCommentsFunc }) {
                 <div className={customClass}>
                     <img
                         id="yourImageId"
-                        src={"/storage/photos/" + post.path_to_image}
+                        src={"/images/" + post.path_to_image}
                         alt="Opis obrazka"
                         className="w-full "
                         onLoad={handleImageLoad}
