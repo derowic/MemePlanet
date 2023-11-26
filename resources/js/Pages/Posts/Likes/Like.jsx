@@ -38,7 +38,6 @@ function Like({ elementId, elementType, likes, is_liked }) {
                     like: tmp,
                     id: elementId,
                 });
-                //console.log(response);
                 setCount(response.data.like);
                 setIsLiked(response.data.is_liked);
             } catch (error) {

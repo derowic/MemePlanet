@@ -41,6 +41,8 @@ Route::get('/trending', [PostController::class, 'trending'])->name('post.trendin
 Route::get('/fresh', [PostController::class, 'fresh'])->name('post.fresh');
 //Route::get('/show', [PostController::class, 'show'])->name('post.show');
 Route::get('/show/{post}', [PostController::class, 'show'])->name('post.show');
+Route::get('/post/categories', [PostController::class, 'postsFromCategories'])->name('post.categories');
+
 
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
 
@@ -53,12 +55,11 @@ Route::get('/api/roles', [RoleController::class, 'index'])->name('role.index');
 Route::get('/api/permissions', [PermissionController::class, 'index'])->name('permission.index');
 
 Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
+Route::get('/comment/refresh', [CommentController::class, 'refresh'])->name('comment.refresh');
 
 Route::get('/ban', [BanController::class, 'index'])->name('ban.index');
 
 Route::get('/report', [ReportController::class, 'index'])->name('report.index');
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -69,12 +70,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
     Route::get('/check', [BanController::class, 'check'])->name('ban.check');
 
-
     Route::middleware(['checkUserRole'])->group(function () {
         Route::get('/Account', function () {
             return Inertia::render('Account');
         })->middleware(['auth', 'verified'])->name('account');
-
 
         Route::get('/userPosts', [PostController::class, 'userPosts'])->name('post.userPosts');
 
@@ -103,15 +102,15 @@ Route::middleware('auth')->group(function () {
         Route::post('/tag', [TagController::class, 'store'])->name('tag.store');
         Route::put('/tag/{tag}', [TagController::class, 'update'])->name('tag.update');
         Route::delete('/tag/{tag}', [TagController::class, 'delete'])->name('tag.delete');
+
+        Route::post('/reportList', [ReportListController::class, 'store'])->name('reportList.store');
         /*
         Route::post('/tagList', [TagListController::class, 'store'])->name('tagList.store');
         Route::put('/tagList/{tagList}', [TagListController::class, 'update'])->name('tagList.update');
         Route::delete('/tagList/{tagList}', [TagListController::class, 'delete'])->name('tagList.delete');
         */
 
-
     });
-
 
     Route::middleware(['checkAdminRole'])->group(function () {
 
@@ -136,18 +135,16 @@ Route::middleware('auth')->group(function () {
 
         Route::put('/post/{post}', [PostController::class, 'sendToMainPage'])->name('post.mainPage');
         Route::put('/hdie/{post}/hide', [PostController::class, 'hidePost'])->name('post.hidePost');
+        Route::put('/hdie/{post}/unHide', [PostController::class, 'unHidePost'])->name('post.unHidePost');
 
         Route::delete('/admin/{post}/delete', [PostController::class, 'destroy'])->name('post.destroy');
 
         Route::delete('/deleteComment/{comment}/delete', [CommentController::class, 'destroy'])->name('comment.destroy');
 
         Route::post('/ban', [BanController::class, 'banUser'])->name('ban.banUser');
-        Route::post('/unBan/{user}', [BanController::class, 'unBan'])->name('ban.unBan');
-
         Route::get('/api/users', [UserController::class, 'getAllUsers'])->name('user.getAllUsers');
         Route::get('/search', [UserController::class, 'search'])->name('user.search');
         Route::get('/searchById', [UserController::class, 'searchById'])->name('user.searchById');
-
 
         Route::put('/improveTag/{tag}', [TagController::class, 'improveTag'])->name('tag.improveTag');
         Route::delete('/deleteCategory/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
@@ -156,10 +153,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/category/{category}', [CategoryController::class, 'update'])->name('category.update');
         Route::delete('/category/{category}', [CategoryController::class, 'delete'])->name('category.delete');
 
-        Route::post('/reportList', [ReportListController::class, 'store'])->name('reportList.store');
         Route::get('/reportList', [ReportListController::class, 'index'])->name('reportList.index');
-
-
 
         Route::post('/api/assign-permissions', [PermissionController::class, 'assignPermissions'])->name('permission.assignPermissions');
 
