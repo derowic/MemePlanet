@@ -13,22 +13,23 @@ import AxiosGet from "./API/AxiosGet";
 import InfiniteScrollPosts from "./Posts/InfiniteScrollPosts";
 import PostsTypeSelect from "./Posts/PostsTypeSelect";
 import FetchWithPagination from "./API/FetchWithPagination";
+import { usePage } from "@inertiajs/react";
 
 export default function Account({}) {
+    const user = usePage().props.auth.user;
     const translation = useTranslation(["dashboard"]);
-    const [chosenCategory, setChosenCategory] = useState(0);
-    const [tags, setTags] = useState([]);
-    const [categories, setCategories] = useState([]);
-
+    const [chosenCategory, setChosenCategory] = useState([]);
     const changeCategory = (tmp) => {
         setChosenCategory(tmp);
+        setPage(1);
     };
-
+    const [posts, setPosts] = useState([]);
+    const [page, setPage] = useState(1);
+    const [tags, setTags] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [selectedPostsType, setSelectedPostsType] = useState(
         translation.t("My Posts"),
     );
-    const [posts, setPosts] = useState([]);
-    const [page, setPage] = useState(1);
     const [rout, setRout] = useState("post.userPosts");
 
     useEffect(() => {
@@ -37,21 +38,11 @@ export default function Account({}) {
     }, []);
 
     return (
-        <AuthenticatedLayout>
+        <AuthenticatedLayout changeCategory={changeCategory}>
             <div className="bg-[#111] flex text-gray-100">
-                <div className=" w-1/4 mt-6">
-                    <div className=" sticky top-7 p-4 sm:rounded-lg ">
-                        <h3 className="text-center mb-2 text-3xl border-b border-meme_violet">
-                            {translation.t("Categories")}
-                        </h3>
-                        <CategoryList
-                            chosenCategory={chosenCategory}
-                            changeCategory={changeCategory}
-                        />
-                    </div>
-                </div>
 
-                <div className="w-2/4 mt-4">
+
+                <div className="w-full mt-4">
                     <div className="w-full p-4 text-center ">
                         <PostsTypeSelect
                             selected={selectedPostsType}
@@ -69,44 +60,27 @@ export default function Account({}) {
                                 chosenCategory={chosenCategory}
                                 posts={posts}
                                 fetchPosts={() =>
-                                    FetchWithPagination(
-                                        rout,
-                                        { page: page },
-                                        setPosts,
-                                        page,
-                                        setPage,
+                                    AxiosGet(
+                                        rout ,
+                                        {
+                                            page: page,
+                                            chosenCategory: chosenCategory
+                                        },
+                                        null,
+                                        null,
                                     )
                                 }
                                 categories={categories}
                                 tags={tags}
+                                setPosts={setPosts}
+                                page={page}
+                                setPage={setPage}
                             />
                         </div>
                     </div>
                 </div>
 
-                <div className="w-1/4 mt-4 ml-4">
-                    <div className="w-full  p-4 text-center sm:rounded-lg">
-                        <h3 className="text-center mb-2 text-3xl  border-b border-[#7d12ff]">
-                            {translation.t("Edit Profile")}
-                        </h3>
 
-                        <div className="grid">
-                            <Link
-                                href={route("profile.edit")}
-                                className="text-2xl mt-4 "
-                            >
-                                {translation.t("Edit basic user data")}
-                            </Link>
-
-                            <Link
-                                href={route("profile.edit")}
-                                className="text-2xl mt-4 "
-                            >
-                                {translation.t("Edit posts preferences")}
-                            </Link>
-                        </div>
-                    </div>
-                </div>
             </div>
         </AuthenticatedLayout>
     );

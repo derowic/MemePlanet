@@ -5,11 +5,11 @@ import Notify from "@/Components/Notify";
 const AxiosDelete = async (rout, routData, data) => {
     try {
         const response = await axios.delete(route(rout, routData), data);
-        Notify(response.data.msg, null, response.status);
+        Notify(response.data.message, null, response.status);
 
         return response.data.data;
     } catch (error) {
-        Notify(error.response.data.message,'error');
+        Notify(error.response.data.message, "error");
         console.error("Axios delete error: ", error);
     }
 };

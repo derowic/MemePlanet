@@ -8,7 +8,17 @@ import React, {
 import AxiosDelete from "../API/AxiosDelete";
 import AxiosPut from "../API/AxiosPut";
 
-function AdminPostsFuncs({ post }) {
+function AdminPostsFuncs({ post, hide }) {
+    const hidePost = (post) => {
+        AxiosPut("post.hidePost", { id: post.id });
+        hide();
+    };
+
+    const unhidePost = (post) => {
+        AxiosPut("post.unHidePost", { id: post.id });
+        hide();
+    };
+
     return (
         <>
             <div className="block">
@@ -24,9 +34,7 @@ function AdminPostsFuncs({ post }) {
 
                     <button
                         className="p-3 rounded-lg border border-gray-500  hover:bg-gray-400 m-2"
-                        onClick={() =>
-                            AxiosPut("post.hidePost", { id: post.id })
-                        }
+                        onClick={() => hidePost(post)}
                     >
                         Hide for the users
                     </button>

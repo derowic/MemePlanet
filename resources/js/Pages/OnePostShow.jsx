@@ -119,7 +119,7 @@ export default function OnePostShow({ post, tags }) {
                                 handleSubmitComment(
                                     commentText,
                                     post.id,
-                                    0,
+                                    null,
                                     fetchComments,
                                 )
                             }
@@ -137,7 +137,7 @@ export default function OnePostShow({ post, tags }) {
                                     allComments={comments}
                                     post={post.id}
                                     parentId={comment.id}
-                                    fetchComments={updateCommentSection}
+                                    updateCommentSection={updateCommentSection}
                                 />
                             ))}
                         </div>

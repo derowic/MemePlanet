@@ -13,15 +13,17 @@ const SendComment = async (postId, text, parentId) => {
         });
         */
 
-        AxiosPost("comment.store", {
-            post_id: null,
+        let response = await AxiosPost("comment.store", {
+            post_id: postId,
             comment_id: parentId,
             text: text,
         });
 
+        //console.log(response);
+
         let tmp = parentId;
         let type = "comment-comment";
-        if (parentId == 0) {
+        if (parentId == null) {
             tmp = postId;
             type = "post-comment";
         }
@@ -30,6 +32,8 @@ const SendComment = async (postId, text, parentId) => {
             element_id: tmp,
             type: type,
         });
+
+        return response;
     } catch (error) {
         //Notification(error.response.data.msg);
         console.error("SendComment error: ", error);
