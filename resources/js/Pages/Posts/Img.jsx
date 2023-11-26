@@ -8,7 +8,6 @@ import React, {
 import { router } from "@inertiajs/react";
 
 function Img({ post, postDetailsView, setIsOpen }) {
-    console.log(postDetailsView);
     const [showFull, setShowFull] = useState(false);
     const [imageDimensions, setImageDimensions] = useState({
         width: 0,
@@ -67,7 +66,7 @@ function Img({ post, postDetailsView, setIsOpen }) {
                         id="yourImageId"
                         src={"/images/" + post.path_to_image}
                         alt="Opis obrazka"
-                        className="m-auto"
+                        className="m-auto w-3/4"
                     ></img>
                 </div>
             </a>

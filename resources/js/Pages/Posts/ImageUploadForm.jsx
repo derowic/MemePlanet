@@ -65,7 +65,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
             setTitle("");
             setText("");
         } else {
-            Notification("Image, title and category are required", "warning");
+            Notification("Image, title and category are required",'warning');
         }
     };
 

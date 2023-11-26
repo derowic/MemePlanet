@@ -36,11 +36,11 @@ const UploadPost = ({ categories, tags }) => {
                 );
                 setUploadedImageUrl(response.data.imageUrl);
                 setImageUploaded(true);
-                Notify(response.data.msg, "success");
+                Notify(response.data.message, "success");
             } catch (error) {
                 console.error("UploadPost error: ", error);
                 //Notify(error);
-                Notify(error.response.data.message, "error");
+                Notify(error.response.data.message,'error');
             }
         } else {
             toast.warning("Set all inputs");

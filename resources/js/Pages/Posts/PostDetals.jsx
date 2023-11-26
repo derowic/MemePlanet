@@ -113,7 +113,7 @@ function PostDetals({
                 let height = img.height;
                 if(height <  window.innerHeight/2)
                 {
-                    height = window.innerHeight/2;
+                    height = window.innerHeight*0.75;
                 }
                 setCustomHeight({ height: height + "px" });
             };
