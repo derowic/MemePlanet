@@ -304,8 +304,8 @@ class PostController extends Controller
         Post::where('id', ($post->id))->update([
             'status' => 'main page',
         ]);
-        $p = Post::find($post->id);
-        session()->flash('toast', 'Success');
+
+        //session()->flash('toast', 'Success');
 
         return response()->json(['message' => 'Success, post sended to main page'], 201);
     }
@@ -316,7 +316,8 @@ class PostController extends Controller
             'status' => 'hide',
         ]);
 
-        return response()->json(['message' => 'Success, post hidden'], 201);
+        return response()->json(['message' => 'Success, post hidden'], 200);
+
     }
 
     public function unHidePost(Post $post)

@@ -8,7 +8,7 @@ import React, {
 import AxiosDelete from "../API/AxiosDelete";
 import AxiosPut from "../API/AxiosPut";
 
-function AdminPostsFuncs({ post, hide }) {
+function SendToMainPage({ post, hide }) {
     const hidePost = (post) => {
         AxiosPut("post.hidePost", { id: post.id });
         hide();
@@ -19,6 +19,12 @@ function AdminPostsFuncs({ post, hide }) {
         hide();
     };
 
+    const setPostToMainPage = (post) =>{
+
+        AxiosPut("post.mainPage", { id: post.id })
+    }
+
+
     return (
         <>
             <div className="block">
@@ -26,26 +32,10 @@ function AdminPostsFuncs({ post, hide }) {
                     <button
                         className="p-3 rounded-lg border border-green-500  hover:bg-green-400 m-2"
                         onClick={() =>
-                            AxiosPut("post.mainPage", { id: post.id })
+                            setPostToMainPage(post)
                         }
                     >
                         Send to main page
-                    </button>
-
-                    <button
-                        className="p-3 rounded-lg border border-gray-500  hover:bg-gray-400 m-2"
-                        onClick={() => hidePost(post)}
-                    >
-                        Hide for the users
-                    </button>
-
-                    <button
-                        className="p-3 rounded-lg border border-red-500  hover:bg-red-400 m-2"
-                        onClick={() =>
-                            AxiosDelete("post.destroy", { post: post.id }, null)
-                        }
-                    >
-                        Delete Post
                     </button>
                 </div>
             </div>
@@ -53,4 +43,4 @@ function AdminPostsFuncs({ post, hide }) {
     );
 }
 
-export default AdminPostsFuncs;
+export default SendToMainPage;

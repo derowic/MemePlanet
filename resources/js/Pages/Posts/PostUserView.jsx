@@ -14,62 +14,40 @@ import BanDialog from "../AdminPanel/BanDialog";
 import CheckRole from "../API/CheckRole";
 import LogedIn from "../API/LogedIn";
 import UnHide from "../AdminAndModeratorFunctions/UnHide";
-import PostAdminView from "./PostAdminView";
-import PostModeratorView from "./PostModeratorView";
-import PostUserView from "./PostUserView";
 
-function Post({ post, tags, showOptions }) {
-    const user = usePage().props.auth.user;
-    const [showFull, setShowFull] = useState(false);
+function PostUserView({ post, tags, showOptions }) {
     const [isOpen, setIsOpen] = useState(false);
     const [loadComments, setLoadComments] = useState(false);
-    const [hide, setHide] = useState(false);
 
     const loadCommentsFunc = () => {
         setLoadComments(true);
     };
 
-    const hideFunc = () => {
-        post.status = "hide";
-        setHide(!hide);
-    };
-
-    useEffect(() => {
-        //console.log(post.status);
-    }, [post, post.status]);
-
     return (
         <>
-            {CheckRole("admin") &&
-                <PostAdminView post={post} tags={tags} showOptions={showOptions}/>
-            }
-            {CheckRole("moderator") &&
-                <PostModeratorView post={post} tags={tags} showOptions={showOptions}/>
-            }
-            {CheckRole("user") &&
-                <PostUserView post={post} tags={tags} showOptions={showOptions}/>
-            }
-             {LogedIn() == false &&
-                 <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
-                    <h3 className="text-left font-semibold mb-2 w-full">
-                        {post.id} {post.title}
-                    </h3>
-                    <div className="text-left text-xs mb-2">
-                        {post.user.name}
-                    </div>
-                    <div className="text-left text-xs ">
-                        {post.category.name}
-                    </div>
-                    <Tags post={post} tags={tags} />
-                    <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
-                        {post.text}
-                    </div>
-                    <Img
-                        post={post}
-                        loadCommentsFunc={loadCommentsFunc}
-                        setIsOpen={setIsOpen}
-                    />
-                    {showOptions && (
+            {post.status != "hide" &&
+                <>
+                    <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
+                        <h3 className="text-left font-semibold mb-2 w-full">
+                            {post.id} {post.title}
+                        </h3>
+                        <div className="text-left text-xs mb-2">
+                            {post.user.name}
+                        </div>
+                        <div className="text-left text-xs ">
+                            {post.category.name}
+                        </div>
+                        <Tags post={post} tags={tags} />
+                        <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
+                            {post.text}
+                        </div>
+                        <Img
+                            post={post}
+                            loadCommentsFunc={loadCommentsFunc}
+                            setIsOpen={setIsOpen}
+                        />
+
+                        {showOptions && (
                             <div className="flex flex-wrap">
                                 <Like
                                     elementId={post.id}
@@ -101,11 +79,11 @@ function Post({ post, tags, showOptions }) {
                                 />
                             </div>
                         )}
-                </div>
-
+                    </div>
+                </>
             }
         </>
     );
 }
 
-export default Post;
+export default PostUserView;

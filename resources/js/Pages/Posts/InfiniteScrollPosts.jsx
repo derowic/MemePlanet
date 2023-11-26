@@ -125,7 +125,6 @@ const InfiniteScrollPosts = ({
                 {CheckPermission("post.create") && (
                     <UploadPost categories={categories} tags={tags} />
                 )}
-                {columnNumber}
             </div>
 
             <InfiniteScroll

@@ -61,13 +61,13 @@ function Like({ elementId, elementType, likes, is_liked }) {
                 }
             />
             <span className="count">{count}</span>
-            <DefaultButton
+            {/*<DefaultButton
                 onClick={decrement}
                 text={"-"}
                 className={
                     "ml-2 mb-2 mr-2 text-white font-bold py-2 px-4 rounded-lg border"
                 }
-            />
+            />*/}
         </div>
     );
 }

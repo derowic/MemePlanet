@@ -30,21 +30,23 @@ class UserSeeder extends Seeder
         ]);
 
         $adminRole = Role::findByName('admin');
+        $moderatorRole = Role::findByName('moderator');
 
         if (isset($adminRole)) {
             $admin->assignRole($adminRole);
+            $admin->assignRole($moderatorRole);
 
         }
 
         $moderator = User::create([
-            'name' => 'Moderator',
+            'name' => 'moderator',
             'email' => 'moderator@localhost',
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make('12345678'),
             'remember_token' => Str::random(10),
         ]);
 
-        $moderatorRole = Role::findByName('moderator');
+
 
         if (isset($moderatorRole)) {
             $moderator->assignRole($moderatorRole);

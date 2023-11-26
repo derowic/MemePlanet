@@ -61,6 +61,8 @@ Route::get('/ban', [BanController::class, 'index'])->name('ban.index');
 
 Route::get('/report', [ReportController::class, 'index'])->name('report.index');
 
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -112,53 +114,59 @@ Route::middleware('auth')->group(function () {
 
     });
 
-    Route::middleware(['checkAdminRole'])->group(function () {
-
-        Route::get('/AdminPanel', function () {
-            return Inertia::render('AdminPanel/AdminPanel');
-        })->middleware(['auth', 'verified'])->name('adminPanel');
-
-        Route::get('/RoleAndPermissions', function () {
-            return Inertia::render('AdminPanel/RoleAndPermissions');
-        })->middleware(['auth', 'verified'])->name('RoleAndPermissions');
-
-        Route::get('/EditCategoriesAndTags', function () {
-            return Inertia::render('AdminPanel/EditCategoriesAndTags');
-        })->middleware(['auth', 'verified'])->name('EditCategoriesAndTags');
-
-        Route::get('/getAdmins', [UserController::class, 'getAdmins'])->name('user.getAdmins');
-        Route::get('/getModerators', [UserController::class, 'getModerators'])->name('user.getModerators');
-        Route::get('/getBannedUsers', [UserController::class, 'getBannedUsers'])->name('user.getBannedUsers');
-
-        Route::get('/reportedPosts', [PostController::class, 'reportedPosts'])->name('post.reportedPosts');
-        Route::get('/hiddenPosts', [PostController::class, 'hiddenPosts'])->name('post.hiddenPosts');
-
-        Route::put('/post/{post}', [PostController::class, 'sendToMainPage'])->name('post.mainPage');
+    Route::middleware(['checkModeratorRole'])->group(function () {
         Route::put('/hdie/{post}/hide', [PostController::class, 'hidePost'])->name('post.hidePost');
         Route::put('/hdie/{post}/unHide', [PostController::class, 'unHidePost'])->name('post.unHidePost');
 
-        Route::delete('/admin/{post}/delete', [PostController::class, 'destroy'])->name('post.destroy');
 
-        Route::delete('/deleteComment/{comment}/delete', [CommentController::class, 'destroy'])->name('comment.destroy');
+        Route::middleware(['checkAdminRole'])->group(function () {
 
-        Route::post('/ban', [BanController::class, 'banUser'])->name('ban.banUser');
-        Route::get('/api/users', [UserController::class, 'getAllUsers'])->name('user.getAllUsers');
-        Route::get('/search', [UserController::class, 'search'])->name('user.search');
-        Route::get('/searchById', [UserController::class, 'searchById'])->name('user.searchById');
+            Route::get('/AdminPanel', function () {
+                return Inertia::render('AdminPanel/AdminPanel');
+            })->middleware(['auth', 'verified'])->name('adminPanel');
 
-        Route::put('/improveTag/{tag}', [TagController::class, 'improveTag'])->name('tag.improveTag');
-        Route::delete('/deleteCategory/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
+            Route::get('/RoleAndPermissions', function () {
+                return Inertia::render('AdminPanel/RoleAndPermissions');
+            })->middleware(['auth', 'verified'])->name('RoleAndPermissions');
 
-        Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
-        Route::put('/category/{category}', [CategoryController::class, 'update'])->name('category.update');
-        Route::delete('/category/{category}', [CategoryController::class, 'delete'])->name('category.delete');
+            Route::get('/EditCategoriesAndTags', function () {
+                return Inertia::render('AdminPanel/EditCategoriesAndTags');
+            })->middleware(['auth', 'verified'])->name('EditCategoriesAndTags');
 
-        Route::get('/reportList', [ReportListController::class, 'index'])->name('reportList.index');
+            Route::get('/getAdmins', [UserController::class, 'getAdmins'])->name('user.getAdmins');
+            Route::get('/getModerators', [UserController::class, 'getModerators'])->name('user.getModerators');
+            Route::get('/getBannedUsers', [UserController::class, 'getBannedUsers'])->name('user.getBannedUsers');
 
-        Route::post('/api/assign-permissions', [PermissionController::class, 'assignPermissions'])->name('permission.assignPermissions');
+            Route::get('/reportedPosts', [PostController::class, 'reportedPosts'])->name('post.reportedPosts');
+            Route::get('/hiddenPosts', [PostController::class, 'hiddenPosts'])->name('post.hiddenPosts');
 
-        Route::post('/api/assign-roles', [RoleController::class, 'assignRoles'])->name('role.assignRoles');
+            Route::put('/post/{post}', [PostController::class, 'sendToMainPage'])->name('post.mainPage');
+            //Route::put('/hdie/{post}/hide', [PostController::class, 'hidePost'])->name('post.hidePost');
+            //Route::put('/hdie/{post}/unHide', [PostController::class, 'unHidePost'])->name('post.unHidePost');
 
+            Route::delete('/admin/{post}/delete', [PostController::class, 'destroy'])->name('post.destroy');
+
+            Route::delete('/deleteComment/{comment}/delete', [CommentController::class, 'destroy'])->name('comment.destroy');
+
+            Route::post('/ban', [BanController::class, 'banUser'])->name('ban.banUser');
+            Route::get('/api/users', [UserController::class, 'getAllUsers'])->name('user.getAllUsers');
+            Route::get('/search', [UserController::class, 'search'])->name('user.search');
+            Route::get('/searchById', [UserController::class, 'searchById'])->name('user.searchById');
+
+            Route::put('/improveTag/{tag}', [TagController::class, 'improveTag'])->name('tag.improveTag');
+            Route::delete('/deleteCategory/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
+
+            Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
+            Route::put('/category/{category}', [CategoryController::class, 'update'])->name('category.update');
+            Route::delete('/category/{category}', [CategoryController::class, 'delete'])->name('category.delete');
+
+            Route::get('/reportList', [ReportListController::class, 'index'])->name('reportList.index');
+
+            Route::post('/api/assign-permissions', [PermissionController::class, 'assignPermissions'])->name('permission.assignPermissions');
+
+            Route::post('/api/assign-roles', [RoleController::class, 'assignRoles'])->name('role.assignRoles');
+
+        });
     });
 });
 
