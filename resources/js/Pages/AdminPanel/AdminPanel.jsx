@@ -85,6 +85,10 @@ export default function AdminPanel() {
                                         translation.t("Hidden Posts"),
                                         "post.hiddenPosts",
                                     ],
+                                    [
+                                        translation.t("Deleted Posts"),
+                                        "post.deletedPosts",
+                                    ],
                                 ]}
                                 setPosts={setPosts}
                                 setRout={setRout}

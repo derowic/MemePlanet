@@ -6,7 +6,7 @@ import { Button, Drawer } from "@mui/material";
 import Fav from "./Fav/Fav";
 import Img from "./Img";
 import { usePage } from "@inertiajs/react";
-import AdminPostsFuncs from "../AdminAndModeratorFunctions/SendToMainPage";
+import AdminPostsFuncs from "../AdminAndModeratorFunctions/SendPostToMainPage";
 import ReportDialog from "./Reports/ReportDialog";
 import ReportListDialog from "../AdminPanel/ReportListDialog";
 import BanUser from "../AdminAndModeratorFunctions/BanUser";
@@ -14,16 +14,19 @@ import BanDialog from "../AdminPanel/BanDialog";
 import CheckRole from "../API/CheckRole";
 import LogedIn from "../API/LogedIn";
 import UnHide from "../AdminAndModeratorFunctions/UnHide";
-import SendToMainPage from "../AdminAndModeratorFunctions/SendToMainPage";
+import SendPostToMainPage from "../AdminAndModeratorFunctions/SendPostToMainPage";
 import HidePost from "../AdminAndModeratorFunctions/HidePost";
 import DeletePost from "../AdminAndModeratorFunctions/DeletePost";
+import RestorePost from "../AdminAndModeratorFunctions/RestorePost";
 
-function PostAdminView({ post, tags, showOptions }) {
+function PostAdminView({ post, tags, showOptions, setPosts }) {
     const user = usePage().props.auth.user;
     const [showFull, setShowFull] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [loadComments, setLoadComments] = useState(false);
     const [hide, setHide] = useState(false);
+    const [mainPage, setMainPage] = useState(false);
+    const [postDeleted, setPostDeleted] = useState(false);
 
     const loadCommentsFunc = () => {
         setLoadComments(true);
@@ -34,7 +37,29 @@ function PostAdminView({ post, tags, showOptions }) {
         setHide(!hide);
     };
 
+    const setAsMainPagePost = () => {
+        post.status = "main page";
+        setMainPage(!mainPage)
+    };
+
+    const deletePost = () =>
+    {
+        setPostDeleted(!postDeleted);
+        setHide(false);
+        setMainPage(false);
+        //setPosts(selectedCategories.filter((id) => id !== tmp) )
+    }
+
+
     useEffect(() => {
+        if(post.status == "main page")
+        {
+            setMainPage(true);
+        }
+        else if(post.status == "delted")
+        {
+            setPostDeleted(true);
+        }
         //console.log(post.status);
     }, [post, post.status]);
 
@@ -45,12 +70,21 @@ function PostAdminView({ post, tags, showOptions }) {
                     post.status != "hide") ||
                 CheckRole("moderator")) && (
                 <>
-                    {hide ? (
-                        <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
-                            <UnHide post={post} hide={hideFunc} />
-                        </div>
+                    {hide || postDeleted ? (
+                        <>
+                        { hide &&
+                            <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
+                                <UnHide post={post} hide={hideFunc} />
+                            </div>
+                        }
+                        { postDeleted &&
+                            <div className="rounded-lg p-4 border border-red-700 hover:border-meme_violet m-2">
+                                <RestorePost post={post} restore={deletePost} />
+                            </div>
+                        }
+                        </>
                     ) : (
-                        <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
+                        <div className={`rounded-lg p-4 border ${mainPage === true ? 'border-green-400' : 'border-[#333]'} hover:border-meme_violet m-2`}>
                             <h3 className="text-left font-semibold mb-2 w-full">
                                 {post.id} {post.title}
                             </h3>
@@ -110,9 +144,10 @@ function PostAdminView({ post, tags, showOptions }) {
                                         (role) => role.name === "moderator",
                                     )) && (
                                     <>
-                                        <SendToMainPage
+                                        <SendPostToMainPage
+                                            setAsMainPagePost={setAsMainPagePost}
                                             post={post}
-                                            hide={hideFunc}
+                                            mainPage={mainPage}
                                         />
                                         <HidePost
                                             post={post}
@@ -120,7 +155,8 @@ function PostAdminView({ post, tags, showOptions }) {
                                         />
                                         <DeletePost
                                             post={post}
-                                            hide={hideFunc}
+                                            postDeleted={postDeleted}
+                                            deletePost={deletePost}
                                         />
                                         <div className="flex text-center justify-center">
                                             <ReportListDialog

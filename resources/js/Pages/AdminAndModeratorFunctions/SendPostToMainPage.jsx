@@ -8,22 +8,15 @@ import React, {
 import AxiosDelete from "../API/AxiosDelete";
 import AxiosPut from "../API/AxiosPut";
 
-function SendToMainPage({ post, hide }) {
-    const hidePost = (post) => {
-        AxiosPut("post.hidePost", { id: post.id });
-        hide();
-    };
-
-    const unhidePost = (post) => {
-        AxiosPut("post.unHidePost", { id: post.id });
-        hide();
-    };
+function SendPostToMainPage({ post, mainPage, setAsMainPagePost }) {
 
     const setPostToMainPage = (post) =>{
-
+        setAsMainPagePost();
         AxiosPut("post.mainPage", { id: post.id })
     }
-
+    useEffect(() => {
+        //console.log(post.status);
+    }, [post, post.status]);
 
     return (
         <>
@@ -35,7 +28,11 @@ function SendToMainPage({ post, hide }) {
                             setPostToMainPage(post)
                         }
                     >
-                        Send to main page
+                        {mainPage ?
+                            <div>Take it from main page</div>
+                            :
+                            <div>Send to main page</div>
+                        }
                     </button>
                 </div>
             </div>
@@ -43,4 +40,4 @@ function SendToMainPage({ post, hide }) {
     );
 }
 
-export default SendToMainPage;
+export default SendPostToMainPage;

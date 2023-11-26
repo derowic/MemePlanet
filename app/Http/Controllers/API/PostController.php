@@ -34,6 +34,7 @@ class PostController extends Controller
             ->when(!empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
+            ->where('status', '<>', 'deleted') // Dodaj ten warunek
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
@@ -54,6 +55,7 @@ class PostController extends Controller
             ->when(!empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
+            ->where('status', '<>', 'deleted') // Dodaj ten warunek
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
@@ -72,6 +74,7 @@ class PostController extends Controller
             ->when(!empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
+            ->where('status', '<>', 'deleted') // Dodaj ten warunek
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
@@ -94,6 +97,8 @@ class PostController extends Controller
             ->when(!empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
+            ->where('status', '=', 'main page')
+            ->where('status', '<>', 'deleted') // Dodaj ten warunek
             ->where('created_at', '>=', $twentyFourHoursAgo)
             ->orderBy('likes', 'desc')
             ->skip(($page - 1) * $perPage)
@@ -115,6 +120,8 @@ class PostController extends Controller
             ->when(!empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
+            ->where('status', '=', 'main page')
+            ->where('status', '<>', 'deleted') // Dodaj ten warunek
             ->orderBy('likes', 'desc')
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
@@ -133,6 +140,25 @@ class PostController extends Controller
             'post' => $post->load('user', 'category', 'tags'),
             'tags' => Tag::all(),
         ]);
+    }
+
+    public function deletedPosts(Request $request)
+    {
+        $perPage = 12;
+        $page = $request->input('page', 1);
+        $categories = $request->input('chosenCategory', []);
+
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
+            ->where('status', 'deleted')
+            ->when(!empty($categories), function ($query) use ($categories) {
+                return $query->whereIn('category_id', $categories);
+            })
+            ->orderBy('created_at', 'desc')
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get();
+
+        return PostResource::collection(auth()->check() ? $this->postRepository->addLikesAndFavs($posts) : $posts);
     }
 
     public function store(PostRequest $request)
@@ -281,6 +307,7 @@ class PostController extends Controller
             ->when(!empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
+            ->where('status', '<>', 'deleted') // Dodaj ten warunek
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
@@ -292,22 +319,46 @@ class PostController extends Controller
         return PostResource::collection($this->postRepository->addLikesAndFavs($posts));
     }
 
+    public function restore(Post $post)
+    {
+        //$post->delete();
+
+        Post::where('id', ($post->id))->update([
+            'status' => 'waiting',
+        ]);
+
+        return response()->json(['message' => 'Success, post restored'], 201);
+    }
+
     public function destroy(Post $post)
     {
-        $post->delete();
+        //$post->delete();
+
+        Post::where('id', ($post->id))->update([
+            'status' => 'deleted',
+        ]);
 
         return response()->json(['message' => 'Success deleting'], 201);
     }
 
     public function sendToMainPage(Post $post)
     {
-        Post::where('id', ($post->id))->update([
-            'status' => 'main page',
-        ]);
+        if( $post->status == 'main page')
+        {
+            Post::where('id', ($post->id))->update([
+                'status' => 'waiting',
+            ]);
 
-        //session()->flash('toast', 'Success');
+            return response()->json(['message' => 'Success, post taken from page'], 201);
+        }
+        else
+        {
+            Post::where('id', ($post->id))->update([
+                'status' => 'main page',
+            ]);
 
-        return response()->json(['message' => 'Success, post sended to main page'], 201);
+            return response()->json(['message' => 'Success, post sended to main page'], 201);
+        }
     }
 
     public function hidePost(Post $post)

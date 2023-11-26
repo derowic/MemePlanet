@@ -6,7 +6,7 @@ import { Button, Drawer } from "@mui/material";
 import Fav from "./Fav/Fav";
 import Img from "./Img";
 import { usePage } from "@inertiajs/react";
-import AdminPostsFuncs from "../AdminAndModeratorFunctions/SendToMainPage";
+import AdminPostsFuncs from "../AdminAndModeratorFunctions/SendPostToMainPage";
 import ReportDialog from "./Reports/ReportDialog";
 import ReportListDialog from "../AdminPanel/ReportListDialog";
 import BanUser from "../AdminAndModeratorFunctions/BanUser";

@@ -89,6 +89,8 @@ Route::middleware('auth')->group(function () {
         //Route::post('/post/fav', [PostController::class, 'favourite'])->name('post.fav');
         Route::put('/post/{post}', [PostController::class, 'update'])->name('post.update');
         Route::delete('/post/{post}', [PostController::class, 'delete'])->name('post.delete');
+        Route::put('/restore/{post}', [PostController::class, 'restore'])->name('post.restore');
+        Route::get('/deleted', [PostController::class, 'deletedPosts'])->name('post.deletedPosts');
         //Route::post('/report/{post}', [ReportController::class, 'report'])->name('report.report');
 
         Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');

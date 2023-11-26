@@ -6,7 +6,7 @@ import { Button, Drawer } from "@mui/material";
 import Fav from "./Fav/Fav";
 import Img from "./Img";
 import { usePage } from "@inertiajs/react";
-import AdminPostsFuncs from "../AdminAndModeratorFunctions/SendToMainPage";
+import AdminPostsFuncs from "../AdminAndModeratorFunctions/SendPostToMainPage";
 import ReportDialog from "./Reports/ReportDialog";
 import ReportListDialog from "../AdminPanel/ReportListDialog";
 import BanUser from "../AdminAndModeratorFunctions/BanUser";
@@ -29,10 +29,6 @@ function Post({ post, tags, showOptions }) {
         setLoadComments(true);
     };
 
-    const hideFunc = () => {
-        post.status = "hide";
-        setHide(!hide);
-    };
 
     useEffect(() => {
         //console.log(post.status);
@@ -40,14 +36,20 @@ function Post({ post, tags, showOptions }) {
 
     return (
         <>
-            {CheckRole("admin") &&
+            {CheckRole("admin") ?
                 <PostAdminView post={post} tags={tags} showOptions={showOptions}/>
-            }
-            {CheckRole("moderator") &&
-                <PostModeratorView post={post} tags={tags} showOptions={showOptions}/>
-            }
-            {CheckRole("user") &&
-                <PostUserView post={post} tags={tags} showOptions={showOptions}/>
+                :
+                <>
+                    {CheckRole("moderator") ?
+                        <PostModeratorView post={post} tags={tags} showOptions={showOptions}/>
+                        :
+                        <>
+                        {CheckRole("user") &&
+                            <PostUserView post={post} tags={tags} showOptions={showOptions}/>
+                        }
+                        </>
+                    }
+                </>
             }
              {LogedIn() == false &&
                  <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
