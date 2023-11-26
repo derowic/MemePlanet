@@ -52,8 +52,8 @@ const BanDialog = ({
                 onClose={closeDialog}
                 className="rounded-lg fixed inset-0 flex items-center justify-center z-50 "
             >
-                <Dialog.Panel className="bg-[#222] text-white p-4 rounded-lg shadow-md w-1/2 border border-[#000]">
-                    <DefaultButton onClick={closeDialog} text={"Close"} className={"p-2 m-2 border border-white rounded-lg"} />
+                <Dialog.Panel className="bg-[#222] text-white p-4 rounded-lg shadow-md w-1/2 border-2 border-red-700">
+                    <DefaultButton onClick={closeDialog} text={"Close"} className={"p-2 m-2 border border-red-700 rounded-lg"} />
                     <Dialog.Title>{modalTitle}</Dialog.Title>
                     <Dialog.Description>{modalDescription}</Dialog.Description>
                     <div className="mt-4 ">

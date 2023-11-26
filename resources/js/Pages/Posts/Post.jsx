@@ -84,7 +84,7 @@ function Post({ post, tags, showOptions }) {
                                     <ReportDialog
                                         post={post}
                                         defaultButtonText={"!"}
-                                        modalTitle={"Report"}
+                                        modalTitle={""}
                                         modalDescription={
                                             "Select report reason"
                                         }
@@ -119,7 +119,7 @@ function Post({ post, tags, showOptions }) {
                                                 }
                                                 modalTitle={"Reports"}
                                                 modalDescription={
-                                                    "This post reports list"
+                                                    ""
                                                 }
                                             />
                                             <BanDialog
@@ -127,7 +127,7 @@ function Post({ post, tags, showOptions }) {
                                                 defaultButtonText={
                                                     "Ban this user"
                                                 }
-                                                modalTitle={"Bans"}
+                                                modalTitle={""}
                                                 modalDescription={
                                                     "Select ban reason and length"
                                                 }

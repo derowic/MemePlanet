@@ -159,7 +159,6 @@ function PostDetals({
                                         post={post}
                                         loadCommentsFunc={null}
                                         postDetailsView={true}
-                                        className="w-full h-full"
                                     />
                                 </div>
                             </div>

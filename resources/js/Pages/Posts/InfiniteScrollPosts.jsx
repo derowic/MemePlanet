@@ -79,16 +79,17 @@ const InfiniteScrollPosts = ({
         {
             columnNum = 6;
         }
-        /*
+
         if(columnNum <=0)
         {
             columnNum = 1;
         }
-        */
+
         setColumnNumber(columnNum);
 
 
         setColumnStyle("w-1/"+columnNum);
+
 
     };
 
@@ -120,7 +121,7 @@ const InfiniteScrollPosts = ({
 
     return (
         <div>
-            <div className="p-4">
+            <div className="p-4 w-3/4 m-auto">
                 {CheckPermission("post.create") && (
                     <UploadPost categories={categories} tags={tags} />
                 )}
