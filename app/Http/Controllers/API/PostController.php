@@ -107,13 +107,17 @@ class PostController extends Controller
 
     public function top(Request $request)
     {
+        $perPage = 12;
+        $page = $request->input('page', 1);
         $categories = $request->input('chosenCategory', []);
+
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
             ->when(!empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
             ->orderBy('likes', 'desc')
-            ->take(4)
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
             ->get();
 
         if (auth()->check()) {

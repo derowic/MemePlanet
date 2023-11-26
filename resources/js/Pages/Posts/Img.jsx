@@ -67,7 +67,7 @@ function Img({ post, postDetailsView, setIsOpen }) {
                         id="yourImageId"
                         src={"/images/" + post.path_to_image}
                         alt="Opis obrazka"
-                        className="w-full"
+                        className="m-auto"
                     ></img>
                 </div>
             </a>
