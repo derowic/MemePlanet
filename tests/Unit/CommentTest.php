@@ -2,22 +2,16 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\Post;
-use App\Models\Report;
-use App\Models\Ban;
-use App\Models\BanList;
 use App\Models\Comment;
-use Database\Seeders\DatabaseSeeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Tests\TestCase;
 
 class CommentTest extends TestCase
 {
-    function resetAndSeedDatabase()
+    public function resetAndSeedDatabase()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         $tables = DB::select('SHOW TABLES');
@@ -29,90 +23,144 @@ class CommentTest extends TestCase
         Artisan::call('db:seed');
     }
 
-    public function testStoreCorrectPost()
+    public function testStoreCorrectComment()
     {
         $this->resetAndSeedDatabase();
 
-        $user = User::find(rand(1,3));
-        $post = Post::find(rand(1,3));
-        $comments = Comment::find(rand(1,3));
+        $user = User::find(rand(1, 3));
+        $post = Post::find(rand(1, 3));
+        $comments = Comment::find(rand(1, 3));
 
-        $commentData = [
+        $data = [
             'post_id' => $post->id,
             'comment_id' => null,
             'text' => 'This is a test comment.',
         ];
 
         $response = $this->actingAs($user)
-            ->postJson(route('comment.store'), $commentData);
+            ->postJson(route('comment.store'), $data);
+
+        // Wyświetl odpowiedź na konsoli
+        dump($response->content());
 
         $response->assertStatus(201)
-            ->assertJson(['msg' => 'Comment added']);
+            ->assertJson(['message' => 'Comment added']);
     }
 
+    public function testStoreCorrectCommentWithCorrectParentCommentData()
+    {
+        $this->resetAndSeedDatabase();
 
-    public function testStoreUnCorrectPostNoPostId()
+        $user = User::find(rand(1, 3));
+        $post = Post::find(rand(1, 3));
+        $comments = Comment::find(rand(1, 3));
+
+        $data = [
+            'post_id' => $post->id,
+            'comment_id' => $comments->id,
+            'text' => 'This is a test comment.',
+        ];
+
+        $response = $this->actingAs($user)
+            ->postJson(route('comment.store'), $data);
+
+        // Wyświetl odpowiedź na konsoli
+        dump($response->content());
+
+        $response->assertStatus(201)
+            ->assertJson(['message' => 'Comment added']);
+    }
+
+    public function testStoreUnCorrectCommentNoPostId()
     {
         $this->resetAndSeedDatabase();
 
         //no post_id
-        $user = User::find(rand(1,3));
-        $post = Post::find(rand(1,3));
-        $comments = Comment::find(rand(1,3));
+        $user = User::find(rand(1, 3));
+        $post = Post::find(rand(1, 3));
+        $comments = Comment::find(rand(1, 3));
 
-        $commentData = [
+        $data = [
             'post_id' => null,
             'comment_id' => null,
             'text' => 'This is a test comment.',
         ];
         $response = $this->actingAs($user)
-            ->postJson(route('comment.store'), $commentData);
+            ->postJson(route('comment.store'), $data);
 
-        $response->assertStatus(500)->assertJson(['msg' => 'Error while saving comment']);
+        dump($response->content());
+
+        $response->assertStatus(422)->assertJson(['message' => 'The post id field is required.']);
 
     }
 
-    public function testStoreUnCorrectNoText()
+    public function testStoreUnCorrectComment_NoText()
     {
         $this->resetAndSeedDatabase();
 
         //no text
-        $user = User::find(rand(1,3));
-        $post = Post::find(rand(1,3));
-        $comments = Comment::find(rand(1,3));
+        $user = User::find(rand(1, 3));
+        $post = Post::find(rand(1, 3));
+        $comments = Comment::find(rand(1, 3));
 
-        $commentData = [
+        $data = [
             'post_id' => $post->id,
             'comment_id' => null,
             'text' => null,
         ];
 
         $response = $this->actingAs($user)
-            ->postJson(route('comment.store'), $commentData);
+            ->postJson(route('comment.store'), $data);
 
-        $response->assertStatus(500)->assertJson(['msg' => 'Error while saving comment']);
+        dump($response->content());
+
+        $response->assertStatus(422)->assertJson(['message' => 'The text field is required.']);
     }
 
-    public function testStoreUnCorrectEmptyText()
+    public function testStoreUnCorrectComment_EmptyText()
     {
         $this->resetAndSeedDatabase();
-         //empty text
-         $user = User::find(rand(1,3));
-         $post = Post::find(rand(1,3));
-         $comments = Comment::find(rand(1,3));
+        //empty text
+        $user = User::find(rand(1, 3));
+        $post = Post::find(rand(1, 3));
+        $comments = Comment::find(rand(1, 3));
 
-         $commentData = [
-             'post_id' => $post->id,
-             'comment_id' => null,
-             'text' => "",
-         ];
+        $data = [
+            'post_id' => $post->id,
+            'comment_id' => null,
+            'text' => '',
+        ];
 
-         $response = $this->actingAs($user)
-             ->postJson(route('comment.store'), $commentData);
+        $response = $this->actingAs($user)
+            ->postJson(route('comment.store'), $data);
 
-        $response->assertStatus(500)->assertJson(['msg' => 'Error while saving comment']);
+        dump($response->content());
+
+        $response->assertStatus(422)->assertJson(['message' => 'The text field is required.']);
 
     }
 
+    public function testStoreComment_withFaultParentComment()
+    {
+        $this->resetAndSeedDatabase();
 
+        $user = User::find(rand(1, 3));
+        $post = Post::find(rand(1, 3));
+        $comments = Comment::find(rand(1, 3));
+
+        $data = [
+            'post_id' => $post->id,
+            'comment_id' => -2,
+            'text' => 'This is a test comment.',
+        ];
+
+        $response = $this->actingAs($user)
+            ->postJson(route('comment.store'), $data);
+
+        // Wyświetl odpowiedź na konsoli
+        dump($response->content());
+
+        $response->assertStatus(422)
+            ->assertJson(['message' => 'The selected comment id is invalid. (and 1 more error)']);
+    }
 }

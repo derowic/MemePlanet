@@ -2,22 +2,18 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\Post;
-use App\Models\Report;
 use App\Models\Ban;
 use App\Models\BanList;
-use App\Models\Comment;
-use Database\Seeders\DatabaseSeeder; // Dodaj use do DatabaseSeeder
+use App\Models\Report;
+use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
+use Illuminate\Support\Facades\Artisan; // Dodaj use do DatabaseSeeder
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Artisan;
+use Tests\TestCase;
 
 class BanTest extends TestCase
 {
-    function resetAndSeedDatabase()
+    public function resetAndSeedDatabase()
     {
         // Wyłącz sprawdzanie kluczy obcych
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
@@ -37,7 +33,6 @@ class BanTest extends TestCase
         // Uruchom seeder
         Artisan::call('db:seed');
     }
-
 
     public function testBanCheck()
     {
@@ -61,26 +56,22 @@ class BanTest extends TestCase
         $response->assertStatus(201)->assertJson(['message' => true]);
 
         $response = $this->actingAs($bannedUser)
-        ->getJson(route('ban.check'));
+            ->getJson(route('ban.check'));
 
         $response->assertStatus(200)
-        ->assertJson(['data' => true]);
+            ->assertJson(['data' => true]);
 
-        //dump($response);
 
         $banListRecord = BanList::where('user_id', $bannedUser->id)->first();
 
-        // Sprawdź, czy rekord istnieje
         if ($banListRecord) {
-            // Przesuń created_at o 4 dni wstecz
             $banListRecord->update(['created_at' => now()->subDays(4)]);
         }
 
         $response = $this->actingAs($bannedUser)
-        ->getJson(route('ban.check'));
+            ->getJson(route('ban.check'));
 
         $response->assertStatus(200)
-        ->assertJson(['data' => false]);
+            ->assertJson(['data' => false]);
     }
-
 }
