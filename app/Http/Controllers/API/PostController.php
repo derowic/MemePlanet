@@ -22,13 +22,38 @@ class PostController extends Controller
         $this->postRepository = $postRepository;
     }
 
-    public function index(Request $request)
+
+    public function postsFromCategories(Request $request)
     {
-        $perPage = 5;
+        $perPage = 12;
         $page = $request->input('page', 1);
+        $categories = $request->input('chosenCategory', []);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
             ->where('status', 'main page')
+            ->when(!empty($categories), function ($query) use ($categories) {
+                return $query->whereIn('category_id', $categories);
+            })
+            ->orderBy('created_at', 'desc')
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get();
+
+        return PostResource::collection(auth()->check() ? $this->postRepository->addLikesAndFavs($posts) : $posts);
+    }
+
+
+    public function index(Request $request)
+    {
+        $perPage = 12;
+        $page = $request->input('page', 1);
+        $categories = $request->input('chosenCategory', []);
+
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
+            ->where('status', 'main page')
+            ->when(!empty($categories), function ($query) use ($categories) {
+                return $query->whereIn('category_id', $categories);
+            })
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
@@ -39,10 +64,14 @@ class PostController extends Controller
 
     public function fresh(Request $request)
     {
-        $perPage = 5;
+        $perPage = 12;
         $page = $request->input('page', 1);
+        $categories = $request->input('chosenCategory', []);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
+            ->when(!empty($categories), function ($query) use ($categories) {
+                return $query->whereIn('category_id', $categories);
+            })
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
@@ -55,12 +84,16 @@ class PostController extends Controller
 
     public function trending(Request $request)
     {
-        $perPage = 5;
+        $perPage = 12;
         $page = $request->input('page', 1);
+        $categories = $request->input('chosenCategory', []);
 
         $twentyFourHoursAgo = now()->subHours(24);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
+            ->when(!empty($categories), function ($query) use ($categories) {
+                return $query->whereIn('category_id', $categories);
+            })
             ->where('created_at', '>=', $twentyFourHoursAgo)
             ->orderBy('likes', 'desc')
             ->skip(($page - 1) * $perPage)
@@ -72,9 +105,13 @@ class PostController extends Controller
         return PostResource::collection(auth()->check() ? $this->postRepository->addLikesAndFavs($posts) : $posts);
     }
 
-    public function top()
+    public function top(Request $request)
     {
+        $categories = $request->input('chosenCategory', []);
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
+            ->when(!empty($categories), function ($query) use ($categories) {
+                return $query->whereIn('category_id', $categories);
+            })
             ->orderBy('likes', 'desc')
             ->take(4)
             ->get();
@@ -117,7 +154,7 @@ class PostController extends Controller
 
             foreach ($tagsArray as $tagId) {
                 $tag = Tag::find($tagId);
-                $tag->use_count = ((($tag->use_count > 0)&&($tag->use_count != null))  ? $tag->use_count+1: 1);
+                $tag->use_count = ((($tag->use_count > 0) && ($tag->use_count != null)) ? $tag->use_count + 1 : 1);
                 $tag->save();
 
                 $tagList = new TagList();
@@ -136,7 +173,7 @@ class PostController extends Controller
                 $tag = Tag::where('name', trim(strtolower($tagName)))->first();
 
                 if ($tag) {
-                    $tag->use_count = ((($tag->use_count > 0)&&($tag->use_count != null))  ? $tag->use_count+1: 1);
+                    $tag->use_count = ((($tag->use_count > 0) && ($tag->use_count != null)) ? $tag->use_count + 1 : 1);
                     $tag->save();
                 } else {
                     $tag = new Tag();
@@ -149,19 +186,16 @@ class PostController extends Controller
                 $tagList->tag_id = $tag->id;
                 $tagList->save();
 
-
-
-
             }
         }
 
         if ($post->save()) {
-            return response()->json(['msg' => 'Post added, wait in fresh to accept by moderators'], 201);
+            return response()->json(['message' => 'Post added, wait in fresh to accept by moderators'], 201);
         } else {
-            return response()->json(['msg' => 'Error while adding post'], 500);
+            return response()->json(['message' => 'Error while adding post'], 500);
         }
 
-        return response()->json(['msg' => 'Error while adding post'], 400);
+        return response()->json(['message' => 'Error while adding post'], 400);
     }
 
     public function like(Request $request)
@@ -189,16 +223,20 @@ class PostController extends Controller
 
             ]);
         } else {
-            return response()->json(['msg' => 'Error while saving like'], 500);
+            return response()->json(['message' => 'Error while saving like'], 500);
         }
     }
 
     public function reportedPosts(Request $request)
     {
-        $perPage = 5;
+        $perPage = 12;
         $page = $request->input('page', 1);
+        $categories = $request->input('chosenCategory', []);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags', 'reports'])
+            ->when(!empty($categories), function ($query) use ($categories) {
+                return $query->whereIn('category_id', $categories);
+            })
             ->withCount('reports')
             ->having('reports_count', '>', 0)
             ->orderBy('reports_count', 'desc')
@@ -211,10 +249,14 @@ class PostController extends Controller
 
     public function hiddenPosts(Request $request)
     {
-        $perPage = 5;
+        $perPage = 12;
         $page = $request->input('page', 1);
+        $categories = $request->input('chosenCategory', []);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
+            ->when(!empty($categories), function ($query) use ($categories) {
+                return $query->whereIn('category_id', $categories);
+            })
             ->where('status', 'hide')
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
@@ -229,8 +271,12 @@ class PostController extends Controller
         $perPage = 15;
         $user = auth()->user();
         $page = $request->input('page', 1);
+        $categories = $request->input('chosenCategory', []);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
+            ->when(!empty($categories), function ($query) use ($categories) {
+                return $query->whereIn('category_id', $categories);
+            })
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
@@ -246,7 +292,7 @@ class PostController extends Controller
     {
         $post->delete();
 
-        return response()->json(['msg' => 'Success deleting'], 201);
+        return response()->json(['message' => 'Success deleting'], 201);
     }
 
     public function sendToMainPage(Post $post)
@@ -257,7 +303,7 @@ class PostController extends Controller
         $p = Post::find($post->id);
         session()->flash('toast', 'Success');
 
-        return response()->json(['msg' => 'Success, post sended to main page'], 201);
+        return response()->json(['message' => 'Success, post sended to main page'], 201);
     }
 
     public function hidePost(Post $post)
@@ -266,6 +312,15 @@ class PostController extends Controller
             'status' => 'hide',
         ]);
 
-        return response()->json(['msg' => 'Success, post hidden'], 201);
+        return response()->json(['message' => 'Success, post hidden'], 201);
+    }
+
+    public function unHidePost(Post $post)
+    {
+        Post::where('id', ($post->id))->update([
+            'status' => 'waiting',
+        ]);
+
+        return response()->json(['message' => 'Success, post unhide'], 201);
     }
 }

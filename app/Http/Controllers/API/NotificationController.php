@@ -66,7 +66,7 @@ class NotificationController extends Controller
         if ($notification->save()) {
             return response()->json(201);
         } else {
-            return response()->json(['msg' => 'Error while adding notification'], 500);
+            return response()->json(['message' => 'Error while adding notification'], 500);
         }
     }
 

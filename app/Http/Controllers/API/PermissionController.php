@@ -26,6 +26,6 @@ class PermissionController extends Controller
         $user = User::find($data['user_id']);
         $user->permissions()->sync($data['permission_ids']);
 
-        return response()->json(['msg' => 'Permission assigned']);
+        return response()->json(['message' => 'Permission assigned']);
     }
 }

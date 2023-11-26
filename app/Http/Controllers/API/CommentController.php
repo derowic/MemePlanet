@@ -3,18 +3,43 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function index(Request $request)
+    public function refresh(Request $request)
     {
+        $perPage = 20;
+        $page = $request->input('page', 1);
         $comments = Comment::with(['user:id,name', 'comment:id'])
             ->orderBy('created_at', 'asc')
             ->where('post_id', $request->input('id'))
+            ->take($perPage * $page)
             ->get();
+
+        return CommentResource::collection($comments);
+    }
+
+    public function index(Request $request)
+    {
+        $perPage = 20;
+        $page = $request->input('page', 1);
+        $comments = Comment::with(['user:id,name', 'comment:id'])
+            ->orderBy('created_at', 'asc')
+            ->where('post_id', $request->input('id'))
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get();
+        /*
+        $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
+            ->orderBy('created_at', 'desc')
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get();
+        */
 
         return CommentResource::collection($comments);
     }
@@ -41,11 +66,11 @@ class CommentController extends Controller
 
             return response()->json(['like' => $article->likeCount]);
         } else {
-            return response()->json(['msg' => 'Error while saving like'], 500);
+            return response()->json(['message' => 'Error while saving like'], 500);
         }
     }
 
-    public function store(Request $request)
+    public function store(CommentRequest $request)
     {
         $com = new Comment();
         $com->user_id = auth()->user()->id;
@@ -57,14 +82,16 @@ class CommentController extends Controller
         $com->updated_at = now();
 
         if ($com->save()) {
-            return response()->json(['msg' => 'Comment added'], 201);
+            $com->load(['user:id,name', 'comment:id']);
+
+            return response()->json([
+                'message' => 'Comment added',
+                'data' => $com,
+            ], 201);
         } else {
-            return response()->json(['msg' => 'Error while saving comment'], 500);
+            return response()->json(['message' => 'Error while saving comment'], 500);
         }
     }
-
-
-
 
     public function destroy(Comment $comment)
     {
@@ -72,6 +99,6 @@ class CommentController extends Controller
 
         session()->flash('toast', 'Success');
 
-        return response()->json(['msg' => 'Success deleting comment'], 201);
+        return response()->json(['message' => 'Success deleting comment'], 201);
     }
 }

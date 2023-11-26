@@ -13,7 +13,6 @@ class TagController extends Controller
     {
         $tags = Tag::orderBy('use_count', 'desc')->get();
 
-
         return TagResource::collection($tags);
     }
 
@@ -23,6 +22,6 @@ class TagController extends Controller
         $category->name = $tag->name;
         $category->save();
 
-        return response()->json(['msg' => 'Success, tag is now category'], 200);
+        return response()->json(['message' => 'Success, tag is now category'], 200);
     }
 }

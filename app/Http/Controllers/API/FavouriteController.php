@@ -23,8 +23,10 @@ class FavouriteController extends Controller
         $user = auth()->user();
         $perPage = 15;
         $page = $request->input('page', 1);
+        $categories = $request->input('chosenCategory', []);
 
         $favouritePostIds = Favourite::where('user_id', $user->id)
+
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
@@ -32,6 +34,9 @@ class FavouriteController extends Controller
             ->toArray();
 
         $posts = Post::whereIn('id', $favouritePostIds)
+            ->when(!empty($categories), function ($query) use ($categories) {
+                return $query->whereIn('category_id', $categories);
+            })
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -50,7 +55,7 @@ class FavouriteController extends Controller
             if ($favouriteRecord == true) {
                 Favourite::find($favouriteRecord->id)->forceDelete();
 
-                return response()->json(['msg' => 'Post removed from favourites']);
+                return response()->json(['message' => 'Post removed from favourites']);
 
             } else {
                 $tmp = new Favourite();
@@ -61,13 +66,13 @@ class FavouriteController extends Controller
                 $tmp->save();
                 if ($tmp->save()) {
 
-                    return response()->json(['msg' => 'Post added to favourite'], 201);
+                    return response()->json(['message' => 'Post added to favourite'], 201);
                 } else {
-                    return response()->json(['msg' => 'Error while adding post to favourites'], 500);
+                    return response()->json(['message' => 'Error while adding post to favourites'], 500);
                 }
             }
         } else {
-            return response()->json(['msg' => 'Error'], 500);
+            return response()->json(['message' => 'Error'], 500);
         }
     }
 }
