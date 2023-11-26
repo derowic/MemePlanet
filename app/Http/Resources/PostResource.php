@@ -22,6 +22,7 @@ class PostResource extends JsonResource
             'is_liked' => $this->is_liked,
             'is_fav' => $this->is_favorite,
             'reports' => $this->reports ?? null,
+            'comment_count' => $this->comment_count,
         ];
     }
 }
