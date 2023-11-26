@@ -13,6 +13,7 @@ function Img({ post, postDetailsView, setIsOpen }) {
         width: 0,
         height: 0,
     });
+    const [customClass, setCustomClass] = useState("");
 
     const setFullImage = () => {
         setShowFull(true);
@@ -22,8 +23,9 @@ function Img({ post, postDetailsView, setIsOpen }) {
     isTallImage = imageDimensions.height > window.screen.height;
 
     useEffect(() => {
+        console.log("mm");
         const img = new Image();
-        img.src = "/storage/photos/" + post.path_to_image;
+        img.src = "/images/" + post.path_to_image;
 
         img.onload = () => {
             const width = img.width;
@@ -31,7 +33,12 @@ function Img({ post, postDetailsView, setIsOpen }) {
             setImageDimensions({ width, height });
 
             if (height > window.innerHeight) {
+                setCustomClass("h-[50vh]  overflow-hidden");
                 isTallImage = true;
+                setFullImage(false);
+
+                console.log(height);
+                console.log("wysokś keranu"," ",window.innerHeight);
             }
         };
     }, [post.path_to_image, post]);
@@ -44,6 +51,8 @@ function Img({ post, postDetailsView, setIsOpen }) {
         setIsOpen(true);
     };
 
+
+
     return (
         <div className="w-full">
             <a
@@ -53,38 +62,30 @@ function Img({ post, postDetailsView, setIsOpen }) {
                     handleImageClick();
                 }}
             >
-                <div
-                    className={
-                        imageDimensions.height > window.innerHeight &&
-                        showFull == false &&
-                        postDetailsView != true
-                            ? "h-[50vh]  overflow-hidden"
-                            : ""
-                    }
-                >
+                <div className={imageDimensions.height>window.innerHeight/2 ? "h-[50vh]  overflow-hidden": ""}>
                     <img
                         id="yourImageId"
                         src={"/images/" + post.path_to_image}
                         alt="Opis obrazka"
-                        className="w-full"
+                        className="text-cetner items-center m-auto"
                     ></img>
                 </div>
             </a>
 
-            {/*
+
             {isTallImage && (
                 <button
                     className="w-full bg-meme_black"
                     onClick={() => setFullImage()}
                 >
-                    {showFull || postDetailsView ? (
+                    {showFull ? (
                         <></>
                     ) : (
                         <div className="bg-[#000] p-2">Show Full Image</div>
                     )}
                 </button>
             )}
-            */}
+
         </div>
     );
 }

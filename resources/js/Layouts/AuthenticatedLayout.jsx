@@ -100,13 +100,6 @@ export default function Authenticated({ header, children,  changeCategory }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        {/*
-                                        <Dropdown.Link
-                                            href={route("profile.edit")}
-                                        >
-                                            Profile
-                                        </Dropdown.Link>
-                                        */}
                                          <Dropdown.Link
                                             href={route("profile.edit")}
                                         >
@@ -119,6 +112,13 @@ export default function Authenticated({ header, children,  changeCategory }) {
                                                 </NavLink>
                                             )}
                                         </Dropdown.Link>
+
+                                        <Dropdown.Link
+                                            href={route("profile.edit")}
+                                        >
+                                            Settings
+                                        </Dropdown.Link>
+
                                         <Dropdown.Link
                                             href={route("logout")}
                                             method="post"

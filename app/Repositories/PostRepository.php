@@ -14,10 +14,12 @@ class PostRepository
         $posts->each(function ($post) use ($favoritePosts) {
             $post->is_favorite = $favoritePosts->contains('post_id', $post->id);
             $post->is_liked = $post->likes()->where('user_id', auth()->id())->exists();
+            $post->comment_count = $post->comments()->count();
         });
 
         return $posts;
     }
+
 
     private function prepareData(PostRequest $request)
     {
