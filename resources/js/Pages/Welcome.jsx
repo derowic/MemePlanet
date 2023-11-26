@@ -64,7 +64,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
             </div>
             */}
 
-            <div className="w-full p-6 text-center text-white font-bold bg-meme_black text-2xl">
+            <div className="w-full sticky top-0 p-6 text-center text-white font-bold bg-meme_black text-2xl">
                 {auth.user ? (
                     <Link href={route("dashboard")} className="">
                         Dashboard
@@ -86,65 +86,42 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
             </div>
             <div className="font-bold bg-meme_black">
                 <div className="flex text-gray-100">
-                    <div className=" w-1/4 mt-6">
-                        <div className="w-full sticky top-20 p-4 sm:rounded-lg ">
-                            <h3 className="w-full text-center mb-2 text-3xl border-b border-meme_violet">
-                                {translation.t("Categories")}
-                            </h3>
-                            <CategoryList
+                    <div className="w-full text-center">
+                        <h2 className="mb-2 text-3xl border-b border-meme_violet">
+                            {translation.t("Meme Planet")}
+                        </h2>
+                        <PostsTypeSelect
+                            selected={selectedPostsType}
+                            setSelected={setSelectedPostsType}
+                            elements={[
+                                [translation.t("Home"), "post.index"],
+                                [translation.t("Top"), "post.top"],
+                                [
+                                    translation.t("Trending"),
+                                    "post.trending",
+                                ],
+                                [translation.t("Fresh"), "post.fresh"],
+                            ]}
+                            setPosts={setPosts}
+                            setRout={setRout}
+                        />
+                        {tags.length > 0 && categories.length > 0 && (
+                            <InfiniteScrollPosts
                                 chosenCategory={chosenCategory}
-                                changeCategory={changeCategory}
+                                posts={posts}
+                                fetchPosts={() =>
+                                    FetchPosts(
+                                        rout,
+                                        { page: page },
+                                        setPosts,
+                                        page,
+                                        setPage,
+                                    )
+                                }
+                                categories={categories}
+                                tags={tags}
                             />
-                        </div>
-                    </div>
-
-                    <div className="w-2/4 mt-2">
-                        <div className="w-full text-center">
-                            <h2 className="mb-2 text-3xl border-b border-meme_violet">
-                                {translation.t("Meme Planet")}
-                            </h2>
-                            <PostsTypeSelect
-                                selected={selectedPostsType}
-                                setSelected={setSelectedPostsType}
-                                elements={[
-                                    [translation.t("Home"), "post.index"],
-                                    [translation.t("Top"), "post.top"],
-                                    [
-                                        translation.t("Trending"),
-                                        "post.trending",
-                                    ],
-                                    [translation.t("Fresh"), "post.fresh"],
-                                ]}
-                                setPosts={setPosts}
-                                setRout={setRout}
-                            />
-                            {tags.length > 0 && categories.length > 0 && (
-                                <InfiniteScrollPosts
-                                    chosenCategory={chosenCategory}
-                                    posts={posts}
-                                    fetchPosts={() =>
-                                        FetchPosts(
-                                            rout,
-                                            { page: page },
-                                            setPosts,
-                                            page,
-                                            setPage,
-                                        )
-                                    }
-                                    categories={categories}
-                                    tags={tags}
-                                />
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="w-1/4 mt-4 ml-4">
-                        <div className="w-full p-4 text-center ">
-                            <h3 className=" w-full text-center mb-2 text-3xl w-full border-b border-meme_violet">
-                                {translation.t("Hot")}
-                            </h3>
-                            <TopPosts tags={tags} />
-                        </div>
+                        )}
                     </div>
                 </div>
             </div>

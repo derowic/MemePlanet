@@ -5,12 +5,21 @@ import AxiosPost from "../API/AxiosPost";
 
 const SendComment = async (postId, text, parentId) => {
     try {
+        /*
+        const response = await axios.post(route("comment.store"), {
+            post_id: postId,
+            comment_id: parentId,
+            text: text,
+        });
+        */
 
         let response = await AxiosPost("comment.store", {
             post_id: postId,
             comment_id: parentId,
             text: text,
         });
+
+        //console.log(response);
 
         let tmp = parentId;
         let type = "comment-comment";
@@ -26,8 +35,9 @@ const SendComment = async (postId, text, parentId) => {
 
         return response;
     } catch (error) {
-        Notify(error);
+        //Notification(error.response.data.msg);
         console.error("SendComment error: ", error);
+        Notify(error);
     }
 };
 export default SendComment;

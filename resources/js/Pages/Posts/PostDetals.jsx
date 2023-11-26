@@ -113,9 +113,9 @@ function PostDetals({
                 let height = img.height;
                 if(height <  window.innerHeight/2)
                 {
-                    height = window.innerHeight*0.75;
+                    height = window.innerHeight*0.85;
                 }
-                setCustomHeight({ height: height + "px" });
+                setCustomHeight({ height: height*0.9 + "px" });
             };
         }
         setLoadComments(false);

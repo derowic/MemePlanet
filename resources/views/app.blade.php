@@ -28,11 +28,11 @@
             }
 
             ::-webkit-scrollbar {
-                width: 6px;
+                width: 3px;
             }
 
             ::-webkit-scrollbar-track {
-                width: 8px;
+                width: 4px;
             }
 
             ::-webkit-scrollbar-thumb {

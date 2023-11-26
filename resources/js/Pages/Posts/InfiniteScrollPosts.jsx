@@ -79,6 +79,12 @@ const InfiniteScrollPosts = ({
         {
             columnNum = 6;
         }
+        /*
+        if(columnNum <=0)
+        {
+            columnNum = 1;
+        }
+        */
         setColumnNumber(columnNum);
 
 

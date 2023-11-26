@@ -3,7 +3,7 @@ import axios from "axios";
 import Notify from "@/Components/Notify";
 
 const AxiosPost = async (rout, routData, data) => {
-    console.log(response);
+
     try {
         const response = await axios.post(route(rout, routData), data);
 
