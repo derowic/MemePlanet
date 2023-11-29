@@ -40,8 +40,6 @@ export default function Account({}) {
     return (
         <AuthenticatedLayout changeCategory={changeCategory}>
             <div className="bg-[#111] flex text-gray-100">
-
-
                 <div className="w-full mt-4">
                     <div className="w-full p-4 text-center ">
                         <PostsTypeSelect
@@ -61,10 +59,10 @@ export default function Account({}) {
                                 posts={posts}
                                 fetchPosts={() =>
                                     AxiosGet(
-                                        rout ,
+                                        rout,
                                         {
                                             page: page,
-                                            chosenCategory: chosenCategory
+                                            chosenCategory: chosenCategory,
                                         },
                                         null,
                                         null,
@@ -79,8 +77,6 @@ export default function Account({}) {
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </AuthenticatedLayout>
     );

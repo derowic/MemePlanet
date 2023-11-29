@@ -20,7 +20,6 @@ class PostRepository
         return $posts;
     }
 
-
     private function prepareData(PostRequest $request)
     {
         $data = [

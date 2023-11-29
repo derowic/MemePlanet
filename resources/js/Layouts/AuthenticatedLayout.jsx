@@ -13,7 +13,7 @@ import CheckRole from "@/Pages/API/CheckRole";
 import NavBar from "./NavBar";
 import CategoryList from "@/Pages/Categories/CategoryList";
 
-export default function Authenticated({ header, children,  changeCategory }) {
+export default function Authenticated({ header, children, changeCategory }) {
     const translation = useTranslation(["dashboard"]);
     const user = usePage().props.auth.user;
 
@@ -47,11 +47,9 @@ export default function Authenticated({ header, children,  changeCategory }) {
                             <div className="shrink-0 flex items-center">
                                 <Link href="/">{/*place for icon */}</Link>
                             </div>
-                            {changeCategory &&
-                                <CategoryList
-                                    changeCategory={changeCategory}
-                                />
-                            }
+                            {changeCategory && (
+                                <CategoryList changeCategory={changeCategory} />
+                            )}
 
                             <div className="sticky top-0 border-b border-meme_blue hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavBar translation={translation} />
@@ -100,13 +98,16 @@ export default function Authenticated({ header, children,  changeCategory }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                         <Dropdown.Link
+                                        <Dropdown.Link
                                             href={route("profile.edit")}
                                         >
-                                            {(CheckRole("admin") || CheckRole("user")) && (
+                                            {(CheckRole("admin") ||
+                                                CheckRole("user")) && (
                                                 <NavLink
                                                     href={route("account")}
-                                                    active={route().current("account")}
+                                                    active={route().current(
+                                                        "account",
+                                                    )}
                                                 >
                                                     {translation.t("Account")}
                                                 </NavLink>

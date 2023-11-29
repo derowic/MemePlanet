@@ -37,90 +37,72 @@ function PostModeratorView({ post, tags, showOptions }) {
 
     return (
         <>
+            {hide ? (
+                <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
+                    <UnHide post={post} hide={hideFunc} />
+                </div>
+            ) : (
+                <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
+                    <h3 className="text-left font-semibold mb-2 w-full">
+                        {post.id} {post.title}
+                    </h3>
+                    <div className="text-left text-xs mb-2">
+                        {post.user.name}
+                    </div>
+                    <div className="text-left text-xs ">
+                        {post.category.name}
+                    </div>
+                    <Tags post={post} tags={tags} />
+                    <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
+                        {post.text}
+                    </div>
+                    <Img
+                        post={post}
+                        loadCommentsFunc={loadCommentsFunc}
+                        setIsOpen={setIsOpen}
+                    />
 
-                    {hide ? (
-                        <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
-                            <UnHide post={post} hide={hideFunc} />
-                        </div>
-                    ) : (
-
-                        <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
-
-                            <h3 className="text-left font-semibold mb-2 w-full">
-                                {post.id} {post.title}
-                            </h3>
-                            <div className="text-left text-xs mb-2">
-                                {post.user.name}
-                            </div>
-                            <div className="text-left text-xs ">
-                                {post.category.name}
-                            </div>
-                            <Tags post={post} tags={tags} />
-                            <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
-                                {post.text}
-                            </div>
-                            <Img
-                                post={post}
-                                loadCommentsFunc={loadCommentsFunc}
-                                setIsOpen={setIsOpen}
+                    {showOptions && (
+                        <div className="flex flex-wrap">
+                            <Like
+                                elementId={post.id}
+                                elementType={"post"}
+                                likes={post.likes}
+                                is_liked={post.is_liked}
                             />
 
-                            {showOptions && (
-                                <div className="flex flex-wrap">
-                                    <Like
-                                        elementId={post.id}
-                                        elementType={"post"}
-                                        likes={post.likes}
-                                        is_liked={post.is_liked}
-                                    />
+                            <Fav postId={post.id} is_Fav={post.is_fav} />
 
-                                    <Fav
-                                        postId={post.id}
-                                        is_Fav={post.is_fav}
-                                    />
+                            <ReportDialog
+                                post={post}
+                                defaultButtonText={"!"}
+                                modalTitle={""}
+                                modalDescription={"Select report reason"}
+                            />
 
-                                    <ReportDialog
-                                        post={post}
-                                        defaultButtonText={"!"}
-                                        modalTitle={""}
-                                        modalDescription={
-                                            "Select report reason"
-                                        }
-                                    />
-
-                                    <PostDetals
-                                        post={post}
-                                        isOpen={isOpen}
-                                        setIsOpen={setIsOpen}
-                                        loadComments={loadComments}
-                                        setLoadComments={setLoadComments}
-                                    />
-                                </div>
-                            )}
-                            {user &&
-                                (user.roles.some(
-                                    (role) => role.name === "admin",
-                                ) ||
-                                    user.roles.some(
-                                        (role) => role.name === "moderator",
-                                    )) && (
-                                    <>
-                                        <HidePost
-                                            post={post}
-                                            hide={hideFunc}
-                                        />
-
-
-                                        <div className="flex text-center justify-center">
-
-                                        </div>
-                                    </>
-                                )}
+                            <PostDetals
+                                post={post}
+                                isOpen={isOpen}
+                                setIsOpen={setIsOpen}
+                                loadComments={loadComments}
+                                setLoadComments={setLoadComments}
+                            />
                         </div>
                     )}
-                </>
+                    {user &&
+                        (user.roles.some((role) => role.name === "admin") ||
+                            user.roles.some(
+                                (role) => role.name === "moderator",
+                            )) && (
+                            <>
+                                <HidePost post={post} hide={hideFunc} />
 
-
+                                <div className="flex text-center justify-center"></div>
+                            </>
+                        )}
+                </div>
+            )}
+        </>
     );
 }
 

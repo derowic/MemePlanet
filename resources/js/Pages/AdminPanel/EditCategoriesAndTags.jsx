@@ -36,21 +36,21 @@ export default function EditCategoriesAndTags() {
     };
 
     const deleteCategory = (deletedCategory) => {
-        AxiosDelete("category.destroy",{ id: deletedCategory.id },null,);
+        AxiosDelete("category.destroy", { id: deletedCategory.id }, null);
         refresh();
     };
 
     const improveTag = (tag) => {
-        AxiosPut("tag.improveTag",{ tag:tag.id }, null)
+        AxiosPut("tag.improveTag", { tag: tag.id }, null);
         refresh();
     };
 
-    const refresh = () =>{
+    const refresh = () => {
         //setTags([]);
         //setCategories([]);
-        AxiosGet("tag.index", null, null,  setTags);
+        AxiosGet("tag.index", null, null, setTags);
         AxiosGet("category.index", null, null, setCategories);
-    }
+    };
 
     useEffect(() => {
         refresh();
@@ -58,62 +58,65 @@ export default function EditCategoriesAndTags() {
 
     return (
         <>
-        <div className="text-white w-full items-center justify-center text-center">
-        <AddNewCategory
-                defaultButtonText={"Add new category"}
-                modalTitle={"Adding new category"}
-                modalDescription
-                primaryButtonText={"Add"}
-                primaryButtonOnClick={null}
-                secondaryButtonText={"Cancel"}
-                secondaryButtonOnClick={null}
+            <div className="text-white w-full items-center justify-center text-center">
+                <AddNewCategory
+                    defaultButtonText={"Add new category"}
+                    modalTitle={"Adding new category"}
+                    modalDescription
+                    primaryButtonText={"Add"}
+                    primaryButtonOnClick={null}
+                    secondaryButtonText={"Cancel"}
+                    secondaryButtonOnClick={null}
+                />
+                <div className="flex">
+                    <div className="w-1/2 ">
+                        <h2 className="mb-4 text-center w-full">Categories</h2>
+                        <div className="h-[85vh] overflow-y-auto custom-scroll  items-center ">
+                            {categories &&
+                                categories.map((category) => (
+                                    <div
+                                        key={category.id}
+                                        className="bg-red-yellow flex justify-between m-2"
+                                    >
+                                        {category.name}
 
-            />
-        <div className="flex">
-            <div className="w-1/2 ">
-                <h2 className="mb-4 text-center w-full">Categories</h2>
-                <div className="h-[85vh] overflow-y-auto custom-scroll  items-center ">
-                    {categories &&
-                        categories.map((category) => (
-                            <div key={category.id} className="bg-red-yellow flex justify-between m-2">
-                            {category.name}
-
-                                <DefaultButton
-                                    className={
-                                        "p-2 m-2 bg-red-500 hover:bg-red-400 rounded-lg text-right align-right item-right"
-                                    }
-                                    text={"Delete"}
-                                    onClick={() => deleteCategory(category)}
-                                />
-
+                                        <DefaultButton
+                                            className={
+                                                "p-2 m-2 bg-red-500 hover:bg-red-400 rounded-lg text-right align-right item-right"
+                                            }
+                                            text={"Delete"}
+                                            onClick={() =>
+                                                deleteCategory(category)
+                                            }
+                                        />
+                                    </div>
+                                ))}
                         </div>
+                    </div>
 
-                    ))}
+                    <div className="w-1/2 ">
+                        <h2 className="mb-4 text-center w-full">Tags</h2>
+                        <div className="h-[85vh] overflow-y-auto custom-scroll  items-center  m-2">
+                            {tags &&
+                                tags.map((tag) => (
+                                    <div
+                                        key={tag.id}
+                                        className="bg-red-yellow flex justify-between m-2"
+                                    >
+                                        <div>{tag.name}:</div>
+                                        <div> {tag.use_count}</div>
+
+                                        <DefaultButton
+                                            className="bg-green-600 hover:bg-green-400 p-2 rounded-lg m-2"
+                                            text={"Improve to category "}
+                                            onClick={() => improveTag(tag)}
+                                        />
+                                    </div>
+                                ))}
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div className="w-1/2 ">
-                <h2 className="mb-4 text-center w-full">Tags</h2>
-                <div className="h-[85vh] overflow-y-auto custom-scroll  items-center  m-2">
-                    {tags &&
-                        tags.map((tag) => (
-                            <div key={tag.id} className="bg-red-yellow flex justify-between m-2">
-                            <div>{tag.name}:</div>
-                            <div> {tag.use_count}</div>
-
-                                <DefaultButton
-                                    className="bg-green-600 hover:bg-green-400 p-2 rounded-lg m-2"
-                                    text={"Improve to category "}
-                                    onClick={() =>
-                                        improveTag(tag)
-                                    }
-                                />
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </div>
-        </div>
         </>
     );
 }

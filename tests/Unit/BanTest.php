@@ -61,7 +61,6 @@ class BanTest extends TestCase
         $response->assertStatus(200)
             ->assertJson(['data' => true]);
 
-
         $banListRecord = BanList::where('user_id', $bannedUser->id)->first();
 
         if ($banListRecord) {

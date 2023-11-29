@@ -43,7 +43,13 @@ const ReportListDialog = ({
                 className="rounded-lg fixed inset-0 flex items-center justify-center z-50 "
             >
                 <Dialog.Panel className="bg-[#222] text-white p-4 rounded-lg shadow-md w-1/2 border-2 border-blue-500">
-                    <DefaultButton onClick={closeDialog} text={"Close"} className={"p-2 m-2 border-2 rounded-lg  border-blue-500"} />
+                    <DefaultButton
+                        onClick={closeDialog}
+                        text={"Close"}
+                        className={
+                            "p-2 m-2 border-2 rounded-lg  border-blue-500"
+                        }
+                    />
                     <Dialog.Title>{modalTitle}</Dialog.Title>
                     <Dialog.Description>{modalDescription}</Dialog.Description>
                     <div className="mt-4 justify-end">

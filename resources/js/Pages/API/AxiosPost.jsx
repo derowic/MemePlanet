@@ -3,7 +3,6 @@ import axios from "axios";
 import Notify from "@/Components/Notify";
 
 const AxiosPost = async (rout, routData, data) => {
-
     try {
         const response = await axios.post(route(rout, routData), data);
 
@@ -11,7 +10,7 @@ const AxiosPost = async (rout, routData, data) => {
 
         return response.data.data;
     } catch (error) {
-        Notify(error.response.data.message,'error');
+        Notify(error.response.data.message, "error");
         console.error("Axios post error: ", error);
     }
 };

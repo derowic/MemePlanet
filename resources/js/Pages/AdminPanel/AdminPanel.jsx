@@ -41,7 +41,6 @@ export default function AdminPanel() {
         <AuthenticatedLayout changeCategory={changeCategory}>
             <div className="font-bold bg-[#111] h-full">
                 <div className="text-gray-100">
-
                     <div className="w-full mt-4 ml-4">
                         <div className="w-full p-4 text-center ">
                             <h3 className=" w-full text-center mb-2 text-2xl w-full">
@@ -93,30 +92,30 @@ export default function AdminPanel() {
                                 setPosts={setPosts}
                                 setRout={setRout}
                             />
-                            {tags.length >= 0 &&
-                                categories.length > 0 &&
-
-                                    <InfiniteScrollPosts
-                                        chosenCategory={chosenCategory}
-                                        posts={posts}
-                                        fetchPosts={() =>
-                                            AxiosGet(
-                                                chosenCategory.length > 0 ?  rout: rout ,
-                                                {
-                                                    page: page,
-                                                    chosenCategory: chosenCategory
-                                                },
-                                                null,
-                                                null,
-                                            )
-                                        }
-                                        categories={categories}
-                                        tags={tags}
-                                        setPosts={setPosts}
-                                        page={page}
-                                        setPage={setPage}
-                                    />
-                                }
+                            {tags.length >= 0 && categories.length > 0 && (
+                                <InfiniteScrollPosts
+                                    chosenCategory={chosenCategory}
+                                    posts={posts}
+                                    fetchPosts={() =>
+                                        AxiosGet(
+                                            chosenCategory.length > 0
+                                                ? rout
+                                                : rout,
+                                            {
+                                                page: page,
+                                                chosenCategory: chosenCategory,
+                                            },
+                                            null,
+                                            null,
+                                        )
+                                    }
+                                    categories={categories}
+                                    tags={tags}
+                                    setPosts={setPosts}
+                                    page={page}
+                                    setPage={setPage}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>

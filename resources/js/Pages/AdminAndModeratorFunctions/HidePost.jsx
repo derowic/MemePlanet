@@ -15,8 +15,6 @@ function HidePost({ post, hide }) {
         hide();
     };
 
-
-
     return (
         <>
             <div className="block">

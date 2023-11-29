@@ -43,7 +43,6 @@ Route::get('/fresh', [PostController::class, 'fresh'])->name('post.fresh');
 Route::get('/show/{post}', [PostController::class, 'show'])->name('post.show');
 Route::get('/post/categories', [PostController::class, 'postsFromCategories'])->name('post.categories');
 
-
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
 
 Route::get('/tag', [TagController::class, 'index'])->name('tag.index');
@@ -60,8 +59,6 @@ Route::get('/comment/refresh', [CommentController::class, 'refresh'])->name('com
 Route::get('/ban', [BanController::class, 'index'])->name('ban.index');
 
 Route::get('/report', [ReportController::class, 'index'])->name('report.index');
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -119,7 +116,6 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['checkModeratorRole'])->group(function () {
         Route::put('/hdie/{post}/hide', [PostController::class, 'hidePost'])->name('post.hidePost');
         Route::put('/hdie/{post}/unHide', [PostController::class, 'unHidePost'])->name('post.unHidePost');
-
 
         Route::middleware(['checkAdminRole'])->group(function () {
 

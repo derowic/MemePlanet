@@ -4,9 +4,9 @@ import Notify from "@/Components/Notify";
 
 const AxiosGet = async (rout, routData, data, setData) => {
     //console.log(rout," ",routData);
-    return await axios.get(route(rout, routData), data)
+    return await axios
+        .get(route(rout, routData), data)
         .then((response) => {
-
             Notify(response.data.message, null, response.status);
             if (setData) {
                 setData(response.data.data);

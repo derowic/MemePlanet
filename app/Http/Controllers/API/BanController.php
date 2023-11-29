@@ -43,11 +43,11 @@ class BanController extends Controller
             $user->roles()->sync(Role::where('name', 'user')->first()->id);
 
             return response()->json([
-                'data' => false,201
+                'data' => false, 201,
             ]);
         } elseif ($targetDate > $currentDate) {
             return response()->json([
-                'data' => true,201
+                'data' => true, 201,
             ]);
         } else {
             return response()->json([
@@ -70,7 +70,7 @@ class BanController extends Controller
             $tmp = $user->update(['ban_list_id' => $ban->id]);
 
             if ($ban->save()) {
-                return response()->json(['message' => "User banned"], 201);
+                return response()->json(['message' => 'User banned'], 201);
             } else {
                 return response()->json(['message' => 'Error'], 500);
             }
@@ -82,13 +82,14 @@ class BanController extends Controller
     public function unBan(User $user)
     {
         $ban = BanList::where('user_id', $user->id)->first();
-        if($ban)
-        {
+        if ($ban) {
             $ban->delete();
             $user->ban_list_id = null;
             $user->save();
+
             return response()->json(['msg' => 'User unbanned'], 201);
         }
+
         return response()->json(['msg' => 'Not found user'], 201);
 
     }

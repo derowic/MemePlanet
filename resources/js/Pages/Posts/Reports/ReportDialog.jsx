@@ -66,7 +66,9 @@ const ReportDialog = ({
                         }
                     />
                     <Dialog.Title>{modalTitle}</Dialog.Title>
-                    <Dialog.Description className={"mt-2"}>{modalDescription}</Dialog.Description>
+                    <Dialog.Description className={"mt-2"}>
+                        {modalDescription}
+                    </Dialog.Description>
                     <div className="mt-4 justify-end">
                         {reports ? (
                             reports.map((report) => (

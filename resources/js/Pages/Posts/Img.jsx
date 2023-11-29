@@ -37,11 +37,10 @@ function Img({ post, postDetailsView, setIsOpen }) {
     }, [post.path_to_image, post]);
 
     const handleImageClick = () => {
-        // Tutaj możesz umieścić kod obsługujący kliknięcie lewym przyciskiem
-        // np. wywołanie innej funkcji
-
-        console.log("Kliknięcie lewym przyciskiem");
-        setIsOpen(true);
+        if(setIsOpen)
+        {
+            setIsOpen(true);
+        }
     };
 
     return (
@@ -63,10 +62,10 @@ function Img({ post, postDetailsView, setIsOpen }) {
                     }
                 >
                     <img
-                        id="yourImageId"
+                        id={"yourImage"+post.id}
                         src={"/images/" + post.path_to_image}
                         alt="Opis obrazka"
-                        className="m-auto w-3/4"
+                        className="m-auto w-full"
                     ></img>
                 </div>
             </a>

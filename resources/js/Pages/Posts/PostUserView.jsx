@@ -25,7 +25,7 @@ function PostUserView({ post, tags, showOptions }) {
 
     return (
         <>
-            {post.status != "hide" &&
+            {post.status != "hide" && (
                 <>
                     <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
                         <h3 className="text-left font-semibold mb-2 w-full">
@@ -56,18 +56,13 @@ function PostUserView({ post, tags, showOptions }) {
                                     is_liked={post.is_liked}
                                 />
 
-                                <Fav
-                                    postId={post.id}
-                                    is_Fav={post.is_fav}
-                                />
+                                <Fav postId={post.id} is_Fav={post.is_fav} />
 
                                 <ReportDialog
                                     post={post}
                                     defaultButtonText={"!"}
                                     modalTitle={""}
-                                    modalDescription={
-                                        "Select report reason"
-                                    }
+                                    modalDescription={"Select report reason"}
                                 />
 
                                 <PostDetals
@@ -81,7 +76,7 @@ function PostUserView({ post, tags, showOptions }) {
                         )}
                     </div>
                 </>
-            }
+            )}
         </>
     );
 }

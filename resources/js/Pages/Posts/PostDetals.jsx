@@ -111,11 +111,10 @@ function PostDetals({
             img.src = "/images/" + post.path_to_image;
             img.onload = () => {
                 let height = img.height;
-                if(height <  window.innerHeight/2)
-                {
-                    height = window.innerHeight*0.85;
+                if (height < window.innerHeight / 2) {
+                    height = window.innerHeight * 0.85;
                 }
-                setCustomHeight({ height: height*0.9 + "px" });
+                setCustomHeight({ height: height * 0.9 + "px" });
             };
         }
         setLoadComments(false);
@@ -154,7 +153,7 @@ function PostDetals({
                     <div className="w-full m-auto flex">
                         <div className="m-auto flex w-full">
                             <div className="w-1/2 flex items-center justify-center">
-                                <div className="w-full justify-center p-4">
+                                <div className="w-3/4 justify-center p-4">
                                     <Img
                                         post={post}
                                         loadCommentsFunc={null}

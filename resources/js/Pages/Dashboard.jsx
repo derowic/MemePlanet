@@ -49,7 +49,9 @@ export default function Dashboard() {
                 <div className="flex text-gray-100">
                     <div className="w-full mt-2">
                         <div className="w-full text-center">
-                            <BanInfo data={user} />
+                            { user &&
+                             <BanInfo data={user} />
+                            }
                             <h2 className="mb-2 text-3xl border-b border-meme_violet">
                                 {translation.t("Meme Planet")}
                             </h2>
@@ -59,25 +61,24 @@ export default function Dashboard() {
                                 elements={[
                                     [translation.t("Home"), "post.index"],
                                     [translation.t("Top"), "post.top"],
-                                    [
-                                        translation.t("Trending"),
-                                        "post.trending",
-                                    ],
+                                    //[translation.t("Trending"),"post.trending",],
                                     [translation.t("Fresh"), "post.fresh"],
                                 ]}
                                 setPosts={setPosts}
                                 setRout={setRout}
                             />
-                            {tags.length >= 0 && categories.length > 0 && (
+                            {(tags.length >= 0 && categories.length > 0 && setPage  && setPosts) && (
                                 <InfiniteScrollPosts
                                     chosenCategory={chosenCategory}
                                     posts={posts}
                                     fetchPosts={() =>
                                         AxiosGet(
-                                            chosenCategory.length > 0 ?  rout: rout ,
+                                            chosenCategory.length > 0
+                                                ? rout
+                                                : rout,
                                             {
                                                 page: page,
-                                                chosenCategory: chosenCategory
+                                                chosenCategory: chosenCategory,
                                             },
                                             null,
                                             null,

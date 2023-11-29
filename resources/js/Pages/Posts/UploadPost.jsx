@@ -40,7 +40,7 @@ const UploadPost = ({ categories, tags }) => {
             } catch (error) {
                 console.error("UploadPost error: ", error);
                 //Notify(error);
-                Notify(error.response.data.message,'error');
+                Notify(error.response.data.message, "error");
             }
         } else {
             toast.warning("Set all inputs");

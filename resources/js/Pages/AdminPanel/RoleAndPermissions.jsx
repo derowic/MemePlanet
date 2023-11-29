@@ -89,29 +89,30 @@ export default function RoleAndPermissions() {
 
     const removeBannedUser = (bannedUser) => {
         setBannedUsers((prevBannedUsers) =>
-            prevBannedUsers.filter((user) => user !== bannedUser)
+            prevBannedUsers.filter((user) => user !== bannedUser),
         );
     };
 
-    const unBan = async (user) =>
-    {
-        AxiosPost("ban.unBan",{ user: user.id },null);
+    const unBan = async (user) => {
+        AxiosPost("ban.unBan", { user: user.id }, null);
         removeBannedUser(user);
-    }
+    };
 
     return (
         <AuthenticatedLayout>
             <div className="flex">
-            <div className="p-2 font-bold bg-meme_black text-white justify-center items-center w-1/2 ">
-                <div className="text-center">
-                    <h1>Wybierz Uprawnienia i Przypisz do Użytkownika</h1>
-                    <div className=" border-b-2 ">
-                        <div className="text-black">
-                            <SearchUser setSelectedUser={setSelectedUser} />
-                        </div>
+                <div className="p-2 font-bold bg-meme_black text-white justify-center items-center w-1/2 ">
+                    <div className="text-center">
+                        <h1>Wybierz Uprawnienia i Przypisz do Użytkownika</h1>
+                        <div className=" border-b-2 ">
+                            <div className="text-black">
+                                <SearchUser setSelectedUser={setSelectedUser} />
+                            </div>
 
-                        <h2>Użytkownik: {selectedUser && selectedUser.name}</h2>
-                        {/*<select
+                            <h2>
+                                Użytkownik: {selectedUser && selectedUser.name}
+                            </h2>
+                            {/*<select
                             onChange={(e) => setSelectedUser(e.target.value)}
                             className="text-black"
                         >
@@ -124,118 +125,135 @@ export default function RoleAndPermissions() {
                         </select>
                             */}
 
-                        <div className="w-full flex">
-                            <div className="w-1/2 ">
-                                <div className="text-2xl">Permissions: </div>
-                                {selectedUser &&
-                                    selectedUser.permissions.map((permi) => (
-                                        <div>{permi.name}</div>
-                                    ))}
-                            </div>
-                            <div className="w-1/2 ">
-                                <div className="text-2xl">Role: </div>
-                                {selectedUser &&
-                                    selectedUser.roles.map((role) => (
-                                        <div>{role.name}</div>
-                                    ))}
+                            <div className="w-full flex">
+                                <div className="w-1/2 ">
+                                    <div className="text-2xl">
+                                        Permissions:{" "}
+                                    </div>
+                                    {selectedUser &&
+                                        selectedUser.permissions.map(
+                                            (permi) => <div>{permi.name}</div>,
+                                        )}
+                                </div>
+                                <div className="w-1/2 ">
+                                    <div className="text-2xl">Role: </div>
+                                    {selectedUser &&
+                                        selectedUser.roles.map((role) => (
+                                            <div>{role.name}</div>
+                                        ))}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="flex  text-white justify-center items-center">
-                    <div className="w-1/2  text-white justify-center items-center">
-                        <h2>Uprawnienia</h2>
-                        <ul>
-                            {permissions.map((permission) => (
-                                <li key={permission.id}>
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            value={permission.id}
-                                            checked={selectedPermissions.includes(
-                                                permission.id,
-                                            )}
-                                            onChange={() =>
-                                                togglePermission(permission.id)
-                                            }
-                                        />
-                                        {permission.name}
-                                    </label>
-                                </li>
-                            ))}
-                        </ul>
-                        <DefaultButton
-                            text={"Przypisz Uprawnienia"}
-                            onClick={assignPermissions}
-                            className={"p-3 rounded-lg border border-green-500  hover:bg-green-400 m-2"}
-                        />
+                    <div className="flex  text-white justify-center items-center">
+                        <div className="w-1/2  text-white justify-center items-center">
+                            <h2>Uprawnienia</h2>
+                            <ul>
+                                {permissions.map((permission) => (
+                                    <li key={permission.id}>
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                value={permission.id}
+                                                checked={selectedPermissions.includes(
+                                                    permission.id,
+                                                )}
+                                                onChange={() =>
+                                                    togglePermission(
+                                                        permission.id,
+                                                    )
+                                                }
+                                            />
+                                            {permission.name}
+                                        </label>
+                                    </li>
+                                ))}
+                            </ul>
+                            <DefaultButton
+                                text={"Przypisz Uprawnienia"}
+                                onClick={assignPermissions}
+                                className={
+                                    "p-3 rounded-lg border border-green-500  hover:bg-green-400 m-2"
+                                }
+                            />
+                        </div>
+                        <div className="w-1/2 text-white text-center justify-center items-center">
+                            <h2>Rola</h2>
+                            <ul>
+                                {roles.map((role) => (
+                                    <li
+                                        key={role.id}
+                                        className="text-left w-1/2"
+                                    >
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                value={role.id}
+                                                checked={selectedRoles.includes(
+                                                    role.id,
+                                                )}
+                                                onChange={() =>
+                                                    toggleRole(role.id)
+                                                }
+                                            />
+                                            {role.name}
+                                        </label>
+                                    </li>
+                                ))}
+                            </ul>
+                            <DefaultButton
+                                text={"Przypisz Role"}
+                                onClick={assignRoles}
+                                className={
+                                    "p-3 rounded-lg border border-green-500  hover:bg-green-400 m-2"
+                                }
+                            />
+                        </div>
                     </div>
-                    <div className="w-1/2 text-white text-center justify-center items-center">
-                        <h2>Rola</h2>
-                        <ul>
-                            {roles.map((role) => (
-                                <li key={role.id} className="text-left w-1/2">
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            value={role.id}
-                                            checked={selectedRoles.includes(
-                                                role.id,
-                                            )}
-                                            onChange={() => toggleRole(role.id)}
-                                        />
-                                        {role.name}
-                                    </label>
-                                </li>
-                            ))}
-                        </ul>
-                        <DefaultButton
-                            text={"Przypisz Role"}
-                            onClick={assignRoles}
-                            className={"p-3 rounded-lg border border-green-500  hover:bg-green-400 m-2"}
-                        />
-                    </div>
-                </div>
-                <div className="flex w-full text-center border-t-2 mt-5 text-2xl">
-                    <div className="w-1/3">
-                        Admins
-                        {admins &&
-                            admins.map((admin) => (
-                                <div key={admin.id} className="text-base">
-                                    {admin.name}
-                                </div>
-                            ))}
-                    </div>
+                    <div className="flex w-full text-center border-t-2 mt-5 text-2xl">
+                        <div className="w-1/3">
+                            Admins
+                            {admins &&
+                                admins.map((admin) => (
+                                    <div key={admin.id} className="text-base">
+                                        {admin.name}
+                                    </div>
+                                ))}
+                        </div>
 
-                    <div className="w-1/3">
-                        Moderators
-                        {moderators.map((moderator) => (
-                            <div key={moderator.id} className="text-base">
-                                {moderator.name}
-                            </div>
-                        ))}
-                    </div>
-                    <div className="w-1/3">
-                        Banned Users
-                        {bannedUsers.map((bannedUser) => (
-                            <div className="flex text-base justify-between">
-                                <div key={bannedUser.id}
-                                    className="text-base h-full p-3 m-2 items-center justify-center">
-                                    {bannedUser.name}
+                        <div className="w-1/3">
+                            Moderators
+                            {moderators.map((moderator) => (
+                                <div key={moderator.id} className="text-base">
+                                    {moderator.name}
                                 </div>
-                                <DefaultButton
-                                    text={"Unban user"}
-                                    onClick={() => unBan(bannedUser)}
-                                    className={"p-3 rounded-lg border border-yellow-500  hover:bg-yellow-400 m-2"}
-                                />
-                            </div>
-                        ))}
+                            ))}
+                        </div>
+                        <div className="w-1/3">
+                            Banned Users
+                            {bannedUsers.map((bannedUser) => (
+                                <div className="flex text-base justify-between">
+                                    <div
+                                        key={bannedUser.id}
+                                        className="text-base h-full p-3 m-2 items-center justify-center"
+                                    >
+                                        {bannedUser.name}
+                                    </div>
+                                    <DefaultButton
+                                        text={"Unban user"}
+                                        onClick={() => unBan(bannedUser)}
+                                        className={
+                                            "p-3 rounded-lg border border-yellow-500  hover:bg-yellow-400 m-2"
+                                        }
+                                    />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="w-1/2 px-2">
-                <EditCategoriesAndTags/>
-            </div>
+                <div className="w-1/2 px-2">
+                    <EditCategoriesAndTags />
+                </div>
             </div>
         </AuthenticatedLayout>
     );

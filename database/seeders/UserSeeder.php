@@ -46,8 +46,6 @@ class UserSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
-
-
         if (isset($moderatorRole)) {
             $moderator->assignRole($moderatorRole);
 

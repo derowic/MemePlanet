@@ -22,7 +22,12 @@ import AxiosGet from "./API/AxiosGet";
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
     const translation = useTranslation(["dashboard"]);
-    const [chosenCategory, setChosenCategory] = useState(0);
+
+    const [chosenCategory, setChosenCategory] = useState([]);
+    const changeCategory = (tmp) => {
+        setChosenCategory(tmp);
+        setPage(1);
+    };
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
     const [tags, setTags] = useState([]);
@@ -30,14 +35,8 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
     const [selectedPostsType, setSelectedPostsType] = useState(
         translation.t("Home"),
     );
-
-    const user = usePage().props.auth.user;
-    //console.log(user);
     const [rout, setRout] = useState("post.index");
 
-    const changeCategory = (tmp) => {
-        setChosenCategory(tmp);
-    };
 
     useEffect(() => {
         AxiosGet("tag.index", null, null, setTags);
@@ -96,32 +95,36 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             elements={[
                                 [translation.t("Home"), "post.index"],
                                 [translation.t("Top"), "post.top"],
-                                [
-                                    translation.t("Trending"),
-                                    "post.trending",
-                                ],
+                                //[translation.t("Trending"), "post.trending"],
                                 [translation.t("Fresh"), "post.fresh"],
                             ]}
                             setPosts={setPosts}
                             setRout={setRout}
                         />
-                        {tags.length > 0 && categories.length > 0 && (
-                            <InfiniteScrollPosts
-                                chosenCategory={chosenCategory}
-                                posts={posts}
-                                fetchPosts={() =>
-                                    FetchPosts(
-                                        rout,
-                                        { page: page },
-                                        setPosts,
-                                        page,
-                                        setPage,
-                                    )
-                                }
-                                categories={categories}
-                                tags={tags}
-                            />
-                        )}
+                        {(tags.length >= 0 && categories.length > 0 && setPage  && setPosts) && (
+                                <InfiniteScrollPosts
+                                    chosenCategory={chosenCategory}
+                                    posts={posts}
+                                    fetchPosts={() =>
+                                        AxiosGet(
+                                            chosenCategory.length > 0
+                                                ? rout
+                                                : rout,
+                                            {
+                                                page: page,
+                                                chosenCategory: chosenCategory,
+                                            },
+                                            null,
+                                            null,
+                                        )
+                                    }
+                                    categories={categories}
+                                    tags={tags}
+                                    setPosts={setPosts}
+                                    page={page}
+                                    setPage={setPage}
+                                />
+                            )}
                     </div>
                 </div>
             </div>

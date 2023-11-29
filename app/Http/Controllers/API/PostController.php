@@ -16,49 +16,48 @@ use Inertia\Response;
 class PostController extends Controller
 {
     protected $postRepository;
+    protected $perPage = 42;
 
     public function __construct(PostRepository $postRepository)
     {
         $this->postRepository = $postRepository;
     }
 
-
     public function postsFromCategories(Request $request)
     {
-        $perPage = 12;
+        $this->perPage = 12;
         $page = $request->input('page', 1);
         $categories = $request->input('chosenCategory', []);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
             ->where('status', 'main page')
-            ->when(!empty($categories), function ($query) use ($categories) {
+            ->when(! empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
             ->where('status', '<>', 'deleted') // Dodaj ten warunek
             ->orderBy('created_at', 'desc')
-            ->skip(($page - 1) * $perPage)
-            ->take($perPage)
+            ->skip(($page - 1) * $this->perPage)
+            ->take($this->perPage)
             ->get();
 
         return PostResource::collection(auth()->check() ? $this->postRepository->addLikesAndFavs($posts) : $posts);
     }
 
-
     public function index(Request $request)
     {
-        $perPage = 12;
+
         $page = $request->input('page', 1);
         $categories = $request->input('chosenCategory', []);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
             ->where('status', 'main page')
-            ->when(!empty($categories), function ($query) use ($categories) {
+            ->when(! empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
             ->where('status', '<>', 'deleted') // Dodaj ten warunek
             ->orderBy('created_at', 'desc')
-            ->skip(($page - 1) * $perPage)
-            ->take($perPage)
+            ->skip(($page - 1) * $this->perPage)
+            ->take($this->perPage)
             ->get();
 
         return PostResource::collection(auth()->check() ? $this->postRepository->addLikesAndFavs($posts) : $posts);
@@ -66,65 +65,65 @@ class PostController extends Controller
 
     public function fresh(Request $request)
     {
-        $perPage = 12;
+
         $page = $request->input('page', 1);
         $categories = $request->input('chosenCategory', []);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
-            ->when(!empty($categories), function ($query) use ($categories) {
+            ->when(! empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
             ->where('status', '<>', 'deleted') // Dodaj ten warunek
             ->orderBy('created_at', 'desc')
-            ->skip(($page - 1) * $perPage)
-            ->take($perPage)
+            ->skip(($page - 1) * $this->perPage)
+            ->take($this->perPage)
             ->get();
 
-        $hasMorePosts = $posts->count() === $perPage;
+        $hasMorePosts = $posts->count() === $this->perPage;
 
         return PostResource::collection(auth()->check() ? $this->postRepository->addLikesAndFavs($posts) : $posts);
     }
 
     public function trending(Request $request)
     {
-        $perPage = 12;
+
         $page = $request->input('page', 1);
         $categories = $request->input('chosenCategory', []);
 
         $twentyFourHoursAgo = now()->subHours(24);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
-            ->when(!empty($categories), function ($query) use ($categories) {
+            ->when(! empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
             ->where('status', '=', 'main page')
             ->where('status', '<>', 'deleted') // Dodaj ten warunek
             ->where('created_at', '>=', $twentyFourHoursAgo)
             ->orderBy('likes', 'desc')
-            ->skip(($page - 1) * $perPage)
-            ->take($perPage)
+            ->skip(($page - 1) * $this->perPage)
+            ->take($this->perPage)
             ->get();
 
-        $hasMorePosts = $posts->count() === $perPage;
+        $hasMorePosts = $posts->count() === $this->perPage;
 
         return PostResource::collection(auth()->check() ? $this->postRepository->addLikesAndFavs($posts) : $posts);
     }
 
     public function top(Request $request)
     {
-        $perPage = 12;
+
         $page = $request->input('page', 1);
         $categories = $request->input('chosenCategory', []);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
-            ->when(!empty($categories), function ($query) use ($categories) {
+            ->when(! empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
             ->where('status', '=', 'main page')
             ->where('status', '<>', 'deleted') // Dodaj ten warunek
             ->orderBy('likes', 'desc')
-            ->skip(($page - 1) * $perPage)
-            ->take($perPage)
+            ->skip(($page - 1) * $this->perPage)
+            ->take($this->perPage)
             ->get();
 
         if (auth()->check()) {
@@ -144,18 +143,18 @@ class PostController extends Controller
 
     public function deletedPosts(Request $request)
     {
-        $perPage = 12;
+
         $page = $request->input('page', 1);
         $categories = $request->input('chosenCategory', []);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
             ->where('status', 'deleted')
-            ->when(!empty($categories), function ($query) use ($categories) {
+            ->when(! empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
             ->orderBy('created_at', 'desc')
-            ->skip(($page - 1) * $perPage)
-            ->take($perPage)
+            ->skip(($page - 1) * $this->perPage)
+            ->take($this->perPage)
             ->get();
 
         return PostResource::collection(auth()->check() ? $this->postRepository->addLikesAndFavs($posts) : $posts);
@@ -259,19 +258,19 @@ class PostController extends Controller
 
     public function reportedPosts(Request $request)
     {
-        $perPage = 12;
+
         $page = $request->input('page', 1);
         $categories = $request->input('chosenCategory', []);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags', 'reports'])
-            ->when(!empty($categories), function ($query) use ($categories) {
+            ->when(! empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
             ->withCount('reports')
             ->having('reports_count', '>', 0)
             ->orderBy('reports_count', 'desc')
-            ->skip(($page - 1) * $perPage)
-            ->take($perPage)
+            ->skip(($page - 1) * $this->perPage)
+            ->take($this->perPage)
             ->get();
 
         return PostResource::collection(auth()->check() ? $this->postRepository->addLikesAndFavs($posts) : $posts);
@@ -279,18 +278,18 @@ class PostController extends Controller
 
     public function hiddenPosts(Request $request)
     {
-        $perPage = 12;
+
         $page = $request->input('page', 1);
         $categories = $request->input('chosenCategory', []);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
-            ->when(!empty($categories), function ($query) use ($categories) {
+            ->when(! empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
             ->where('status', 'hide')
             ->orderBy('created_at', 'desc')
-            ->skip(($page - 1) * $perPage)
-            ->take($perPage)
+            ->skip(($page - 1) * $this->perPage)
+            ->take($this->perPage)
             ->get();
 
         return PostResource::collection(auth()->check() ? $this->postRepository->addLikesAndFavs($posts) : $posts);
@@ -298,23 +297,23 @@ class PostController extends Controller
 
     public function userPosts(Request $request)
     {
-        $perPage = 15;
+
         $user = auth()->user();
         $page = $request->input('page', 1);
         $categories = $request->input('chosenCategory', []);
 
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
-            ->when(!empty($categories), function ($query) use ($categories) {
+            ->when(! empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
             ->where('status', '<>', 'deleted') // Dodaj ten warunek
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
-            ->skip(($page - 1) * $perPage)
-            ->take($perPage)
+            ->skip(($page - 1) * $this->perPage)
+            ->take($this->perPage)
             ->get();
 
-        $hasMorePosts = $posts->count() === $perPage;
+        $hasMorePosts = $posts->count() === $this->perPage;
 
         return PostResource::collection($this->postRepository->addLikesAndFavs($posts));
     }
@@ -343,16 +342,13 @@ class PostController extends Controller
 
     public function sendToMainPage(Post $post)
     {
-        if( $post->status == 'main page')
-        {
+        if ($post->status == 'main page') {
             Post::where('id', ($post->id))->update([
                 'status' => 'waiting',
             ]);
 
             return response()->json(['message' => 'Success, post taken from page'], 201);
-        }
-        else
-        {
+        } else {
             Post::where('id', ($post->id))->update([
                 'status' => 'main page',
             ]);

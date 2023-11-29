@@ -29,7 +29,13 @@ export default function AddNewCategory({
     };
     return (
         <div>
-            <DefaultButton text={defaultButtonText} onClick={openDialog}  className={"text-center border-2 border-yellow-500 hover:bg-yellow-500 p-2 m-2 rounded-lg"}/>
+            <DefaultButton
+                text={defaultButtonText}
+                onClick={openDialog}
+                className={
+                    "text-center border-2 border-yellow-500 hover:bg-yellow-500 p-2 m-2 rounded-lg"
+                }
+            />
             <Dialog
                 open={isOpen}
                 onClose={closeDialog}

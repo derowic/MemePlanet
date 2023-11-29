@@ -34,7 +34,7 @@ class FavouriteController extends Controller
             ->toArray();
 
         $posts = Post::whereIn('id', $favouritePostIds)
-            ->when(!empty($categories), function ($query) use ($categories) {
+            ->when(! empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
             ->orderBy('created_at', 'desc')

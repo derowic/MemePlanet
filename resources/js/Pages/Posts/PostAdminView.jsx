@@ -39,26 +39,24 @@ function PostAdminView({ post, tags, showOptions, setPosts }) {
 
     const setAsMainPagePost = () => {
         post.status = "main page";
-        setMainPage(!mainPage)
+        setMainPage(!mainPage);
     };
 
-    const deletePost = () =>
-    {
+    const deletePost = () => {
         setPostDeleted(!postDeleted);
         setHide(false);
         setMainPage(false);
         //setPosts(selectedCategories.filter((id) => id !== tmp) )
-    }
-
+    };
 
     useEffect(() => {
-        if(post.status == "main page")
-        {
+        if (post.status == "main page") {
             setMainPage(true);
-        }
-        else if(post.status == "delted")
-        {
+        } else if (post.status == "deleted") {
             setPostDeleted(true);
+        }
+        else if (post.status == "hide") {
+            setHide(true);
         }
         //console.log(post.status);
     }, [post, post.status]);
@@ -72,19 +70,39 @@ function PostAdminView({ post, tags, showOptions, setPosts }) {
                 <>
                     {hide || postDeleted ? (
                         <>
-                        { hide &&
-                            <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
-                                <UnHide post={post} hide={hideFunc} />
-                            </div>
-                        }
-                        { postDeleted &&
-                            <div className="rounded-lg p-4 border border-red-700 hover:border-meme_violet m-2">
-                                <RestorePost post={post} restore={deletePost} />
-                            </div>
-                        }
+                            {hide && (
+                                <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
+                                    <Img
+                                        post={post}
+                                        loadCommentsFunc={loadCommentsFunc}
+                                        setIsOpen={setIsOpen}
+                                    />
+
+                                    <UnHide post={post} hide={hideFunc} />
+                                </div>
+                            )}
+                            {postDeleted && (
+                                <div className="rounded-lg p-4 border border-red-700 hover:border-meme_violet m-2">
+                                    <Img
+                                        post={post}
+                                        loadCommentsFunc={loadCommentsFunc}
+                                        setIsOpen={setIsOpen}
+                                    />
+                                    <RestorePost
+                                        post={post}
+                                        restore={deletePost}
+                                    />
+                                </div>
+                            )}
                         </>
                     ) : (
-                        <div className={`rounded-lg p-4 border ${mainPage === true ? 'border-green-400' : 'border-[#333]'} hover:border-meme_violet m-2`}>
+                        <div
+                            className={`rounded-lg p-4 border ${
+                                mainPage === true
+                                    ? "border-green-400"
+                                    : "border-[#333]"
+                            } hover:border-meme_violet m-2`}
+                        >
                             <h3 className="text-left font-semibold mb-2 w-full">
                                 {post.id} {post.title}
                             </h3>
@@ -145,14 +163,13 @@ function PostAdminView({ post, tags, showOptions, setPosts }) {
                                     )) && (
                                     <>
                                         <SendPostToMainPage
-                                            setAsMainPagePost={setAsMainPagePost}
+                                            setAsMainPagePost={
+                                                setAsMainPagePost
+                                            }
                                             post={post}
                                             mainPage={mainPage}
                                         />
-                                        <HidePost
-                                            post={post}
-                                            hide={hideFunc}
-                                        />
+                                        <HidePost post={post} hide={hideFunc} />
                                         <DeletePost
                                             post={post}
                                             postDeleted={postDeleted}
@@ -165,9 +182,7 @@ function PostAdminView({ post, tags, showOptions, setPosts }) {
                                                     "Show reports"
                                                 }
                                                 modalTitle={"Reports"}
-                                                modalDescription={
-                                                    ""
-                                                }
+                                                modalDescription={""}
                                             />
                                             <BanDialog
                                                 user={post.user}

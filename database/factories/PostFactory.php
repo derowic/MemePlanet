@@ -32,7 +32,7 @@ class PostFactory extends Factory
             'likes' => $this->faker->numberBetween(1, 1000),
             'dislikes' => $this->faker->numberBetween(1, 1000),
 
-            'path_to_image' => $this->faker->numberBetween(1, 60).'.jpg',
+            'path_to_image' => "/no_image/".$this->faker->numberBetween(1, 5).'.png',
             'status' => $this->faker->randomElement($statuses),
 
             'deleted_at' => null,

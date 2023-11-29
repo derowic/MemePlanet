@@ -16,36 +16,40 @@ const InfiniteScrollPosts = ({
     page,
     setPage,
 }) => {
+
     const translation = useTranslation(["dashboard"]);
     const [favs, setFavs] = useState([]);
     const [chosedCategory, setChosedCategory] = useState(0);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const screenWidth = window.screen.width;
     const [columnNumber, setColumnNumber] = useState(6);
-    const [columnStyle, setColumnStyle] = useState("w-1/6");
+    const [columnStyle, setColumnStyle] = useState("grid grid-cols-6 gap-4");
     const [replacedPosts, SetReplacedPosts] = useState([]);
-    let columnWidthShouldBe = 320;
+    let columnWidthShouldBe =  window.screen.width /6;
     let oldColumnNumber = 6;
 
     const fetchPaginatedPost = async () => {
-        //console.log("fetch posts");
-        let response = await fetchPosts();
-        setPosts((prevData) => [...prevData, ...response]);
-        setPage(page + 1);
+        //
+
+        if(setPosts){
+            console.log("fetch posts");
+            let response = await fetchPosts();
+            setPosts((prevData) => [...prevData, ...response]);
+            setPage(page + 1);
+        }
     };
 
+    const afterChangeSelectedPosts = async () => {
 
-    const afterChangeSelectedPosts = async () =>
-    {
-
-        setPosts([]);
-        let response = await fetchPosts();
-        //console.log(response);
-        setPosts(response);
-        setPage(page + 1);
-        replacePosts();
-    }
-
+        if(setPosts){
+            setPosts([]);
+            let response = await fetchPosts();
+            //console.log(response);
+            setPosts(response);
+            setPage(page + 1);
+            replacePosts();
+        }
+    };
 
     const replacePosts = () => {
         SetReplacedPosts([]);
@@ -70,27 +74,24 @@ const InfiniteScrollPosts = ({
         if (columnNumber != oldColumnNumber) {
             replacePosts();
             oldColumnNumber = columnNumber;
-
         }
         setWindowWidth(window.innerWidth);
         let columnNum = window.innerWidth / columnWidthShouldBe;
         columnNum = Math.round(columnNum);
-        if(columnNum >6)
-        {
-            columnNum = 6;
+        if (columnNum <= 0) {
+            columnNum = 1;
+        }
+        if (columnNum == 3) {
+            columnNum = 2;
         }
 
-        if(columnNum <=0)
-        {
-            columnNum = 1;
+        if (columnNum >= 7  ) {
+            columnNum = 6;
         }
 
         setColumnNumber(columnNum);
 
-
-        setColumnStyle("w-1/"+columnNum);
-
-
+        setColumnStyle("grid grid-cols-" + columnNum+" gap-4");
     };
 
     useEffect(() => {
@@ -98,6 +99,8 @@ const InfiniteScrollPosts = ({
         fetchPaginatedPost();
         replacePosts();
         handleResize();
+        console.log("syatuy");
+
     }, [categories, tags]);
 
     useEffect(() => {
@@ -105,7 +108,6 @@ const InfiniteScrollPosts = ({
         afterChangeSelectedPosts();
         //console.log("zmina kategorii");
     }, [chosenCategory]);
-
 
     useEffect(() => {
         window.addEventListener("resize", handleResize);
@@ -117,8 +119,6 @@ const InfiniteScrollPosts = ({
         };
     }, [columnNumber, posts]);
 
-
-
     return (
         <div>
             <div className="p-4 w-3/4 m-auto">
@@ -126,7 +126,7 @@ const InfiniteScrollPosts = ({
                     <UploadPost categories={categories} tags={tags} />
                 )}
             </div>
-
+            <p>{columnNumber}</p>
             <InfiniteScroll
                 dataLength={posts.length}
                 next={fetchPaginatedPost}
@@ -134,26 +134,23 @@ const InfiniteScrollPosts = ({
                 loader={<p>{translation.t("loading...")}</p>}
                 endMessage={<p>{translation.t("noMorePosts")}</p>}
             >
-                <div className="flex flex-wrap">
+
+                <div className={"grid grid-cols-" + columnNumber+" gap-4"}>
                     {replacedPosts.map((column, columnIndex) => (
-                        <div
-                            key={columnIndex}
-                            className={columnStyle}
-                        >
+                        <div key={columnIndex} className={"col-span-1"}>
                             {column.map((post, postIndex) => (
-                                <>
-                                    <Post
-                                    key={postIndex}
+                                <Post
+                                    key={post.id}
                                     index={postIndex}
                                     post={post}
                                     tags={tags}
                                     showOptions={true}
-                                    />
-                                </>
+                                />
                             ))}
                         </div>
                     ))}
                 </div>
+
             </InfiniteScroll>
         </div>
     );
