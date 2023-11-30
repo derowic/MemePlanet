@@ -78,8 +78,9 @@ export default function Login({ status, canResetPassword }) {
                             onChange={(e) =>
                                 setData("remember", e.target.checked)
                             }
+                            className="text-black"
                         />
-                        <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                        <span className="ml-2 text-sm text-white">
                             Remember me
                         </span>
                     </label>

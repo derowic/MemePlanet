@@ -83,9 +83,10 @@ const InfiniteScrollPosts = ({
         if (columnNum <= 0) {
             columnNum = 1;
         }
-        if (columnNum == 3) {
-            columnNum = 2;
+        if (columnNum == 5) {
+            columnNum = 4;
         }
+
 
         if (columnNum >= 7  ) {
             columnNum = 6;
@@ -138,12 +139,29 @@ const InfiniteScrollPosts = ({
                 endMessage={<p>{translation.t("noMorePosts")}</p>}
             >
 
-                <div className={columnStyle}>
+                {/*<div className={columnStyle}>
                     {replacedPosts.map((column, columnIndex) => (
                         <div key={columnIndex} className={"col-span-1"}>
                             {column.map((post, postIndex) => (
                                 <Post
                                     key={post.id}
+                                    index={postIndex}
+                                    post={post}
+                                    tags={tags}
+                                    showOptions={true}
+                                />
+                            ))}
+                        </div>
+                       
+                    ))}
+                </div>
+                */}
+                 <div className="flex flex-wrap">
+                    {replacedPosts.map((column, columnIndex) => (
+                        <div key={columnIndex} className={`w-1/${columnNumber}`}>
+                            {column.map((post, postIndex) => (
+                                <Post
+                                    key={postIndex}
                                     index={postIndex}
                                     post={post}
                                     tags={tags}
