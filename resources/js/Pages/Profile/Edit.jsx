@@ -9,7 +9,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
         <AuthenticatedLayout user={auth.user} className="bg-[#231f20]">
             <Head title="Profile" />
 
-            <div className="py-12 bg-[#231f20]">
+            <div className="py-12 bg-[#231f20] text-white ">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                     <div className="p-4 sm:p-8 dark:bg-gray-800 shadow sm:rounded-lg">
                         <UpdateProfileInformationForm

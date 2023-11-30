@@ -15,21 +15,14 @@ describe('template spec', () => {
 
         const selector = ':nth-child(1) > :nth-child(1) > .flex-wrap > div.mt-2 > .mb-2';
         cy.get(selector).then(($element) => {
-        // Get the current styles of the element
         const currentStyles = $element.attr('class');
-
-        // Perform a click event that changes the styles
         cy.get(selector).click();
 
-        // Assert that the styles have changed
         cy.get(selector).should(($changedElement) => {
             const changedClasses = $changedElement.attr('class');
             expect(changedClasses).to.include('mb-2', 'mr-2', 'text-white', 'font-bold', 'py-2', 'px-4', 'rounded-lg', 'border', 'border-meme_violet');
         });
         });
-
-
-
     });
 });
   

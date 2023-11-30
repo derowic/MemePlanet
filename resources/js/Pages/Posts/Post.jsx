@@ -63,7 +63,7 @@ function Post({ post, tags, showOptions }) {
                                         {post.id} {post.title}
                                     </h3>
                                     <div className="text-left text-xs mb-2">
-                                        {post.user.name}
+                                        {isNaN(post.user) ? post.user.name: "unknown"}
                                     </div>
                                     <div className="text-left text-xs ">
                                         {post.category.name}

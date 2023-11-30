@@ -5,6 +5,7 @@ import Post from "./Post";
 import DefaultButton from "../BasicElements/DefaultButton";
 import { useTranslation } from "react-i18next";
 import CheckPermission from "../API/CheckPermission";
+import { setRef } from "@mui/material";
 
 const InfiniteScrollPosts = ({
     chosenCategory,
@@ -25,6 +26,7 @@ const InfiniteScrollPosts = ({
     const [columnNumber, setColumnNumber] = useState(6);
     const [columnStyle, setColumnStyle] = useState("grid grid-cols-6 gap-4");
     const [replacedPosts, SetReplacedPosts] = useState([]);
+    const [refresh, setRefresh] = useState(true);
     let columnWidthShouldBe =  window.screen.width /6;
     let oldColumnNumber = 6;
 
@@ -92,6 +94,8 @@ const InfiniteScrollPosts = ({
         setColumnNumber(columnNum);
 
         setColumnStyle("grid grid-cols-" + columnNum+" gap-4");
+        console.log(columnStyle);
+        setRefresh(!refresh);
     };
 
     useEffect(() => {
@@ -126,7 +130,6 @@ const InfiniteScrollPosts = ({
                     <UploadPost categories={categories} tags={tags} />
                 )}
             </div>
-            <p>{columnNumber}</p>
             <InfiniteScroll
                 dataLength={posts.length}
                 next={fetchPaginatedPost}
@@ -135,7 +138,7 @@ const InfiniteScrollPosts = ({
                 endMessage={<p>{translation.t("noMorePosts")}</p>}
             >
 
-                <div className={"grid grid-cols-" + columnNumber+" gap-4"}>
+                <div className={columnStyle}>
                     {replacedPosts.map((column, columnIndex) => (
                         <div key={columnIndex} className={"col-span-1"}>
                             {column.map((post, postIndex) => (
