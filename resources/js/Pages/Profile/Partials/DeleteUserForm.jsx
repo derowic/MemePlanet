@@ -46,9 +46,7 @@ export default function DeleteUserForm({ className = "" }) {
     return (
         <section className={`space-y-6 ${className}`}>
             <header>
-                <h2 className="text-lg font-medium ">
-                    Delete Account
-                </h2>
+                <h2 className="text-lg font-medium ">Delete Account</h2>
 
                 <p className="mt-1 text-sm ">
                     Once your account is deleted, all of its resources and data
@@ -103,7 +101,10 @@ export default function DeleteUserForm({ className = "" }) {
                     </div>
 
                     <div className="mt-6 flex justify-end">
-                        <SecondaryButton onClick={closeModal} className="text-black">
+                        <SecondaryButton
+                            onClick={closeModal}
+                            className="text-black"
+                        >
                             Cancel
                         </SecondaryButton>
 

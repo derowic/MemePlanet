@@ -19,6 +19,10 @@ return new class extends Migration
             $table->foreignIdFor(Post::class);
             $table->timestamps();
 
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('post_id')->references('id')->on('posts');
+
+            $table->unique(['user_id', 'post_id']);
         });
     }
 

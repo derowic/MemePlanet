@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Category;
-use App\Models\TagList;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,21 +21,16 @@ class PostFactory extends Factory
         $statuses = ['main page', 'hide', 'waiting'];
 
         return [
-            //
-
             'user_id' => User::inRandomOrder()->limit(10)->pluck('id')->random(),
             'title' => $this->faker->text(25),
             'text' => $this->faker->text(100),
             'category_id' => Category::inRandomOrder()->limit(10)->pluck('id')->random(),
-            //'tag_list_id' => TagList::inRandomOrder()->limit(10)->pluck('id')->random(),
-            'likes' => $this->faker->numberBetween(1, 1000),
+            'likes' => 0, //$this->faker->numberBetween(1, 1000),
             'dislikes' => $this->faker->numberBetween(1, 1000),
-
-            'path_to_image' => "/no_image/".$this->faker->numberBetween(1, 5).'.png',
+            //'path_to_image' => "/no_image/".$this->faker->numberBetween(1, 5).'.png',
+            'path_to_image' => $this->faker->numberBetween(1, 24).'.jpg',
             'status' => $this->faker->randomElement($statuses),
-
             'deleted_at' => null,
-
         ];
     }
 }

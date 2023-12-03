@@ -14,7 +14,7 @@ import { Switch } from "@headlessui/react";
 import { IoMdMenu } from "react-icons/io";
 
 function CategoryList({ changeCategory }) {
-    const categoryTranslation = useTranslation(["dashboard"]);
+    const categoryTranslation = useTranslation(["category"]);
     const [categories, setCategories] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [isOpen, setIsOpen] = useState(false);

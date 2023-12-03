@@ -16,6 +16,7 @@ function PostDetals({
     setIsOpen,
     loadComments,
     setLoadComments,
+    translation
 }) {
     const [comments, setComments] = useState([]);
     const [usedComments, setUsedComments] = useState([]);
@@ -111,9 +112,14 @@ function PostDetals({
             img.src = "/images/" + post.path_to_image;
             img.onload = () => {
                 let height = img.height;
+                height = img.height * 0.2;
+                console.log(height);
                 if (height < window.innerHeight / 2) {
-                    height = window.innerHeight * 0.85;
+                    height =window.screen.height * 0.85;
                 }
+                console.log(height)
+
+
                 setCustomHeight({ height: height * 0.9 + "px" });
             };
         }
@@ -153,7 +159,7 @@ function PostDetals({
                     <div className="w-full m-auto flex">
                         <div className="m-auto flex w-full">
                             <div className="w-1/2 flex items-center justify-center">
-                                <div className="w-3/4 justify-center p-4">
+                                <div className="w-3/4  justify-center p-4">
                                     <Img
                                         post={post}
                                         loadCommentsFunc={null}
@@ -168,7 +174,7 @@ function PostDetals({
                             >
                                 <div className="flex items-center justify-center bg-meme_black">
                                     <div className="text-center text-lg">
-                                        Comments
+                                        {translation.t("Comments")}
                                     </div>
                                 </div>
 
@@ -177,6 +183,7 @@ function PostDetals({
                                         handleSubmitComment(commentText, null)
                                     }
                                     post={post.id}
+                                    translation={translation}
                                 />
 
                                 <div
@@ -195,12 +202,13 @@ function PostDetals({
                                                 updateCommentSection
                                             }
                                             prevComment={null}
+                                            translation={translation}
                                         />
                                     ))}
                                     <div className="w-full text-center">
                                         <Button
                                             onClick={() => fetchMoreComments()}
-                                            text={"load more comments"}
+                                            text={translation.t("load more comments")}
                                             className={
                                                 "font-bold hover:bg-white hover:text-black m-auto p-2 text-center w-full text-white m-2"
                                             }

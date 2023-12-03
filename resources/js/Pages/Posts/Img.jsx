@@ -37,14 +37,13 @@ function Img({ post, postDetailsView, setIsOpen }) {
     }, [post.path_to_image, post]);
 
     const handleImageClick = () => {
-        if(setIsOpen)
-        {
+        if (setIsOpen) {
             setIsOpen(true);
         }
     };
 
     return (
-        <div className="w-full">
+        <div className="">
             <a
                 href={route("post.show", { post: post.id })}
                 onClick={(e) => {
@@ -52,21 +51,22 @@ function Img({ post, postDetailsView, setIsOpen }) {
                     handleImageClick();
                 }}
             >
-                <div
+                {/*<div
                     className={
                         imageDimensions.height > window.innerHeight &&
                         showFull == false &&
                         postDetailsView != true
-                            ? "h-[50vh]  overflow-hidden"
+                            ? "w-full h-[50vh]  overflow-hidden"
                             : ""
                     }
-                >
+                >*/}
+                <div>
                     <img
-                        id={"yourImage"+post.id}
+                        id={"yourImage" + post.id}
                         src={"/images/" + post.path_to_image}
                         alt="Opis obrazka"
-                        className="m-auto w-full"
-                    ></img>
+                        className="m-auto w-full "
+                    />
                 </div>
             </a>
 

@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
 
         $admin = User::create([
             'name' => 'Admin',
+            'lang' => 'en',
             'email' => 'admin@localhost',
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make('12345678'),
@@ -40,6 +41,7 @@ class UserSeeder extends Seeder
 
         $moderator = User::create([
             'name' => 'moderator',
+            'lang' => 'en',
             'email' => 'moderator@localhost',
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make('12345678'),
@@ -57,6 +59,7 @@ class UserSeeder extends Seeder
 
             $user = User::create([
                 'name' => 'User'.strval($i),
+                'lang' => 'en',
                 'email' => 'user'.strval($i).'@localhost',
                 'email_verified_at' => Carbon::now(),
                 'password' => Hash::make('12345678'),
@@ -67,6 +70,7 @@ class UserSeeder extends Seeder
 
         $user = User::create([
             'name' => 'Łęcina',
+            'lang' => 'en',
             'email' => 'user12@localhost',
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make('12345678'),
@@ -77,6 +81,7 @@ class UserSeeder extends Seeder
 
         $user = User::create([
             'name' => 'Majster98',
+            'lang' => 'en',
             'email' => 'user13@localhost',
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make('12345678'),

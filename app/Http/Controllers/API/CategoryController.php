@@ -22,13 +22,13 @@ class CategoryController extends Controller
         $category->name = $request->input('name');
         $category->save();
 
-        return response()->json(['message' => 'Success, category added'], 200);
+        return response()->json(['message' => trans('notifications.Success, category added')], 200);
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
 
-        return response()->json(['message' => 'Success, category deleted'], 200);
+        return response()->json(['message' => trans('notifications.Success, category deleted')], 200);
     }
 }

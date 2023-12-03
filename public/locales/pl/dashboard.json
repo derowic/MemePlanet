@@ -1,4 +1,6 @@
 {
+    "Settings": "Ustawienia",
+
     "Categories": "Kategorie",
     "Tags": "Tagi",
     "Meme Planet": "Planeta Memów",
@@ -16,22 +18,7 @@
     "Edit basic user data": "Edytuj podstawowe dane osobowe",
     "My Posts": "Moje Posty",
     "Favourite": "Ulubione",
-
-    "humor": "humor",
-    "Automotive": "motoryzacja",
-    "Knowledge": "Wiedza",
-    "World": "Świat",
-    "Sport": "Sport",
-    "Policy": "Polityka",
-    "Technology": "Technologia",
-
-    "Mem": "Mem",
-    "jokes": "dowcipy",
-    "discussion": "dyskusje",
-    "travel": "podróże",
-    "history": "historia",
-    "army": "wojsko",
-    "information": "wiadomości",
+    "Custom tag": "własny tag",
 
     "Title": "Tytuł",
     "Text": "Tekst",
@@ -40,6 +27,10 @@
     "Clear": "Wyczyść",
     "Close": "Zamknij",
 
-    "loading...": "ładuje..."
-
+    "loading...": "ładuje...",
+    "Admin Panel": "Panel admina",
+    "Reported Posts": "Zraportowane posty",
+    "Hidden Posts": "Ukryte Posty",
+    "Deleted Posts": "Usunięte posty",
+    "Service settings": "Ustawienia serwisu"
 }

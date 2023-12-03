@@ -17,7 +17,7 @@ import EditCategoriesAndTags from "./EditCategoriesAndTags";
 
 export default function RoleAndPermissions() {
     const user = usePage().props.auth.user;
-    const translation = useTranslation(["dashboard"]);
+    const translation = useTranslation(["rolesAndPermissions"]);
     const [roles, setRoles] = useState([]);
     const [selectedRoles, setSelectedRoles] = useState([]);
     const [permissions, setPermissions] = useState([]);
@@ -103,14 +103,18 @@ export default function RoleAndPermissions() {
             <div className="flex">
                 <div className="p-2 font-bold bg-meme_black text-white justify-center items-center w-1/2 ">
                     <div className="text-center">
-                        <h1>Wybierz Uprawnienia i Przypisz do Użytkownika</h1>
+                        <h1>{translation.t("Chose permissions and roles")}</h1>
                         <div className=" border-b-2 ">
                             <div className="text-black">
-                                <SearchUser setSelectedUser={setSelectedUser} />
+                                <SearchUser
+                                    setSelectedUser={setSelectedUser}
+                                    translation={translation}
+                                />
                             </div>
 
                             <h2>
-                                Użytkownik: {selectedUser && selectedUser.name}
+                                {translation.t("Użytkownik")}:{" "}
+                                {selectedUser && selectedUser.name}
                             </h2>
                             {/*<select
                             onChange={(e) => setSelectedUser(e.target.value)}
@@ -128,7 +132,7 @@ export default function RoleAndPermissions() {
                             <div className="w-full flex">
                                 <div className="w-1/2 ">
                                     <div className="text-2xl">
-                                        Permissions:{" "}
+                                        {translation.t("Permissions")}:
                                     </div>
                                     {selectedUser &&
                                         selectedUser.permissions.map(
@@ -136,7 +140,9 @@ export default function RoleAndPermissions() {
                                         )}
                                 </div>
                                 <div className="w-1/2 ">
-                                    <div className="text-2xl">Role: </div>
+                                    <div className="text-2xl">
+                                        {translation.t("Role")}:{" "}
+                                    </div>
                                     {selectedUser &&
                                         selectedUser.roles.map((role) => (
                                             <div>{role.name}</div>
@@ -147,7 +153,6 @@ export default function RoleAndPermissions() {
                     </div>
                     <div className="flex  text-white justify-center items-center">
                         <div className="w-1/2  text-white justify-center items-center">
-                            <h2>Uprawnienia</h2>
                             <ul>
                                 {permissions.map((permission) => (
                                     <li key={permission.id}>
@@ -164,13 +169,13 @@ export default function RoleAndPermissions() {
                                                     )
                                                 }
                                             />
-                                            {permission.name}
+                                            {translation.t(permission.name)}
                                         </label>
                                     </li>
                                 ))}
                             </ul>
                             <DefaultButton
-                                text={"Przypisz Uprawnienia"}
+                                text={translation.t("Assign permission")}
                                 onClick={assignPermissions}
                                 className={
                                     "p-3 rounded-lg border border-green-500  hover:bg-green-400 m-2"
@@ -178,7 +183,6 @@ export default function RoleAndPermissions() {
                             />
                         </div>
                         <div className="w-1/2 text-white text-center justify-center items-center">
-                            <h2>Rola</h2>
                             <ul>
                                 {roles.map((role) => (
                                     <li
@@ -196,13 +200,13 @@ export default function RoleAndPermissions() {
                                                     toggleRole(role.id)
                                                 }
                                             />
-                                            {role.name}
+                                            {translation.t(role.name)}
                                         </label>
                                     </li>
                                 ))}
                             </ul>
                             <DefaultButton
-                                text={"Przypisz Role"}
+                                text={translation.t("Assign role")}
                                 onClick={assignRoles}
                                 className={
                                     "p-3 rounded-lg border border-green-500  hover:bg-green-400 m-2"
@@ -212,7 +216,7 @@ export default function RoleAndPermissions() {
                     </div>
                     <div className="flex w-full text-center border-t-2 mt-5 text-2xl">
                         <div className="w-1/3">
-                            Admins
+                            {translation.t("Admins")}
                             {admins &&
                                 admins.map((admin) => (
                                     <div key={admin.id} className="text-base">
@@ -222,7 +226,7 @@ export default function RoleAndPermissions() {
                         </div>
 
                         <div className="w-1/3">
-                            Moderators
+                            {translation.t("Moderators")}
                             {moderators.map((moderator) => (
                                 <div key={moderator.id} className="text-base">
                                     {moderator.name}
@@ -230,7 +234,7 @@ export default function RoleAndPermissions() {
                             ))}
                         </div>
                         <div className="w-1/3">
-                            Banned Users
+                            {translation.t("Banned Users")}
                             {bannedUsers.map((bannedUser) => (
                                 <div className="flex text-base justify-between">
                                     <div
@@ -240,7 +244,7 @@ export default function RoleAndPermissions() {
                                         {bannedUser.name}
                                     </div>
                                     <DefaultButton
-                                        text={"Unban user"}
+                                        text={translation.t("Unban user")}
                                         onClick={() => unBan(bannedUser)}
                                         className={
                                             "p-3 rounded-lg border border-yellow-500  hover:bg-yellow-400 m-2"
@@ -252,7 +256,7 @@ export default function RoleAndPermissions() {
                     </div>
                 </div>
                 <div className="w-1/2 px-2">
-                    <EditCategoriesAndTags />
+                    <EditCategoriesAndTags translation={translation} />
                 </div>
             </div>
         </AuthenticatedLayout>

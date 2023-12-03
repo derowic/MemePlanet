@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import NotificationBell from "../Pages/Notifications/NotificationBell";
 import { usePage } from "@inertiajs/react";
 import ChangeLog from "./ChangeLog";
@@ -12,10 +12,13 @@ import { useTranslation } from "react-i18next";
 import CheckRole from "@/Pages/API/CheckRole";
 import NavBar from "./NavBar";
 import CategoryList from "@/Pages/Categories/CategoryList";
+import ChangeLanguage from "./ChangeLanguage";
 
 export default function Authenticated({ header, children, changeCategory }) {
     const translation = useTranslation(["dashboard"]);
     const user = usePage().props.auth.user;
+    //console.log(user);
+    //console.log(usePage());
 
     const { i18n } = useTranslation();
     const changeLanguage = (newLanguage) => {
@@ -25,6 +28,12 @@ export default function Authenticated({ header, children, changeCategory }) {
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+
+    useEffect(() => {
+        if (!user) {
+            router.visit(route("unauthorized"));
+        }
+    }, []);
 
     return (
         <div className="bg-meme_black w-full h-full">
@@ -40,9 +49,9 @@ export default function Authenticated({ header, children, changeCategory }) {
                 pauseOnHover
                 theme="dark"
             />
-            <nav className="sticky top-0 text-white w-full border-b border-meme_blue bg-meme_black ">
-                <div className="sticky top-0 mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="sticky top-0 flex justify-between h-10">
+            <nav className="sticky top-0 text-white w-full  bg-meme_black ">
+                <div className="sticky top-0 mx-auto px-4 sm:px-6 lg:px-8 border-b border-meme_violet">
+                    <div className="sticky top-0 flex justify-between h-10 ">
                         <div className="sticky top-0 flex">
                             <div className="shrink-0 flex items-center">
                                 <Link href="/">{/*place for icon */}</Link>
@@ -51,24 +60,13 @@ export default function Authenticated({ header, children, changeCategory }) {
                                 <CategoryList changeCategory={changeCategory} />
                             )}
 
-                            <div className="sticky top-0 border-b border-meme_blue hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div className="sticky top-0  hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavBar translation={translation} />
                             </div>
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
-                            <button
-                                onClick={() => changeLanguage("en")}
-                                className="white font-bold mr-2"
-                            >
-                                English
-                            </button>
-                            <button
-                                onClick={() => changeLanguage("pl")}
-                                className="white font-bold"
-                            >
-                                Polish
-                            </button>
+                            <ChangeLanguage/>
                             <NotificationBell />
 
                             <div className="ml-3 relative">
@@ -79,7 +77,7 @@ export default function Authenticated({ header, children, changeCategory }) {
                                                 type="button"
                                                 className="inline-flex items-center px-3 py-2 border border-transparent sm leading-4 font-medium rounded-md  bg-[#111]  focus:outline-none transition ease-in-out duration-150"
                                             >
-                                                {user.name}
+                                                {user ? user.name : "unknown"}
 
                                                 <svg
                                                     className="ml-2 -mr-0.5 h-4 w-4"
@@ -192,8 +190,14 @@ export default function Authenticated({ header, children, changeCategory }) {
 
                     <div className="pt-4 pb-1 border-t ">
                         <div className="px-4">
-                            <div className="font-medium base ">{user.name}</div>
-                            <div className="font-medium sm ">{user.email}</div>
+                            <div className="font-medium base ">
+                                {" "}
+                                {user ? user.name : "unknown"}
+                            </div>
+                            <div className="font-medium sm ">
+                                {" "}
+                                {user ? user.email : "unknown"}
+                            </div>
                         </div>
 
                         <div className="mt-3 bg-[#111] space-y-1">

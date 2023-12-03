@@ -49,10 +49,8 @@ export default function Dashboard() {
                 <div className="flex text-gray-100">
                     <div className="w-full mt-2">
                         <div className="w-full text-center">
-                            { user &&
-                             <BanInfo data={user} />
-                            }
-                            <h2 className="mb-2 text-3xl border-b border-meme_violet">
+                            {user && <BanInfo data={user} />}
+                            <h2 className="mb-2 text-3xl ">
                                 {translation.t("Meme Planet")}
                             </h2>
                             <PostsTypeSelect
@@ -66,31 +64,36 @@ export default function Dashboard() {
                                 ]}
                                 setPosts={setPosts}
                                 setRout={setRout}
+                                setChosenCategory={setChosenCategory}
                             />
-                            {(tags.length >= 0 && categories.length > 0 && setPage  && setPosts) && (
-                                <InfiniteScrollPosts
-                                    chosenCategory={chosenCategory}
-                                    posts={posts}
-                                    fetchPosts={() =>
-                                        AxiosGet(
-                                            chosenCategory.length > 0
-                                                ? rout
-                                                : rout,
-                                            {
-                                                page: page,
-                                                chosenCategory: chosenCategory,
-                                            },
-                                            null,
-                                            null,
-                                        )
-                                    }
-                                    categories={categories}
-                                    tags={tags}
-                                    setPosts={setPosts}
-                                    page={page}
-                                    setPage={setPage}
-                                />
-                            )}
+                            {tags.length >= 0 &&
+                                categories.length > 0 &&
+                                setPage &&
+                                setPosts && (
+                                    <InfiniteScrollPosts
+                                        chosenCategory={chosenCategory}
+                                        posts={posts}
+                                        fetchPosts={() =>
+                                            AxiosGet(
+                                                chosenCategory.length > 0
+                                                    ? rout
+                                                    : rout,
+                                                {
+                                                    page: page,
+                                                    chosenCategory:
+                                                        chosenCategory,
+                                                },
+                                                null,
+                                                null,
+                                            )
+                                        }
+                                        categories={categories}
+                                        tags={tags}
+                                        setPosts={setPosts}
+                                        page={page}
+                                        setPage={setPage}
+                                    />
+                                )}
                         </div>
                     </div>
                 </div>

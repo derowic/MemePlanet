@@ -12,11 +12,13 @@ class CheckModeratorRole
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
+        app()->setLocale(auth()->user()->lang);
 
         if ($user && $user->hasRole('moderator')) {
             return $next($request);
         }
 
+        inertia()->flash("info', 'You don't have permission");
         return Inertia::render('UnAuthorizedView', []);
         //return response('Unauthorized action', 403);
     }

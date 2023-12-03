@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import DefaultButton from "../../BasicElements/DefaultButton";
 import LogedIn from "@/Pages/API/LogedIn";
 import Notify from "@/Components/Notify";
+import CheckRole from "@/Pages/API/CheckRole";
 
 const Fav = ({ postId, is_Fav }) => {
     let loged = LogedIn();
+    let role = true; //CheckRole("user");
     const addPostToFavourite = () => {
         setPostToFavourite(postId);
     };
@@ -13,24 +15,34 @@ const Fav = ({ postId, is_Fav }) => {
 
     const setPostToFavourite = async (postId) => {
         if (loged) {
-            try {
-                const response = await axios.post(route("favourite.store"), {
-                    post: postId,
-                });
+            if (role) {
+                try {
+                    const response = await axios.post(
+                        route("favourite.store"),
+                        {
+                            post: postId,
+                        },
+                    );
 
-                if (response.data.message == "Post added to favourite") {
-                    setIsFav(true);
-                    Notify("Post added to favourite", "success");
-                } else if (
-                    response.data.message == "Post removed from favourites"
-                ) {
-                    setIsFav(false);
-                    Notify("Post removed from favourites", "success");
-                } else {
-                    console.error("Fav.jsx -> setPostToFavourite error");
+                    if (response.data.message == "Post added to favourite") {
+                        setIsFav(true);
+                        Notify("Post added to favourite", "success");
+                    } else if (
+                        response.data.message == "Post removed from favourites"
+                    ) {
+                        setIsFav(false);
+                        Notify("Post removed from favourites", "success");
+                    } else {
+                        console.error("Fav.jsx -> setPostToFavourite error");
+                    }
+                } catch (error) {
+                    console.error(
+                        "Fav.jsx -> setPostToFavourite error: ",
+                        error,
+                    );
                 }
-            } catch (error) {
-                console.error("Fav.jsx -> setPostToFavourite error: ", error);
+            } else {
+                Notify("You don't have permission", "info");
             }
         } else {
             Notify("You need to be log in", "info");

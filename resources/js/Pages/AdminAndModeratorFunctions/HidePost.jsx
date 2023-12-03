@@ -9,7 +9,7 @@ import AxiosDelete from "../API/AxiosDelete";
 import AxiosPut from "../API/AxiosPut";
 import AxiosPost from "../API/AxiosPost";
 
-function HidePost({ post, hide }) {
+function HidePost({ post, hide, translation }) {
     const hidePost = (post) => {
         AxiosPut("post.hidePost", { id: post.id });
         hide();
@@ -23,7 +23,7 @@ function HidePost({ post, hide }) {
                         className="p-3 rounded-lg border border-gray-500  hover:bg-gray-400 m-2"
                         onClick={() => hidePost(post)}
                     >
-                        Hide for the users
+                        {translation.t("Hide")}
                     </button>
                 </div>
             </div>

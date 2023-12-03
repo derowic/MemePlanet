@@ -14,10 +14,12 @@ function PostsTypeSelect({
     elements,
     setPosts,
     setRout /*loadNewPost*/,
+    setChosenCategory
 }) {
     const handleSelectedPostsType = (type) => {
         setSelected(type[0]);
         setPosts([]);
+        //setChosenCategory([]);
         let rout = "post.index";
 
         const foundElement = elements.find(

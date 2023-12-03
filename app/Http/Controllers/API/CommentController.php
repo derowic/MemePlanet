@@ -66,7 +66,7 @@ class CommentController extends Controller
 
             return response()->json(['like' => $article->likeCount]);
         } else {
-            return response()->json(['message' => 'Error while saving like'], 500);
+            return response()->json(['message' => trans('notifications.Error while saving like')], 500);
         }
     }
 
@@ -89,7 +89,7 @@ class CommentController extends Controller
                 'data' => $com,
             ], 201);
         } else {
-            return response()->json(['message' => 'Error while saving comment'], 500);
+            return response()->json(['message' => trans('notifications.Error while saving comment')], 500);
         }
     }
 
@@ -99,6 +99,6 @@ class CommentController extends Controller
 
         session()->flash('toast', 'Success');
 
-        return response()->json(['message' => 'Success deleting comment'], 201);
+        return response()->json(['message' => trans('notifications.Success deleting comment')], 201);
     }
 }

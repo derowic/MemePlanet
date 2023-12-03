@@ -18,13 +18,9 @@ import PostAdminView from "./PostAdminView";
 import PostModeratorView from "./PostModeratorView";
 import PostUserView from "./PostUserView";
 
-function Post({ post, tags, showOptions }) {
-    const user = usePage().props.auth.user;
-    const [showFull, setShowFull] = useState(false);
+function Post({ post, tags, showOptions, translation }) {
     const [isOpen, setIsOpen] = useState(false);
     const [loadComments, setLoadComments] = useState(false);
-    const [hide, setHide] = useState(false);
-
     const loadCommentsFunc = () => {
         setLoadComments(true);
     };
@@ -40,6 +36,7 @@ function Post({ post, tags, showOptions }) {
                     post={post}
                     tags={tags}
                     showOptions={showOptions}
+                    translation={translation}
                 />
             ) : (
                 <>
@@ -48,22 +45,26 @@ function Post({ post, tags, showOptions }) {
                             post={post}
                             tags={tags}
                             showOptions={showOptions}
+                            translation={translation}
                         />
                     ) : (
                         <>
-                            {CheckRole("user") ?
+                            {CheckRole("user") ? (
                                 <PostUserView
                                     post={post}
                                     tags={tags}
                                     showOptions={showOptions}
+                                    translation={translation}
                                 />
-                                :
+                            ) : (
                                 <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
                                     <h3 className="text-left font-semibold mb-2 w-full">
-                                        {post.id} {post.title}
+                                        {post.title}
                                     </h3>
                                     <div className="text-left text-xs mb-2">
-                                        {isNaN(post.user) ? post.user.name: "unknown"}
+                                        {isNaN(post.user)
+                                            ? post.user.name
+                                            : "unknown"}
                                     </div>
                                     <div className="text-left text-xs ">
                                         {post.category.name}
@@ -72,12 +73,13 @@ function Post({ post, tags, showOptions }) {
                                     <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
                                         {post.text}
                                     </div>
+
                                     <Img
                                         post={post}
                                         loadCommentsFunc={loadCommentsFunc}
                                         setIsOpen={setIsOpen}
-
                                     />
+
                                     {showOptions && (
                                         <div className="flex flex-wrap">
                                             <Like
@@ -85,15 +87,23 @@ function Post({ post, tags, showOptions }) {
                                                 elementType={"post"}
                                                 likes={post.likes}
                                                 is_liked={post.is_liked}
+                                                translation={translation}
                                             />
 
-                                            <Fav postId={post.id} is_Fav={post.is_fav} />
+                                            <Fav
+                                                postId={post.id}
+                                                is_Fav={post.is_fav}
+                                                translation={translation}
+                                            />
 
                                             <ReportDialog
                                                 post={post}
                                                 defaultButtonText={"!"}
                                                 modalTitle={""}
-                                                modalDescription={"Select report reason"}
+                                                modalDescription={translation.t(
+                                                    "Select report reason",
+                                                )}
+                                                translation={translation}
                                             />
 
                                             <PostDetals
@@ -101,17 +111,19 @@ function Post({ post, tags, showOptions }) {
                                                 isOpen={isOpen}
                                                 setIsOpen={setIsOpen}
                                                 loadComments={loadComments}
-                                                setLoadComments={setLoadComments}
+                                                setLoadComments={
+                                                    setLoadComments
+                                                }
+                                                translation={translation}
                                             />
                                         </div>
                                     )}
                                 </div>
-                            }
+                            )}
                         </>
                     )}
                 </>
             )}
-
         </>
     );
 }

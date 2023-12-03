@@ -8,10 +8,15 @@ import React, {
 import AxiosDelete from "../API/AxiosDelete";
 import AxiosPut from "../API/AxiosPut";
 
-function SendPostToMainPage({ post, mainPage, setAsMainPagePost }) {
+function SendPostToMainPage({
+    post,
+    mainPage,
+    setAsMainPagePost,
+    translation,
+}) {
     const setPostToMainPage = (post) => {
         setAsMainPagePost();
-        AxiosPut("post.mainPage", { id: post.id });
+        AxiosPut("post.mainPage", { id: post.id }, null, translation);
     };
     useEffect(() => {
         //console.log(post.status);
@@ -26,9 +31,11 @@ function SendPostToMainPage({ post, mainPage, setAsMainPagePost }) {
                         onClick={() => setPostToMainPage(post)}
                     >
                         {mainPage ? (
-                            <div>Take it from main page</div>
+                            <div>
+                                {translation.t("Take it from the home page")}
+                            </div>
                         ) : (
-                            <div>Send to main page</div>
+                            <div>{translation.t("Send to main page")}</div>
                         )}
                     </button>
                 </div>

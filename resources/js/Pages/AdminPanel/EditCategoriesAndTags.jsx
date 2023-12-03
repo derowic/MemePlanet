@@ -20,7 +20,7 @@ import AxiosPut from "../API/AxiosPut";
 
 export default function EditCategoriesAndTags() {
     const user = usePage().props.auth.user;
-    const translation = useTranslation(["dashboard"]);
+    const translation = useTranslation(["rolesAndPermissions"]);
     const [chosenCategory, setChosenCategory] = useState(0);
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
@@ -60,17 +60,19 @@ export default function EditCategoriesAndTags() {
         <>
             <div className="text-white w-full items-center justify-center text-center">
                 <AddNewCategory
-                    defaultButtonText={"Add new category"}
-                    modalTitle={"Adding new category"}
+                    defaultButtonText={translation.t("Add new category")}
+                    modalTitle={translation.t("Adding new category")}
                     modalDescription
-                    primaryButtonText={"Add"}
+                    primaryButtonText={translation.t("Add")}
                     primaryButtonOnClick={null}
-                    secondaryButtonText={"Cancel"}
+                    secondaryButtonText={translation.t("Cancel")}
                     secondaryButtonOnClick={null}
                 />
                 <div className="flex">
                     <div className="w-1/2 ">
-                        <h2 className="mb-4 text-center w-full">Categories</h2>
+                        <h2 className="mb-4 text-center w-full">
+                            {translation.t("Categories")}
+                        </h2>
                         <div className="h-[85vh] overflow-y-auto custom-scroll  items-center ">
                             {categories &&
                                 categories.map((category) => (
@@ -78,13 +80,13 @@ export default function EditCategoriesAndTags() {
                                         key={category.id}
                                         className="bg-red-yellow flex justify-between m-2"
                                     >
-                                        {category.name}
+                                        {translation.t(category.name)}
 
                                         <DefaultButton
                                             className={
                                                 "p-2 m-2 bg-red-500 hover:bg-red-400 rounded-lg text-right align-right item-right"
                                             }
-                                            text={"Delete"}
+                                            text={translation.t("Delete")}
                                             onClick={() =>
                                                 deleteCategory(category)
                                             }
@@ -95,7 +97,9 @@ export default function EditCategoriesAndTags() {
                     </div>
 
                     <div className="w-1/2 ">
-                        <h2 className="mb-4 text-center w-full">Tags</h2>
+                        <h2 className="mb-4 text-center w-full">
+                            {translation.t("Tags")}
+                        </h2>
                         <div className="h-[85vh] overflow-y-auto custom-scroll  items-center  m-2">
                             {tags &&
                                 tags.map((tag) => (
@@ -103,12 +107,14 @@ export default function EditCategoriesAndTags() {
                                         key={tag.id}
                                         className="bg-red-yellow flex justify-between m-2"
                                     >
-                                        <div>{tag.name}:</div>
+                                        <div>{translation.t(tag.name)}:</div>
                                         <div> {tag.use_count}</div>
 
                                         <DefaultButton
                                             className="bg-green-600 hover:bg-green-400 p-2 rounded-lg m-2"
-                                            text={"Improve to category "}
+                                            text={translation.t(
+                                                "Improve to category",
+                                            )}
                                             onClick={() => improveTag(tag)}
                                         />
                                     </div>

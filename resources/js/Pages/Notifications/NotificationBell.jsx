@@ -25,8 +25,8 @@ const NotificationBell = () => {
             const countOfNotificationsWithSeen1 = notificationsWithSeen1.length;
             setUnSeen(countOfNotificationsWithSeen1);
         } catch (error) {
-            Notification(error.response.data.msg);
             console.error("CommentSection -> fetchComments error: ", error);
+            Notification(error.response.data.message);
         }
     };
 

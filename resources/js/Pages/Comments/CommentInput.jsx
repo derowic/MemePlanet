@@ -3,7 +3,7 @@ import CheckPermission from "../API/CheckPermission";
 import LogedIn from "../API/LogedIn";
 import Notify from "@/Components/Notify";
 
-const CommentInput = ({ onSubmit, post }) => {
+const CommentInput = ({ onSubmit, post, translation }) => {
     let loged = LogedIn();
     let permission = CheckPermission("comment.create");
     const [commentText, setCommentText] = useState("");
@@ -42,7 +42,7 @@ const CommentInput = ({ onSubmit, post }) => {
                         onClick={handleSubmit}
                         className="bg-[#4a12ff] text-white hover:bg-[#5b23ff] text-black font-bold py-2 px-4 rounded-lg border border-[#4a00ff]"
                     >
-                        Add comment
+                        {translation.t("Add comment")}
                     </button>
                 </div>
             )}

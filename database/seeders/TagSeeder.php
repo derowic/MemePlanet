@@ -13,7 +13,7 @@ class TagSeeder extends Seeder
     public function run(): void
     {
         $humor = Tag::create([
-            'name' => 'mem',
+            'name' => 'meme',
 
         ]);
         Tag::create([
@@ -27,7 +27,7 @@ class TagSeeder extends Seeder
         ]);
 
         Tag::create([
-            'name' => 'trivia',
+            'name' => 'travel',
 
         ]);
 

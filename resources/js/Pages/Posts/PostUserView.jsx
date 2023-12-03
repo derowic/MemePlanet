@@ -14,8 +14,10 @@ import BanDialog from "../AdminPanel/BanDialog";
 import CheckRole from "../API/CheckRole";
 import LogedIn from "../API/LogedIn";
 import UnHide from "../AdminAndModeratorFunctions/UnHide";
+import { useTranslation } from "react-i18next";
 
 function PostUserView({ post, tags, showOptions }) {
+    const translation = useTranslation(["post"]);
     const [isOpen, setIsOpen] = useState(false);
     const [loadComments, setLoadComments] = useState(false);
 
@@ -29,15 +31,19 @@ function PostUserView({ post, tags, showOptions }) {
                 <>
                     <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
                         <h3 className="text-left font-semibold mb-2 w-full">
-                            {post.id} {post.title}
+                            {post.title}
                         </h3>
                         <div className="text-left text-xs mb-2">
-                            {isNaN(post.user) ? post.user.name: "unknown"}
+                            {isNaN(post.user) ? post.user.name : "unknown"}
                         </div>
                         <div className="text-left text-xs ">
                             {post.category.name}
                         </div>
-                        <Tags post={post} tags={tags} />
+                        <Tags
+                            post={post}
+                            tags={tags}
+                            translation={translation}
+                        />
                         <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
                             {post.text}
                         </div>
@@ -62,7 +68,10 @@ function PostUserView({ post, tags, showOptions }) {
                                     post={post}
                                     defaultButtonText={"!"}
                                     modalTitle={""}
-                                    modalDescription={"Select report reason"}
+                                    modalDescription={translation.t(
+                                        "Select report reason",
+                                    )}
+                                    translation={translation}
                                 />
 
                                 <PostDetals
@@ -71,6 +80,7 @@ function PostUserView({ post, tags, showOptions }) {
                                     setIsOpen={setIsOpen}
                                     loadComments={loadComments}
                                     setLoadComments={setLoadComments}
+                                    translation={translation}
                                 />
                             </div>
                         )}

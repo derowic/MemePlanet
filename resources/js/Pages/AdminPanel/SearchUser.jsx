@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AxiosGet from "../API/AxiosGet";
 
-function SearchUser({ setSelectedUser }) {
+function SearchUser({ setSelectedUser, translation }) {
     const [query, setQuery] = useState("");
     const [results, setResults] = useState([]);
     const [showResults, setShowResults] = useState(true);
@@ -34,7 +34,7 @@ function SearchUser({ setSelectedUser }) {
         <div className="w-full bg-[#111]">
             <input
                 type="text"
-                placeholder="Wyszukaj użytkownika"
+                placeholder={translation.t("Search user")}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 className="w-full"

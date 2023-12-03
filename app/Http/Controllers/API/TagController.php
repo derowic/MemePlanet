@@ -22,6 +22,6 @@ class TagController extends Controller
         $category->name = $tag->name;
         $category->save();
 
-        return response()->json(['message' => 'Success, tag is now category'], 200);
+        return response()->json(['message' => trans('notifications.Success, tag is now category')], 200);
     }
 }

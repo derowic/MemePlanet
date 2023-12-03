@@ -3,7 +3,7 @@ import axios from "axios";
 import Notify from "@/Components/Notify";
 
 const AxiosGet = async (rout, routData, data, setData) => {
-    //console.log(rout," ",routData);
+    //console.log(rout," ",routData," ",data, " ");
     return await axios
         .get(route(rout, routData), data)
         .then((response) => {
@@ -14,8 +14,12 @@ const AxiosGet = async (rout, routData, data, setData) => {
             return response.data.data;
         })
         .catch((error) => {
-            Notify(error.response.data.message, "error");
-            console.error(error);
+            if (error) {
+                Notify(error.response, "error");
+                console.error(error);
+            } else {
+                console.error("error");
+            }
         });
 };
 

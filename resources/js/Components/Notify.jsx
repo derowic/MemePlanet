@@ -2,7 +2,7 @@ import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Notify = (text, type = "default", code = null) => {
+const Notify = async (text, type = "default", code = null) => {
     if (type == "default") {
         toast(text, {
             position: "top-right",
@@ -23,6 +23,7 @@ const Notify = (text, type = "default", code = null) => {
     } else if (type == "info" || code == 200) {
         toast.info(text);
     }
-};
 
+    return null;
+};
 export default Notify;

@@ -8,7 +8,7 @@ import React, {
 import AxiosDelete from "../API/AxiosDelete";
 import AxiosPut from "../API/AxiosPut";
 
-function DeletePost({ post, postDeleted, deletePost }) {
+function DeletePost({ post, postDeleted, deletePost, translation }) {
     const deletingPost = (post) => {
         AxiosDelete("post.destroy", { post: post.id }, null);
         deletePost();
@@ -21,7 +21,7 @@ function DeletePost({ post, postDeleted, deletePost }) {
                         className="p-3 rounded-lg border border-red-500  hover:bg-red-400 m-2"
                         onClick={() => deletingPost(post)}
                     >
-                        <div>Delete Post</div>
+                        <div>{translation.t("Delete")}</div>
                     </button>
                 </div>
             </div>

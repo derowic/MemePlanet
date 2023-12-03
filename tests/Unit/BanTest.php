@@ -36,40 +36,29 @@ class BanTest extends TestCase
 
     public function testBanCheck()
     {
-
         $this->resetAndSeedDatabase();
-
         $user = User::find(1);
         $report = Report::find(1);
         $ban = Ban::find(1);
         $bannedUser = User::find(4);
-
         $data = [
             'user_id' => $bannedUser->id,
             'ban_id' => $ban->id,
             'report_id' => $report->id,
         ];
-
         $response = $this->actingAs($user)
             ->postJson(route('ban.banUser'), $data);
-
         $response->assertStatus(201)->assertJson(['message' => true]);
-
         $response = $this->actingAs($bannedUser)
             ->getJson(route('ban.check'));
-
         $response->assertStatus(200)
             ->assertJson(['data' => true]);
-
         $banListRecord = BanList::where('user_id', $bannedUser->id)->first();
-
         if ($banListRecord) {
             $banListRecord->update(['created_at' => now()->subDays(4)]);
         }
-
         $response = $this->actingAs($bannedUser)
             ->getJson(route('ban.check'));
-
         $response->assertStatus(200)
             ->assertJson(['data' => false]);
     }

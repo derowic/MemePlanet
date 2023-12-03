@@ -19,7 +19,7 @@ import HidePost from "../AdminAndModeratorFunctions/HidePost";
 import DeletePost from "../AdminAndModeratorFunctions/DeletePost";
 import RestorePost from "../AdminAndModeratorFunctions/RestorePost";
 
-function PostAdminView({ post, tags, showOptions, setPosts }) {
+function PostAdminView({ post, tags, showOptions, setPosts, translation }) {
     const user = usePage().props.auth.user;
     const [showFull, setShowFull] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -54,8 +54,7 @@ function PostAdminView({ post, tags, showOptions, setPosts }) {
             setMainPage(true);
         } else if (post.status == "deleted") {
             setPostDeleted(true);
-        }
-        else if (post.status == "hide") {
+        } else if (post.status == "hide") {
             setHide(true);
         }
         //console.log(post.status);
@@ -78,7 +77,11 @@ function PostAdminView({ post, tags, showOptions, setPosts }) {
                                         setIsOpen={setIsOpen}
                                     />
 
-                                    <UnHide post={post} hide={hideFunc} />
+                                    <UnHide
+                                        post={post}
+                                        hide={hideFunc}
+                                        translation={translation}
+                                    />
                                 </div>
                             )}
                             {postDeleted && (
@@ -91,6 +94,7 @@ function PostAdminView({ post, tags, showOptions, setPosts }) {
                                     <RestorePost
                                         post={post}
                                         restore={deletePost}
+                                        translation={translation}
                                     />
                                 </div>
                             )}
@@ -104,15 +108,19 @@ function PostAdminView({ post, tags, showOptions, setPosts }) {
                             } hover:border-meme_violet m-2`}
                         >
                             <h3 className="text-left font-semibold mb-2 w-full">
-                                {post.id} {post.title}
+                                {post.title}
                             </h3>
                             <div className="text-left text-xs mb-2">
-                                {isNaN(post.user) ? post.user.name: "unknown"}
+                                {isNaN(post.user) ? post.user.name : "unknown"}
                             </div>
                             <div className="text-left text-xs ">
                                 {post.category.name}
                             </div>
-                            <Tags post={post} tags={tags} />
+                            <Tags
+                                post={post}
+                                tags={tags}
+                                translation={translation}
+                            />
                             <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
                                 {post.text}
                             </div>
@@ -129,20 +137,23 @@ function PostAdminView({ post, tags, showOptions, setPosts }) {
                                         elementType={"post"}
                                         likes={post.likes}
                                         is_liked={post.is_liked}
+                                        translation={translation}
                                     />
 
                                     <Fav
                                         postId={post.id}
                                         is_Fav={post.is_fav}
+                                        translation={translation}
                                     />
 
                                     <ReportDialog
                                         post={post}
                                         defaultButtonText={"!"}
                                         modalTitle={""}
-                                        modalDescription={
-                                            "Select report reason"
-                                        }
+                                        modalDescription={translation.t(
+                                            "Select report reason",
+                                        )}
+                                        translation={translation}
                                     />
 
                                     <PostDetals
@@ -151,6 +162,7 @@ function PostAdminView({ post, tags, showOptions, setPosts }) {
                                         setIsOpen={setIsOpen}
                                         loadComments={loadComments}
                                         setLoadComments={setLoadComments}
+                                        translation={translation}
                                     />
                                 </div>
                             )}
@@ -168,31 +180,41 @@ function PostAdminView({ post, tags, showOptions, setPosts }) {
                                             }
                                             post={post}
                                             mainPage={mainPage}
+                                            translation={translation}
                                         />
-                                        <HidePost post={post} hide={hideFunc} />
+                                        <HidePost
+                                            post={post}
+                                            hide={hideFunc}
+                                            translation={translation}
+                                        />
                                         <DeletePost
                                             post={post}
                                             postDeleted={postDeleted}
                                             deletePost={deletePost}
+                                            translation={translation}
                                         />
                                         <div className="flex text-center justify-center">
                                             <ReportListDialog
                                                 post={post}
-                                                defaultButtonText={
-                                                    "Show reports"
-                                                }
-                                                modalTitle={"Reports"}
+                                                defaultButtonText={translation.t(
+                                                    "Show reports",
+                                                )}
+                                                modalTitle={translation.t(
+                                                    "Reports",
+                                                )}
                                                 modalDescription={""}
+                                                translation={translation}
                                             />
                                             <BanDialog
                                                 user={post.user}
-                                                defaultButtonText={
-                                                    "Ban this user"
-                                                }
+                                                defaultButtonText={translation.t(
+                                                    "Ban",
+                                                )}
                                                 modalTitle={""}
-                                                modalDescription={
-                                                    "Select ban reason and length"
-                                                }
+                                                modalDescription={translation.t(
+                                                    "Select ban reason and length",
+                                                )}
+                                                translation={translation}
                                             />
                                         </div>
                                     </>

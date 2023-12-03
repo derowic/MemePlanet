@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Notification;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(FavouriteSeeder::class);
         $this->call(ReportSeeder::class);
         $this->call(BanSeeder::class);
+        $this->call(LikeableSeeder::class);
         //$this->call(Notification::class);
         // \App\Models\User::factory(10)->create();
 

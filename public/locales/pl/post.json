@@ -1,0 +1,57 @@
+{
+    "Take it from the home page": "Zabierz ze strony głównej",
+    "Send to main page": "Wyślij na stronę główną",
+    "Hide": "Ukryj",
+    "Unhide": "Odkryj",
+    "Delete": "Usuń",
+    "Restore": "Przywróć",
+    "Show reports": "Pokaż raporty",
+    "Ban": "Ban",
+
+    "Comments": "komentarze",
+    "loading...": "ładowanie...",
+    "No more posts": "Nie ma więcej postów",
+    "load more comments": "załaduj więcej komentarzy",
+
+    "Close": "Zamknij",
+    "Select report reason": "Wybierz powód zgłoszenia",
+
+    "Your account is banned for": "Twoje konto jest zbanowane na",
+    "Ban reason": "Przyczyna bana",
+    "from": "od",
+    "Select ban reason and length": "Wybierz długość bana i jego przyczynę",
+    "3 days": "3 dni",
+    "week": "tydzień",
+    "month": "miesiąc",
+    "3 months": "3 miesiące",
+    "year": "rok",
+    "10 year": "10 lat",
+    "vulgar language": "wulgarne słownictwo",
+    "wrong section": "zły dział",
+    "violates ethical or cultural issues": "narusza kwestie etyczne lub kulturowe",
+
+    "Reports": "Raporty",
+
+    "reply": "odpowiedz",
+    "Add comment": "dodaj komentarz",
+
+
+    "Post added to favourite": "Post zapisano do ulubionych",
+    "Post removed from favourites": "Post usunięto z ulubionych",
+
+    "Success, post taken from page": "Post, usunięty ze strony głównej",
+    "Success, post sended to main page": "Sukces, post wysłany na stronę główną",
+    "Success, post hidden": "Sukces, post ukryty",
+    "Success, post odkryty": "Sukces, post odkryty",
+
+    "Thanks": "Dzięki",
+    "You have already reported this post": "Już zgłosiłeś tego posta",
+
+    "Comment added": "Komentarz dodano",
+
+    "Post added, wait in fresh to accept by moderators": "Post dodany, czeka w oczekujących na zaakceptowanie przez moderatorów",
+    "Image, title and category are required": "Zdjęcie, tytuł i kategoria musi zostać wypełnione",
+    "The image field has invalid image dimensions": "Zdjęcie jest za duże, maksymalna szerokość: 1000px"
+
+
+}

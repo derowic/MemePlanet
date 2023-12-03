@@ -21,7 +21,7 @@ class ReportListController extends Controller
         if ($reports) {
             return response()->json(['data' => $reports], 201);
         } else {
-            return response()->json(['message' => 'error while saving comment, refresh or try later'], 500);
+            return response()->json(['message' => trans('notifications.error while saving comment, refresh or try later')], 500);
         }
     }
 
@@ -41,6 +41,6 @@ class ReportListController extends Controller
             }
         }
 
-        return response()->json(['message' => 'You have already reported this post'], 200);
+        return response()->json(['message' => trans('notifications.You have already reported this post')], 200);
     }
 }

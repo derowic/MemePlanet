@@ -20,6 +20,41 @@ import { ToastContainer, toast } from "react-toastify";
 import NavBar from "@/Layouts/NavBar";
 import AxiosGet from "./API/AxiosGet";
 
+/*
+console.log(`
+
+
+__        _______ _     ____ ___  __  __ _____
+\\ \\      / | ____| |   / ___/ _ \\|  \\/  | ____|
+ \\ \\ /\\ / /|  _| | |  | |  | | | | |\\/| |  _|
+  \\ V  V / | |___| |__| |__| |_| | |  | | |___
+   \\_/\\_/  |_____|_____\\____\\___/|_|  |_|_____|
+
+
+  ___  _   _
+ / _ \\| \\ | |
+| | | |  \\| |
+| |_| | |\\  |
+ \\___/|_| \\_|
+
+
+ __  __ _____ __  __ _____
+|  \\/  | ____|  \\/  | ____|
+| |\\/| |  _| | |\\/| |  _|
+| |  | | |___| |  | | |___
+|_|  |_|_____|_|  |_|_____|
+
+
+ ____  _        _    _   _ _____ _____
+|  _ \\| |      / \\  | \\ | | ____|_   _|
+| |_) | |     / _ \\ |  \\| |  _|   | |
+|  __/| |___ / ___ \\| |\\  | |___  | |
+|_|   |_____/_/   \\_|_| \\_|_____| |_|
+
+We're happy you're here
+`);
+*/
+
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
     const translation = useTranslation(["dashboard"]);
 
@@ -36,7 +71,6 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
         translation.t("Home"),
     );
     const [rout, setRout] = useState("post.index");
-
 
     useEffect(() => {
         AxiosGet("tag.index", null, null, setTags);
@@ -86,7 +120,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
             <div className="font-bold bg-meme_black">
                 <div className="flex text-gray-100">
                     <div className="w-full text-center">
-                        <h2 className="mb-2 text-3xl border-b border-meme_violet">
+                        <h2 className="mb-2 text-3xl">
                             {translation.t("Meme Planet")}
                         </h2>
                         <PostsTypeSelect
@@ -101,7 +135,10 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             setPosts={setPosts}
                             setRout={setRout}
                         />
-                        {(tags.length >= 0 && categories.length > 0 && setPage  && setPosts) && (
+                        {tags.length >= 0 &&
+                            categories.length > 0 &&
+                            setPage &&
+                            setPosts && (
                                 <InfiniteScrollPosts
                                     chosenCategory={chosenCategory}
                                     posts={posts}

@@ -12,7 +12,9 @@ const ReportDialog = ({
     defaultButtonText,
     modalTitle,
     modalDescription,
+    translation,
 }) => {
+
     let loged = LogedIn();
     const [reports, setReports] = useState([]);
     const setReport = async (report_id) => {
@@ -60,14 +62,14 @@ const ReportDialog = ({
                 <Dialog.Panel className="bg-meme_black text-white p-4 rounded-lg shadow-md w-1/2 border border-red-500">
                     <DefaultButton
                         onClick={closeDialog}
-                        text={"Close"}
+                        text={translation.t("Close")}
                         className={
                             "border-2 border-red-500 px-4 py-2 rounded-lg"
                         }
                     />
                     <Dialog.Title>{modalTitle}</Dialog.Title>
                     <Dialog.Description className={"mt-2"}>
-                        {modalDescription}
+                        {translation.t(modalDescription)}
                     </Dialog.Description>
                     <div className="mt-4 justify-end">
                         {reports ? (
@@ -75,7 +77,7 @@ const ReportDialog = ({
                                 <div key={report.id}>
                                     <DefaultButton
                                         onClick={() => setReport(report.id)}
-                                        text={report.name}
+                                        text={translation.t(report.name)}
                                         className={
                                             "mt-2 mb-2 mr-2 hover:bg-red-400 text-white font-bold py-2 px-4 rounded-lg border border-red-600"
                                         }
@@ -83,7 +85,7 @@ const ReportDialog = ({
                                 </div>
                             ))
                         ) : (
-                            <div>loading...</div>
+                            <div>{translation.t("loading...")}</div>
                         )}
                     </div>
                 </Dialog.Panel>

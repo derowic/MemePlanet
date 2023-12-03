@@ -8,6 +8,7 @@ const ReportListDialog = ({
     defaultButtonText,
     modalTitle,
     modalDescription,
+    translation,
 }) => {
     const [postReports, setPostReports] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +33,7 @@ const ReportListDialog = ({
         <div className="ml-2 ">
             <DefaultButton
                 onClick={openDialog}
-                text={defaultButtonText} //"!"
+                text={translation.t(defaultButtonText)} //"!"
                 className={
                     "mt-2 mb-2 mr-2 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-lg border border-blue-500"
                 }
@@ -45,22 +46,26 @@ const ReportListDialog = ({
                 <Dialog.Panel className="bg-[#222] text-white p-4 rounded-lg shadow-md w-1/2 border-2 border-blue-500">
                     <DefaultButton
                         onClick={closeDialog}
-                        text={"Close"}
+                        text={translation.t("Close")}
                         className={
                             "p-2 m-2 border-2 rounded-lg  border-blue-500"
                         }
                     />
-                    <Dialog.Title>{modalTitle}</Dialog.Title>
-                    <Dialog.Description>{modalDescription}</Dialog.Description>
+                    <Dialog.Title>{translation.t(modalTitle)}</Dialog.Title>
+                    <Dialog.Description>
+                        {translation.t(modalDescription)}
+                    </Dialog.Description>
                     <div className="mt-4 justify-end">
                         {postReports ? (
                             postReports.map((report) => (
                                 <div key={report.report.id}>
-                                    {report.report.name + ": " + report.count}
+                                    {translation.t(report.report.name) +
+                                        ": " +
+                                        report.count}
                                 </div>
                             ))
                         ) : (
-                            <div>loading...</div>
+                            <div>{translation.t("loading...")}</div>
                         )}
                     </div>
                 </Dialog.Panel>

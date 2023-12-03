@@ -5,10 +5,12 @@ import DefaultButton from "../../BasicElements/DefaultButton";
 import { usePage } from "@inertiajs/react";
 import Notify from "@/Components/Notify";
 import LogedIn from "@/Pages/API/LogedIn";
+import CheckPermission from "@/Pages/API/CheckPermission";
 
 function Like({ elementId, elementType, likes, is_liked }) {
     //console.log(usePage().props.auth);
     let loged = LogedIn();
+    let role = CheckPermission;
 
     if (likes == null) {
         likes = 0;

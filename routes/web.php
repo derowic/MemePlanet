@@ -31,9 +31,15 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard'); //middleware(['auth', 'verified'])->
 
+Route::get('/unauthorized', function () {
+    return Inertia::render('UnAuthorizedView');
+})->name('unauthorized');
+
 Route::get('/MemeGenerator', function () {
     return Inertia::render('MemeGenerator');
 })->name('memeGenerator'); //middleware(['auth', 'verified'])->
+
+Route::get('/setLang', [ProfileController::class, 'setLanguage'])->name('profile.setLang');
 
 Route::get('/post', [PostController::class, 'index'])->name('post.index');
 Route::get('/top', [PostController::class, 'top'])->name('post.top');
@@ -59,6 +65,8 @@ Route::get('/comment/refresh', [CommentController::class, 'refresh'])->name('com
 Route::get('/ban', [BanController::class, 'index'])->name('ban.index');
 
 Route::get('/report', [ReportController::class, 'index'])->name('report.index');
+
+Route::post('/favourite', [FavouriteController::class, 'store'])->name('favourite.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -96,7 +104,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/comment/{comment}', [CommentController::class, 'delete'])->name('comment.delete');
 
         Route::get('/favourite', [FavouriteController::class, 'index'])->name('favourite.index');
-        Route::post('/favourite', [FavouriteController::class, 'store'])->name('favourite.store');
+
         Route::put('/favourite/{favourite}', [FavouriteController::class, 'update'])->name('favourite.update');
         Route::delete('/favourite/{favourite}', [FavouriteController::class, 'delete'])->name('favourite.delete');
 

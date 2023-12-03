@@ -55,7 +55,7 @@ class FavouriteController extends Controller
             if ($favouriteRecord == true) {
                 Favourite::find($favouriteRecord->id)->forceDelete();
 
-                return response()->json(['message' => 'Post removed from favourites']);
+                return response()->json(['message' => trans('notifications.Post removed from favourites')]);
 
             } else {
                 $tmp = new Favourite();
@@ -66,13 +66,13 @@ class FavouriteController extends Controller
                 $tmp->save();
                 if ($tmp->save()) {
 
-                    return response()->json(['message' => 'Post added to favourite'], 201);
+                    return response()->json(['message' => trans('notifications.Post added to favourite')], 201);
                 } else {
-                    return response()->json(['message' => 'Error while adding post to favourites'], 500);
+                    return response()->json(['message' => trans('notifications.Error while adding post to favourites')], 500);
                 }
             }
         } else {
-            return response()->json(['message' => 'Error'], 500);
+            return response()->json(['message' => trans('notifications.Error')], 500);
         }
     }
 }

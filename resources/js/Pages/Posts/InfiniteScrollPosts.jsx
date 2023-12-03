@@ -17,23 +17,20 @@ const InfiniteScrollPosts = ({
     page,
     setPage,
 }) => {
-
-    const translation = useTranslation(["dashboard"]);
+    const translation = useTranslation(["post"]);
     const [favs, setFavs] = useState([]);
     const [chosedCategory, setChosedCategory] = useState(0);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const screenWidth = window.screen.width;
     const [columnNumber, setColumnNumber] = useState(6);
-    const [columnStyle, setColumnStyle] = useState("grid grid-cols-6 gap-4");
+    const [columnStyle, setColumnStyle] = useState(null);
     const [replacedPosts, SetReplacedPosts] = useState([]);
     const [refresh, setRefresh] = useState(true);
-    let columnWidthShouldBe =  window.screen.width /6;
+    let columnWidthShouldBe = window.screen.width / 6;
     let oldColumnNumber = 6;
 
     const fetchPaginatedPost = async () => {
-        //
-
-        if(setPosts){
+        if (setPosts) {
             console.log("fetch posts");
             let response = await fetchPosts();
             setPosts((prevData) => [...prevData, ...response]);
@@ -42,11 +39,9 @@ const InfiniteScrollPosts = ({
     };
 
     const afterChangeSelectedPosts = async () => {
-
-        if(setPosts){
+        if (setPosts) {
             setPosts([]);
             let response = await fetchPosts();
-            //console.log(response);
             setPosts(response);
             setPage(page + 1);
             replacePosts();
@@ -73,30 +68,21 @@ const InfiniteScrollPosts = ({
     };
 
     const handleResize = () => {
-        if (columnNumber != oldColumnNumber) {
-            replacePosts();
-            oldColumnNumber = columnNumber;
-        }
+
         setWindowWidth(window.innerWidth);
         let columnNum = window.innerWidth / columnWidthShouldBe;
         columnNum = Math.round(columnNum);
         if (columnNum <= 0) {
             columnNum = 1;
         }
-        if (columnNum == 5) {
-            columnNum = 4;
-        }
-
-
-        if (columnNum >= 7  ) {
-            columnNum = 6;
-        }
-
         setColumnNumber(columnNum);
-
-        setColumnStyle("grid grid-cols-" + columnNum+" gap-4");
-        console.log(columnStyle);
+        setColumnStyle("w-" + columnNum + "");
         setRefresh(!refresh);
+
+        if (columnNumber != oldColumnNumber) {
+            replacePosts();
+            oldColumnNumber = columnNumber;
+        }
     };
 
     useEffect(() => {
@@ -105,7 +91,6 @@ const InfiniteScrollPosts = ({
         replacePosts();
         handleResize();
         console.log("syatuy");
-
     }, [categories, tags]);
 
     useEffect(() => {
@@ -119,60 +104,100 @@ const InfiniteScrollPosts = ({
         setWindowWidth(window.innerWidth);
         handleResize();
         replacePosts();
+
+        console.log(scrollY);
+        console.log(isScrollBarVisible);
+        window.addEventListener("scroll", handleScroll);
+
         return () => {
             window.removeEventListener("resize", handleResize);
+            window.removeEventListener("scroll", handleScroll);
         };
+
+        // Ustalamy, żeby usunąć nasłuchiwanie zdarzenia, gdy komponent zostanie odmontowany
+        return () => {};
     }, [columnNumber, posts]);
+
+    const [scrollY, setScrollY] = useState(0);
+    const [isScrollBarVisible, setIsScrollBarVisible] = useState(false);
+
+    // Funkcja obsługująca zdarzenie przewijania
+    const handleScroll = () => {
+        // Pobranie wartości przewinięcia pionowego (Y-axis)
+        const currentScrollY = window.scrollY || window.pageYOffset;
+
+        // Pobranie wysokości okna przeglądarki
+        const windowHeight = window.innerHeight;
+
+        // Pobranie wysokości całej strony (z uwzględnieniem przewinięcia)
+        const documentHeight = document.body.scrollHeight;
+
+        // Sprawdzenie, czy pasek przewijania jest widoczny
+        const scrollBarVisible = documentHeight > windowHeight;
+
+        // Aktualizacja stanów
+        setScrollY(currentScrollY);
+        setIsScrollBarVisible(scrollBarVisible);
+    };
+
+    // Ustawienie funkcji obsługującej zdarzenie przewijania przy montowaniu komponentu
 
     return (
         <div>
-            <div className="p-4 w-3/4 m-auto">
-                {CheckPermission("post.create") && (
-                    <UploadPost categories={categories} tags={tags} />
-                )}
+            <div className="p-4 w-full m-auto">
+                <div className="m-auto w-3/4">
+                    {CheckPermission("post.create") && (
+                        <UploadPost categories={categories} tags={tags} />
+                    )}
+                </div>
+                {/*<p>{columnNumber}</p>*/}
+                <InfiniteScroll
+                    dataLength={posts.length}
+                    next={fetchPaginatedPost}
+                    hasMore={true}
+                    loader={<p>{translation.t("loading...")}</p>}
+                    endMessage={<p>{translation.t("No more posts")}</p>}
+                >
+                    {/*<div className={columnStyle}>
+                        {replacedPosts.map((column, columnIndex) => (
+                            <div key={columnIndex} className={"col-span-1"}>
+                                {column.map((post, postIndex) => (
+                                    <Post
+                                        key={post.id}
+                                        index={postIndex}
+                                        post={post}
+                                        tags={tags}
+                                        showOptions={true}
+                                    />
+                                ))}
+                            </div>
+
+                        ))}
+                    </div>
+                    */}
+                    <div className="m-auto flex w-full">
+                        {replacedPosts.map((column, columnIndex) => (
+                            <div
+                                key={columnIndex}
+                                style={{
+                                    width: columnWidthShouldBe,
+                                }} /*className={`w-1/${columnNumber}`}*/
+                            >
+                                {column.map((post, postIndex) => (
+                                    <Post
+                                        key={postIndex}
+                                        index={postIndex}
+                                        post={post}
+                                        tags={tags}
+                                        showOptions={true}
+                                        translation={translation}
+                                    />
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                </InfiniteScroll>
             </div>
-            <InfiniteScroll
-                dataLength={posts.length}
-                next={fetchPaginatedPost}
-                hasMore={true}
-                loader={<p>{translation.t("loading...")}</p>}
-                endMessage={<p>{translation.t("noMorePosts")}</p>}
-            >
-
-                {/*<div className={columnStyle}>
-                    {replacedPosts.map((column, columnIndex) => (
-                        <div key={columnIndex} className={"col-span-1"}>
-                            {column.map((post, postIndex) => (
-                                <Post
-                                    key={post.id}
-                                    index={postIndex}
-                                    post={post}
-                                    tags={tags}
-                                    showOptions={true}
-                                />
-                            ))}
-                        </div>
-                       
-                    ))}
-                </div>
-                */}
-                 <div className="flex flex-wrap">
-                    {replacedPosts.map((column, columnIndex) => (
-                        <div key={columnIndex} className={`w-1/${columnNumber}`}>
-                            {column.map((post, postIndex) => (
-                                <Post
-                                    key={postIndex}
-                                    index={postIndex}
-                                    post={post}
-                                    tags={tags}
-                                    showOptions={true}
-                                />
-                            ))}
-                        </div>
-                    ))}
-                </div>
-
-            </InfiniteScroll>
         </div>
     );
 };

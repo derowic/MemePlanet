@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import DefaultButton from "./DefaultButton";
 import { useTranslation } from "react-i18next";
 
-function ButtonsList({ elements, func, selected }) {
-    const translation = useTranslation(["dashboard"]);
+function ButtonsList({ elements, func, selected, translation }) {
     useEffect(() => {}, [elements, selected]);
 
     return (

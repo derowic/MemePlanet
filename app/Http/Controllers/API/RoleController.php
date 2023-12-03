@@ -26,13 +26,13 @@ class RoleController extends Controller
         $user = User::find($request->input('user_id'));
 
         if (! $user) {
-            return response()->json(['message' => "This user don't exist"], 404);
+            return response()->json(['message' => trans("notifications.This user don't exist")], 404);
         }
 
         $roleIds = $request->input('role_ids');
 
         $user->roles()->sync($roleIds);
 
-        return response()->json(['message' => 'Role assigned']);
+        return response()->json(['message' => trans('notifications.Role assigned')]);
     }
 }

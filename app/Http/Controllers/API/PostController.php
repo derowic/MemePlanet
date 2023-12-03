@@ -16,6 +16,7 @@ use Inertia\Response;
 class PostController extends Controller
 {
     protected $postRepository;
+
     protected $perPage = 42;
 
     public function __construct(PostRepository $postRepository)
@@ -25,7 +26,6 @@ class PostController extends Controller
 
     public function postsFromCategories(Request $request)
     {
-        $this->perPage = 12;
         $page = $request->input('page', 1);
         $categories = $request->input('chosenCategory', []);
 
@@ -171,6 +171,7 @@ class PostController extends Controller
         $post->title = $request->input('title');
         $post->text = $request->input('text');
         $post->likes = 0;
+        $post->status = 'waiting';
         $post->category_id = $request->input('category');
         $post->path_to_image = $imageName;
         $post->created_at = now();
@@ -219,12 +220,12 @@ class PostController extends Controller
         }
 
         if ($post->save()) {
-            return response()->json(['message' => 'Post added, wait in fresh to accept by moderators'], 201);
+            return response()->json(['message' => trans('notifications.Post added, wait in fresh to accept by moderators')], 201);
         } else {
-            return response()->json(['message' => 'Error while adding post'], 500);
+            return response()->json(['message' => trans('notifications.Error while adding post')], 500);
         }
 
-        return response()->json(['message' => 'Error while adding post'], 400);
+        return response()->json(['message' => trans('notifications.Error while adding post')], 400);
     }
 
     public function like(Request $request)
@@ -252,7 +253,7 @@ class PostController extends Controller
 
             ]);
         } else {
-            return response()->json(['message' => 'Error while saving like'], 500);
+            return response()->json(['message' => trans('notifications.Error while saving like')], 500);
         }
     }
 
@@ -326,7 +327,7 @@ class PostController extends Controller
             'status' => 'waiting',
         ]);
 
-        return response()->json(['message' => 'Success, post restored'], 201);
+        return response()->json(['message' => trans('notifications.Success, post restored')], 201);
     }
 
     public function destroy(Post $post)
@@ -337,7 +338,7 @@ class PostController extends Controller
             'status' => 'deleted',
         ]);
 
-        return response()->json(['message' => 'Success deleting'], 201);
+        return response()->json(['message' => trans('notifications.Success deleting')], 201);
     }
 
     public function sendToMainPage(Post $post)
@@ -347,13 +348,13 @@ class PostController extends Controller
                 'status' => 'waiting',
             ]);
 
-            return response()->json(['message' => 'Success, post taken from page'], 201);
+            return response()->json(['message' => trans('notifications.Success, post taken from page')], 201);
         } else {
             Post::where('id', ($post->id))->update([
                 'status' => 'main page',
             ]);
 
-            return response()->json(['message' => 'Success, post sended to main page'], 201);
+            return response()->json(['message' => trans('notifications.Success, post sended to main page')], 201);
         }
     }
 
@@ -363,8 +364,7 @@ class PostController extends Controller
             'status' => 'hide',
         ]);
 
-        return response()->json(['message' => 'Success, post hidden'], 200);
-
+        return response()->json(['message' => trans('notifications.Success, post hidden')], 200);
     }
 
     public function unHidePost(Post $post)
@@ -373,6 +373,6 @@ class PostController extends Controller
             'status' => 'waiting',
         ]);
 
-        return response()->json(['message' => 'Success, post unhide'], 201);
+        return response()->json(['message' => trans('notifications.Success, post unhide')], 201);
     }
 }

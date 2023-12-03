@@ -13,7 +13,7 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $humor = Category::create([
-            'name' => 'humor',
+            'name' => 'Humor',
 
         ]);
 
@@ -53,7 +53,7 @@ class CategorySeeder extends Seeder
         ]);
 
         Category::create([
-            'name' => 'Latest News',
+            'name' => 'News',
 
         ]);
 
@@ -73,7 +73,7 @@ class CategorySeeder extends Seeder
         ]);
 
         Category::create([
-            'name' => 'Gaming',
+            'name' => 'Games',
 
         ]);
 
@@ -83,7 +83,7 @@ class CategorySeeder extends Seeder
         ]);
 
         Category::create([
-            'name' => 'Relationgship&Dating',
+            'name' => 'Relationship&Dating',
 
         ]);
 
@@ -114,11 +114,6 @@ class CategorySeeder extends Seeder
 
         Category::create([
             'name' => 'Life',
-
-        ]);
-
-        Category::create([
-            'name' => 'Woah',
 
         ]);
 

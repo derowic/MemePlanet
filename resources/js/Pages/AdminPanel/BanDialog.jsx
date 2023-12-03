@@ -10,6 +10,7 @@ const BanDialog = ({
     defaultButtonText,
     modalTitle,
     modalDescription,
+    translation,
 }) => {
     const [reports, setReports] = useState([]);
     const [banTypes, setBanTypes] = useState([]);
@@ -42,7 +43,7 @@ const BanDialog = ({
         <div className="ml-2 ">
             <DefaultButton
                 onClick={openDialog}
-                text={defaultButtonText} //"!"
+                text={translation.t(defaultButtonText)} //"!"
                 className={
                     "mt-2 mb-2 mr-2 hover:bg-red-400 text-white font-bold py-2 px-4 rounded-lg border border-red-700"
                 }
@@ -55,11 +56,13 @@ const BanDialog = ({
                 <Dialog.Panel className="bg-[#222] text-white p-4 rounded-lg shadow-md w-1/2 border-2 border-red-700">
                     <DefaultButton
                         onClick={closeDialog}
-                        text={"Close"}
+                        text={translation.t("Close")}
                         className={"p-2 m-2 border border-red-700 rounded-lg"}
                     />
-                    <Dialog.Title>{modalTitle}</Dialog.Title>
-                    <Dialog.Description>{modalDescription}</Dialog.Description>
+                    <Dialog.Title>{translation.t(modalTitle)}</Dialog.Title>
+                    <Dialog.Description>
+                        {translation.t(modalDescription)}
+                    </Dialog.Description>
                     <div className="mt-4 ">
                         <div className="flex">
                             {banTypes ? (
@@ -69,7 +72,7 @@ const BanDialog = ({
                                             onClick={() =>
                                                 setSelectedBan(banType.id)
                                             }
-                                            text={banType.name}
+                                            text={translation.t(banType.name)}
                                             className={
                                                 selectedBan === banType.id
                                                     ? "mt-2 mb-2 mr-2 bg-red-700 text-white font-bold py-2 px-4 rounded-lg border border-red-700"
@@ -79,7 +82,7 @@ const BanDialog = ({
                                     </div>
                                 ))
                             ) : (
-                                <div>loading...</div>
+                                <div>{translation.t("loading...")}</div>
                             )}
                         </div>
 
@@ -91,7 +94,7 @@ const BanDialog = ({
                                             onClick={() =>
                                                 setSelectedReason(report.id)
                                             }
-                                            text={report.name}
+                                            text={translation.t(report.name)}
                                             className={
                                                 selectedReason === report.id
                                                     ? "mt-2 mb-2 mr-2 bg-red-700 text-white font-bold py-2 px-4 rounded-lg border border-red-700"
@@ -101,13 +104,13 @@ const BanDialog = ({
                                     </div>
                                 ))
                             ) : (
-                                <div>loading...</div>
+                                <div>{translation.t("loading...")}</div>
                             )}
                         </div>
                     </div>
                     <DefaultButton
                         onClick={ban}
-                        text={"Ban"}
+                        text={translation.t("Ban")}
                         className={
                             "m-2 px-4 py-2 hover:bg-red-500 hover:border-[#ffbc40] bg-red-700 rounded-lg"
                         }

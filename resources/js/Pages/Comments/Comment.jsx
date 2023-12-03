@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import CommentInput2 from "./CommentInput";
+import CommentInput from "./CommentInput";
 import Like from "../Posts/Likes/Like";
 import SendComment from "./SendComment";
 import "react-quill/dist/quill.snow.css";
@@ -15,6 +15,7 @@ const Comment = ({
     post,
     updateCommentSection,
     prevComment,
+    translation,
 }) => {
     const user = usePage().props.auth;
     const post2 = post;
@@ -80,11 +81,11 @@ const Comment = ({
                                         onClick={unHide}
                                         className="text-[#ddd] h-full"
                                     >
-                                        reply
+                                        {translation.t("reply")}
                                     </button>
                                 </div>
                                 <div id={comment.id} hidden className="w-full">
-                                    <CommentInput2
+                                    <CommentInput
                                         onSubmit={(commentText, post) =>
                                             handleSubmitComment(
                                                 commentText,
@@ -93,6 +94,7 @@ const Comment = ({
                                             )
                                         }
                                         post={post}
+                                        translation={translation}
                                     />
                                 </div>
                             </div>
@@ -136,6 +138,7 @@ const Comment = ({
                                     parent_id={comment.id}
                                     updateCommentSection={updateCommentSection}
                                     prevComment={comment}
+                                    translation={translation}
                                 />
                             ))}
                         </div>

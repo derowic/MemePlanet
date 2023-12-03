@@ -41,35 +41,9 @@ export default function AdminPanel() {
         <AuthenticatedLayout changeCategory={changeCategory}>
             <div className="font-bold bg-[#111] h-full">
                 <div className="text-gray-100">
-                    <div className="w-full mt-4 ml-4">
-                        <div className="w-full p-4 text-center ">
-                            <h3 className=" w-full text-center mb-2 text-2xl w-full">
-                                {CheckRole("admin") && (
-                                    <>
-                                        <div>
-                                            <NavLink
-                                                href={route(
-                                                    "RoleAndPermissions",
-                                                )}
-                                                active={route().current(
-                                                    "RoleAndPermissions",
-                                                )}
-                                                className="bg-red-500"
-                                            >
-                                                {translation.t(
-                                                    "Role and permissions",
-                                                )}
-                                            </NavLink>
-                                        </div>
-                                    </>
-                                )}
-                            </h3>
-                        </div>
-                    </div>
-
                     <div className="w-full mt-2">
                         <div className="w-full text-center">
-                            <h2 className="mb-2 text-3xl border-b border-meme_violet">
+                            <h2 className="mb-2 text-3xl">
                                 {translation.t("Meme Planet")}
                             </h2>
                             <PostsTypeSelect
@@ -92,6 +66,27 @@ export default function AdminPanel() {
                                 setPosts={setPosts}
                                 setRout={setRout}
                             />
+                            <div className="w-1/4 m-auto mt-4 text-3xl border rounded-lg hover:border-meme_violet">
+                                {CheckRole("admin") && (
+                                    <>
+                                        <div>
+                                            <NavLink
+                                                href={route(
+                                                    "RoleAndPermissions",
+                                                )}
+                                                active={route().current(
+                                                    "RoleAndPermissions",
+                                                )}
+                                                className="bg-red-500"
+                                            >
+                                                {translation.t(
+                                                    "Service settings",
+                                                )}
+                                            </NavLink>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
                             {tags.length >= 0 && categories.length > 0 && (
                                 <InfiniteScrollPosts
                                     chosenCategory={chosenCategory}

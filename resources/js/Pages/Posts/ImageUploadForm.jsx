@@ -10,6 +10,8 @@ import CheckPermission from "../API/CheckPermission";
 
 const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
     const translation = useTranslation(["dashboard"]);
+    const translationCategory = useTranslation(["category"]);
+    const translationTag = useTranslation(["tag"]);
     const [image, setImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
     const [selectedTags, setSelectedTags] = useState([]);
@@ -155,6 +157,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                         elements={categories}
                         func={selectCategory}
                         selected={selectedCategory}
+                        translation={translationCategory}
                     />
                 </div>
                 <h1 className="text-2xl border-b border-meme_violet">
@@ -165,6 +168,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                         elements={tags}
                         func={selectTag}
                         selected={selectedTags}
+                        translation={translationTag}
                     />
                 </div>
                 <Input
@@ -176,7 +180,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                     value={customTagText}
                     onChange={(e) => setCustomTagText(e.target.value)}
                 />
-                Example: #humor#mem#funny
+                {translation.t("Example:")} #humor#mem#funny
                 <div className=" border-t border-meme_violet p-2">
                     <DefaultButton
                         onClick={handleUploadClick}
