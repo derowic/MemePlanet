@@ -7,146 +7,210 @@ import SendComment from "./Comments/SendComment";
 import Notify from "@/Components/Notify";
 import { ToastContainer } from "react-toastify";
 import AxiosGet from "./API/AxiosGet";
+import { useTranslation } from "react-i18next";
+import Fav from "./Posts/Fav/Fav";
+import { Drawer } from "@mui/material";
+import Img from "./Posts/Img";
+import InfiniteScroll from "react-infinite-scroll-component";
+import FetchWithPagination from "./API/FetchWithPagination";
+import Button from "./BasicElements/Button";
 
-export default function OnePostShow({ post, tags }) {
+export default function OnePostShow({ post, tags, isFav }) {
+    const translation = useTranslation(["post"]);
+    const [isOpen, SetIsOpen] = useState(true);
     const [comments, setComments] = useState([]);
     const [usedComments, setUsedComments] = useState([]);
+    const [page, setPage] = useState(1);
+    const [customHeight, setCustomHeight] = useState(null);
 
-    useEffect(() => {
-        fetchComments();
-    }, []);
+    const reLoadComments = async () => {
+        AxiosGet(
+            "comment.refresh",
+            { page: page, id: post.id },
+            null,
+            setComments,
+        );
+    };
 
-    const fetchComments = async () => {
+    const fetchMoreComments = async () => {
         try {
-            let params = { id: post.id };
-            AxiosGet("comment.index", params, null, setComments);
+            const response = await AxiosGet(
+                "comment.index",
+                { page: page, id: post.id },
+                null,
+                null,
+            );
+            // Filtruj nowo pobrane komentarze, usuwając te, które już istnieją wśród obecnych komentarzy
+            const newComments = response.filter(
+                (newComment) =>
+                    !comments.some(
+                        (existingComment) =>
+                            existingComment.id === newComment.id,
+                    ),
+            );
+            // Aktualizuj komentarze, dodając nowe komentarze
+            setComments((prevData) => [...prevData, ...newComments]);
+            // Zaktualizuj numer strony
+            setPage(page + 1);
         } catch (error) {
-            console.error("CommentSection -> fetchComments error: ", error);
-        } finally {
-            setUsedComments([]);
+            console.error(error);
         }
+    };
+
+    const togglePanel = () => {
+        setUsedComments([]);
+        setComments([]);
+        //setIsOpen(!isOpen);
+        if (isOpen == false) {
+            fetchMoreComments();
+        }
+    };
+
+    const closePanel = () => {
+        setUsedComments([]);
+        setComments([]);
+        setIsOpen(!isOpen);
+
+        setPage(1);
     };
 
     const updateCommentSection = async () => {
         setUsedComments([]);
-        setComments([]);
-        await fetchComments();
+        await reLoadComments();
     };
 
-    const handleSubmitComment = async (
-        commentText,
-        postId,
-        parentCommentId,
-        fetchComments,
-    ) => {
+    const handleSubmitComment = async (commentText, parentCommentId) => {
         if (commentText != "") {
-            await SendComment(postId, commentText, parentCommentId);
-            //addComment(commentText);
-            updateCommentSection();
+            let response = await SendComment(
+                post.id,
+                commentText,
+                parentCommentId,
+            );
+            if (response) {
+                setComments((prevData) => [...prevData, response]);
+            } else {
+                console.error(
+                    "Invalid comment response or no comment returned.",
+                );
+            }
         } else {
             Notify("Comment filed is empty, write something");
         }
     };
 
-    /*
-    const addComment = (commentText) => {
-        const divElement0 = document.createElement("div");
-        divElement0.className =
-            "mt-10 mb-10 ml-5 bg-meme_black border-l-2 border-white-400 p-4";
+    useEffect(() => {
+        if (isOpen) {
+            fetchMoreComments();
+            const img = new Image();
+            img.src = "/images/" + post.path_to_image;
+            img.onload = () => {
+                let height = img.height;
+                height = img.height * 0.2;
+                console.log(height);
+                if (height < window.innerHeight / 2) {
+                    height = window.screen.height * 0.85;
+                }
+                console.log(height);
+                height = window.innerHeight;
 
-        const divElement = document.createElement("div");
-        divElement.className = "ml-5 mb-2 bg-meme_black sm:rounded-lg p-4";
+                setCustomHeight({ height: height + "px" });
+            };
+        }
+    }, [isOpen, post.path_to_image]);
 
-        const divElement2 = document.createElement("div");
-        divElement2.textContent = "user: "; //+ userData.name;
-        divElement.appendChild(divElement2);
-
-        const divElement4 = document.createElement("div");
-        divElement4.textContent = "koemntarz: " + commentText;
-        divElement.appendChild(divElement4);
-
-        const element = document.getElementById("comments");
-        divElement0.appendChild(divElement);
-        element.appendChild(divElement0);
-    };
-    */
+    useEffect(() => {}, [post.path_to_image, post]);
 
     return (
-        <>
-            <ToastContainer />
+        <div>
+            {customHeight ? (
+                <Drawer
+                    anchor="bottom"
+                    open={isOpen}
+                    onClose={closePanel}
+                    className="items-center justify-center "
+                >
+                    <div className="bg-meme_black text-white ">
+                        <div className="w-full m-auto flex">
+                            <div className="m-auto flex w-full">
+                                <div className="w-1/2 flex items-center justify-center">
+                                    <div className="w-3/4  justify-center p-4">
+                                        <Img
+                                            post={post}
+                                            loadCommentsFunc={null}
+                                            postDetailsView={true}
+                                        />
+                                    </div>
+                                </div>
 
-            <div className="bg-meme_black text-white">
-                <div className="m-auto text-white w-3/4 ">
-                    <div className="p-4 ">
-                        <h3 className="text-left font-semibold mb-2">
-                            {post.id} {post.title}
-                        </h3>
-                        <div className="text-left text-xs mb-2">
-                            {post.user.name}
-                        </div>
-                        <div className="text-left text-xs ">
-                            {post.category.text}
-                        </div>
-                        <Tags post={post} tags={tags} />
-                        <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
-                            {post.text}
-                        </div>
-                        <div className="flex flex-col items-center justify-end mt-2">
-                            <img
-                                src={"/images/" + post.path_to_image}
-                                alt="Opis obrazka"
-                                className="w-full"
-                            ></img>
-                            <div className="flex">
-                                <div className="flex">
-                                    <Like
-                                        elementId={post.id}
-                                        elementType={"post"}
-                                        likes={post.likes}
+                                <div
+                                    className="w-1/2 flex flex-col m-2"
+                                    style={customHeight}
+                                >
+                                    <div className="flex items-center justify-center bg-meme_black">
+                                        <div className="text-center text-lg">
+                                            {translation.t("Comments")}
+                                        </div>
+                                    </div>
+
+                                    <CommentInput
+                                        onSubmit={(commentText) =>
+                                            handleSubmitComment(
+                                                commentText,
+                                                null,
+                                            )
+                                        }
+                                        post={post.id}
+                                        translation={translation}
                                     />
+
+                                    <div
+                                        id="comments"
+                                        className="flex-1 overflow-y-auto "
+                                    >
+                                        {comments.map((comment) => (
+                                            <Comment
+                                                key={comment.id}
+                                                usedComments={usedComments}
+                                                comment={comment}
+                                                allComments={comments}
+                                                setComs={setComments}
+                                                post={post.id}
+                                                updateCommentSection={
+                                                    updateCommentSection
+                                                }
+                                                prevComment={null}
+                                                translation={translation}
+                                            />
+                                        ))}
+                                        <div className="w-full text-center">
+                                            <Button
+                                                onClick={() =>
+                                                    fetchMoreComments()
+                                                }
+                                                text={translation.t(
+                                                    "load more comments",
+                                                )}
+                                                className={
+                                                    "font-bold hover:bg-white hover:text-black m-auto p-2 text-center w-full text-white m-2"
+                                                }
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        {/*
+                    <div className="border-t-2 border-meme_violet mt-2 p-2 w-full text-4xl text-center">
+                        SIMILAR POSTS
                     </div>
-
-                    <div className="text-white ">
-                        <div className="flex items-center justify-center ">
-                            <div className="text-center text-lg ">Comments</div>
-                        </div>
-
-                        <CommentInput
-                            onSubmit={(commentText) =>
-                                handleSubmitComment(
-                                    commentText,
-                                    post.id,
-                                    null,
-                                    fetchComments,
-                                )
-                            }
-                            post={post.id}
-                        />
-                        <div
-                            id="comments"
-                            className="bg-meme_black dark:bg-white-700 "
-                        >
-                            {comments.map((comment) => (
-                                <Comment
-                                    key={comment.id}
-                                    usedComments={usedComments}
-                                    comment={comment}
-                                    allComments={comments}
-                                    post={post.id}
-                                    parentId={comment.id}
-                                    updateCommentSection={updateCommentSection}
-                                />
-                            ))}
-                        </div>
+                    */}
                     </div>
-                    <div className="border-b text-center text-2xl font-bold">
-                        Comments end
-                    </div>
+                </Drawer>
+            ) : (
+                <div className="w-full text-center text-3xl m-auto text-white">
+                    {translation.t("loading...")}
                 </div>
-            </div>
-        </>
+            )}
+        </div>
     );
 }

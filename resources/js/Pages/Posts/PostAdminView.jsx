@@ -18,6 +18,7 @@ import SendPostToMainPage from "../AdminAndModeratorFunctions/SendPostToMainPage
 import HidePost from "../AdminAndModeratorFunctions/HidePost";
 import DeletePost from "../AdminAndModeratorFunctions/DeletePost";
 import RestorePost from "../AdminAndModeratorFunctions/RestorePost";
+import TakeFromMainPage from "../AdminAndModeratorFunctions/TakeFromMainPage";
 
 function PostAdminView({ post, tags, showOptions, setPosts, translation }) {
     const user = usePage().props.auth.user;
@@ -37,9 +38,14 @@ function PostAdminView({ post, tags, showOptions, setPosts, translation }) {
         setHide(!hide);
     };
 
-    const setAsMainPagePost = () => {
-        post.status = "main page";
-        setMainPage(!mainPage);
+    const setAsMainPagePost = (tmp) => {
+        if (tmp == false) {
+            post.status = "waiting";
+        } else if (tmp == true) {
+            post.status = "main page";
+        }
+        setMainPage(tmp);
+        console.log(tmp);
     };
 
     const deletePost = () => {
@@ -114,7 +120,7 @@ function PostAdminView({ post, tags, showOptions, setPosts, translation }) {
                                 {isNaN(post.user) ? post.user.name : "unknown"}
                             </div>
                             <div className="text-left text-xs ">
-                                {post.category.name}
+                                {post.category && post.category.name}
                             </div>
                             <Tags
                                 post={post}

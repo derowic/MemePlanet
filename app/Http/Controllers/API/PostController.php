@@ -338,10 +338,20 @@ class PostController extends Controller
             'status' => 'deleted',
         ]);
 
-        return response()->json(['message' => trans('notifications.Success deleting')], 201);
+        return response()->json(['message' => trans('notifications.Success, post deleted')], 201);
     }
 
     public function sendToMainPage(Post $post)
+    {
+        Post::where('id', ($post->id))->update([
+            'status' => 'main page',
+        ]);
+
+        return response()->json(['message' => trans('notifications.Success, post sended to main page')], 201);
+
+    }
+
+    public function postTakenFromMainPage(Post $post)
     {
         if ($post->status == 'main page') {
             Post::where('id', ($post->id))->update([
@@ -349,12 +359,6 @@ class PostController extends Controller
             ]);
 
             return response()->json(['message' => trans('notifications.Success, post taken from page')], 201);
-        } else {
-            Post::where('id', ($post->id))->update([
-                'status' => 'main page',
-            ]);
-
-            return response()->json(['message' => trans('notifications.Success, post sended to main page')], 201);
         }
     }
 
@@ -364,7 +368,7 @@ class PostController extends Controller
             'status' => 'hide',
         ]);
 
-        return response()->json(['message' => trans('notifications.Success, post hidden')], 200);
+        return response()->json(['message' => trans('notifications.Success, post hidden')], 201);
     }
 
     public function unHidePost(Post $post)

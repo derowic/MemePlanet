@@ -31,7 +31,7 @@ const InfiniteScrollPosts = ({
 
     const fetchPaginatedPost = async () => {
         if (setPosts) {
-            console.log("fetch posts");
+            //console.log("fetch posts");
             let response = await fetchPosts();
             setPosts((prevData) => [...prevData, ...response]);
             setPage(page + 1);
@@ -68,7 +68,6 @@ const InfiniteScrollPosts = ({
     };
 
     const handleResize = () => {
-
         setWindowWidth(window.innerWidth);
         let columnNum = window.innerWidth / columnWidthShouldBe;
         columnNum = Math.round(columnNum);
@@ -90,7 +89,7 @@ const InfiniteScrollPosts = ({
         fetchPaginatedPost();
         replacePosts();
         handleResize();
-        console.log("syatuy");
+        //console.log("syatuy");
     }, [categories, tags]);
 
     useEffect(() => {
@@ -105,8 +104,8 @@ const InfiniteScrollPosts = ({
         handleResize();
         replacePosts();
 
-        console.log(scrollY);
-        console.log(isScrollBarVisible);
+        //console.log(scrollY);
+        //console.log(isScrollBarVisible);
         window.addEventListener("scroll", handleScroll);
 
         return () => {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NotificationResource;
 use App\Models\Comment;
+use App\Models\Favourite;
 use App\Models\Notification;
 use App\Models\Post;
 use App\Models\Tag;
@@ -53,6 +54,10 @@ class NotificationController extends Controller
             $tmp = Comment::find($request->input('element_id'))->user_id;
         }
 
+        if ($tmp == auth()->user()->id) {
+            return response()->json(201);
+        }
+
         $notification = new Notification();
         $notification->sender_id = auth()->user()->id;
         $notification->receiver_id = $tmp;
@@ -86,10 +91,15 @@ class NotificationController extends Controller
         }
         $notification->seen = 1;
         $notification->save();
+
+        $favouriteRecord = Favourite::where('user_id', auth()->user()->id)
+            ->where('post_id', $posts[0])
+            ->first();
         if ($posts->count() > 0) {
             return Inertia::render('OnePostShow', [
                 'post' => $posts[0],
                 'tags' => Tag::all(),
+                'isFav' => $favouriteRecord,
             ]);
         }
     }

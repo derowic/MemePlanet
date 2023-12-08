@@ -9,9 +9,12 @@ import AxiosDelete from "../API/AxiosDelete";
 import AxiosPut from "../API/AxiosPut";
 
 function RestorePost({ post, restore, translation }) {
-    const resotrePost = (post) => {
-        AxiosPut("post.restore", { id: post.id }, null, translation);
-        restore();
+    const resotrePost = async (post) => {
+        let tmp = await AxiosPut("post.restore", { id: post.id }, null, 1);
+
+        if (tmp.status == 201) {
+            restore();
+        }
     };
 
     return (

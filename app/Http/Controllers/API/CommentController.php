@@ -12,7 +12,7 @@ class CommentController extends Controller
 {
     public function refresh(Request $request)
     {
-        $perPage = 20;
+        $perPage = 10;
         $page = $request->input('page', 1);
         $comments = Comment::with(['user:id,name', 'comment:id'])
             ->orderBy('created_at', 'asc')
@@ -25,7 +25,7 @@ class CommentController extends Controller
 
     public function index(Request $request)
     {
-        $perPage = 20;
+        $perPage = 10;
         $page = $request->input('page', 1);
         $comments = Comment::with(['user:id,name', 'comment:id'])
             ->orderBy('created_at', 'asc')
@@ -85,7 +85,7 @@ class CommentController extends Controller
             $com->load(['user:id,name', 'comment:id']);
 
             return response()->json([
-                'message' => 'Comment added',
+                'message' => trans('notifications.Comment added'),
                 'data' => $com,
             ], 201);
         } else {

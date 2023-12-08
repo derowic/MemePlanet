@@ -53,7 +53,7 @@ Route::get('/category', [CategoryController::class, 'index'])->name('category.in
 
 Route::get('/tag', [TagController::class, 'index'])->name('tag.index');
 
-Route::get('/tagList', [TagListController::class, 'index'])->name('taListg.index');
+Route::get('/tagList', [TagListController::class, 'index'])->name('tagListg.index');
 
 Route::get('/api/roles', [RoleController::class, 'index'])->name('role.index');
 
@@ -61,12 +61,6 @@ Route::get('/api/permissions', [PermissionController::class, 'index'])->name('pe
 
 Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
 Route::get('/comment/refresh', [CommentController::class, 'refresh'])->name('comment.refresh');
-
-Route::get('/ban', [BanController::class, 'index'])->name('ban.index');
-
-Route::get('/report', [ReportController::class, 'index'])->name('report.index');
-
-Route::post('/favourite', [FavouriteController::class, 'store'])->name('favourite.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -104,6 +98,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/comment/{comment}', [CommentController::class, 'delete'])->name('comment.delete');
 
         Route::get('/favourite', [FavouriteController::class, 'index'])->name('favourite.index');
+        Route::post('/favourite', [FavouriteController::class, 'store'])->name('favourite.store');
 
         Route::put('/favourite/{favourite}', [FavouriteController::class, 'update'])->name('favourite.update');
         Route::delete('/favourite/{favourite}', [FavouriteController::class, 'delete'])->name('favourite.delete');
@@ -113,6 +108,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('/tag/{tag}', [TagController::class, 'delete'])->name('tag.delete');
 
         Route::post('/reportList', [ReportListController::class, 'store'])->name('reportList.store');
+        Route::get('/report', [ReportController::class, 'index'])->name('report.index');
+
         /*
         Route::post('/tagList', [TagListController::class, 'store'])->name('tagList.store');
         Route::put('/tagList/{tagList}', [TagListController::class, 'update'])->name('tagList.update');
@@ -146,7 +143,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/reportedPosts', [PostController::class, 'reportedPosts'])->name('post.reportedPosts');
             Route::get('/hiddenPosts', [PostController::class, 'hiddenPosts'])->name('post.hiddenPosts');
 
-            Route::put('/post/{post}', [PostController::class, 'sendToMainPage'])->name('post.mainPage');
+            Route::put('/post/mainPage/{post}', [PostController::class, 'sendToMainPage'])->name('post.mainPage');
+            Route::put('/post/takeFromMainPage/{post}', [PostController::class, 'postTakenFromMainPage'])->name('post.takeFromMainPage');
+
             //Route::put('/hdie/{post}/hide', [PostController::class, 'hidePost'])->name('post.hidePost');
             //Route::put('/hdie/{post}/unHide', [PostController::class, 'unHidePost'])->name('post.unHidePost');
 
@@ -155,6 +154,8 @@ Route::middleware('auth')->group(function () {
             Route::delete('/deleteComment/{comment}/delete', [CommentController::class, 'destroy'])->name('comment.destroy');
 
             Route::post('/ban', [BanController::class, 'banUser'])->name('ban.banUser');
+            Route::get('/ban', [BanController::class, 'index'])->name('ban.index');
+
             Route::get('/api/users', [UserController::class, 'getAllUsers'])->name('user.getAllUsers');
             Route::get('/search', [UserController::class, 'search'])->name('user.search');
             Route::get('/searchById', [UserController::class, 'searchById'])->name('user.searchById');

@@ -1,20 +1,33 @@
 <?php
 
 return [
+    //panel admin
+    'Success, tag is now category' => 'Sukces, tag jest teraz kategorią',
+    'Success, category deleted' => 'Sukces, kategoria usunięta',
+    'Success, category added' => 'Sukces, kategoria dodana',
+    'The name has already been taken.' => 'Nazwa już użyta',
+
+    //post admin functions
     'success_post_hidden' => 'Sukces, post ukryty',
-    "Post added to favourite" => "Post zapisano do ulubionych",
-    "Post removed from favourites"=>  "Post usunięto z ulubionych",
+    'Post added to favourite' => 'Post zapisano do ulubionych',
+    'Post removed from favourites' => 'Post usunięto z ulubionych',
+    'Success, post taken from page' => 'Success, post usunięty ze strony głównej',
+    'Sucess, post sended to main page' => 'Sukces, post wysłany na stronę główną',
+    'Success, post hidden' => 'Sukces, post ukryty',
+    'Success, post unhide' => 'Sukces, post odkryty',
+    'Success, post deleted' => 'Sukces, post usunięty',
+    'Success, post restored' => 'Sukces, post przywrócony',
+    'User banned' => 'Użytkownik zabanowany',
 
-    "Success, post taken from page"=>  "Post",
-    "Success, post hidden"=>  "Sukces, post ukryty",
-    "Success, post odkryty"=>  "Sukces, post odkryty",
+    //post
+    'Thanks' => 'Dzięki',
+    'You have already reported this post' => 'Już zgłosiłeś tego posta',
+    'Comment added' => 'Komentarz dodano',
+    'Post added to favourites' => 'Post dodany do ulubionych',
+    'Post removed from favourites' => 'Post usunięty z ulubionych',
 
-    "Thanks"=>  "Dzięki",
-    "You have already reported this post"=>  "Już zgłosiłeś tego posta",
-
-    "Comment added"=>  "Komentarz dodano",
-
-    "Post added, wait in fresh to accept by moderators"=>  "Post dodany, czeka w oczekujących na zaakceptowanie przez moderatorów",
-    "Image, title and category are required"=>  "Zdjęcie, tytuł i kategoria musi zostać wypełnione",
-    "The image field has invalid image dimensions"=>  "Zdjęcie jest za duże, maksymalna szerokość=>  1000px"
+    //adding post
+    'Post added, wait in fresh to accept by moderators' => 'Post dodany, czeka w oczekujących na zaakceptowanie przez moderatorów',
+    'Image, title and category are required' => 'Zdjęcie, tytuł i kategoria musi zostać wypełnione',
+    'The image field has invalid image dimensions' => 'Zdjęcie jest za duże, maksymalna szerokość=>  1000px',
 ];

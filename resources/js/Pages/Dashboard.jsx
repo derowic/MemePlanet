@@ -16,12 +16,15 @@ import BanInfo from "@/Layouts/BanInfo";
 import { usePage } from "@inertiajs/react";
 import Composition from "./providerTest/Index";
 import AxiosGet from "./API/AxiosGet";
+import { reset } from "laravel-mix/src/Log";
 
 export default function Dashboard() {
     const user = usePage().props.auth.user;
     const translation = useTranslation(["dashboard"]);
+    const [resetCategory, setResetCategory] = useState(false);
     const [chosenCategory, setChosenCategory] = useState([]);
     const changeCategory = (tmp) => {
+        //console.log("chae")
         setChosenCategory(tmp);
         setPage(1);
     };
@@ -33,6 +36,11 @@ export default function Dashboard() {
         translation.t("Home"),
     );
     const [rout, setRout] = useState("post.index");
+    const setRouting = (tmp) => {
+        //console.log("chae");
+        setRout(tmp);
+        setResetCategory(!resetCategory);
+    };
     const checkIsUserBanned = async () => {
         let t = await AxiosGet("ban.check", null, null, null);
     };
@@ -44,7 +52,10 @@ export default function Dashboard() {
     }, []);
 
     return (
-        <AuthenticatedLayout changeCategory={changeCategory}>
+        <AuthenticatedLayout
+            changeCategory={changeCategory}
+            resetCategory={resetCategory}
+        >
             <div className="font-bold h-full">
                 <div className="flex text-gray-100">
                     <div className="w-full mt-2">
@@ -63,7 +74,7 @@ export default function Dashboard() {
                                     [translation.t("Fresh"), "post.fresh"],
                                 ]}
                                 setPosts={setPosts}
-                                setRout={setRout}
+                                setRout={setRouting}
                                 setChosenCategory={setChosenCategory}
                             />
                             {tags.length >= 0 &&

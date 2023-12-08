@@ -8,6 +8,8 @@ class ReportListRequest extends FormRequest
 {
     public function authorize(): bool
     {
+        app()->setLocale(auth()->user()->lang);
+
         return auth()->user()->hasRole('user') || auth()->user()->hasRole('admin') || auth()->user()->hasRole('moderator');
     }
 

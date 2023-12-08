@@ -10,9 +10,13 @@ import AxiosPut from "../API/AxiosPut";
 import AxiosPost from "../API/AxiosPost";
 
 function HidePost({ post, hide, translation }) {
-    const hidePost = (post) => {
-        AxiosPut("post.hidePost", { id: post.id });
-        hide();
+    const hidePost = async (post) => {
+        let tmp = await AxiosPut("post.hidePost", { id: post.id }, null, 1);
+        console.log(tmp);
+        //hide();
+        if (tmp.status == 201) {
+            hide();
+        }
     };
 
     return (

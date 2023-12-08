@@ -14,7 +14,7 @@ function PostsTypeSelect({
     elements,
     setPosts,
     setRout /*loadNewPost*/,
-    setChosenCategory
+    setChosenCategory,
 }) {
     const handleSelectedPostsType = (type) => {
         setSelected(type[0]);

@@ -16,7 +16,7 @@ function PostDetals({
     setIsOpen,
     loadComments,
     setLoadComments,
-    translation
+    translation,
 }) {
     const [comments, setComments] = useState([]);
     const [usedComments, setUsedComments] = useState([]);
@@ -113,13 +113,12 @@ function PostDetals({
             img.onload = () => {
                 let height = img.height;
                 height = img.height * 0.2;
-                console.log(height);
+                //console.log(height);
                 if (height < window.innerHeight / 2) {
-                    height =window.screen.height * 0.85;
+                    height = window.screen.height * 0.85;
                 }
-                console.log(height)
-
-
+                height = window.screen.height * 0.85;
+                //console.log(height)
                 setCustomHeight({ height: height * 0.9 + "px" });
             };
         }
@@ -208,7 +207,9 @@ function PostDetals({
                                     <div className="w-full text-center">
                                         <Button
                                             onClick={() => fetchMoreComments()}
-                                            text={translation.t("load more comments")}
+                                            text={translation.t(
+                                                "load more comments",
+                                            )}
                                             className={
                                                 "font-bold hover:bg-white hover:text-black m-auto p-2 text-center w-full text-white m-2"
                                             }

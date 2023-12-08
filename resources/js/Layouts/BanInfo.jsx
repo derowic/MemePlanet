@@ -15,10 +15,14 @@ function BanInfo({ data }) {
             {data.ban && (
                 <>
                     <p>
-                        {translation.t("Your account is banned for")} {translation.t(data.ban.ban.name)} {translation.t("from")}{" "}
-                        {formattedDate}
+                        {translation.t("Your account is banned for")}{" "}
+                        {translation.t(data.ban.ban.name)}{" "}
+                        {translation.t("from")} {formattedDate}
                     </p>
-                    <p>{translation.t("Ban reason")}: {translation.t(data.ban.report.name)}</p>
+                    <p>
+                        {translation.t("Ban reason")}:{" "}
+                        {translation.t(data.ban.report.name)}
+                    </p>
                 </>
             )}
         </div>

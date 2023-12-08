@@ -35,9 +35,9 @@ class ReportListController extends Controller
             $reportList->save();
 
             if ($reportList->save()) {
-                return response()->json(['message' => 'Thanks'], 201);
+                return response()->json(['message' => trans('notifications.Thanks')], 201);
             } else {
-                return response()->json(['message' => 'Error'], 500);
+                return response()->json(['message' => trans('notifications.Error')], 500);
             }
         }
 

@@ -14,9 +14,29 @@ function SendPostToMainPage({
     setAsMainPagePost,
     translation,
 }) {
-    const setPostToMainPage = (post) => {
-        setAsMainPagePost();
-        AxiosPut("post.mainPage", { id: post.id }, null, translation);
+    const setPostToMainPage = async (post) => {
+        console.log("1");
+        let tmp = await AxiosPut("post.mainPage", { id: post.id }, null, 1);
+
+        if (tmp.status == 201) {
+            console.log(tmp);
+            setAsMainPagePost(true);
+        }
+    };
+
+    const takePostFromMainPage = async (post) => {
+        console.log("2");
+        let tmp = await AxiosPut(
+            "post.takeFromMainPage",
+            { id: post.id },
+            null,
+            1,
+        );
+
+        if (tmp.status == 201) {
+            console.log(tmp);
+            setAsMainPagePost(false);
+        }
     };
     useEffect(() => {
         //console.log(post.status);
@@ -28,7 +48,11 @@ function SendPostToMainPage({
                 <div className="w-full ">
                     <button
                         className="p-3 rounded-lg border border-green-500  hover:bg-green-400 m-2"
-                        onClick={() => setPostToMainPage(post)}
+                        onClick={() =>
+                            mainPage
+                                ? takePostFromMainPage(post)
+                                : setPostToMainPage(post)
+                        }
                     >
                         {mainPage ? (
                             <div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\FavouriteResource;
 use App\Http\Resources\PostResource;
 use App\Models\Favourite;
 use App\Models\Post;
@@ -55,7 +56,13 @@ class FavouriteController extends Controller
             if ($favouriteRecord == true) {
                 Favourite::find($favouriteRecord->id)->forceDelete();
 
-                return response()->json(['message' => trans('notifications.Post removed from favourites')]);
+                return response()->json(
+                    [
+                        'message' => trans('notifications.Post removed from favourites'),
+                        'data' => [
+                            'added' => false,
+                        ],
+                    ]);
 
             } else {
                 $tmp = new Favourite();
@@ -66,7 +73,14 @@ class FavouriteController extends Controller
                 $tmp->save();
                 if ($tmp->save()) {
 
-                    return response()->json(['message' => trans('notifications.Post added to favourite')], 201);
+                    //return FavouriteResource::collection($tmp);
+                    return response()->json(
+                        [
+                            'message' => trans('notifications.Post added to favourites'),
+                            'data' => [
+                                'added' => true,
+                            ],
+                        ], 201);
                 } else {
                     return response()->json(['message' => trans('notifications.Error while adding post to favourites')], 500);
                 }

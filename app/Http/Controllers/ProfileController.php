@@ -74,9 +74,10 @@ class ProfileController extends Controller
 
         //app()->setLocale('pl');
 
-        app()->setLocale( $request->input('lang', 'en'));
-        auth()->user()->lang =  $request->input('lang');
+        app()->setLocale($request->input('lang', 'en'));
+        auth()->user()->lang = $request->input('lang');
         auth()->user()->save();
-        return response()->json(['message' => "test44"], 201);
+
+        return response()->json(201);
     }
 }

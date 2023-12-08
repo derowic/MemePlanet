@@ -14,7 +14,12 @@ import NavBar from "./NavBar";
 import CategoryList from "@/Pages/Categories/CategoryList";
 import ChangeLanguage from "./ChangeLanguage";
 
-export default function Authenticated({ header, children, changeCategory }) {
+export default function Authenticated({
+    header,
+    children,
+    changeCategory,
+    resetCategory,
+}) {
     const translation = useTranslation(["dashboard"]);
     const user = usePage().props.auth.user;
     //console.log(user);
@@ -57,7 +62,10 @@ export default function Authenticated({ header, children, changeCategory }) {
                                 <Link href="/">{/*place for icon */}</Link>
                             </div>
                             {changeCategory && (
-                                <CategoryList changeCategory={changeCategory} />
+                                <CategoryList
+                                    changeCategory={changeCategory}
+                                    resetCategory={resetCategory}
+                                />
                             )}
 
                             <div className="sticky top-0  hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -66,8 +74,10 @@ export default function Authenticated({ header, children, changeCategory }) {
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
-                            <ChangeLanguage/>
-                            <NotificationBell />
+                            <ChangeLanguage />
+                            <div className="pl-2">
+                                <NotificationBell />
+                            </div>
 
                             <div className="ml-3 relative">
                                 <Dropdown>
@@ -130,7 +140,7 @@ export default function Authenticated({ header, children, changeCategory }) {
                             </div>
                         </div>
 
-                        <div className="-mr-2 flex items-center sm:hidden">
+                        <div className="mr-2 flex items-center sm:hidden">
                             <button
                                 onClick={() =>
                                     setShowingNavigationDropdown(

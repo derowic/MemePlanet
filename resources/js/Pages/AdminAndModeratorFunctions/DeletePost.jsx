@@ -9,9 +9,12 @@ import AxiosDelete from "../API/AxiosDelete";
 import AxiosPut from "../API/AxiosPut";
 
 function DeletePost({ post, postDeleted, deletePost, translation }) {
-    const deletingPost = (post) => {
-        AxiosDelete("post.destroy", { post: post.id }, null);
-        deletePost();
+    const deletingPost = async (post) => {
+        let tmp = await AxiosDelete("post.destroy", { post: post.id }, null, 1);
+
+        if (tmp.status == 201) {
+            deletePost();
+        }
     };
     return (
         <>

@@ -9,9 +9,12 @@ import AxiosDelete from "../API/AxiosDelete";
 import AxiosPut from "../API/AxiosPut";
 
 function UnHide({ post, hide, translation }) {
-    const unhidePost = (post) => {
-        AxiosPut("post.unHidePost", { id: post.id });
-        hide();
+    const unhidePost = async (post) => {
+        let tmp = await AxiosPut("post.unHidePost", { id: post.id }, null, 1);
+
+        if (tmp.status == 201) {
+            hide();
+        }
     };
 
     return (

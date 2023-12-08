@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NotificationsList from "./NotificationsList";
 import AxiosGet from "../API/AxiosGet";
-
+import { Drawer } from "@mui/material";
 const NotificationBell = () => {
     const [notifications, setNotifications] = useState([]);
     const [page, setPage] = useState(1);
@@ -34,6 +34,7 @@ const NotificationBell = () => {
 
     const toggleNotifications = () => {
         setShowNotifications(!showNotifications);
+        togglePanel();
     };
 
     useEffect(() => {
@@ -48,31 +49,32 @@ const NotificationBell = () => {
         };
     }, []);
 
+    const [isOpen, setIsOpen] = useState(false);
+    const togglePanel = () => {
+        setIsOpen(!isOpen);
+    };
+
     return (
         <div className="">
-            <button onClick={toggleNotifications} className="text-2xl flex">
-                <div className="text-red-500 mx-1">{unSeen > 0 && unSeen}</div>
+            <button
+                onClick={toggleNotifications}
+                className="px-2 bg-meme_black text-2xl flex"
+            >
                 <img src="/bell2.png" alt="Twoja Ikona" className="w-5 mt-1 " />
+                <div className="text-red-500 mx-1">{unSeen > 0 && unSeen}</div>
             </button>
 
-            <div className="relative ">
-                {showNotifications && (
-                    <div className="flex absolute w-80 absolute top-0 right-0 mt-2 bg-[#333] text-white border border-gray-300 shadow-lg rounded-lg">
-                        <div className="p-4">
-                            <div className=" item-center">
-                                <h3 className="text-lg text-center font-semibold">
-                                    Notifications
-                                </h3>
-                            </div>
-                            <ul>
-                                <NotificationsList
-                                    notifications={notifications}
-                                />
-                            </ul>
-                        </div>
-                    </div>
-                )}
-            </div>
+            <Drawer
+                anchor="right"
+                open={isOpen}
+                onClose={togglePanel}
+                className="items-center justify-center "
+            >
+                <div className="bg-meme_black h-[100vh]">
+                    <div></div>
+                    <NotificationsList notifications={notifications} />
+                </div>
+            </Drawer>
         </div>
     );
 };

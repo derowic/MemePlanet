@@ -3,7 +3,7 @@ import Notification from "./Notification";
 
 const NotificationsList = (notifications) => {
     return (
-        <div className="w-full max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar scrollbar-thumb-gray-100">
+        <div className="bg-meme_black text-white overflow-y-auto grid custom-scroll flex items-center">
             {notifications.notifications.map((notification, index) => (
                 <Notification
                     key={index}

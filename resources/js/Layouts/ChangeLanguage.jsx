@@ -12,7 +12,6 @@ import AxiosGet from "@/Pages/API/AxiosGet";
 import { useTranslation } from "react-i18next";
 
 function ChangeLanguage({}) {
-
     const { i18n } = useTranslation();
     const changeLanguage = (lang) => {
         i18n.changeLanguage(lang);

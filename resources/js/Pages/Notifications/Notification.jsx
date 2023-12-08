@@ -12,22 +12,23 @@ const Notification = (notification, index) => {
                     }),
                 )
             }
+            className="bg-meme_black"
         >
             <div
                 key={index}
                 className={
-                    "p-4 border-b " +
+                    "bg-meme_black p-4 border-b " +
                     (notification.notification.seen === 0
                         ? "border-gray-500 text-white"
                         : "border-gray-700 text-[#aaa]")
                 }
             >
-                User: {notification.notification.sender.name}
+                {notification.notification.sender.name}
                 {notification.notification.type == "comment-comment" &&
                     " reply to your comment"}
                 {notification.notification.type == "post-comment" &&
                     " reply to your post"}
-                <div className="text-sm">
+                <div className="text-sm bg-meme_black">
                     {notification.notification.created_at}
                 </div>
             </div>

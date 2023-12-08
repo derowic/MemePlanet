@@ -3,6 +3,7 @@ import DefaultButton from "../../BasicElements/DefaultButton";
 import LogedIn from "@/Pages/API/LogedIn";
 import Notify from "@/Components/Notify";
 import CheckRole from "@/Pages/API/CheckRole";
+import AxiosPost from "@/Pages/API/AxiosPost";
 
 const Fav = ({ postId, is_Fav }) => {
     let loged = LogedIn();
@@ -17,23 +18,26 @@ const Fav = ({ postId, is_Fav }) => {
         if (loged) {
             if (role) {
                 try {
-                    const response = await axios.post(
+                    /*const response = await axios.post(
                         route("favourite.store"),
                         {
                             post: postId,
                         },
                     );
+                    */
 
-                    if (response.data.message == "Post added to favourite") {
+                    const response = await AxiosPost("favourite.store", {
+                        post: postId,
+                    });
+                    console.log(response);
+
+                    //console.log(response);
+                    if (response.added == true) {
                         setIsFav(true);
-                        Notify("Post added to favourite", "success");
-                    } else if (
-                        response.data.message == "Post removed from favourites"
-                    ) {
+                        //Notify(response.message, null, response.status);
+                    } else if (response.added == false) {
                         setIsFav(false);
-                        Notify("Post removed from favourites", "success");
-                    } else {
-                        console.error("Fav.jsx -> setPostToFavourite error");
+                        //Notify(response.message, null, response.status);
                     }
                 } catch (error) {
                     console.error(

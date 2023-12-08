@@ -13,16 +13,15 @@ import { Drawer } from "@mui/material";
 import { Switch } from "@headlessui/react";
 import { IoMdMenu } from "react-icons/io";
 
-function CategoryList({ changeCategory }) {
+function CategoryList({ changeCategory, resetCategory }) {
     const categoryTranslation = useTranslation(["category"]);
     const [categories, setCategories] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
-
-    const [enabled, setEnabled] = useState(false);
     const togglePanel = () => {
         setIsOpen(!isOpen);
     };
+    const [enabled, setEnabled] = useState(false);
 
     const beforeChangeCategory = (tmp) => {
         if (selectedCategories.includes(tmp)) {
@@ -67,6 +66,11 @@ function CategoryList({ changeCategory }) {
     useEffect(() => {
         AxiosGet("category.index", null, null, setCategories);
     }, []);
+
+    useEffect(() => {
+        setSelectedCategories([]);
+        //console.log("reset");
+    }, [resetCategory]);
 
     return (
         <>

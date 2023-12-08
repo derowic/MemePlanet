@@ -14,7 +14,6 @@ const ReportDialog = ({
     modalDescription,
     translation,
 }) => {
-
     let loged = LogedIn();
     const [reports, setReports] = useState([]);
     const setReport = async (report_id) => {
