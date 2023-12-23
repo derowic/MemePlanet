@@ -20,7 +20,7 @@ class Post extends Model
         'text',
         'likes',
         'path_to_image',
-        'description',
+        //'description',
         'main_page',
     ];
 

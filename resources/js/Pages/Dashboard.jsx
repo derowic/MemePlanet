@@ -21,6 +21,7 @@ import { reset } from "laravel-mix/src/Log";
 export default function Dashboard() {
     const user = usePage().props.auth.user;
     const translation = useTranslation(["dashboard"]);
+    const [viewType, setViewType] = useState(true);
     const [resetCategory, setResetCategory] = useState(false);
     const [chosenCategory, setChosenCategory] = useState([]);
     const changeCategory = (tmp) => {
@@ -55,6 +56,8 @@ export default function Dashboard() {
         <AuthenticatedLayout
             changeCategory={changeCategory}
             resetCategory={resetCategory}
+            viewType={viewType}
+            setViewType={setViewType}
         >
             <div className="font-bold h-full">
                 <div className="flex text-gray-100">
@@ -100,9 +103,11 @@ export default function Dashboard() {
                                         }
                                         categories={categories}
                                         tags={tags}
+                                        fetchTags={() =>  AxiosGet("tag.index", null, null, setTags)}
                                         setPosts={setPosts}
                                         page={page}
                                         setPage={setPage}
+                                        viewType={viewType}
                                     />
                                 )}
                         </div>

@@ -10,7 +10,7 @@ import CheckPermission from "@/Pages/API/CheckPermission";
 function Like({ elementId, elementType, likes, is_liked }) {
     //console.log(usePage().props.auth);
     let loged = LogedIn();
-    let role = CheckPermission;
+    let role = CheckPermission("post.like");
 
     if (likes == null) {
         likes = 0;
@@ -28,23 +28,30 @@ function Like({ elementId, elementType, likes, is_liked }) {
 
     const like = async (tmp) => {
         if (loged) {
-            try {
-                let rout = "";
-                if (elementType == "post") {
-                    rout = "post.like";
-                } else if (elementType == "comment") {
-                    rout = "comment.like";
-                }
+            if(role)
+            {
+                try {
+                    let rout = "";
+                    if (elementType == "post") {
+                        rout = "post.like";
+                    } else if (elementType == "comment") {
+                        rout = "comment.like";
+                    }
 
-                const response = await axios.post(route(rout), {
-                    like: tmp,
-                    id: elementId,
-                });
-                setCount(response.data.like);
-                setIsLiked(response.data.is_liked);
-            } catch (error) {
-                //Notification(error.response.data.msg);
-                console.error("Like -> like error: ", error);
+                    const response = await axios.post(route(rout), {
+                        like: tmp,
+                        id: elementId,
+                    });
+                    setCount(response.data.like);
+                    setIsLiked(response.data.is_liked);
+                } catch (error) {
+                    //Notification(error.response.data.msg);
+                    console.error("Like -> like error: ", error);
+                }
+            }
+            else
+            {
+                Notify("You don't have permission", "info");
             }
         } else {
             Notify("You need to be log in", "info");

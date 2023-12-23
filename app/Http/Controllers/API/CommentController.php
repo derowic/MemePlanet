@@ -33,13 +33,6 @@ class CommentController extends Controller
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
             ->get();
-        /*
-        $posts = Post::with(['user:id,name', 'category:id,name', 'tags'])
-            ->orderBy('created_at', 'desc')
-            ->skip(($page - 1) * $perPage)
-            ->take($perPage)
-            ->get();
-        */
 
         return CommentResource::collection($comments);
     }

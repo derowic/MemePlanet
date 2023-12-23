@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import DefaultButton from "../../BasicElements/DefaultButton";
 import LogedIn from "@/Pages/API/LogedIn";
 import Notify from "@/Components/Notify";
-import CheckRole from "@/Pages/API/CheckRole";
+import CheckPermission from "@/Pages/API/CheckPermission";
 import AxiosPost from "@/Pages/API/AxiosPost";
 
 const Fav = ({ postId, is_Fav }) => {
     let loged = LogedIn();
-    let role = true; //CheckRole("user");
+    let role = CheckPermission("post.fav");
     const addPostToFavourite = () => {
         setPostToFavourite(postId);
     };
@@ -18,20 +18,10 @@ const Fav = ({ postId, is_Fav }) => {
         if (loged) {
             if (role) {
                 try {
-                    /*const response = await axios.post(
-                        route("favourite.store"),
-                        {
-                            post: postId,
-                        },
-                    );
-                    */
-
                     const response = await AxiosPost("favourite.store", {
-                        post: postId,
+                        post_id: postId,
                     });
                     console.log(response);
-
-                    //console.log(response);
                     if (response.added == true) {
                         setIsFav(true);
                         //Notify(response.message, null, response.status);

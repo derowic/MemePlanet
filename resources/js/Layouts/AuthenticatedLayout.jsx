@@ -13,12 +13,15 @@ import CheckRole from "@/Pages/API/CheckRole";
 import NavBar from "./NavBar";
 import CategoryList from "@/Pages/Categories/CategoryList";
 import ChangeLanguage from "./ChangeLanguage";
+import ChangeViewType from "./ChangeViewType";
 
 export default function Authenticated({
     header,
     children,
     changeCategory,
     resetCategory,
+    viewType,
+    setViewType
 }) {
     const translation = useTranslation(["dashboard"]);
     const user = usePage().props.auth.user;
@@ -74,6 +77,7 @@ export default function Authenticated({
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
+                            <ChangeViewType viewType={viewType} setViewType={setViewType}/>
                             <ChangeLanguage />
                             <div className="pl-2">
                                 <NotificationBell />

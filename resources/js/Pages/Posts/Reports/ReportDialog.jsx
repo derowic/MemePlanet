@@ -6,6 +6,7 @@ import LogedIn from "@/Pages/API/LogedIn";
 import Notify from "@/Components/Notify";
 import AxiosGet from "@/Pages/API/AxiosGet";
 import AxiosPost from "@/Pages/API/AxiosPost";
+import CheckPermission from "@/Pages/API/CheckPermission";
 
 const ReportDialog = ({
     post,
@@ -15,6 +16,7 @@ const ReportDialog = ({
     translation,
 }) => {
     let loged = LogedIn();
+    let role = CheckPermission("post.report");
     const [reports, setReports] = useState([]);
     const setReport = async (report_id) => {
         try {
@@ -30,9 +32,16 @@ const ReportDialog = ({
     const [isOpen, setIsOpen] = useState(false);
     const openDialog = () => {
         if (loged) {
-            setIsOpen(true);
-            if (reports.length == 0) {
-                AxiosGet("report.index", null, null, setReports);
+            if(role)
+            {
+                setIsOpen(true);
+                if (reports.length == 0) {
+                    AxiosGet("report.index", null, null, setReports);
+                }
+            }
+            else
+            {
+                Notify("You don't have permission", "info");
             }
         } else {
             Notify("You need to be log in", "info");

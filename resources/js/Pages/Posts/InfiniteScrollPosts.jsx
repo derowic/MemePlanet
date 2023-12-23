@@ -13,9 +13,11 @@ const InfiniteScrollPosts = ({
     fetchPosts,
     categories,
     tags,
+    fetchTags,
     setPosts,
     page,
     setPage,
+    viewType
 }) => {
     const translation = useTranslation(["post"]);
     const [favs, setFavs] = useState([]);
@@ -26,6 +28,7 @@ const InfiniteScrollPosts = ({
     const [columnStyle, setColumnStyle] = useState(null);
     const [replacedPosts, SetReplacedPosts] = useState([]);
     const [refresh, setRefresh] = useState(true);
+    const [hasMore, setHasMore] = useState(true);
     let columnWidthShouldBe = window.screen.width / 6;
     let oldColumnNumber = 6;
 
@@ -33,8 +36,15 @@ const InfiniteScrollPosts = ({
         if (setPosts) {
             //console.log("fetch posts");
             let response = await fetchPosts();
-            setPosts((prevData) => [...prevData, ...response]);
-            setPage(page + 1);
+            if(response.length == 0)
+            {
+                setHasMore(false);
+            }
+            else
+            {
+                setPosts((prevData) => [...prevData, ...response]);
+                setPage(page + 1);
+            }
         }
     };
 
@@ -146,55 +156,57 @@ const InfiniteScrollPosts = ({
             <div className="p-4 w-full m-auto">
                 <div className="m-auto w-3/4">
                     {CheckPermission("post.create") && (
-                        <UploadPost categories={categories} tags={tags} />
+                        <UploadPost categories={categories} tags={tags} fetchTags={fetchTags} />
                     )}
                 </div>
                 {/*<p>{columnNumber}</p>*/}
                 <InfiniteScroll
                     dataLength={posts.length}
                     next={fetchPaginatedPost}
-                    hasMore={true}
+                    hasMore={hasMore}
                     loader={<p>{translation.t("loading...")}</p>}
                     endMessage={<p>{translation.t("No more posts")}</p>}
                 >
-                    {/*<div className={columnStyle}>
-                        {replacedPosts.map((column, columnIndex) => (
-                            <div key={columnIndex} className={"col-span-1"}>
-                                {column.map((post, postIndex) => (
-                                    <Post
-                                        key={post.id}
-                                        index={postIndex}
-                                        post={post}
-                                        tags={tags}
-                                        showOptions={true}
-                                    />
-                                ))}
-                            </div>
-
-                        ))}
-                    </div>
-                    */}
-                    <div className="m-auto flex w-full">
-                        {replacedPosts.map((column, columnIndex) => (
-                            <div
-                                key={columnIndex}
-                                style={{
-                                    width: columnWidthShouldBe,
-                                }} /*className={`w-1/${columnNumber}`}*/
-                            >
-                                {column.map((post, postIndex) => (
-                                    <Post
-                                        key={postIndex}
-                                        index={postIndex}
-                                        post={post}
-                                        tags={tags}
-                                        showOptions={true}
-                                        translation={translation}
-                                    />
-                                ))}
-                            </div>
-                        ))}
-                    </div>
+                    {viewType ?
+                        <div className="m-auto flex w-full">
+                            {replacedPosts.map((column, columnIndex) => (
+                                <div
+                                    key={columnIndex}
+                                    style={{
+                                        width: columnWidthShouldBe,
+                                    }}
+                                >
+                                    {column.map((post, postIndex) => (
+                                        <Post
+                                            key={postIndex}
+                                            index={postIndex}
+                                            post={post}
+                                            tags={tags}
+                                            showOptions={true}
+                                            translation={translation}
+                                        />
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
+                    :
+                        <div className="m-auto w-full">
+                            {replacedPosts.map((column, columnIndex) => (
+                                <div key={columnIndex} className="w-2/5 m-auto">
+                                    {column.map((post, postIndex) => (
+                                        <Post
+                                            key={postIndex}
+                                            index={postIndex}
+                                            post={post}
+                                            tags={tags}
+                                            showOptions={true}
+                                            translation={translation}
+                                        />
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
+                    }
                 </InfiniteScroll>
             </div>
         </div>

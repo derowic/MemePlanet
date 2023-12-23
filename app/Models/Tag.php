@@ -17,4 +17,9 @@ class Tag extends Model
     {
         return $this->belongsToMany(TagList::class);
     }
+
+    public function posts()
+    {
+        return $this->hasManyThrough(Post::class, TagList::class, 'tag_id', 'id', 'id', 'post_id');
+    }
 }

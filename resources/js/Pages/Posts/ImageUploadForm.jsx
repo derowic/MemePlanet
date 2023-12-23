@@ -7,10 +7,15 @@ import Input from "../BasicElements/Input";
 import ButtonsList from "../BasicElements/ButtonsList";
 import { useTranslation } from "react-i18next";
 import CheckPermission from "../API/CheckPermission";
+import Post from "./Post";
+import Img from "./Img";
+import { usePage } from "@inertiajs/react";
+import PostPreView from "./PostPreView";
 
 const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
     const translation = useTranslation(["dashboard"]);
     const translationCategory = useTranslation(["category"]);
+    const translationPost = useTranslation(["post"]);
     const translationTag = useTranslation(["tag"]);
     const [image, setImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
@@ -20,6 +25,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
     const [customTagText, setCustomTagText] = useState("");
+    const user = usePage().props.auth.user;
     useEffect(() => {}, [tags, categories, selectedCategory, selectedTags]);
 
     const handleImageChange = (e) => {
@@ -116,93 +122,95 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                     }
                 />
             )}
-            <div id={"post"} hidden>
-                <input
-                    type="file"
-                    id="attr2"
-                    className="bg-black3 hover:bg-black3-h text-white font-bold py-2 px-2 border border-meme_violet focus:border-[#666]  w-full"
-                    onChange={handleImageChange}
-                    accept="image/*"
-                />
-                <Input
-                    className={
-                        "bg-black3 hover:bg-black3-h text-black font-bold py-2 px-2 border border-[#555] focus:border-[#666] w-full"
-                    }
-                    key={"title"}
-                    type={"text"}
-                    title={translation.t("Title")}
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-                <Input
-                    className={
-                        "bg-black3 hover:bg-black3-h text-black font-bold py-2 px-2 border border-[#555] focus:border-[#666] w-full"
-                    }
-                    key={"text"}
-                    type={"text"}
-                    title={translation.t("Text")}
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                />
-                <div className="flex flex-wrap justify-center mt-2">
-                    {previewImage && (
-                        <img id="attr" src={previewImage} alt="Preview" />
-                    )}
-                </div>
-                <h1 className="text-2xl border-b border-meme_violet">
-                    {translation.t("Categories")}
-                </h1>
-                <div className="flex flex-wrap justify-center">
-                    <ButtonsList
-                        elements={categories}
-                        func={selectCategory}
-                        selected={selectedCategory}
-                        translation={translationCategory}
-                    />
-                </div>
-                <h1 className="text-2xl border-b border-meme_violet">
-                    {translation.t("Tags")}
-                </h1>
-                <div className="flex flex-wrap justify-center">
-                    <ButtonsList
-                        elements={tags}
-                        func={selectTag}
-                        selected={selectedTags}
-                        translation={translationTag}
-                    />
-                </div>
-                <Input
-                    className={
-                        "bg-black3 hover:bg-black3-h text-black font-bold py-2 px-2 border border-[#555] focus:border-[#666] w-full"
-                    }
-                    type={"text"}
-                    title={translation.t("Custom tag")}
-                    value={customTagText}
-                    onChange={(e) => setCustomTagText(e.target.value)}
-                />
-                {translation.t("Example:")} #humor#mem#funny
-                <div className=" border-t border-meme_violet p-2">
-                    <DefaultButton
-                        onClick={handleUploadClick}
-                        text={translation.t("Upload")}
-                        className={
-                            "border-2 border-green-500 rounded-lg p-2 mx-2"
-                        }
-                    />
-                    <DefaultButton
-                        onClick={clearImg}
-                        text={translation.t("Clear")}
-                        className={
-                            "border-2 border-yellow-500 rounded-lg p-2 mx-2"
-                        }
-                    />
-                    <DefaultButton
-                        onClick={close}
-                        text={translation.t("Close")}
-                        className={
-                            "border-2 border-red-500 rounded-lg p-2 mx-2"
-                        }
-                    />
+            <div id={"post"} hidden >
+                <div className="w-full flex">
+                    <div className="w-1/2">
+                        <input
+                            type="file"
+                            id="attr2"
+                            className="bg-black3 hover:bg-black3-h text-white font-bold py-2 px-2 border border-meme_violet focus:border-[#666]  w-full"
+                            onChange={handleImageChange}
+                            accept="image/*"
+                        />
+                        <Input
+                            className={
+                                "bg-black3 hover:bg-black3-h text-black font-bold py-2 px-2 border border-[#555] focus:border-[#666] w-full"
+                            }
+                            key={"title"}
+                            type={"text"}
+                            title={translation.t("Title")}
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                        <Input
+                            className={
+                                "bg-black3 hover:bg-black3-h text-black font-bold py-2 px-2 border border-[#555] focus:border-[#666] w-full"
+                            }
+                            key={"text"}
+                            type={"text"}
+                            title={translation.t("Text")}
+                            value={text}
+                            onChange={(e) => setText(e.target.value)}
+                        />
+                        <h1 className="text-2xl border-b border-meme_violet">
+                            {translation.t("Categories")}
+                        </h1>
+                        <div className="flex flex-wrap justify-center">
+                            <ButtonsList
+                                elements={categories}
+                                func={selectCategory}
+                                selected={selectedCategory}
+                                translation={translationCategory}
+                            />
+                        </div>
+                        <h1 className="text-2xl border-b border-meme_violet">
+                            {translation.t("Tags")}
+                        </h1>
+                        <div className="flex flex-wrap justify-center">
+                            <ButtonsList
+                                elements={tags}
+                                func={selectTag}
+                                selected={selectedTags}
+                                translation={translationTag}
+                            />
+                        </div>
+                        <Input
+                            className={
+                                "bg-black3 hover:bg-black3-h text-black font-bold py-2 px-2 border border-[#555] focus:border-[#666] w-full"
+                            }
+                            type={"text"}
+                            title={translation.t("Custom tag")}
+                            value={customTagText}
+                            onChange={(e) => setCustomTagText(e.target.value)}
+                        />
+                        {translation.t("Example:")} #humor#mem#funny
+                        <div className=" border-t border-meme_violet p-2">
+                            <DefaultButton
+                                onClick={handleUploadClick}
+                                text={translation.t("Upload")}
+                                className={
+                                    "border-2 border-green-500 rounded-lg p-2 mx-2"
+                                }
+                            />
+                            <DefaultButton
+                                onClick={clearImg}
+                                text={translation.t("Clear")}
+                                className={
+                                    "border-2 border-yellow-500 rounded-lg p-2 mx-2"
+                                }
+                            />
+                            <DefaultButton
+                                onClick={close}
+                                text={translation.t("Close")}
+                                className={
+                                    "border-2 border-red-500 rounded-lg p-2 mx-2"
+                                }
+                            />
+                        </div>
+                    </div>
+                    <div className="w-1/2">
+                       <PostPreView title={title} text={text} category={selectedCategory && categories[selectedCategory-1].name} previewImage={previewImage} selectedTags={selectedTags} tags={tags} translationCategory={translationCategory} translationTag={translationTag}/>
+                    </div>
                 </div>
             </div>
         </div>

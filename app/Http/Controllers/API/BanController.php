@@ -85,7 +85,9 @@ class BanController extends Controller
         if ($ban) {
             $ban->delete();
             $user->ban_list_id = null;
+            $user->syncRoles(['user']);
             $user->save();
+
 
             return response()->json(['msg' => trans('notifications.User unbanned')], 201);
         }

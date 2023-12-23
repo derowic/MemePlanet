@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import CommentInput from "./CommentInput";
 import Like from "../Posts/Likes/Like";
 import SendComment from "./SendComment";
-import "react-quill/dist/quill.snow.css";
+//import "react-quill/dist/quill.snow.css";
 import Notify from "@/Components/Notify";
 import { usePage } from "@inertiajs/react";
 import AxiosDelete from "../API/AxiosDelete";

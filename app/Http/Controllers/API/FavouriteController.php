@@ -9,6 +9,7 @@ use App\Models\Favourite;
 use App\Models\Post;
 use App\Repositories\PostRepository;
 use Illuminate\Http\Request;
+use App\Http\Requests\FavouriteRequest;
 
 class FavouriteController extends Controller
 {
@@ -46,11 +47,11 @@ class FavouriteController extends Controller
         return PostResource::collection($this->postRepository->addLikesAndFavs($posts));
     }
 
-    public function store(Request $request)
+    public function store(FavouriteRequest $request)
     {
-        if (($request->post != null) && ($request->post != 0)) {
+        if (($request->post_id != null) && ($request->post_id != 0)) {
             $favouriteRecord = Favourite::where('user_id', auth()->user()->id)
-                ->where('post_id', $request->post)
+                ->where('post_id', $request->post_id)
                 ->first();
 
             if ($favouriteRecord == true) {
@@ -67,7 +68,7 @@ class FavouriteController extends Controller
             } else {
                 $tmp = new Favourite();
                 $tmp->user_id = auth()->user()->id;
-                $tmp->post_id = $request->post;
+                $tmp->post_id = $request->post_id;
                 $tmp->created_at = now();
                 $tmp->updated_at = now();
                 $tmp->save();

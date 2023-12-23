@@ -12,7 +12,6 @@ use App\Http\Controllers\API\ReportListController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\TagController;
 use App\Http\Controllers\API\UserController;
-//use App\Http\Controllers\API\TagListController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -45,9 +44,9 @@ Route::get('/post', [PostController::class, 'index'])->name('post.index');
 Route::get('/top', [PostController::class, 'top'])->name('post.top');
 Route::get('/trending', [PostController::class, 'trending'])->name('post.trending');
 Route::get('/fresh', [PostController::class, 'fresh'])->name('post.fresh');
-//Route::get('/show', [PostController::class, 'show'])->name('post.show');
 Route::get('/show/{post}', [PostController::class, 'show'])->name('post.show');
 Route::get('/post/categories', [PostController::class, 'postsFromCategories'])->name('post.categories');
+Route::get('/post/{post}', [PostController::class, 'similar'])->name('post.similar');
 
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
 
@@ -56,7 +55,6 @@ Route::get('/tag', [TagController::class, 'index'])->name('tag.index');
 Route::get('/tagList', [TagListController::class, 'index'])->name('tagListg.index');
 
 Route::get('/api/roles', [RoleController::class, 'index'])->name('role.index');
-
 Route::get('/api/permissions', [PermissionController::class, 'index'])->name('permission.index');
 
 Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
@@ -155,6 +153,7 @@ Route::middleware('auth')->group(function () {
 
             Route::post('/ban', [BanController::class, 'banUser'])->name('ban.banUser');
             Route::get('/ban', [BanController::class, 'index'])->name('ban.index');
+            Route::post('/unBan/{user}', [BanController::class, 'unBan'])->name('ban.unBan');
 
             Route::get('/api/users', [UserController::class, 'getAllUsers'])->name('user.getAllUsers');
             Route::get('/search', [UserController::class, 'search'])->name('user.search');

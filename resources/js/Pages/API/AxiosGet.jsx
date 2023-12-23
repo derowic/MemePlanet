@@ -15,7 +15,7 @@ const AxiosGet = async (rout, routData, data, setData) => {
         })
         .catch((error) => {
             if (error) {
-                Notify(error.response, "error");
+                Notify(error.response.data.message, "error");
                 console.error(error);
             } else {
                 console.error("error");
