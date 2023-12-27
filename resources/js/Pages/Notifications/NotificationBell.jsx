@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import NotificationsList from "./NotificationsList";
 import AxiosGet from "../API/AxiosGet";
 import { Drawer } from "@mui/material";
+
+
 const NotificationBell = () => {
     const [notifications, setNotifications] = useState([]);
     const [page, setPage] = useState(1);

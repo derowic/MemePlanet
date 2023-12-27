@@ -60,6 +60,8 @@ Route::get('/api/permissions', [PermissionController::class, 'index'])->name('pe
 Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
 Route::get('/comment/refresh', [CommentController::class, 'refresh'])->name('comment.refresh');
 
+Route::get('/api/users', [UserController::class, 'getAllUsers'])->name('user.getAllUsers');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -155,7 +157,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/ban', [BanController::class, 'index'])->name('ban.index');
             Route::post('/unBan/{user}', [BanController::class, 'unBan'])->name('ban.unBan');
 
-            Route::get('/api/users', [UserController::class, 'getAllUsers'])->name('user.getAllUsers');
+
             Route::get('/search', [UserController::class, 'search'])->name('user.search');
             Route::get('/searchById', [UserController::class, 'searchById'])->name('user.searchById');
 

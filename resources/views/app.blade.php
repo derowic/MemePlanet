@@ -29,10 +29,12 @@
 
             ::-webkit-scrollbar {
                 width: 3px;
+                height: 3px;
             }
 
             ::-webkit-scrollbar-track {
                 width: 4px;
+                height: 4px;
             }
 
             ::-webkit-scrollbar-thumb {

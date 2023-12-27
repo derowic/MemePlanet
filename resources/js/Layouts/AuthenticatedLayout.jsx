@@ -14,6 +14,7 @@ import NavBar from "./NavBar";
 import CategoryList from "@/Pages/Categories/CategoryList";
 import ChangeLanguage from "./ChangeLanguage";
 import ChangeViewType from "./ChangeViewType";
+import Chat from "@/Pages/Chat/Chat";
 
 export default function Authenticated({
     header,
@@ -79,7 +80,8 @@ export default function Authenticated({
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
                             <ChangeViewType viewType={viewType} setViewType={setViewType}/>
                             <ChangeLanguage />
-                            <div className="pl-2">
+                            <div className="pl-2 flex">
+                                <Chat/>
                                 <NotificationBell />
                             </div>
 

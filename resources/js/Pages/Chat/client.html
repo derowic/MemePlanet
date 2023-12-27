@@ -11,8 +11,12 @@
   <ul id="messagesList"></ul>
 
   <script>
-    const ws = new WebSocket('ws://localhost:8080');
+    const ws = new WebSocket('wss://chat.dero.smallhost.pl');
 
+    ws.addEventListener('open', () => {
+        console.log('Połączono z serwerem WebSocket.');
+        // Dodaj kod, aby zaktualizować interfejs użytkownika lub cokolwiek innego, co chcesz zrobić po nawiązaniu połączenia.
+    });
     // Nasłuchuj wiadomości od serwera
     ws.addEventListener('message', (event) => {
         const messagesList = document.getElementById('messagesList');

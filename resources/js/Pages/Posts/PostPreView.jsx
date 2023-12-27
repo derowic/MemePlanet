@@ -28,7 +28,7 @@ function PostPreView({title, text, category, previewImage, selectedTags, tags, t
     }, []);
 
     return (
-        <>
+        <div className="">
              <div className="flex flex-wrap justify-center mt-2 w-full">
                 <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2  w-full">
                     <h3 className="text-left font-semibold mb-2 w-full">
@@ -105,7 +105,7 @@ function PostPreView({title, text, category, previewImage, selectedTags, tags, t
                         </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 
