@@ -23,6 +23,7 @@ function PostDetals({
     const [page, setPage] = useState(1);
     const [customHeight, setCustomHeight] = useState(null);
     const [posts, setPosts] = useState([]);
+    const [hasMore, setHasMore] = useState(false);
 
     const reLoadComments = async () => {
         AxiosGet(
@@ -55,6 +56,11 @@ function PostDetals({
             setComments((prevData) => [...prevData, ...newComments]);
             // Zaktualizuj numer strony
             setPage(page + 1);
+            console.log(newComments.length);
+            if(newComments.length <= 0)
+            {
+                setHasMore(false);
+            }
         } catch (error) {
             console.error(error);
         }
@@ -229,8 +235,8 @@ function PostDetals({
                                     <div className="w-full text-center">
                                         <Button
                                             onClick={() => fetchMoreComments()}
-                                            text={translation.t(
-                                                "load more comments",
+                                            text={translation.t( hasMore ?
+                                                "load more comments": "no more comments",
                                             )}
                                             className={
                                                 "font-bold hover:bg-white hover:text-black m-auto p-2 text-center w-full text-white m-2"
