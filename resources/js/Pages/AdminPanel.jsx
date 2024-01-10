@@ -6,18 +6,19 @@ import React, {
     useEffect,
 } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import InfiniteScrollPosts from "../Posts/InfiniteScrollPosts";
-import PostsTypeSelect from "../Posts/PostsTypeSelect";
+import InfiniteScrollPosts from "./Posts/InfiniteScrollPosts";
+import PostsTypeSelect from "./Posts/PostsTypeSelect";
 import { useTranslation } from "react-i18next";
-import FetchPosts from "../API/FetchWithPagination";
+import FetchPosts from "./API/FetchWithPagination";
 import NavLink from "@/Components/NavLink";
-import CheckRole from "../API/CheckRole";
-import AxiosGet from "../API/AxiosGet";
+import CheckRole from "./API/CheckRole";
+import AxiosGet from "./API/AxiosGet";
 import { usePage } from "@inertiajs/react";
 
 export default function AdminPanel() {
     const user = usePage().props.auth.user;
     const translation = useTranslation(["dashboard"]);
+    const [viewType, setViewType] = useState(true);
     const [chosenCategory, setChosenCategory] = useState([]);
     const changeCategory = (tmp) => {
         setChosenCategory(tmp);
@@ -38,7 +39,7 @@ export default function AdminPanel() {
     }, []);
 
     return (
-        <AuthenticatedLayout changeCategory={changeCategory}>
+        <AuthenticatedLayout changeCategory={changeCategory}  viewType={viewType} setViewType={setViewType}>
             <div className="font-bold bg-[#111] h-full">
                 <div className="text-gray-100">
                     <div className="w-full mt-2">
@@ -109,6 +110,7 @@ export default function AdminPanel() {
                                     setPosts={setPosts}
                                     page={page}
                                     setPage={setPage}
+                                    viewType={viewType}
                                 />
                             )}
                         </div>

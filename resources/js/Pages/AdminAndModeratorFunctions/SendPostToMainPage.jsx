@@ -43,28 +43,28 @@ function SendPostToMainPage({
     }, [post, post.status]);
 
     return (
-        <>
-            <div className="block">
-                <div className="w-full ">
-                    <button
-                        className="p-3 rounded-lg border border-green-500  hover:bg-green-400 m-2"
-                        onClick={() =>
-                            mainPage
-                                ? takePostFromMainPage(post)
-                                : setPostToMainPage(post)
-                        }
-                    >
-                        {mainPage ? (
-                            <div>
-                                {translation.t("Take it from the home page")}
-                            </div>
-                        ) : (
-                            <div>{translation.t("Send to main page")}</div>
-                        )}
-                    </button>
-                </div>
-            </div>
-        </>
+
+
+        <div className="w-full ">
+            <button
+                className="p-3 rounded-lg border border-green-500  hover:bg-green-400 m-2"
+                onClick={() =>
+                    mainPage
+                        ? takePostFromMainPage(post)
+                        : setPostToMainPage(post)
+                }
+            >
+                {mainPage ? (
+                    <div>
+                        {translation.t("Take it from the home page")}
+                    </div>
+                ) : (
+                    <div>{translation.t("Send to main page")}</div>
+                )}
+            </button>
+        </div>
+
+
     );
 }
 

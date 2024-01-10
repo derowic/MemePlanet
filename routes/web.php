@@ -125,7 +125,7 @@ Route::middleware('auth')->group(function () {
         Route::middleware(['checkAdminRole'])->group(function () {
 
             Route::get('/AdminPanel', function () {
-                return Inertia::render('AdminPanel/AdminPanel');
+                return Inertia::render('AdminPanel');
             })->middleware(['auth', 'verified'])->name('adminPanel');
 
             Route::get('/RoleAndPermissions', function () {

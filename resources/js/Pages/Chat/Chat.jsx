@@ -4,6 +4,7 @@ import { Drawer } from "@mui/material";
 import HorizontalScrollList from "./HorizontalScrollList";
 import MessageForm from "./MessageForm";
 import ScrollList from "./ScrollList";
+import { usePage } from "@inertiajs/react";
 
 const Chat = () => {
     const [notifications, setNotifications] = useState([]);
@@ -12,6 +13,8 @@ const Chat = () => {
     const [showNotifications, setShowNotifications] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([]);
+    const user = usePage().props.auth.user;
+
 
     const fetchNotification = async () => {
         try {
@@ -61,13 +64,14 @@ const Chat = () => {
 
     const [ws, setWs] = useState(null);
     const [connected, setConnected] = useState('disconnecting');
+    const [selectedUser, setSelectedUser] = useState(3);
 
     const addNewMessage = (newMessage) => {
         // Kopiuj istniejącą tablicę messages i dodaj nowy element
         setMessages((prevMessages) => [...prevMessages, newMessage]);
     };
 
-    const reConnect = () => {
+    /*const reConnect = () => {
         console.log('Reconnecting...');
         setConnected('reconnecting');
 
@@ -95,22 +99,29 @@ const Chat = () => {
           setTimeout(reConnect, 5000); // Ponowne połączenie po 5 sekundach
         });
     };
+    */
 
     const connect = () => {
 
         console.log('Connecting to WebSocket server...');
-        const newWs = new WebSocket('wss://chat.dero.smallhost.pl');
+        //const newWs = new WebSocket('wss://chat.dero.smallhost.pl');
+        //5999
+        const newWs = new WebSocket('ws:localhost:5999');
         setWs(newWs);
         setConnected('connecting');
 
         newWs.addEventListener('open', () => {
             console.log('Connected to WebSocket server.');
-            setConnected('connected');
+
+            if (newWs && newWs.readyState === WebSocket.OPEN) {
+                newWs.send(JSON.stringify({type: "info", name: user.name, id: user.id}));
+                console.log("send base data");
+            }
         });
 
         newWs.addEventListener('message', (event) => {
             console.log('Received message:', JSON.parse(event.data));
-            addNewMessage(JSON.parse(event.data));
+            addNewMessage(JSON.parse(event.data).text);
         });
 
         newWs.addEventListener('close', () => {
@@ -139,7 +150,7 @@ const Chat = () => {
     const sendMessage = (message) => {
         if (ws && ws.readyState === WebSocket.OPEN) {
             addNewMessage(message);
-            ws.send(JSON.stringify(message));
+            ws.send(JSON.stringify({type: "message", sender: user.id, receiver: selectedUser, text: message}));
         } else {
             console.error('WebSocket connection is not open.');
         }
@@ -148,6 +159,8 @@ const Chat = () => {
     useEffect(() => {
         connect();
     }, []); // Uruchom raz, gdy komponent się zamontuje
+
+
 
 
     return (

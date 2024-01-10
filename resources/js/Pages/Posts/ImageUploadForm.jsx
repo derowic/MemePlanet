@@ -101,6 +101,8 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
 
     const selectCategory = (buttonId) => {
         setSelectedCategory(buttonId);
+        console.log( categories.find(category => category.id === buttonId));
+
     };
 
     const selectTag = (buttonId) => {
@@ -209,7 +211,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                         </div>
                     </div>
                     <div className="w-1/2">
-                       <PostPreView title={title} text={text} category={selectedCategory && categories[selectedCategory-1].name} previewImage={previewImage} selectedTags={selectedTags} tags={tags} translationCategory={translationCategory} translationTag={translationTag}/>
+                       <PostPreView title={title} text={text} category={selectedCategory && categories.find(category => category.id === selectedCategory).name} previewImage={previewImage} selectedTags={selectedTags} tags={tags} translationCategory={translationCategory} translationTag={translationTag}/>
                     </div>
                 </div>
             </div>

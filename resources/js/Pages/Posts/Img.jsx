@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { router } from "@inertiajs/react";
 
-function Img({ post, postDetailsView, setIsOpen }) {
+function Img({ post, postDetailsView, setIsOpen, usedAsSimilarPost = false }) {
     const [showFull, setShowFull] = useState(false);
     const [imageDimensions, setImageDimensions] = useState({
         width: 0,
@@ -44,28 +44,16 @@ function Img({ post, postDetailsView, setIsOpen }) {
 
     return (
         <div className="">
-            <a
+           <a
                 href={route("post.show", { post: post.id })}
-                onClick={(e) => {
-                    e.preventDefault(); // Zapobiegnij domyślnemu zachowaniu
-                    handleImageClick();
-                }}
+                onClick={usedAsSimilarPost ? undefined : (e) => { e.preventDefault(); handleImageClick(); }}
             >
-                {/*<div
-                    className={
-                        imageDimensions.height > window.innerHeight &&
-                        showFull == false &&
-                        postDetailsView != true
-                            ? "w-full h-[50vh]  overflow-hidden"
-                            : ""
-                    }
-                >*/}
                 <div>
                     <img
                         id={"yourImage" + post.id}
                         src={"/images/" + post.path_to_image}
                         alt="Opis obrazka"
-                        className="m-auto w-full "
+                        className="m-auto w-full"
                     />
                 </div>
             </a>

@@ -257,6 +257,7 @@ function PostDetals({
                                         post={t}
                                         loadCommentsFunc={null}
                                         postDetailsView={true}
+                                        usedAsSimilarPost={true}
                                     />
                                 </div>
                             ))}

@@ -81,7 +81,7 @@ export default function Authenticated({
                             <ChangeViewType viewType={viewType} setViewType={setViewType}/>
                             <ChangeLanguage />
                             <div className="pl-2 flex">
-                                <Chat/>
+                                {/*<Chat/>*/}
                                 <NotificationBell />
                             </div>
 

@@ -18,6 +18,7 @@ import { usePage } from "@inertiajs/react";
 export default function Account({}) {
     const user = usePage().props.auth.user;
     const translation = useTranslation(["dashboard"]);
+    const [viewType, setViewType] = useState(true);
     const [chosenCategory, setChosenCategory] = useState([]);
     const changeCategory = (tmp) => {
         setChosenCategory(tmp);
@@ -38,7 +39,7 @@ export default function Account({}) {
     }, []);
 
     return (
-        <AuthenticatedLayout changeCategory={changeCategory}>
+        <AuthenticatedLayout changeCategory={changeCategory} viewType={viewType} setViewType={setViewType}>
             <div className="bg-[#111] flex text-gray-100">
                 <div className="w-full mt-4">
                     <div className="w-full p-4 text-center ">
@@ -73,6 +74,7 @@ export default function Account({}) {
                                 setPosts={setPosts}
                                 page={page}
                                 setPage={setPage}
+                                viewType={viewType}
                             />
                         </div>
                     </div>
