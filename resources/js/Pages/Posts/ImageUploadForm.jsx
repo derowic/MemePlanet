@@ -115,7 +115,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
 
     return (
         <div className={isOpen == true ? " m-2 px-2 border" : " m-2 px-2"}>
-            {CheckPermission("post.create") && (
+            {(CheckPermission("post.create") && isOpen == false) && (
                 <DefaultButton
                     onClick={unHide}
                     text={translation.t("Add new post")}
@@ -125,15 +125,8 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                 />
             )}
             <div id={"post"} hidden >
-                <div className="w-full flex">
+                <div className="w-full flex mt-2">
                     <div className="w-1/2">
-                        <input
-                            type="file"
-                            id="attr2"
-                            className="bg-black3 hover:bg-black3-h text-white font-bold py-2 px-2 border border-meme_violet focus:border-[#666]  w-full"
-                            onChange={handleImageChange}
-                            accept="image/*"
-                        />
                         <Input
                             className={
                                 "bg-black3 hover:bg-black3-h text-black font-bold py-2 px-2 border border-[#555] focus:border-[#666] w-full"
@@ -153,6 +146,13 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                             title={translation.t("Text")}
                             value={text}
                             onChange={(e) => setText(e.target.value)}
+                        />
+                        <input
+                            type="file"
+                            id="attr2"
+                            className="bg-black3 hover:bg-black3-h text-white font-bold py-2 px-2 border border-meme_violet focus:border-[#666]  w-full"
+                            onChange={handleImageChange}
+                            accept="image/*"
                         />
                         <h1 className="text-2xl border-b border-meme_violet">
                             {translation.t("Categories")}

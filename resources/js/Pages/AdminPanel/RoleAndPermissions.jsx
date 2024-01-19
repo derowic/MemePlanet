@@ -36,6 +36,8 @@ export default function RoleAndPermissions() {
         AxiosGet("permission.index", null, null, setPermissions);
     }, []);
 
+
+
     const togglePermission = (permissionId) => {
         if (selectedPermissions.includes(permissionId)) {
             setSelectedPermissions(
@@ -98,6 +100,10 @@ export default function RoleAndPermissions() {
         removeBannedUser(user);
     };
 
+    useEffect(() => {
+        console.log(selectedUser);
+    }, [selectedUser]);
+
     return (
         <AuthenticatedLayout>
             <div className="flex">
@@ -116,19 +122,6 @@ export default function RoleAndPermissions() {
                                 {translation.t("Użytkownik")}:{" "}
                                 {selectedUser && selectedUser.name}
                             </h2>
-                            {/*<select
-                            onChange={(e) => setSelectedUser(e.target.value)}
-                            className="text-black"
-                        >
-                            <option value="">Wybierz użytkownika</option>
-                            {users.map((user) => (
-                                <option key={user.id} value={user.id}>
-                                    {user.name}
-                                </option>
-                            ))}
-                        </select>
-                            */}
-
                             <div className="w-full flex">
                                 <div className="w-1/2 ">
                                     <div className="text-2xl">

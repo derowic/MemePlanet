@@ -32,11 +32,12 @@ function PostPreView({title, text, category, previewImage, selectedTags, tags, t
              <div className="flex flex-wrap justify-center mt-2 w-full">
                 <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2  w-full">
                     <h3 className="text-left font-semibold mb-2 w-full">
-                        {title}
+                        {title ? title : <div className="text-gray-400">title</div>}
                     </h3>
                     <div className="text-left text-xs mb-2">
                         {/*isNaN(post.user) ? post.user.name : "unknown"*/}
                         {user.name}
+
                     </div>
                     <div className="text-left text-xs ">
                         {/*post.category.name*/}
@@ -61,17 +62,16 @@ function PostPreView({title, text, category, previewImage, selectedTags, tags, t
                     </div>
 
                     <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
-                        {/*post.text*/}
-                        {text}
+                        {text ? text : <div className="text-gray-400">text</div>}
                     </div>
-                    {/*<Img
-                        post={post}
-                        loadCommentsFunc={loadCommentsFunc}
-                        setIsOpen={setIsOpen}
-                    />*/}
-                    {previewImage && (
-                    <img id="attr" src={previewImage} alt="Preview" />
-                )}
+
+                    {previewImage ?
+                        <div className=""><img id="attr" src={previewImage} alt="Preview" className="m-auto w-full" /></div>
+                        :
+                        <div className="text-gray-400 flex justify-center items-center">
+                            no image
+                        </div>
+                    }
 
 
                         <div className="flex flex-wrap">

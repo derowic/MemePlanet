@@ -26,7 +26,6 @@ function Post({ post, tags, showOptions, translation }) {
     };
 
     useEffect(() => {
-        //console.log(post.status);
     }, [post, post.status]);
 
     return (
