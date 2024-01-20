@@ -5,22 +5,39 @@ import AxiosGet from "../API/AxiosGet";
 
 const ReportListDialog = ({
     post,
-    isOpen,
-    closeDialog,
-    postReports,
     defaultButtonText,
     modalTitle,
     modalDescription,
     translation,
 }) => {
-    /*const closeDialog = () => {
+    const [postReports, setPostReports] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
+    const openDialog = () => {
+        setIsOpen(true);
+        if (postReports.length == 0) {
+            AxiosGet(
+                "reportList.index",
+                { post_id: post.id },
+                null,
+                setPostReports,
+            );
+        }
+    };
+    const closeDialog = () => {
         setIsOpen(false);
-    };*/
+    };
 
     useEffect(() => {}, []);
 
     return (
         <div className="ml-2 ">
+            <DefaultButton
+                onClick={openDialog}
+                text={translation.t(defaultButtonText)} //"!"
+                className={
+                    "mt-2 mb-2 mr-2 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-lg border border-blue-500"
+                }
+            />
             <Dialog
                 open={isOpen}
                 onClose={closeDialog}

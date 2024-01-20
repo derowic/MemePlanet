@@ -35,8 +35,6 @@ function PostDetals({
     };
 
     const fetchMoreComments = async () => {
-        similarPosts();
-
         try {
             const response = await AxiosGet(
                 "comment.index",
@@ -56,7 +54,6 @@ function PostDetals({
             setComments((prevData) => [...prevData, ...newComments]);
             // Zaktualizuj numer strony
             setPage(page + 1);
-            console.log(newComments.length);
             if(newComments.length <= 0)
             {
                 setHasMore(false);
@@ -66,27 +63,9 @@ function PostDetals({
         }
     };
 
-    const similarPosts = async () => {
-        try {
-            // const response = await AxiosGet(
-            //     "post.similar",
-            //     { post: post.id },
-            //     null,
-            //     null,
-            // );
-            // console.log(response);
-            AxiosGet("post.similar", { post: post.id }, null, setPosts).then((response) => {
-                console.log(response);
-            });
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
     const togglePanel = () => {
         setUsedComments([]);
         setComments([]);
-        //setIsOpen(!isOpen);
         if (isOpen == false) {
             fetchMoreComments();
         }
@@ -247,23 +226,6 @@ function PostDetals({
                             </div>
                         </div>
                     </div>
-
-                    <div className="border-t-2 border-meme_violet mt-2 p-2 w-full text-3xl text-center">
-                        {translation.t("Similar Posts")}
-                        <div className="flex">
-                            {posts.map((t) => (
-                                <div className="w-1/3 rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
-                                    <Img
-                                        post={t}
-                                        loadCommentsFunc={null}
-                                        postDetailsView={true}
-                                        usedAsSimilarPost={true}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
                 </div>
             </Drawer>
         </div>

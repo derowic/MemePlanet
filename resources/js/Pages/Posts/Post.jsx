@@ -26,12 +26,13 @@ function Post({ post, tags, showOptions, translation }) {
     };
 
     useEffect(() => {
+        //console.log(post.status);
     }, [post, post.status]);
 
     return (
         <>
             {CheckRole("admin") ? (
-                <PostAdminView
+                 <PostAdminView
                     post={post}
                     tags={tags}
                     showOptions={showOptions}

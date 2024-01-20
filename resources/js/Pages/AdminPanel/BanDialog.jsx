@@ -6,27 +6,48 @@ import DefaultButton from "../BasicElements/DefaultButton";
 import AxiosGet from "../API/AxiosGet";
 
 const BanDialog = ({
-    isOpen,
-    closeDialog,
-    banTypes,
-    reports,
-    ban,
-    BanUser,
-    selectedBan,
-    setSelectedBan,
-    selectedReason,
-    setSelectedReason,
     user,
     defaultButtonText,
     modalTitle,
     modalDescription,
     translation,
 }) => {
+    const [reports, setReports] = useState([]);
+    const [banTypes, setBanTypes] = useState([]);
+    const [selectedBan, setSelectedBan] = useState(0);
+    const [selectedReason, setSelectedReason] = useState([]);
+
+    const ban = async () => {
+        try {
+            BanUser(user.id, selectedBan, selectedReason);
+        } catch (error) {
+            console.error("Report.jsx -> ", error);
+        }
+    };
+
+    const [isOpen, setIsOpen] = useState(false);
+    const openDialog = () => {
+        setIsOpen(true);
+        if (banTypes.length == 0) {
+            AxiosGet("ban.index", null, null, setBanTypes);
+            AxiosGet("report.index", null, null, setReports);
+        }
+    };
+    const closeDialog = () => {
+        setIsOpen(false);
+    };
 
     useEffect(() => {}, []);
 
     return (
         <div className="ml-2 ">
+            <DefaultButton
+                onClick={openDialog}
+                text={translation.t(defaultButtonText)} //"!"
+                className={
+                    "mt-2 mb-2 mr-2 hover:bg-red-400 text-white font-bold py-2 px-4 rounded-lg border border-red-700"
+                }
+            />
             <Dialog
                 open={isOpen}
                 onClose={closeDialog}

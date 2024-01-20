@@ -19,10 +19,6 @@ import HidePost from "../AdminAndModeratorFunctions/HidePost";
 import DeletePost from "../AdminAndModeratorFunctions/DeletePost";
 import RestorePost from "../AdminAndModeratorFunctions/RestorePost";
 import TakeFromMainPage from "../AdminAndModeratorFunctions/TakeFromMainPage";
-import { Menu, Transition } from '@headlessui/react'
-import { Fragment, useRef } from 'react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import AdminOptions from "./AdminOptions";
 
 function PostAdminView({ post, tags, showOptions, setPosts, translation }) {
     const user = usePage().props.auth.user;
@@ -183,14 +179,51 @@ function PostAdminView({ post, tags, showOptions, setPosts, translation }) {
                                     user.roles.some(
                                         (role) => role.name === "moderator",
                                     )) && (
-                                        <AdminOptions
-                                            setAsMainPagePost={setAsMainPagePost}
+                                    <>
+                                        <SendPostToMainPage
+                                            setAsMainPagePost={
+                                                setAsMainPagePost
+                                            }
                                             post={post}
                                             mainPage={mainPage}
+                                            translation={translation}
+                                        />
+                                        <HidePost
+                                            post={post}
                                             hide={hideFunc}
+                                            translation={translation}
+                                        />
+                                        <DeletePost
+                                            post={post}
+                                            postDeleted={postDeleted}
                                             deletePost={deletePost}
                                             translation={translation}
                                         />
+                                        <div className="flex text-center justify-center">
+                                            <ReportListDialog
+                                                post={post}
+                                                defaultButtonText={translation.t(
+                                                    "Show reports",
+                                                )}
+                                                modalTitle={translation.t(
+                                                    "Reports",
+                                                )}
+                                                modalDescription={""}
+                                                translation={translation}
+                                            />
+                                            <BanDialog
+                                                user={post.user}
+                                                defaultButtonText={translation.t(
+                                                    "Ban",
+                                                )}
+                                                modalTitle={""}
+                                                modalDescription={translation.t(
+                                                    "Select ban reason and length",
+                                                )}
+                                                translation={translation}
+                                            />
+                                        </div>
+                                    </>
                                 )}
                         </div>
                     )}

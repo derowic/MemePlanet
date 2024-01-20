@@ -78,7 +78,7 @@ export default function Authenticated({
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
-                            <ChangeViewType viewType={viewType} setViewType={setViewType}/>
+                            {/* <ChangeViewType viewType={viewType} setViewType={setViewType}/> */}
                             <ChangeLanguage />
                             <div className="pl-2 flex">
                                 {/*<Chat/>*/}
