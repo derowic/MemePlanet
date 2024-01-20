@@ -42,7 +42,6 @@ function PostDetals({
                 null,
                 null,
             );
-            // Filtruj nowo pobrane komentarze, usuwając te, które już istnieją wśród obecnych komentarzy
             const newComments = response.filter(
                 (newComment) =>
                     !comments.some(
@@ -50,12 +49,9 @@ function PostDetals({
                             existingComment.id === newComment.id,
                     ),
             );
-            // Aktualizuj komentarze, dodając nowe komentarze
             setComments((prevData) => [...prevData, ...newComments]);
-            // Zaktualizuj numer strony
             setPage(page + 1);
-            if(newComments.length <= 0)
-            {
+            if (newComments.length <= 0) {
                 setHasMore(false);
             }
         } catch (error) {
@@ -83,7 +79,6 @@ function PostDetals({
     const updateCommentSection = async () => {
         setUsedComments([]);
         await reLoadComments();
-
     };
 
     const handleSubmitComment = async (commentText, parentCommentId) => {
@@ -109,7 +104,6 @@ function PostDetals({
         if (loadComments == true) {
             togglePanel();
         }
-
     }, [loadComments]);
 
     useEffect(() => {
@@ -120,12 +114,10 @@ function PostDetals({
             img.onload = () => {
                 let height = img.height;
                 height = img.height * 0.2;
-                //console.log(height);
                 if (height < window.innerHeight / 2) {
                     height = window.screen.height * 0.85;
                 }
                 height = window.screen.height * 0.85;
-                //console.log(height)
                 setCustomHeight({ height: height * 0.9 + "px" });
             };
         }
@@ -214,8 +206,10 @@ function PostDetals({
                                     <div className="w-full text-center">
                                         <Button
                                             onClick={() => fetchMoreComments()}
-                                            text={translation.t( hasMore ?
-                                                "load more comments": "no more comments",
+                                            text={translation.t(
+                                                hasMore
+                                                    ? "load more comments"
+                                                    : "no more comments",
                                             )}
                                             className={
                                                 "font-bold hover:bg-white hover:text-black m-auto p-2 text-center w-full text-white m-2"

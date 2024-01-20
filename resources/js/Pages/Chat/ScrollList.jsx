@@ -48,7 +48,6 @@ function ScrollList({ changeCategory, resetCategory }) {
 
     useEffect(() => {
         setSelectedCategories([]);
-        //console.log("reset");
     }, [resetCategory]);
 
     return (
@@ -60,15 +59,13 @@ function ScrollList({ changeCategory, resetCategory }) {
                         categories.map((element) => (
                             <DefaultButton
                                 key={element.id + "buttons list"}
-                                onClick={() =>
-                                    beforeChangeCategory(element.id)
-                                }
+                                onClick={() => beforeChangeCategory(element.id)}
                                 text={categoryTranslation.t(element.name)}
                                 className={
                                     Array.isArray(selectedCategories)
                                         ? selectedCategories.includes(
-                                                element.id,
-                                            )
+                                              element.id,
+                                          )
                                             ? " m-2 px-2 text-left hover:bg-[#f1f1f1] bg-[#f1f1f1] text-black "
                                             : " m-2 px-2 text-left hover:bg-[#f1f1f1] hover:text-black"
                                         : selectedCategories === element.id

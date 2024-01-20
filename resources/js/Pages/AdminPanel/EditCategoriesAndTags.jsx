@@ -46,8 +46,6 @@ export default function EditCategoriesAndTags() {
     };
 
     const refresh = () => {
-        //setTags([]);
-        //setCategories([]);
         AxiosGet("tag.index", null, null, setTags);
         AxiosGet("category.index", null, null, setCategories);
     };

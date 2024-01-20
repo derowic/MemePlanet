@@ -19,7 +19,6 @@ class NotificationFactory extends Factory
     public function definition(): array
     {
         return [
-            //
             'post_id' => Post::inRandomOrder()->limit(10)->pluck('id')->random(),
             'user_id' => User::inRandomOrder()->limit(10)->pluck('id')->random(),
             'seen' => null,

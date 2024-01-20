@@ -13,7 +13,6 @@ function HidePost({ post, hide, translation }) {
     const hidePost = async (post) => {
         let tmp = await AxiosPut("post.hidePost", { id: post.id }, null, 1);
         console.log(tmp);
-        //hide();
         if (tmp.status == 201) {
             hide();
         }

@@ -23,12 +23,5 @@ class DatabaseSeeder extends Seeder
         $this->call(ReportSeeder::class);
         $this->call(BanSeeder::class);
         $this->call(LikeableSeeder::class);
-        //$this->call(Notification::class);
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }

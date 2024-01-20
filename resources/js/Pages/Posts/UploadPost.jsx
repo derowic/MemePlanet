@@ -30,19 +30,17 @@ const UploadPost = ({ categories, tags, fetchTags }) => {
                     formData,
                     {
                         headers: {
-                            "Content-Type": "multipart/form-data", // Ustawiamy odpowiedni Content-Type
+                            "Content-Type": "multipart/form-data",
                         },
                     },
                 );
                 setUploadedImageUrl(response.data.imageUrl);
                 setImageUploaded(true);
-                Notify(response.data.message, "success").then(()=>{
+                Notify(response.data.message, "success").then(() => {
                     fetchTags();
                 });
-
             } catch (error) {
                 console.error("UploadPost error: ", error);
-                //Notify(error);
                 Notify(error.response.data.message, "error");
             }
         } else {

@@ -20,44 +20,8 @@ import { ToastContainer, toast } from "react-toastify";
 import NavBar from "@/Layouts/NavBar";
 import AxiosGet from "./API/AxiosGet";
 
-/*
-console.log(`
-
-
-__        _______ _     ____ ___  __  __ _____
-\\ \\      / | ____| |   / ___/ _ \\|  \\/  | ____|
- \\ \\ /\\ / /|  _| | |  | |  | | | | |\\/| |  _|
-  \\ V  V / | |___| |__| |__| |_| | |  | | |___
-   \\_/\\_/  |_____|_____\\____\\___/|_|  |_|_____|
-
-
-  ___  _   _
- / _ \\| \\ | |
-| | | |  \\| |
-| |_| | |\\  |
- \\___/|_| \\_|
-
-
- __  __ _____ __  __ _____
-|  \\/  | ____|  \\/  | ____|
-| |\\/| |  _| | |\\/| |  _|
-| |  | | |___| |  | | |___
-|_|  |_|_____|_|  |_|_____|
-
-
- ____  _        _    _   _ _____ _____
-|  _ \\| |      / \\  | \\ | | ____|_   _|
-| |_) | |     / _ \\ |  \\| |  _|   | |
-|  __/| |___ / ___ \\| |\\  | |___  | |
-|_|   |_____/_/   \\_|_| \\_|_____| |_|
-
-We're happy you're here
-`);
-*/
-
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
     const translation = useTranslation(["dashboard"]);
-
     const [chosenCategory, setChosenCategory] = useState([]);
     const changeCategory = (tmp) => {
         setChosenCategory(tmp);
@@ -129,7 +93,6 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             elements={[
                                 [translation.t("Home"), "post.index"],
                                 [translation.t("Top"), "post.top"],
-                                //[translation.t("Trending"), "post.trending"],
                                 [translation.t("Fresh"), "post.fresh"],
                             ]}
                             setPosts={setPosts}

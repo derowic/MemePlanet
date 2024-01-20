@@ -14,7 +14,6 @@ function TakeFromMainPage({ post, mainPage, setAsMainPagePost, translation }) {
         AxiosPut("post.takeFromMainPage", { id: post.id }, null, translation);
     };
     useEffect(() => {
-        //console.log(post.status);
     }, [post, post.status]);
 
     return (

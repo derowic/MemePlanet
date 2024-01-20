@@ -36,8 +36,6 @@ export default function RoleAndPermissions() {
         AxiosGet("permission.index", null, null, setPermissions);
     }, []);
 
-
-
     const togglePermission = (permissionId) => {
         if (selectedPermissions.includes(permissionId)) {
             setSelectedPermissions(

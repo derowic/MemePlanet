@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import Notification from "@/Components/Notify";
-import DefaultButton from "../../BasicElements/DefaultButton";
-//import LogedIn from "@/Pages/API/LogedIn";
+import DefaultButton from "../../BasicElements/DefaultButton";s
 import { usePage } from "@inertiajs/react";
 import Notify from "@/Components/Notify";
 import LogedIn from "@/Pages/API/LogedIn";
 import CheckPermission from "@/Pages/API/CheckPermission";
 
 function Like({ elementId, elementType, likes, is_liked }) {
-    //console.log(usePage().props.auth);
     let loged = LogedIn();
     let role = CheckPermission("post.like");
 
@@ -28,8 +26,7 @@ function Like({ elementId, elementType, likes, is_liked }) {
 
     const like = async (tmp) => {
         if (loged) {
-            if(role)
-            {
+            if (role) {
                 try {
                     let rout = "";
                     if (elementType == "post") {
@@ -45,12 +42,9 @@ function Like({ elementId, elementType, likes, is_liked }) {
                     setCount(response.data.like);
                     setIsLiked(response.data.is_liked);
                 } catch (error) {
-                    //Notification(error.response.data.msg);
                     console.error("Like -> like error: ", error);
                 }
-            }
-            else
-            {
+            } else {
                 Notify("You don't have permission", "info");
             }
         } else {

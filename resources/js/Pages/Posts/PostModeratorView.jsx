@@ -34,7 +34,6 @@ function PostModeratorView({ post, tags, showOptions }) {
     };
 
     useEffect(() => {
-        //console.log(post.status);
     }, [post, post.status]);
 
     return (

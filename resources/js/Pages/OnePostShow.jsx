@@ -11,8 +11,6 @@ import { useTranslation } from "react-i18next";
 import Fav from "./Posts/Fav/Fav";
 import { Drawer } from "@mui/material";
 import Img from "./Posts/Img";
-import InfiniteScroll from "react-infinite-scroll-component";
-import FetchWithPagination from "./API/FetchWithPagination";
 import Button from "./BasicElements/Button";
 
 export default function OnePostShow({ post, tags, isFav }) {
@@ -40,7 +38,6 @@ export default function OnePostShow({ post, tags, isFav }) {
                 null,
                 null,
             );
-            // Filtruj nowo pobrane komentarze, usuwając te, które już istnieją wśród obecnych komentarzy
             const newComments = response.filter(
                 (newComment) =>
                     !comments.some(
@@ -48,9 +45,7 @@ export default function OnePostShow({ post, tags, isFav }) {
                             existingComment.id === newComment.id,
                     ),
             );
-            // Aktualizuj komentarze, dodając nowe komentarze
             setComments((prevData) => [...prevData, ...newComments]);
-            // Zaktualizuj numer strony
             setPage(page + 1);
         } catch (error) {
             console.error(error);
@@ -60,7 +55,6 @@ export default function OnePostShow({ post, tags, isFav }) {
     const togglePanel = () => {
         setUsedComments([]);
         setComments([]);
-        //setIsOpen(!isOpen);
         if (isOpen == false) {
             fetchMoreComments();
         }

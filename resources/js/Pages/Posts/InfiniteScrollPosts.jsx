@@ -17,7 +17,7 @@ const InfiniteScrollPosts = ({
     setPosts,
     page,
     setPage,
-    viewType
+    viewType,
 }) => {
     const translation = useTranslation(["post"]);
     const [favs, setFavs] = useState([]);
@@ -34,14 +34,10 @@ const InfiniteScrollPosts = ({
 
     const fetchPaginatedPost = async () => {
         if (setPosts) {
-            //console.log("fetch posts");
             let response = await fetchPosts();
-            if(response.length == 0)
-            {
+            if (response.length == 0) {
                 setHasMore(false);
-            }
-            else
-            {
+            } else {
                 setPosts((prevData) => [...prevData, ...response]);
                 setPage(page + 1);
             }
@@ -55,7 +51,6 @@ const InfiniteScrollPosts = ({
             setPosts(response);
             setPage(page + 1);
             replacePosts();
-
         }
     };
 
@@ -100,22 +95,17 @@ const InfiniteScrollPosts = ({
         fetchPaginatedPost();
         replacePosts();
         handleResize();
-        //console.log("syatuy");
     }, [categories, tags]);
 
-
     useEffect(() => {
-        if(page == 1)
-        {
+        if (page == 1) {
             setHasMore(true);
         }
-        //console.log("syatuy", page);
     }, [page]);
 
     useEffect(() => {
         setChosedCategory(chosenCategory);
         afterChangeSelectedPosts();
-        //console.log("zmina kategorii");
     }, [chosenCategory]);
 
     useEffect(() => {
@@ -123,53 +113,38 @@ const InfiniteScrollPosts = ({
         setWindowWidth(window.innerWidth);
         handleResize();
         replacePosts();
-
-        //console.log(scrollY);
-        //console.log(isScrollBarVisible);
         window.addEventListener("scroll", handleScroll);
-
         return () => {
             window.removeEventListener("resize", handleResize);
             window.removeEventListener("scroll", handleScroll);
         };
-
-        // Ustalamy, żeby usunąć nasłuchiwanie zdarzenia, gdy komponent zostanie odmontowany
         return () => {};
     }, [columnNumber, posts]);
 
     const [scrollY, setScrollY] = useState(0);
     const [isScrollBarVisible, setIsScrollBarVisible] = useState(false);
 
-    // Funkcja obsługująca zdarzenie przewijania
     const handleScroll = () => {
-        // Pobranie wartości przewinięcia pionowego (Y-axis)
         const currentScrollY = window.scrollY || window.pageYOffset;
-
-        // Pobranie wysokości okna przeglądarki
         const windowHeight = window.innerHeight;
-
-        // Pobranie wysokości całej strony (z uwzględnieniem przewinięcia)
         const documentHeight = document.body.scrollHeight;
-
-        // Sprawdzenie, czy pasek przewijania jest widoczny
         const scrollBarVisible = documentHeight > windowHeight;
-
-        // Aktualizacja stanów
         setScrollY(currentScrollY);
         setIsScrollBarVisible(scrollBarVisible);
     };
-
-    // Ustawienie funkcji obsługującej zdarzenie przewijania przy montowaniu komponentu
 
     return (
         <div>
             <div className="p-4 w-full m-auto">
                 <div className="m-auto w-3/4">
                     {CheckPermission("post.create") && (
-                        <UploadPost categories={categories} tags={tags} fetchTags={fetchTags} />
+                        <UploadPost
+                            categories={categories}
+                            tags={tags}
+                            fetchTags={fetchTags}
+                        />
                     )}
                 </div>
-                {/*<p>{columnNumber}</p>*/}
                 <InfiniteScroll
                     dataLength={posts.length}
                     next={fetchPaginatedPost}
@@ -177,7 +152,7 @@ const InfiniteScrollPosts = ({
                     loader={<p>{translation.t("loading...")}</p>}
                     endMessage={<p>{translation.t("No more posts")}</p>}
                 >
-                    {viewType ?
+                    {viewType ? (
                         <div className="m-auto flex w-full">
                             {replacedPosts.map((column, columnIndex) => (
                                 <div
@@ -199,7 +174,7 @@ const InfiniteScrollPosts = ({
                                 </div>
                             ))}
                         </div>
-                    :
+                    ) : (
                         <div className="m-auto w-full">
                             {replacedPosts.map((column, columnIndex) => (
                                 <div key={columnIndex} className="w-2/5 m-auto">
@@ -216,7 +191,7 @@ const InfiniteScrollPosts = ({
                                 </div>
                             ))}
                         </div>
-                    }
+                    )}
                 </InfiniteScroll>
             </div>
         </div>

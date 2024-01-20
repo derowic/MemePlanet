@@ -16,11 +16,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-
-        //$adminRole->syncPermissions($adminPermissions);
-        //$moderatorRole->syncPermissions($moderatorPermissions);
-        //$userRole->syncPermissions($userPermissions);
-
         $admin = User::create([
             'name' => 'Admin',
             'lang' => 'en',

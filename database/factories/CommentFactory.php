@@ -22,7 +22,7 @@ class CommentFactory extends Factory
             'post_id' => Post::inRandomOrder()->limit(10)->pluck('id')->random(),
             'user_id' => User::inRandomOrder()->limit(10)->pluck('id')->random(),
             'text' => $this->faker->unique()->word(),
-            'likes' => 0, //$this->faker->numberBetween(1, 1000),
+            'likes' => 0,
             'comment_id' => 0,
             'deleted_at' => null,
         ];

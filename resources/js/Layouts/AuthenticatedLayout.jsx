@@ -22,13 +22,10 @@ export default function Authenticated({
     changeCategory,
     resetCategory,
     viewType,
-    setViewType
+    setViewType,
 }) {
     const translation = useTranslation(["dashboard"]);
     const user = usePage().props.auth.user;
-    //console.log(user);
-    //console.log(usePage());
-
     const { i18n } = useTranslation();
     const changeLanguage = (newLanguage) => {
         i18n.changeLanguage(newLanguage);

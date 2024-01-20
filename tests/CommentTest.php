@@ -2,30 +2,15 @@
 
 namespace Tests\Feature;
 
-namespace Tests\Feature;
-
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase; // Dodaj use do DatabaseSeeder
+use Tests\TestCase;
 
 class CommentTest extends TestCase
 {
-    /*
-        use RefreshDatabase;
-
-        public function setUp(): void
-        {
-            parent::setUp();
-
-            // Wywołaj seeder'y bezpieczając się przed wielokrotnym ich uruchomieniem
-            if (!app()->environment('production')) {
-                $this->seed(DatabaseSeeder::class);
-            }
-        }*/
-
     public function testStorePost()
     {
         $user = User::find(rand(1, 3));

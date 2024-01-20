@@ -36,7 +36,6 @@
     "reply": "odpowiedz",
     "Add comment": "dodaj komentarz",
 
-
     "Post added to favourite": "Post zapisano do ulubionych",
     "Post removed from favourites": "Post usunięto z ulubionych",
 
@@ -54,6 +53,4 @@
     "Image, title and category are required": "Zdjęcie, tytuł i kategoria musi zostać wypełnione",
     "The image field has invalid image dimensions": "Zdjęcie jest za duże, maksymalna szerokość: 1000px",
     "Similar Posts": "Podobne Posty"
-
-
 }

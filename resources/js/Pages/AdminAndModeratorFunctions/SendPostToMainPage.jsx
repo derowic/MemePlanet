@@ -39,12 +39,9 @@ function SendPostToMainPage({
         }
     };
     useEffect(() => {
-        //console.log(post.status);
     }, [post, post.status]);
 
     return (
-
-
         <div className="w-full ">
             <button
                 className="p-3 rounded-lg border border-green-500  hover:bg-green-400 m-2"
@@ -55,16 +52,12 @@ function SendPostToMainPage({
                 }
             >
                 {mainPage ? (
-                    <div>
-                        {translation.t("Take it from the home page")}
-                    </div>
+                    <div>{translation.t("Take it from the home page")}</div>
                 ) : (
                     <div>{translation.t("Send to main page")}</div>
                 )}
             </button>
         </div>
-
-
     );
 }
 

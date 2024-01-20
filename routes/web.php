@@ -28,7 +28,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->name('dashboard'); //middleware(['auth', 'verified'])->
+})->name('dashboard');
 
 Route::get('/unauthorized', function () {
     return Inertia::render('UnAuthorizedView');
@@ -36,7 +36,7 @@ Route::get('/unauthorized', function () {
 
 Route::get('/MemeGenerator', function () {
     return Inertia::render('MemeGenerator');
-})->name('memeGenerator'); //middleware(['auth', 'verified'])->
+})->name('memeGenerator');
 
 Route::get('/setLang', [ProfileController::class, 'setLanguage'])->name('profile.setLang');
 
@@ -76,8 +76,6 @@ Route::middleware('auth')->group(function () {
             return Inertia::render('Account');
         })->middleware(['auth', 'verified'])->name('account');
 
-        Route::get('/userPosts', [PostController::class, 'userPosts'])->name('post.userPosts');
-
         Route::post('/notification', [NotificationController::class, 'store'])->name('notification.store');
         Route::get('/notification/{notification}', [NotificationController::class, 'show'])->name('notification.show');
         Route::put('/notification/{notification}', [NotificationController::class, 'update'])->name('notification.update');
@@ -85,12 +83,11 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/post', [PostController::class, 'store'])->name('post.store');
         Route::post('/like', [PostController::class, 'like'])->name('post.like');
-        //Route::post('/post/fav', [PostController::class, 'favourite'])->name('post.fav');
         Route::put('/post/{post}', [PostController::class, 'update'])->name('post.update');
         Route::delete('/post/{post}', [PostController::class, 'delete'])->name('post.delete');
         Route::put('/restore/{post}', [PostController::class, 'restore'])->name('post.restore');
         Route::get('/deleted', [PostController::class, 'deletedPosts'])->name('post.deletedPosts');
-        //Route::post('/report/{post}', [ReportController::class, 'report'])->name('report.report');
+        Route::get('/userPosts', [PostController::class, 'userPosts'])->name('post.userPosts');
 
         Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
         Route::post('/comment/like', [CommentController::class, 'like'])->name('comment.like');
@@ -109,16 +106,10 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/reportList', [ReportListController::class, 'store'])->name('reportList.store');
         Route::get('/report', [ReportController::class, 'index'])->name('report.index');
-
-        /*
-        Route::post('/tagList', [TagListController::class, 'store'])->name('tagList.store');
-        Route::put('/tagList/{tagList}', [TagListController::class, 'update'])->name('tagList.update');
-        Route::delete('/tagList/{tagList}', [TagListController::class, 'delete'])->name('tagList.delete');
-        */
-
     });
 
     Route::middleware(['checkModeratorRole'])->group(function () {
+
         Route::put('/hdie/{post}/hide', [PostController::class, 'hidePost'])->name('post.hidePost');
         Route::put('/hdie/{post}/unHide', [PostController::class, 'unHidePost'])->name('post.unHidePost');
 
@@ -142,13 +133,8 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/reportedPosts', [PostController::class, 'reportedPosts'])->name('post.reportedPosts');
             Route::get('/hiddenPosts', [PostController::class, 'hiddenPosts'])->name('post.hiddenPosts');
-
             Route::put('/post/mainPage/{post}', [PostController::class, 'sendToMainPage'])->name('post.mainPage');
             Route::put('/post/takeFromMainPage/{post}', [PostController::class, 'postTakenFromMainPage'])->name('post.takeFromMainPage');
-
-            //Route::put('/hdie/{post}/hide', [PostController::class, 'hidePost'])->name('post.hidePost');
-            //Route::put('/hdie/{post}/unHide', [PostController::class, 'unHidePost'])->name('post.unHidePost');
-
             Route::delete('/admin/{post}/delete', [PostController::class, 'destroy'])->name('post.destroy');
 
             Route::delete('/deleteComment/{comment}/delete', [CommentController::class, 'destroy'])->name('comment.destroy');

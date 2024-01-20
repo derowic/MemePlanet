@@ -101,8 +101,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
 
     const selectCategory = (buttonId) => {
         setSelectedCategory(buttonId);
-        console.log( categories.find(category => category.id === buttonId));
-
+        console.log(categories.find((category) => category.id === buttonId));
     };
 
     const selectTag = (buttonId) => {
@@ -115,7 +114,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
 
     return (
         <div className={isOpen == true ? " m-2 px-2 border" : " m-2 px-2"}>
-            {(CheckPermission("post.create") && isOpen == false) && (
+            {CheckPermission("post.create") && isOpen == false && (
                 <DefaultButton
                     onClick={unHide}
                     text={translation.t("Add new post")}
@@ -124,7 +123,7 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                     }
                 />
             )}
-            <div id={"post"} hidden >
+            <div id={"post"} hidden>
                 <div className="w-full flex mt-2">
                     <div className="w-1/2">
                         <Input
@@ -211,7 +210,22 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                         </div>
                     </div>
                     <div className="w-1/2">
-                       <PostPreView title={title} text={text} category={selectedCategory && categories.find(category => category.id === selectedCategory).name} previewImage={previewImage} selectedTags={selectedTags} tags={tags} translationCategory={translationCategory} translationTag={translationTag}/>
+                        <PostPreView
+                            title={title}
+                            text={text}
+                            category={
+                                selectedCategory &&
+                                categories.find(
+                                    (category) =>
+                                        category.id === selectedCategory,
+                                ).name
+                            }
+                            previewImage={previewImage}
+                            selectedTags={selectedTags}
+                            tags={tags}
+                            translationCategory={translationCategory}
+                            translationTag={translationTag}
+                        />
                     </div>
                 </div>
             </div>

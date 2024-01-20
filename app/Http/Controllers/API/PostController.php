@@ -34,7 +34,7 @@ class PostController extends Controller
             ->when(! empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
-            ->where('status', '<>', 'deleted') // Dodaj ten warunek
+            ->where('status', '<>', 'deleted')
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $this->perPage)
             ->take($this->perPage)
@@ -54,7 +54,7 @@ class PostController extends Controller
             ->when(! empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
-            ->where('status', '<>', 'deleted') // Dodaj ten warunek
+            ->where('status', '<>', 'deleted')
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $this->perPage)
             ->take($this->perPage)
@@ -66,46 +66,6 @@ class PostController extends Controller
     public function similar(Post $post)
     {
         $desiredTags = $post->tags()->pluck('tag_id')->values()->all();
-
-        /*$posts = Post::with(['user:id,name', 'category:id,name', 'tags:tag_id'])
-            ->whereHas('tags', function ($query) use ($desiredTags) {
-                $query->whereIn('tag_id', $desiredTags);
-            })
-            ->where('category_id', '=', $post->category->id)
-            ->where('status', '<>', 'deleted')
-            ->where('status', '<>', 'hide')
-            ->whereNotIn('id', [$post->id])
-            ->take($this->perPage)
-            ->get();
-
-        if($posts->count() <= 0)
-        {
-            $posts = Post::where('title', 'like', '%' . $post->title . '%')
-                ->orWhere('text', 'like', '%' . $post->text . '%')
-                ->whereNotIn('id', [$post->id])
-                ->take($this->perPage)
-                ->get();
-        }*/
-        /*
-        $posts = Post::with(['user:id,name', 'category:id,name', 'tags:tag_id'])
-            ->where(function ($query) use ($desiredTags, $post) {
-                $query->whereHas('tags', function ($tagsQuery) use ($desiredTags) {
-                    $tagsQuery->whereIn('tag_id', $desiredTags);
-                })
-                ->where('category_id', '=', $post->category->id)
-                ->where('status', '<>', 'deleted')
-                ->where('status', '<>', 'hide')
-                ->whereNotIn('id', [$post->id]);
-            })
-            ->orWhere(function ($query) use ($post) {
-                $query->where('title', 'like', '%' . $post->title . '%')
-                    ->orWhere('text', 'like', '%' . $post->text . '%')
-                    ->whereNotIn('id', [$post->id]);
-            })
-            ->take($this->perPage)
-            ->get();
-            */
-        //dd($posts);
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags:tag_id'])
             ->where('category_id', '=', $post->category->id)
             ->where('status', '<>', 'deleted')
@@ -143,7 +103,7 @@ class PostController extends Controller
             ->when(! empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
-            ->where('status', '<>', 'deleted') // Dodaj ten warunek
+            ->where('status', '<>', 'deleted')
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $this->perPage)
             ->take($this->perPage)
@@ -167,7 +127,7 @@ class PostController extends Controller
                 return $query->whereIn('category_id', $categories);
             })
             ->where('status', '=', 'main page')
-            ->where('status', '<>', 'deleted') // Dodaj ten warunek
+            ->where('status', '<>', 'deleted')
             ->where('created_at', '>=', $twentyFourHoursAgo)
             ->orderBy('likes', 'desc')
             ->skip(($page - 1) * $this->perPage)
@@ -190,7 +150,7 @@ class PostController extends Controller
                 return $query->whereIn('category_id', $categories);
             })
             ->where('status', '=', 'main page')
-            ->where('status', '<>', 'deleted') // Dodaj ten warunek
+            ->where('status', '<>', 'deleted')
             ->orderBy('likes', 'desc')
             ->skip(($page - 1) * $this->perPage)
             ->take($this->perPage)
@@ -377,7 +337,7 @@ class PostController extends Controller
             ->when(! empty($categories), function ($query) use ($categories) {
                 return $query->whereIn('category_id', $categories);
             })
-            ->where('status', '<>', 'deleted') // Dodaj ten warunek
+            ->where('status', '<>', 'deleted')
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $this->perPage)
@@ -391,8 +351,6 @@ class PostController extends Controller
 
     public function restore(Post $post)
     {
-        //$post->delete();
-
         Post::where('id', ($post->id))->update([
             'status' => 'waiting',
         ]);
@@ -402,8 +360,6 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        //$post->delete();
-
         Post::where('id', ($post->id))->update([
             'status' => 'deleted',
         ]);

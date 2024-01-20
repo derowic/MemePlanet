@@ -32,15 +32,12 @@ const ReportDialog = ({
     const [isOpen, setIsOpen] = useState(false);
     const openDialog = () => {
         if (loged) {
-            if(role)
-            {
+            if (role) {
                 setIsOpen(true);
                 if (reports.length == 0) {
                     AxiosGet("report.index", null, null, setReports);
                 }
-            }
-            else
-            {
+            } else {
                 Notify("You don't have permission", "info");
             }
         } else {
@@ -57,7 +54,7 @@ const ReportDialog = ({
         <div className="ml-2 ">
             <DefaultButton
                 onClick={openDialog}
-                text={defaultButtonText} //"!"
+                text={defaultButtonText}s
                 className={
                     "mt-2 mb-2 mr-2 hover:bg-[#fa3232] text-white font-bold py-2 px-4 rounded-lg border border-[#fa3232]"
                 }

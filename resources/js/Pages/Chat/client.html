@@ -1,43 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebSocket Client</title>
-</head>
-<body>
-  <input type="text" id="messageInput" placeholder="Type your message">
-  <button onclick="sendMessage()">Send</button>
-  <ul id="messagesList"></ul>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>WebSocket Client</title>
+    </head>
+    <body>
+        <input type="text" id="messageInput" placeholder="Type your message" />
+        <button onclick="sendMessage()">Send</button>
+        <ul id="messagesList"></ul>
 
-  <script>
-    const ws = new WebSocket('wss://chat.dero.smallhost.pl');
+        <script>
+            const ws = new WebSocket("wss://chat.dero.smallhost.pl");
 
-    ws.addEventListener('open', () => {
-        console.log('Połączono z serwerem WebSocket.');
-        // Dodaj kod, aby zaktualizować interfejs użytkownika lub cokolwiek innego, co chcesz zrobić po nawiązaniu połączenia.
-    });
-    // Nasłuchuj wiadomości od serwera
-    ws.addEventListener('message', (event) => {
-        const messagesList = document.getElementById('messagesList');
-        const li = document.createElement('li');
-        li.textContent = JSON.parse(event.data); // Parsuj dane jako JSON
-        messagesList.appendChild(li);
+            ws.addEventListener("open", () => {
+                console.log("Połączono z serwerem WebSocket.");
+            });
+            ws.addEventListener("message", (event) => {
+                const messagesList = document.getElementById("messagesList");
+                const li = document.createElement("li");
+                li.textContent = JSON.parse(event.data);
+                messagesList.appendChild(li);
+                console.log("Received message:", JSON.parse(event.data));
+            });
 
-        // Wyświetl wiadomość w konsoli
-        console.log('Received message:', JSON.parse(event.data));
-    });
-
-    function sendMessage() {
-        const messageInput = document.getElementById('messageInput');
-        const message = messageInput.value;
-
-        // Wysyłaj dane jako tekst (JSON)
-        ws.send(JSON.stringify(message));
-
-        // Wyczyść pole input po wysłaniu danych
-        messageInput.value = '';
-    }
-  </script>
-</body>
+            function sendMessage() {
+                const messageInput = document.getElementById("messageInput");
+                const message = messageInput.value;
+                ws.send(JSON.stringify(message));
+                messageInput.value = "";
+            }
+        </script>
+    </body>
 </html>

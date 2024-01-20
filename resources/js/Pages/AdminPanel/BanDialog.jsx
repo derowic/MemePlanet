@@ -43,7 +43,7 @@ const BanDialog = ({
         <div className="ml-2 ">
             <DefaultButton
                 onClick={openDialog}
-                text={translation.t(defaultButtonText)} //"!"
+                text={translation.t(defaultButtonText)}
                 className={
                     "mt-2 mb-2 mr-2 hover:bg-red-400 text-white font-bold py-2 px-4 rounded-lg border border-red-700"
                 }

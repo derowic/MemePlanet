@@ -1,28 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebSocket Client</title>
-</head>
-<body>
-  <script>
-    const ws = new WebSocket('wss://chat.dero.smallhost.pl');
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>WebSocket Client</title>
+    </head>
+    <body>
+        <script>
+            const ws = new WebSocket("wss://chat.dero.smallhost.pl");
 
-    // Nasłuchuj zdarzenia otwarcia połączenia
-    ws.addEventListener('open', () => {
-      console.log('Połączono z serwerem WebSocket.');
-    });
+            ws.addEventListener("open", () => {
+                console.log("Połączono z serwerem WebSocket.");
+            });
 
-    // Nasłuchuj wiadomości od serwera
-    ws.addEventListener('message', (event) => {
-      console.log('Received message:', event.data);
-    });
+            ws.addEventListener("message", (event) => {
+                console.log("Received message:", event.data);
+            });
 
-    // Nasłuchuj zdarzenia zamknięcia połączenia
-    ws.addEventListener('close', () => {
-      console.log('Połączenie z serwerem WebSocket zostało zamknięte.');
-    });
-  </script>
-</body>
+            ws.addEventListener("close", () => {
+                console.log(
+                    "Połączenie z serwerem WebSocket zostało zamknięte.",
+                );
+            });
+        </script>
+    </body>
 </html>

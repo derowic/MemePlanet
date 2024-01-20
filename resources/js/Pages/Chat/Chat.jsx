@@ -15,7 +15,6 @@ const Chat = () => {
     const [messages, setMessages] = useState([]);
     const user = usePage().props.auth.user;
 
-
     const fetchNotification = async () => {
         try {
             let params = { page: page };
@@ -60,117 +59,90 @@ const Chat = () => {
         };
     }, []);
 
-
-
     const [ws, setWs] = useState(null);
-    const [connected, setConnected] = useState('disconnecting');
+    const [connected, setConnected] = useState("disconnecting");
     const [selectedUser, setSelectedUser] = useState(3);
 
-    const addNewMessage = (newMessage) => {
-        // Kopiuj istniejącą tablicę messages i dodaj nowy element
+    const addNewMessage = (newMessage) => {s
         setMessages((prevMessages) => [...prevMessages, newMessage]);
     };
 
-    /*const reConnect = () => {
-        console.log('Reconnecting...');
-        setConnected('reconnecting');
-
-        const newWs = new WebSocket('wss://chat.dero.smallhost.pl');
-        setWs(newWs);
-
-        newWs.addEventListener('open', () => {
-          console.log('Connected to WebSocket server.');
-          setConnected('connected');
-        });
-
-        newWs.addEventListener('message', (event) => {
-          console.log('Received message:', JSON.parse(event.data));
-        });
-
-        newWs.addEventListener('close', () => {
-          console.log('WebSocket connection closed.');
-          setConnected('disconnected');
-          setTimeout(reConnect, 5000); // Ponowne połączenie po 5 sekundach
-        });
-
-        newWs.addEventListener('error', (error) => {
-          console.error('WebSocket error:', error);
-          setConnected('disconnected');
-          setTimeout(reConnect, 5000); // Ponowne połączenie po 5 sekundach
-        });
-    };
-    */
-
     const connect = () => {
-
-        console.log('Connecting to WebSocket server...');
-        //const newWs = new WebSocket('wss://chat.dero.smallhost.pl');
-        //5999
-        const newWs = new WebSocket('ws:localhost:5999');
+        console.log("Connecting to WebSocket server...");
+        const newWs = new WebSocket("ws:localhost:5999");
         setWs(newWs);
-        setConnected('connecting');
+        setConnected("connecting");
 
-        newWs.addEventListener('open', () => {
-            console.log('Connected to WebSocket server.');
+        newWs.addEventListener("open", () => {
+            console.log("Connected to WebSocket server.");
 
             if (newWs && newWs.readyState === WebSocket.OPEN) {
-                newWs.send(JSON.stringify({type: "info", name: user.name, id: user.id}));
+                newWs.send(
+                    JSON.stringify({
+                        type: "info",
+                        name: user.name,
+                        id: user.id,
+                    }),
+                );
                 console.log("send base data");
             }
         });
 
-        newWs.addEventListener('message', (event) => {
-            console.log('Received message:', JSON.parse(event.data));
+        newWs.addEventListener("message", (event) => {
+            console.log("Received message:", JSON.parse(event.data));
             addNewMessage(JSON.parse(event.data).text);
         });
 
-        newWs.addEventListener('close', () => {
-            console.log('WebSocket connection closed.');
-            setConnected('disconnected');
-            //setTimeout(reConnect, 5000);
-            setConnected('reconnecting');
+        newWs.addEventListener("close", () => {
+            console.log("WebSocket connection closed.");
+            setConnected("disconnected");
+            setConnected("reconnecting");
             setTimeout(() => {
                 connect();
             }, 5000);
-            // // Ponowne połączenie po 5 sekundach
         });
 
-        newWs.addEventListener('error', (error) => {
-            console.error('WebSocket error:', error);
-            setConnected('disconnected');
-            //setTimeout(reConnect, 5000);
-            setConnected('reconnecting');
+        newWs.addEventListener("error", (error) => {
+            console.error("WebSocket error:", error);
+            setConnected("disconnected");
+            setConnected("reconnecting");
             setTimeout(() => {
                 connect();
             }, 5000);
-            // // Ponowne połączenie po 5 sekundach
         });
     };
 
     const sendMessage = (message) => {
         if (ws && ws.readyState === WebSocket.OPEN) {
             addNewMessage(message);
-            ws.send(JSON.stringify({type: "message", sender: user.id, receiver: selectedUser, text: message}));
+            ws.send(
+                JSON.stringify({
+                    type: "message",
+                    sender: user.id,
+                    receiver: selectedUser,
+                    text: message,
+                }),
+            );
         } else {
-            console.error('WebSocket connection is not open.');
+            console.error("WebSocket connection is not open.");
         }
     };
 
     useEffect(() => {
         connect();
-    }, []); // Uruchom raz, gdy komponent się zamontuje
-
-
-
+    }, []);
 
     return (
         <div className="">
-
             <button
-                onClick={ () => toggleNotifications()}
+                onClick={() => toggleNotifications()}
                 className="px-2 bg-meme_black text-2xl flex"
             >
-                <img src="/message.png" alt="Twoja Ikona" className="w-7 mt-1 " />
+                <img
+                    src="/message.png"
+                    alt="Twoja Ikona"
+                    className="w-7 mt-1 "
+                />
                 <div className="text-red-500 mx-1">{unSeen > 0 && unSeen}</div>
             </button>
 
@@ -182,11 +154,16 @@ const Chat = () => {
             >
                 <div className="h-1/6">
                     <div
-                        className={`font-bold text-center text-white  w-full h-6  ${connected == 'connecting' && "bg-green-500"} ${connected == 'connected' && "bg-green-500"}  ${connected == 'reconnecting' && "bg-yellow-500"}  ${connected == 'disconnected' && "bg-red-500"}`}>
-                        {connected == 'connected' && "Connected"}
-                        {connected == 'connecting' && "Connecting"}
-                        {connected == 'reconnecting' && "Reconnecting"}
-                        {connected == 'disconnected' && "Disconnected"}
+                        className={`font-bold text-center text-white  w-full h-6  ${
+                            connected == "connecting" && "bg-green-500"
+                        } ${connected == "connected" && "bg-green-500"}  ${
+                            connected == "reconnecting" && "bg-yellow-500"
+                        }  ${connected == "disconnected" && "bg-red-500"}`}
+                    >
+                        {connected == "connected" && "Connected"}
+                        {connected == "connecting" && "Connecting"}
+                        {connected == "reconnecting" && "Reconnecting"}
+                        {connected == "disconnected" && "Disconnected"}
                     </div>
 
                     <div className="bg-meme_black text-xl text-white text-center">
@@ -201,12 +178,13 @@ const Chat = () => {
                             <ScrollList />
                         </div>
                         <div className="w-5/6">
-                            <MessageForm sendMessage={sendMessage} messages={messages}/>
+                            <MessageForm
+                                sendMessage={sendMessage}
+                                messages={messages}
+                            />
                         </div>
-
                     </div>
                 </div>
-
             </Drawer>
         </div>
     );

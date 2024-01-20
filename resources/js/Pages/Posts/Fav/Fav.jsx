@@ -24,10 +24,8 @@ const Fav = ({ postId, is_Fav }) => {
                     console.log(response);
                     if (response.added == true) {
                         setIsFav(true);
-                        //Notify(response.message, null, response.status);
                     } else if (response.added == false) {
                         setIsFav(false);
-                        //Notify(response.message, null, response.status);
                     }
                 } catch (error) {
                     console.error(
@@ -47,7 +45,7 @@ const Fav = ({ postId, is_Fav }) => {
         <div className="ml-2 ">
             <DefaultButton
                 onClick={addPostToFavourite}
-                //selected={selectedCategory === category.id}
+
                 text={"+"}
                 className={
                     isFav == true

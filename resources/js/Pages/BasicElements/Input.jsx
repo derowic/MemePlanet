@@ -6,7 +6,15 @@ import React, {
     useEffect,
 } from "react";
 
-function Input({ type, title, value, onChange, placeholder, required = null, className }) {
+function Input({
+    type,
+    title,
+    value,
+    onChange,
+    placeholder,
+    required = null,
+    className,
+}) {
     /*const handleInputChange = (event) => {
         func(event.target.value);
     };
@@ -20,7 +28,7 @@ function Input({ type, title, value, onChange, placeholder, required = null, cla
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
-                className={'w-full rounded-lg text-black'}
+                className={"w-full rounded-lg text-black"}
                 required={required}
             />
         </div>

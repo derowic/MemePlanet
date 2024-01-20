@@ -44,9 +44,16 @@ function Img({ post, postDetailsView, setIsOpen, usedAsSimilarPost = false }) {
 
     return (
         <div className="">
-           <a
+            <a
                 href={route("post.show", { post: post.id })}
-                onClick={usedAsSimilarPost ? undefined : (e) => { e.preventDefault(); handleImageClick(); }}
+                onClick={
+                    usedAsSimilarPost
+                        ? undefined
+                        : (e) => {
+                              e.preventDefault();
+                              handleImageClick();
+                          }
+                }
             >
                 <div>
                     <img

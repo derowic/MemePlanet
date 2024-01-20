@@ -13,7 +13,7 @@ import { Drawer } from "@mui/material";
 import { Switch } from "@headlessui/react";
 import { IoMdMenu } from "react-icons/io";
 
-function Message({ }) {
+function Message({}) {
     const categoryTranslation = useTranslation(["category"]);
     const [isOpen, setIsOpen] = useState(false);
 
@@ -21,13 +21,9 @@ function Message({ }) {
         setIsOpen(!isOpen);
     };
 
-    useEffect(() => {
+    useEffect(() => {}, []);
 
-    }, []);
-
-    return (
-        <div>MSG</div>
-    );
+    return <div>MSG</div>;
 }
 
 export default Message;

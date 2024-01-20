@@ -27,7 +27,6 @@ function CategoryList({ changeCategory, resetCategory }) {
         if (selectedCategories.includes(tmp)) {
             setSelectedCategories((prevCategories) => {
                 const newCategories = prevCategories.filter((id) => id !== tmp);
-                //setSelectedCategories(newCategories);
                 changeCategory(newCategories);
                 return [...newCategories, tmp];
             });
@@ -42,26 +41,7 @@ function CategoryList({ changeCategory, resetCategory }) {
                 return newCategories;
             });
         }
-        /*
-        if (tmp == selectedCategoriesCategory) {
-            changeCategory(0);
-            setSelectedCategoriesCategory(0);
-        } else {
-            changeCategory(tmp);
-            setSelectedCategoriesCategory(tmp);
-        }
-        */
     };
-
-    /*
-    const selectTag = (buttonId) => {
-        if (selectedCategoriesTags.includes(buttonId)) {
-            setSelectedCategoriesTags(selectedCategoriesTags.filter((id) => id !== buttonId));
-        } else {
-            setSelectedCategoriesTags([...selectedCategoriesTags, buttonId]);
-        }
-    };
-    */
 
     useEffect(() => {
         AxiosGet("category.index", null, null, setCategories);
@@ -69,7 +49,6 @@ function CategoryList({ changeCategory, resetCategory }) {
 
     useEffect(() => {
         setSelectedCategories([]);
-        //console.log("reset");
     }, [resetCategory]);
 
     return (
@@ -110,24 +89,6 @@ function CategoryList({ changeCategory, resetCategory }) {
                             ))}
                     </div>
                 </div>
-                {/*
-            <div className="bg-meme_black h-full">
-                <div className="bg-meme_black text-white overflow-y-auto grid custom-scroll flex items-center ">
-                    {categories.map((category) => (
-                        <DefaultButton
-                            key={category.id + " categoryList"}
-                            onClick={() => beforeChangeCategory(category.id)}
-                            text={categoryTranslation.t(category.name)}
-                            className={
-                                selectedCategoriesCategory === category.id
-                                    ? " m-2 px-2 text-left hover:bg-[#f1f1f1] bg-[#f1f1f1] text-black "
-                                    : " m-2 px-2 text-left hover:bg-[#f1f1f1] hover:text-black"
-                            }
-                        />
-                    ))}
-                </div>
-            </div>
-            */}
             </Drawer>
         </>
     );

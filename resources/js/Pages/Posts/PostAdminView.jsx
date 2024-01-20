@@ -52,7 +52,6 @@ function PostAdminView({ post, tags, showOptions, setPosts, translation }) {
         setPostDeleted(!postDeleted);
         setHide(false);
         setMainPage(false);
-        //setPosts(selectedCategories.filter((id) => id !== tmp) )
     };
 
     useEffect(() => {
@@ -63,7 +62,6 @@ function PostAdminView({ post, tags, showOptions, setPosts, translation }) {
         } else if (post.status == "hide") {
             setHide(true);
         }
-        //console.log(post.status);
     }, [post, post.status]);
 
     return (

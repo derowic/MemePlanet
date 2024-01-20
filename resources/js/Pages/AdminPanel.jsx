@@ -39,7 +39,11 @@ export default function AdminPanel() {
     }, []);
 
     return (
-        <AuthenticatedLayout changeCategory={changeCategory}  viewType={viewType} setViewType={setViewType}>
+        <AuthenticatedLayout
+            changeCategory={changeCategory}
+            viewType={viewType}
+            setViewType={setViewType}
+        >
             <div className="font-bold bg-[#111] h-full">
                 <div className="text-gray-100">
                     <div className="w-full mt-2">

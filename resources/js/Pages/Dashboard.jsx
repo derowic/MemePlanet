@@ -25,7 +25,6 @@ export default function Dashboard() {
     const [resetCategory, setResetCategory] = useState(false);
     const [chosenCategory, setChosenCategory] = useState([]);
     const changeCategory = (tmp) => {
-        //console.log("chae")
         setChosenCategory(tmp);
         setPage(1);
     };
@@ -36,16 +35,12 @@ export default function Dashboard() {
     const [selectedPostsType, setSelectedPostsType] = useState(
         translation.t("Home"),
     );
-    const setSelectedPostsTypeFunc = (tmp) =>
-    {
+    const setSelectedPostsTypeFunc = (tmp) => {
         setSelectedPostsType(tmp);
         setPage(1);
-        //console.log(page);
-    }
+    };
     const [rout, setRout] = useState("post.index");
     const setRouting = (tmp) => {
-        //console.log("chae");
-
         setRout(tmp);
         setResetCategory(!resetCategory);
     };
@@ -80,7 +75,6 @@ export default function Dashboard() {
                                 elements={[
                                     [translation.t("Home"), "post.index"],
                                     [translation.t("Top"), "post.top"],
-                                    //[translation.t("Trending"),"post.trending",],
                                     [translation.t("Fresh"), "post.fresh"],
                                 ]}
                                 setPosts={setPosts}
@@ -110,7 +104,14 @@ export default function Dashboard() {
                                         }
                                         categories={categories}
                                         tags={tags}
-                                        fetchTags={() =>  AxiosGet("tag.index", null, null, setTags)}
+                                        fetchTags={() =>
+                                            AxiosGet(
+                                                "tag.index",
+                                                null,
+                                                null,
+                                                setTags,
+                                            )
+                                        }
                                         setPosts={setPosts}
                                         page={page}
                                         setPage={setPage}

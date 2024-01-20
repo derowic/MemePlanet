@@ -17,9 +17,9 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'sender_id');
             $table->foreignIdFor(User::class, 'receiver_id');
             $table->string('type');
-            //jeśl typ post-comment to element_id to id posta,
-            //jeśłi comment-comment to id komentarza do którego się odnosi
-            $table->unsignedBigInteger('element_id'); //
+            //if type = post-comment -> element_id = post id,
+            //if type = comment-comment -> element_id = comment_id
+            $table->unsignedBigInteger('element_id');
             $table->boolean('seen')->nullable();
             $table->timestamps();
         });

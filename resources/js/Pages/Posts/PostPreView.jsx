@@ -20,24 +20,34 @@ import DeletePost from "../AdminAndModeratorFunctions/DeletePost";
 import RestorePost from "../AdminAndModeratorFunctions/RestorePost";
 import TakeFromMainPage from "../AdminAndModeratorFunctions/TakeFromMainPage";
 
-function PostPreView({title, text, category, previewImage, selectedTags, tags, translationCategory, translationTag}) {
+function PostPreView({
+    title,
+    text,
+    category,
+    previewImage,
+    selectedTags,
+    tags,
+    translationCategory,
+    translationTag,
+}) {
     const user = usePage().props.auth.user;
 
-    useEffect(() => {
-
-    }, []);
+    useEffect(() => {}, []);
 
     return (
         <div className="">
-             <div className="flex flex-wrap justify-center mt-2 w-full">
+            <div className="flex flex-wrap justify-center mt-2 w-full">
                 <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2  w-full">
                     <h3 className="text-left font-semibold mb-2 w-full">
-                        {title ? title : <div className="text-gray-400">title</div>}
+                        {title ? (
+                            title
+                        ) : (
+                            <div className="text-gray-400">title</div>
+                        )}
                     </h3>
                     <div className="text-left text-xs mb-2">
                         {/*isNaN(post.user) ? post.user.name : "unknown"*/}
                         {user.name}
-
                     </div>
                     <div className="text-left text-xs ">
                         {/*post.category.name*/}
@@ -48,7 +58,9 @@ function PostPreView({title, text, category, previewImage, selectedTags, tags, t
                     <div className="m-auto">
                         <div className="text-left text-xs flex">
                             {selectedTags.map((tagData) => {
-                                const tag = tags.find((tag) => tag.id === tagData);
+                                const tag = tags.find(
+                                    (tag) => tag.id === tagData,
+                                );
                                 return tag ? (
                                     <div
                                         key={tag.id}
@@ -62,29 +74,39 @@ function PostPreView({title, text, category, previewImage, selectedTags, tags, t
                     </div>
 
                     <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
-                        {text ? text : <div className="text-gray-400">text</div>}
+                        {text ? (
+                            text
+                        ) : (
+                            <div className="text-gray-400">text</div>
+                        )}
                     </div>
 
-                    {previewImage ?
-                        <div className=""><img id="attr" src={previewImage} alt="Preview" className="m-auto w-full" /></div>
-                        :
+                    {previewImage ? (
+                        <div className="">
+                            <img
+                                id="attr"
+                                src={previewImage}
+                                alt="Preview"
+                                className="m-auto w-full"
+                            />
+                        </div>
+                    ) : (
                         <div className="text-gray-400 flex justify-center items-center">
                             no image
                         </div>
-                    }
+                    )}
 
-
-                        <div className="flex flex-wrap">
-                            {/*<Like
+                    <div className="flex flex-wrap">
+                        {/*<Like
                                 elementId={post.id}
                                 elementType={"post"}
                                 likes={post.likes}
                                 is_liked={post.is_liked}
                     />*/}
 
-                            {/*<Fav postId={post.id} is_Fav={post.is_fav} />*/}
+                        {/*<Fav postId={post.id} is_Fav={post.is_fav} />*/}
 
-                            {/*<ReportDialog
+                        {/*<ReportDialog
                                 post={post}
                                 defaultButtonText={"!"}
                                 modalTitle={""}
@@ -102,7 +124,7 @@ function PostPreView({title, text, category, previewImage, selectedTags, tags, t
                                 setLoadComments={setLoadComments}
                                 translation={translation}
                                 />*/}
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>

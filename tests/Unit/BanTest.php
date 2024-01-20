@@ -7,7 +7,7 @@ use App\Models\BanList;
 use App\Models\Report;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
-use Illuminate\Support\Facades\Artisan; // Dodaj use do DatabaseSeeder
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
@@ -15,22 +15,13 @@ class BanTest extends TestCase
 {
     public function resetAndSeedDatabase()
     {
-        // Wyłącz sprawdzanie kluczy obcych
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
-
-        // Pobierz nazwy wszystkich tabel w bazie danych
         $tables = DB::select('SHOW TABLES');
         $tables = array_map('current', json_decode(json_encode($tables), true));
-
-        // Wyzeruj wszystkie tabele
         foreach ($tables as $table) {
             DB::table($table)->truncate();
         }
-
-        // Włącz sprawdzanie kluczy obcych
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
-
-        // Uruchom seeder
         Artisan::call('db:seed');
     }
 

@@ -21,6 +21,5 @@ class CheckAdminRole
         inertia()->flash("info', 'You don't have permission");
 
         return Inertia::render('UnAuthorizedView', []);
-        //return response('Unauthorized action', 403);
     }
 }
