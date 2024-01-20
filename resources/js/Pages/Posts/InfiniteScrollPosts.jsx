@@ -55,6 +55,7 @@ const InfiniteScrollPosts = ({
             setPosts(response);
             setPage(page + 1);
             replacePosts();
+
         }
     };
 
@@ -101,6 +102,15 @@ const InfiniteScrollPosts = ({
         handleResize();
         //console.log("syatuy");
     }, [categories, tags]);
+
+
+    useEffect(() => {
+        if(page == 1)
+        {
+            setHasMore(true);
+        }
+        //console.log("syatuy", page);
+    }, [page]);
 
     useEffect(() => {
         setChosedCategory(chosenCategory);

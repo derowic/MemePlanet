@@ -36,9 +36,16 @@ export default function Dashboard() {
     const [selectedPostsType, setSelectedPostsType] = useState(
         translation.t("Home"),
     );
+    const setSelectedPostsTypeFunc = (tmp) =>
+    {
+        setSelectedPostsType(tmp);
+        setPage(1);
+        //console.log(page);
+    }
     const [rout, setRout] = useState("post.index");
     const setRouting = (tmp) => {
         //console.log("chae");
+
         setRout(tmp);
         setResetCategory(!resetCategory);
     };
@@ -69,7 +76,7 @@ export default function Dashboard() {
                             </h2>
                             <PostsTypeSelect
                                 selected={selectedPostsType}
-                                setSelected={setSelectedPostsType}
+                                setSelected={setSelectedPostsTypeFunc}
                                 elements={[
                                     [translation.t("Home"), "post.index"],
                                     [translation.t("Top"), "post.top"],
