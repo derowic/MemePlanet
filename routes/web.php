@@ -157,7 +157,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/ban', [BanController::class, 'index'])->name('ban.index');
             Route::post('/unBan/{user}', [BanController::class, 'unBan'])->name('ban.unBan');
 
-
             Route::get('/search', [UserController::class, 'search'])->name('user.search');
             Route::get('/searchById', [UserController::class, 'searchById'])->name('user.searchById');
 

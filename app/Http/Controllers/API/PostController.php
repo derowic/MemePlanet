@@ -12,8 +12,6 @@ use App\Repositories\PostRepository;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Support\Facades\DB;
-
 
 class PostController extends Controller
 {
@@ -109,7 +107,7 @@ class PostController extends Controller
             */
         //dd($posts);
         $posts = Post::with(['user:id,name', 'category:id,name', 'tags:tag_id'])
-            ->where('category_id', '=',  $post->category->id)
+            ->where('category_id', '=', $post->category->id)
             ->where('status', '<>', 'deleted')
             ->where('status', '<>', 'hide')
             ->where('id', '<>', $post->id)
@@ -119,27 +117,21 @@ class PostController extends Controller
             ->take($this->perPage)
             ->get();
 
-        if($posts->count() <= 0)
-        {
-            $posts = Post::where('title', 'like', '%' . $post->title . '%')
+        if ($posts->count() <= 0) {
+            $posts = Post::where('title', 'like', '%'.$post->title.'%')
                 ->whereNotIn('id', [$post->id])
                 ->take($this->perPage)
                 ->get();
-            if($posts->count() <= 0)
-            {
-                $posts = Post::where('text', 'like', '%' . $post->text . '%')
+            if ($posts->count() <= 0) {
+                $posts = Post::where('text', 'like', '%'.$post->text.'%')
                     ->whereNotIn('id', [$post->id])
                     ->take($this->perPage)
                     ->get();
             }
         }
 
-
         return PostResource::collection(auth()->check() ? $this->postRepository->addLikesAndFavs($posts) : $posts);
     }
-
-
-
 
     public function fresh(Request $request)
     {

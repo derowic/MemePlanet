@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FavouriteRequest;
 use App\Http\Resources\FavouriteResource;
 use App\Http\Resources\PostResource;
 use App\Models\Favourite;
 use App\Models\Post;
 use App\Repositories\PostRepository;
 use Illuminate\Http\Request;
-use App\Http\Requests\FavouriteRequest;
 
 class FavouriteController extends Controller
 {
@@ -73,8 +73,6 @@ class FavouriteController extends Controller
                 $tmp->updated_at = now();
                 $tmp->save();
                 if ($tmp->save()) {
-
-                    //return FavouriteResource::collection($tmp);
                     return response()->json(
                         [
                             'message' => trans('notifications.Post added to favourites'),

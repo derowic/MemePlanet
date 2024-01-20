@@ -88,7 +88,6 @@ class BanController extends Controller
             $user->syncRoles(['user']);
             $user->save();
 
-
             return response()->json(['msg' => trans('notifications.User unbanned')], 201);
         }
 
