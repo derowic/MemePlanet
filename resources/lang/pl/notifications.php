@@ -3,6 +3,7 @@
 return [
     //panel admin
     'Success, tag is now category' => 'Sukces, tag jest teraz kategorią',
+    'That category already exist' => 'Taka kategoria już istnieje',
     'Success, category deleted' => 'Sukces, kategoria usunięta',
     'Success, category added' => 'Sukces, kategoria dodana',
     'The name has already been taken.' => 'Nazwa już użyta',
@@ -30,4 +31,7 @@ return [
     'Post added, wait in fresh to accept by moderators' => 'Post dodany, czeka w oczekujących na zaakceptowanie przez moderatorów',
     'Image, title and category are required' => 'Zdjęcie, tytuł i kategoria musi zostać wypełnione',
     'The image field has invalid image dimensions' => 'Zdjęcie jest za duże, maksymalna szerokość=>  1000px',
+
+    //role
+    'Roles assigned' => 'Roles nadano'
 ];

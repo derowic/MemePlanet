@@ -33,6 +33,6 @@ class RoleController extends Controller
 
         $user->roles()->sync($roleIds);
 
-        return response()->json(['message' => trans('notifications.Role assigned')]);
+        return response()->json(['message' => trans('notifications.Roles assigned')]);
     }
 }

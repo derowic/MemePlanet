@@ -1,0 +1,18 @@
+{
+    "Delete Account": "Usuń konto",
+    "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.": "Po usunięciu Twojego konta wszystkie jego zasoby i dane zostaną trwale usunięte. Przed usunięciem konta pobierz wszelkie dane i informacje, które chcesz zachować.",
+    "Are you sure you want to delete your account ?" : "Czy na pewno chcesz usunąć swoje konto ?",
+    "Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account." : "Po usunięciu Twojego konta wszystkie jego zasoby i dane zostaną trwale usunięte. Wprowadź swoje hasło, aby potwierdzić, że chcesz trwale usunąć swoje konto.",
+    "Password" : "Hasło",
+    "Cancel" : "Anuluj",
+    "Update Password" : "Zmień hasło",
+    "Ensure your account is using a long, random password to stay secure." : "Aby zachować bezpieczeństwo, upewnij się, że Twoje konto używa długiego, losowego hasła.",
+    "Current Password" : "Obecne hasło",
+    "New Password" : "Nowe hasło",
+    "Confirm Password" : "Potiwierdź hasło",
+    "Save" : "Zapisz",
+    "Saved." : "Zapisano",
+    "Name" : "Nazwa",
+    "A new verification link has been sent to your email address." : "Nowy link weryfikacyjny został wysłany na Twój adres e-mail.",
+    "Click here to re-send the verification email." : "Kliknij tutaj, aby ponownie wysłać e-mail weryfikacyjny."
+}

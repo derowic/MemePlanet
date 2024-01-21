@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Notification from "@/Components/Notify";
-import DefaultButton from "../../BasicElements/DefaultButton";s
+import DefaultButton from "../../BasicElements/DefaultButton";
 import { usePage } from "@inertiajs/react";
 import Notify from "@/Components/Notify";
 import LogedIn from "@/Pages/API/LogedIn";

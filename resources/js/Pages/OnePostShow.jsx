@@ -100,11 +100,9 @@ export default function OnePostShow({ post, tags, isFav }) {
             img.onload = () => {
                 let height = img.height;
                 height = img.height * 0.2;
-                console.log(height);
                 if (height < window.innerHeight / 2) {
                     height = window.screen.height * 0.85;
                 }
-                console.log(height);
                 height = window.innerHeight;
 
                 setCustomHeight({ height: height + "px" });

@@ -3,6 +3,7 @@
 return [
     //panel admin
     'Success, tag is now category' => 'Success, tag is now category',
+    'That category already exist' => 'Taka kategoria już istnieje',
     'Success, category deleted' => 'Success, category deleted',
     'Success, category added' => 'Success, category added',
     'The name has already been taken.' => 'The name has already been taken.',
@@ -29,4 +30,7 @@ return [
     'Post added, wait in fresh to accept by moderators' => 'Post added, wait in fresh to accept by moderators',
     'Image, title and category are required' => 'Image, title and category are required',
     'The image field has invalid image dimensions' => 'The image field has invalid image dimensions',
+
+    //roles
+    'Roles assigned' => 'Roles assigned'
 ];

@@ -21,7 +21,6 @@ const Fav = ({ postId, is_Fav }) => {
                     const response = await AxiosPost("favourite.store", {
                         post_id: postId,
                     });
-                    console.log(response);
                     if (response.added == true) {
                         setIsFav(true);
                     } else if (response.added == false) {

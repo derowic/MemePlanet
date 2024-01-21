@@ -27,10 +27,6 @@ export default function Authenticated({
     const translation = useTranslation(["dashboard"]);
     const user = usePage().props.auth.user;
     const { i18n } = useTranslation();
-    const changeLanguage = (newLanguage) => {
-        i18n.changeLanguage(newLanguage);
-        console.log(newLanguage);
-    };
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
@@ -128,7 +124,7 @@ export default function Authenticated({
                                         <Dropdown.Link
                                             href={route("profile.edit")}
                                         >
-                                            Settings
+                                            {translation.t("Settings")}
                                         </Dropdown.Link>
 
                                         <Dropdown.Link

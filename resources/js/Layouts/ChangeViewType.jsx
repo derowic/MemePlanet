@@ -18,12 +18,7 @@ function ChangeViewType({ viewType, setViewType }) {
         i18n.changeLanguage(lang);
         AxiosGet("profile.setLang", { lang: lang });
     };
-    /*
-    useEffect(() => {
-       console.log(viewType);
-       console.log(setViewType);
-    }, [viewType, setViewType]);
-    */
+
     return (
         <div className="p-8 flex ">
             <img

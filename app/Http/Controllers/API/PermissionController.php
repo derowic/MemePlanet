@@ -20,7 +20,7 @@ class PermissionController extends Controller
     {
         $data = $request->validate([
             'user_id' => 'required|exists:users,id',
-            'permission_ids' => 'required|array',
+            'permission_ids' => ['nullable', 'array'],
         ]);
 
         $user = User::find($data['user_id']);

@@ -15,5 +15,10 @@
     "Categories": "kategorie",
     "Tags": "Tagi",
     "Delete": "Usuń",
-    "Improve to category": "Dodaj jako kategorię"
+    "Improve to category": "Dodaj jako kategorię",
+    "Adding new category" : "Dodanie nowej kategorii",
+    "Cancel" : "Anuluj",
+    "Add" : "Dodaj"
+
+
 }

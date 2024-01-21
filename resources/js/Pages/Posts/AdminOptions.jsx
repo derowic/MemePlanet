@@ -20,7 +20,6 @@ export default function AdminOptions({
         let tmp = await AxiosPut("post.mainPage", { id: post.id }, null, 1);
 
         if (tmp.status == 201) {
-            console.log(tmp);
             setAsMainPagePost(true);
         }
     };
@@ -34,14 +33,12 @@ export default function AdminOptions({
         );
 
         if (tmp.status == 201) {
-            console.log(tmp);
             setAsMainPagePost(false);
         }
     };
 
     const hidePost = async (post) => {
         let tmp = await AxiosPut("post.hidePost", { id: post.id }, null, 1);
-        console.log(tmp);
         if (tmp.status == 201) {
             hide();
         }

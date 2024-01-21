@@ -15,17 +15,14 @@ function SendPostToMainPage({
     translation,
 }) {
     const setPostToMainPage = async (post) => {
-        console.log("1");
         let tmp = await AxiosPut("post.mainPage", { id: post.id }, null, 1);
 
         if (tmp.status == 201) {
-            console.log(tmp);
             setAsMainPagePost(true);
         }
     };
 
     const takePostFromMainPage = async (post) => {
-        console.log("2");
         let tmp = await AxiosPut(
             "post.takeFromMainPage",
             { id: post.id },
@@ -34,7 +31,6 @@ function SendPostToMainPage({
         );
 
         if (tmp.status == 201) {
-            console.log(tmp);
             setAsMainPagePost(false);
         }
     };

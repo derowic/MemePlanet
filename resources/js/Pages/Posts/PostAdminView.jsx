@@ -45,7 +45,6 @@ function PostAdminView({ post, tags, showOptions, setPosts, translation }) {
             post.status = "main page";
         }
         setMainPage(tmp);
-        console.log(tmp);
     };
 
     const deletePost = () => {

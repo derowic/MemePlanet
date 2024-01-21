@@ -32,5 +32,10 @@
     "Reported Posts": "Zraportowane posty",
     "Hidden Posts": "Ukryte Posty",
     "Deleted Posts": "Usunięte posty",
-    "Service settings": "Ustawienia serwisu"
+    "Service settings": "Ustawienia serwisu",
+
+    "You aren't authorize to be here, go back" : "Nie masz upoważnienia, żeby tu być, wracaj",
+    "Go back to dashboard" : "Wróć do pulpitu nawigacyjnego",
+    "Log in" : "Zaloguj sie",
+    "Register" : "Zarejestruj"
 }

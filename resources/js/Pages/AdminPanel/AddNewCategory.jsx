@@ -41,17 +41,18 @@ export default function AddNewCategory({
                 onClose={closeDialog}
                 className="rounded-lg fixed inset-0 flex items-center justify-center z-50 "
             >
-                <Dialog.Panel className="bg-meme_black border-4 border-black text-white p-4 rounded shadow-md w-1/2">
+                <Dialog.Panel className="bg-meme_black border-2 border-meme_violet text-white p-4 rounded shadow-md w-1/2">
                     <Dialog.Title>{modalTitle}</Dialog.Title>
                     <Dialog.Description>{modalDescription}</Dialog.Description>
                     <div className="mt-4 flex justify-end">
                         <Input
                             type={"text"}
-                            title={"name"}
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             className={"rounded-lg text-black m-2 p-2"}
+                            placeholder={"humor"}
                         />
+
                         <DefaultButton
                             onClick={() =>
                                 AxiosPost("category.store", null, {
@@ -59,12 +60,14 @@ export default function AddNewCategory({
                                 })
                             }
                             text={primaryButtonText}
-                            className={"rounded-lg m-2 p-2 bg-green-500"}
+                            className={"rounded-lg bg-green-500 px-4 m-2"}
                         />
+
+
                         <DefaultButton
                             text={secondaryButtonText}
                             onClick={() => closeDialog()}
-                            className={"rounded-lg m-2  p-2 bg-red-500"}
+                            className={"rounded-lg px-4 m-2 bg-red-500"}
                         />
                     </div>
                 </Dialog.Panel>

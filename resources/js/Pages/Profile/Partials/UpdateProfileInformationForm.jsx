@@ -1,9 +1,11 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import { Link, useForm, usePage } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
+import { useTranslation } from "react-i18next";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
@@ -11,6 +13,7 @@ export default function UpdateProfileInformation({
     className = "",
 }) {
     const user = usePage().props.auth.user;
+    const translation = useTranslation(["settings"]);
 
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm({
@@ -27,16 +30,16 @@ export default function UpdateProfileInformation({
     return (
         <section className={className}>
             <header>
-                <h2 className="text-lg font-medium ">Profile Information</h2>
+                <h2 className="text-lg font-medium ">{translation.t("Profile Information")}</h2>
 
                 <p className="mt-1 text-sm ">
-                    Update your account's profile information and email address.
+                    {translation.t("Update your account's profile information and email address.")}
                 </p>
             </header>
 
             <form onSubmit={submit} className="mt-6 space-y-6 text-white">
                 <div>
-                    <InputLabel htmlFor="name" value="Name" />
+                    <InputLabel htmlFor="name" value={translation.t("Name")}  />
 
                     <TextInput
                         id="name"
@@ -52,7 +55,7 @@ export default function UpdateProfileInformation({
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="email" value={translation.t("Email")} />
 
                     <TextInput
                         id="email"
@@ -77,21 +80,20 @@ export default function UpdateProfileInformation({
                                 as="button"
                                 className="underline text-sm srounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                             >
-                                Click here to re-send the verification email.
+                                {translation.t("Click here to re-send the verification email.")}
                             </Link>
                         </p>
 
                         {status === "verification-link-sent" && (
                             <div className="mt-2 font-medium text-sm text-green-600">
-                                A new verification link has been sent to your
-                                email address.
+                                {translation.t("A new verification link has been sent to your email address.")}
                             </div>
                         )}
                     </div>
                 )}
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <PrimaryButton disabled={processing}>{translation.t("Save")}</PrimaryButton>
 
                     <Transition
                         show={recentlySuccessful}
@@ -100,7 +102,7 @@ export default function UpdateProfileInformation({
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm">Saved.</p>
+                        <p className="text-sm">{translation.t("Saved.")}</p>
                     </Transition>
                 </div>
             </form>

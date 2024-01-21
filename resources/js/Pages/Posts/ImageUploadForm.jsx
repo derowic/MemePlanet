@@ -101,7 +101,6 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
 
     const selectCategory = (buttonId) => {
         setSelectedCategory(buttonId);
-        console.log(categories.find((category) => category.id === buttonId));
     };
 
     const selectTag = (buttonId) => {
@@ -183,9 +182,10 @@ const ImageUploadForm = ({ onImageUpload, categories, tags }) => {
                             title={translation.t("Custom tag")}
                             value={customTagText}
                             onChange={(e) => setCustomTagText(e.target.value)}
+                            placeholder = {"#customTag"}
                         />
-                        {translation.t("Example:")} #humor#mem#funny
-                        <div className=" border-t border-meme_violet p-2">
+
+                        <div className=" border-meme_violet p-2">
                             <DefaultButton
                                 onClick={handleUploadClick}
                                 text={translation.t("Upload")}

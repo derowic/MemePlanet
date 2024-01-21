@@ -19,7 +19,7 @@ export default function RoleAndPermissions() {
     const user = usePage().props.auth.user;
     const translation = useTranslation(["rolesAndPermissions"]);
     const [roles, setRoles] = useState([]);
-    const [selectedRoles, setSelectedRoles] = useState([]);
+    const [selectedRoles, setSelectedRoles] = useState(null);
     const [permissions, setPermissions] = useState([]);
 
     const [selectedPermissions, setSelectedPermissions] = useState([]);
@@ -47,9 +47,10 @@ export default function RoleAndPermissions() {
     };
 
     const assignPermissions = () => {
-        if (selectedUser.id === null || selectedPermissions.length === 0) {
+        /*if (selectedUser.id === null || selectedPermissions.length === 0) {
             return;
         }
+        */
         const data = {
             user_id: selectedUser.id,
             permission_ids: selectedPermissions,
@@ -70,17 +71,22 @@ export default function RoleAndPermissions() {
     };
 
     const assignRoles = () => {
-        if (selectedUser.id === null || selectedRoles.length === 0) {
-            return;
+        if (selectedUser == null || selectedUser.id == null || selectedRoles.length === 0) {
+            return null;
         }
-        const data = {
-            user_id: selectedUser.id,
-            role_ids: selectedRoles,
-        };
-        axios.post(route("role.assignRoles"), data).then((response) => {
-            toast.success(response.data.msg);
-        });
-        refreshUser(selectedUser.id);
+        else
+        {
+            const data = {
+                user_id: selectedUser.id,
+                role_ids: selectedRoles,
+            };
+            // axios.post(route("role.assignRoles"), data).then((response) => {
+            //     toast.success(response.data.msg);
+            // });
+            //AxiosPut("tag.improveTag", { tag: tag.id }, null);
+            AxiosPost("role.assignRoles", data, null);
+            refreshUser(selectedUser.id);
+        }
     };
 
     const refreshUser = async (userId) => {
@@ -97,10 +103,15 @@ export default function RoleAndPermissions() {
         AxiosPost("ban.unBan", { user: user.id }, null);
         removeBannedUser(user);
     };
-
+    //
     useEffect(() => {
-        console.log(selectedUser);
+        if(selectedUser)
+        {
+            const roleIds = selectedUser.roles.map(role => role.id);
+            setSelectedRoles(roleIds);
+        }
     }, [selectedUser]);
+
 
     return (
         <AuthenticatedLayout>
@@ -116,12 +127,12 @@ export default function RoleAndPermissions() {
                                 />
                             </div>
 
-                            <h2>
+                            <h2 className="mt-5">
                                 {translation.t("Użytkownik")}:{" "}
                                 {selectedUser && selectedUser.name}
                             </h2>
                             <div className="w-full flex">
-                                <div className="w-1/2 ">
+                                {/* <div className="w-1/2 ">
                                     <div className="text-2xl">
                                         {translation.t("Permissions")}:
                                     </div>
@@ -129,21 +140,21 @@ export default function RoleAndPermissions() {
                                         selectedUser.permissions.map(
                                             (permi) => <div>{permi.name}</div>,
                                         )}
-                                </div>
-                                <div className="w-1/2 ">
-                                    <div className="text-2xl">
+                                </div> */}
+                                {/* <div className="w-full">
+                                    <div className="">
                                         {translation.t("Role")}:{" "}
                                     </div>
                                     {selectedUser &&
                                         selectedUser.roles.map((role) => (
                                             <div>{role.name}</div>
                                         ))}
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
                     <div className="flex  text-white justify-center items-center">
-                        <div className="w-1/2  text-white justify-center items-center">
+                        {/* <div className="w-1/2  text-white justify-center items-center">
                             <ul>
                                 {permissions.map((permission) => (
                                     <li key={permission.id}>
@@ -172,27 +183,29 @@ export default function RoleAndPermissions() {
                                     "p-3 rounded-lg border border-green-500  hover:bg-green-400 m-2"
                                 }
                             />
-                        </div>
+                        </div> */}
                         <div className="w-1/2 text-white text-center justify-center items-center">
-                            <ul>
+                            <ul className="flex mt-2">
                                 {roles.map((role) => (
                                     <li
                                         key={role.id}
-                                        className="text-left w-1/2"
+                                        className="text-left mr-4"
                                     >
-                                        <label>
+                                        <div className="flex">
                                             <input
                                                 type="checkbox"
                                                 value={role.id}
-                                                checked={selectedRoles.includes(
+                                                checked={selectedRoles && selectedRoles.includes(
                                                     role.id,
                                                 )}
                                                 onChange={() =>
                                                     toggleRole(role.id)
                                                 }
+                                                className="p-2"
+                                                checked={selectedRoles && selectedRoles.includes(role.id)}
                                             />
-                                            {translation.t(role.name)}
-                                        </label>
+                                            <div className="ml-2"> {translation.t(role.name)}</div>
+                                        </div>
                                     </li>
                                 ))}
                             </ul>

@@ -22,7 +22,7 @@ export default function UnAuthorizedView({}) {
             <div className="w-full h- p-6 text-center text-white font-bold bg-meme_black ">
                 {user ? (
                     <Link href={route("dashboard")} className="">
-                        go back to dashboard
+                        Go back to dashboard
                     </Link>
                 ) : (
                     <>
