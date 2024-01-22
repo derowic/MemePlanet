@@ -66,7 +66,7 @@ function Post({ post, tags, showOptions, translation }) {
                                             : "unknown"}
                                     </div>
                                     <div className="text-left text-xs ">
-                                        {post.category.name}
+                                        {post.category && post.category.name}
                                     </div>
                                     <Tags post={post} tags={tags} />
                                     <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">

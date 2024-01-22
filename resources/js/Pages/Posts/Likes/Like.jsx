@@ -48,7 +48,7 @@ function Like({ elementId, elementType, likes, is_liked }) {
                 Notify("You don't have permission", "info");
             }
         } else {
-            Notify("You need to be log in", "info");
+            Notify("You need to be loged in", "info");
         }
     };
 

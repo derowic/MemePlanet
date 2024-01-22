@@ -12,7 +12,7 @@ import AxiosGet from "@/Pages/API/AxiosGet";
 import { useTranslation } from "react-i18next";
 import { Switch } from "@headlessui/react";
 
-function ChangeViewType({ viewType, setViewType }) {
+function ChangeViewType({ viewType, setViewType }) {s
     const { i18n } = useTranslation();
     const changeLanguage = (lang) => {
         i18n.changeLanguage(lang);

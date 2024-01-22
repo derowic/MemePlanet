@@ -55,7 +55,7 @@ function PostModeratorView({ post, tags, showOptions }) {
                         {isNaN(post.user) ? post.user.name : "unknown"}
                     </div>
                     <div className="text-left text-xs ">
-                        {post.category.name}
+                        {post.category && post.category.name}
                     </div>
                     <Tags post={post} tags={tags} translation={translation} />
                     <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">

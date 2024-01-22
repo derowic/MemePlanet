@@ -34,6 +34,10 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
     const [selectedPostsType, setSelectedPostsType] = useState(
         translation.t("Home"),
     );
+    const setSelectedPostsTypeFunc = (tmp) => {
+        setSelectedPostsType(tmp);
+        setPage(1);
+    };
     const [rout, setRout] = useState("post.index");
 
     useEffect(() => {
@@ -89,7 +93,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         </h2>
                         <PostsTypeSelect
                             selected={selectedPostsType}
-                            setSelected={setSelectedPostsType}
+                            setSelected={setSelectedPostsTypeFunc}
                             elements={[
                                 [translation.t("Home"), "post.index"],
                                 [translation.t("Top"), "post.top"],
@@ -123,6 +127,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                     setPosts={setPosts}
                                     page={page}
                                     setPage={setPage}
+                                    viewType={true}
                                 />
                             )}
                     </div>

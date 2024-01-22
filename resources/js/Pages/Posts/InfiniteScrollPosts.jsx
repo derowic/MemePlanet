@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import UploadPost from "./UploadPost";
+import ImageUploadForm from "./ImageUploadForm";
 import Post from "./Post";
 import DefaultButton from "../BasicElements/DefaultButton";
 import { useTranslation } from "react-i18next";
@@ -138,7 +138,7 @@ const InfiniteScrollPosts = ({
             <div className="p-4 w-full m-auto">
                 <div className="m-auto w-3/4">
                     {CheckPermission("post.create") && (
-                        <UploadPost
+                        <ImageUploadForm
                             categories={categories}
                             tags={tags}
                             fetchTags={fetchTags}

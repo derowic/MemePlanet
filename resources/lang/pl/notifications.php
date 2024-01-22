@@ -12,7 +12,7 @@ return [
     'success_post_hidden' => 'Sukces, post ukryty',
     'Post added to favourite' => 'Post zapisano do ulubionych',
     'Post removed from favourites' => 'Post usunięto z ulubionych',
-    'Success, post taken from page' => 'Success, post usunięty ze strony głównej',
+    'Success, post taken from page' => 'Sukces, post usunięty ze strony głównej',
     'Sucess, post sended to main page' => 'Sukces, post wysłany na stronę główną',
     'Success, post hidden' => 'Sukces, post ukryty',
     'Success, post unhide' => 'Sukces, post odkryty',
@@ -33,5 +33,5 @@ return [
     'The image field has invalid image dimensions' => 'Zdjęcie jest za duże, maksymalna szerokość=>  1000px',
 
     //role
-    'Roles assigned' => 'Roles nadano'
+    'Roles assigned' => 'Role nadano'
 ];

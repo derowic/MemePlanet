@@ -17,10 +17,10 @@ function ButtonsList({ elements, func, selected, translation }) {
                         className={
                             Array.isArray(selected)
                                 ? selected.includes(element.id)
-                                    ? "m-2 px-2  border-b border-[#3483eb]"
+                                    ? "m-2 px-2 border-b border-[#3483eb]"
                                     : "m-2 px-2"
                                 : selected === element.id
-                                ? "m-2 px-2  border-b border-[#3483eb]"
+                                ? "m-2 px-2 border-b border-[#3483eb]"
                                 : "m-2 px-2"
                         }
                     />

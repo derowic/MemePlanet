@@ -41,7 +41,7 @@ const ReportDialog = ({
                 Notify("You don't have permission", "info");
             }
         } else {
-            Notify("You need to be log in", "info");
+            Notify("You need to be loged in", "info");
         }
     };
     const closeDialog = () => {

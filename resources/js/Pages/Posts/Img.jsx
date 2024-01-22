@@ -61,6 +61,10 @@ function Img({ post, postDetailsView, setIsOpen, usedAsSimilarPost = false }) {
                         src={"/images/" + post.path_to_image}
                         alt="Opis obrazka"
                         className="m-auto w-full"
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = "/no_image.png";
+                        }}
                     />
                 </div>
             </a>

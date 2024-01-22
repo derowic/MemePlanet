@@ -37,7 +37,7 @@ function PostUserView({ post, tags, showOptions }) {
                             {isNaN(post.user) ? post.user.name : "unknown"}
                         </div>
                         <div className="text-left text-xs ">
-                            {post.category.name}
+                            {post.category && post.category.name}
                         </div>
                         <Tags
                             post={post}

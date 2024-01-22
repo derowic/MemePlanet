@@ -27,7 +27,7 @@ class PostFactory extends Factory
             'category_id' => Category::inRandomOrder()->limit(10)->pluck('id')->random(),
             'likes' => 0,
             'dislikes' => $this->faker->numberBetween(1, 1000),
-            'path_to_image' => $this->faker->numberBetween(1, 10).'.jpg',
+            'path_to_image' => $this->faker->numberBetween(1, 9).'.jpg',
             'status' => $this->faker->randomElement($statuses),
             'deleted_at' => null,
         ];
