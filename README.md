@@ -27,3 +27,15 @@ Run application:
 1. php artisan serve
 2. npm run dev
 3. application should be run on: http://127.0.0.1:8000/
+
+Admin user: admin@localhost password: 12345678
+Moderator user: moderator@localhost password: 12345678
+Normal users: 
+user1@localhost password: 12345678
+user2@localhost password: 12345678
+user3@localhost password: 12345678
+.
+.
+.
+user10@localhost password: 12345678
+

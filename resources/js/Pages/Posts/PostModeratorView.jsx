@@ -21,6 +21,9 @@ function PostModeratorView({ post, tags, showOptions, translation, translationCa
     };
 
     useEffect(() => {
+       if (post.status == "hide") {
+            setHide(true);
+        }
     }, [post, post.status]);
 
     return (

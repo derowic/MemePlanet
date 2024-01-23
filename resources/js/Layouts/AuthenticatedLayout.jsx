@@ -108,17 +108,14 @@ export default function Authenticated({
                                         <Dropdown.Link
                                             href={route("profile.edit")}
                                         >
-                                            {(CheckRole("admin") ||
-                                                CheckRole("user")) && (
-                                                <NavLink
-                                                    href={route("account")}
-                                                    active={route().current(
-                                                        "account",
-                                                    )}
-                                                >
-                                                    {translation.t("Account")}
-                                                </NavLink>
-                                            )}
+                                            <NavLink
+                                                href={route("account")}
+                                                active={route().current(
+                                                    "account",
+                                                )}
+                                            >
+                                                {translation.t("Account")}
+                                            </NavLink>
                                         </Dropdown.Link>
 
                                         <Dropdown.Link
