@@ -106,7 +106,7 @@ const Comment = ({
                                 )}
                             </div>
                         </div>
-                        {(user.role == "admin" || user.role == "moderator") && (
+                        {/* {( user.role == "moderator") && (
                             <div className="block">
                                 <div className="w-full ">
                                     <button
@@ -121,7 +121,7 @@ const Comment = ({
                                     </button>
                                 </div>
                             </div>
-                        )}
+                        )} */}
                     </div>
                     {replies.length > 0 && (
                         <div className="replies">

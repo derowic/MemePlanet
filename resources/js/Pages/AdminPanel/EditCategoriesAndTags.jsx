@@ -21,6 +21,8 @@ import AxiosPut from "../API/AxiosPut";
 export default function EditCategoriesAndTags() {
     const user = usePage().props.auth.user;
     const translation = useTranslation(["rolesAndPermissions"]);
+    const translationTag = useTranslation(["tag"]);
+    const translationCategory = useTranslation(["category"]);
     const [chosenCategory, setChosenCategory] = useState(0);
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
@@ -68,7 +70,7 @@ export default function EditCategoriesAndTags() {
                 />
                 <div className="flex">
                     <div className="w-1/2 ">
-                        <h2 className="mb-4 text-center w-full">
+                        <h2 className="mb-4 text-center w-full border-b-2 border-meme_violet">
                             {translation.t("Categories")}
                         </h2>
                         <div className="h-[85vh] overflow-y-auto custom-scroll  items-center ">
@@ -78,7 +80,7 @@ export default function EditCategoriesAndTags() {
                                         key={category.id}
                                         className="bg-red-yellow flex justify-between m-2"
                                     >
-                                        {translation.t(category.name)}
+                                        <div className="py-4">{translationCategory.t(category.name)}</div>
 
                                         <DefaultButton
                                             className={
@@ -95,7 +97,7 @@ export default function EditCategoriesAndTags() {
                     </div>
 
                     <div className="w-1/2 ">
-                        <h2 className="mb-4 text-center w-full">
+                        <h2 className="mb-4 text-center w-full border-b-2 border-meme_violet">
                             {translation.t("Tags")}
                         </h2>
                         <div className="h-[85vh] overflow-y-auto custom-scroll  items-center  m-2">
@@ -105,11 +107,11 @@ export default function EditCategoriesAndTags() {
                                         key={tag.id}
                                         className="bg-red-yellow flex justify-between m-2"
                                     >
-                                        <div>{translation.t(tag.name)}:</div>
-                                        <div> {tag.use_count}</div>
+                                        <div className="p-4 w-1/3">{translationTag.t(tag.name)}:</div>
+                                        <div className="p-4 w-1/3"> {tag.use_count}</div>
 
                                         <DefaultButton
-                                            className="bg-green-600 hover:bg-green-400 p-2 rounded-lg m-2"
+                                            className="bg-green-600 hover:bg-green-400 py-2 rounded-lg m-2"
                                             text={translation.t(
                                                 "Improve to category",
                                             )}

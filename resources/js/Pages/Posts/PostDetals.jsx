@@ -145,19 +145,19 @@ function PostDetals({
                 anchor="bottom"
                 open={isOpen}
                 onClose={closePanel}
-                className="items-center justify-center "
+                className="items-center justify-center"
             >
-                <div className="bg-meme_black text-white ">
+                <div className="bg-meme_black text-white  h-[95vh]">
                     <button
                         onClick={closePanel}
                         className="sticky top-4 px-4 py-2 border hover:border-meme_black rounded-lg mx-4 bg-meme_black hover:bg-white text-white hover:text-black text-2xl"
                     >
                         X
                     </button>
-                    <div className="w-full m-auto flex">
-                        <div className="m-auto flex w-full">
-                            <div className="w-1/2 flex items-center justify-center">
-                                <div className="w-3/4  justify-center p-4">
+                    <div className="w-full m-auto flex ">
+                        <div className="m-auto flex w-full ">
+                            <div className="w-1/2 flex items-center justify-center ">
+                                <div className="w-3/4  justify-center p-4 ">
                                     <Img
                                         post={post}
                                         loadCommentsFunc={null}

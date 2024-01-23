@@ -40,9 +40,9 @@ function SearchUser({ setSelectedUser, translation }) {
                 className="w-full"
             />
             {showResults && (
-                <ul className="w-full m-auto text-white bg-[#111]">
+                <ul className="w-full m-auto text-white bg-[#111] max-h-[50vh] overflow-y-auto">
                     {results.map((user) => (
-                        <li key={user.id} onClick={() => handleUserClick(user)}>
+                        <li key={user.id} onClick={() => handleUserClick(user)} className="hover:border-2  hover:border-meme_violet py-2 ">
                             {user.name}
                         </li>
                     ))}

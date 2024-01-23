@@ -20,6 +20,8 @@ const InfiniteScrollPosts = ({
     viewType,
 }) => {
     const translation = useTranslation(["post"]);
+    const translationTag = useTranslation(["tag"]);
+    const translationCategory = useTranslation(["category"]);
     const [favs, setFavs] = useState([]);
     const [chosedCategory, setChosedCategory] = useState(0);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -169,6 +171,8 @@ const InfiniteScrollPosts = ({
                                             tags={tags}
                                             showOptions={true}
                                             translation={translation}
+                                            translationCategory={translationCategory}
+                                            translationTag={translationTag}
                                         />
                                     ))}
                                 </div>
@@ -186,6 +190,8 @@ const InfiniteScrollPosts = ({
                                             tags={tags}
                                             showOptions={true}
                                             translation={translation}
+                                            translationCategory={translationCategory}
+                                            translationTag={translationTag}
                                         />
                                     ))}
                                 </div>

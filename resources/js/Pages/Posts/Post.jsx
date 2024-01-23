@@ -17,8 +17,9 @@ import UnHide from "../AdminAndModeratorFunctions/UnHide";
 import PostAdminView from "./PostAdminView";
 import PostModeratorView from "./PostModeratorView";
 import PostUserView from "./PostUserView";
+import PostData from "./PostData";
 
-function Post({ post, tags, showOptions, translation }) {
+function Post({ post, tags, showOptions, translation, translationCategory, translationTag}) {
     const [isOpen, setIsOpen] = useState(false);
     const [loadComments, setLoadComments] = useState(false);
     const loadCommentsFunc = () => {
@@ -36,6 +37,8 @@ function Post({ post, tags, showOptions, translation }) {
                     tags={tags}
                     showOptions={showOptions}
                     translation={translation}
+                    translationCategory={translationCategory}
+                    translationTag={translationTag}
                 />
             ) : (
                 <>
@@ -45,6 +48,8 @@ function Post({ post, tags, showOptions, translation }) {
                             tags={tags}
                             showOptions={showOptions}
                             translation={translation}
+                            translationCategory={translationCategory}
+                            translationTag={translationTag}
                         />
                     ) : (
                         <>
@@ -54,69 +59,24 @@ function Post({ post, tags, showOptions, translation }) {
                                     tags={tags}
                                     showOptions={showOptions}
                                     translation={translation}
+                                    translationCategory={translationCategory}
+                                    translationTag={translationTag}
                                 />
                             ) : (
                                 <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
-                                    <h3 className="text-left font-semibold mb-2 w-full">
-                                        {post.title}
-                                    </h3>
-                                    <div className="text-left text-xs mb-2">
-                                        {isNaN(post.user)
-                                            ? post.user.name
-                                            : "unknown"}
-                                    </div>
-                                    <div className="text-left text-xs ">
-                                        {post.category && post.category.name}
-                                    </div>
-                                    <Tags post={post} tags={tags} />
-                                    <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
-                                        {post.text}
-                                    </div>
-
-                                    <Img
+                                    <PostData
                                         post={post}
-                                        loadCommentsFunc={loadCommentsFunc}
+                                        tags={tags}
+                                        isOpen={isOpen}
                                         setIsOpen={setIsOpen}
+                                        loadComments={loadComments}
+                                        loadCommentsFunc={loadCommentsFunc}
+                                        setLoadComments={setLoadComments}
+                                        translation={translation}
+                                        translationCategory={translationCategory}
+                                        translationTag={translationTag}
+                                        showOptions={showOptions}
                                     />
-
-                                    {showOptions && (
-                                        <div className="flex flex-wrap">
-                                            <Like
-                                                elementId={post.id}
-                                                elementType={"post"}
-                                                likes={post.likes}
-                                                is_liked={post.is_liked}
-                                                translation={translation}
-                                            />
-
-                                            <Fav
-                                                postId={post.id}
-                                                is_Fav={post.is_fav}
-                                                translation={translation}
-                                            />
-
-                                            <ReportDialog
-                                                post={post}
-                                                defaultButtonText={"!"}
-                                                modalTitle={""}
-                                                modalDescription={translation.t(
-                                                    "Select report reason",
-                                                )}
-                                                translation={translation}
-                                            />
-
-                                            <PostDetals
-                                                post={post}
-                                                isOpen={isOpen}
-                                                setIsOpen={setIsOpen}
-                                                loadComments={loadComments}
-                                                setLoadComments={
-                                                    setLoadComments
-                                                }
-                                                translation={translation}
-                                            />
-                                        </div>
-                                    )}
                                 </div>
                             )}
                         </>

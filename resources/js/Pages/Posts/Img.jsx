@@ -55,12 +55,12 @@ function Img({ post, postDetailsView, setIsOpen, usedAsSimilarPost = false }) {
                           }
                 }
             >
-                <div>
+                <div  className="m-auto w-full max-h-[80vh] overflow-y-auto">
                     <img
                         id={"yourImage" + post.id}
                         src={"/images/" + post.path_to_image}
                         alt="Opis obrazka"
-                        className="m-auto w-full"
+                        className="m-auto w-full "
                         onError={(e) => {
                             e.target.onerror = null;
                             e.target.src = "/no_image.png";
