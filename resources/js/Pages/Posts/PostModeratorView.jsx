@@ -40,6 +40,28 @@ function PostModeratorView({ post, tags, showOptions }) {
         <>
             {hide ? (
                 <div className="rounded-lg p-4 border border-[#333] hover:border-meme_violet m-2">
+                    <h3 className="text-left font-semibold mb-2 w-full">
+                        {post.title}
+                    </h3>
+                    <div className="text-left text-xs mb-2">
+                        {isNaN(post.user) ? post.user.name : "unknown"}
+                    </div>
+                    <div className="text-left text-xs ">
+                        {post.category && post.category.name}
+                    </div>
+                    <Tags
+                        post={post}
+                        tags={tags}
+                        translation={translation}
+                    />
+                    <div className="overflow-wrap: normal word-break: normal text-left text-xs mb-2 mt-2">
+                        {post.text}
+                    </div>
+                    <Img
+                        post={post}
+                        loadCommentsFunc={loadCommentsFunc}
+                        setIsOpen={setIsOpen}
+                    />
                     <UnHide
                         post={post}
                         hide={hideFunc}

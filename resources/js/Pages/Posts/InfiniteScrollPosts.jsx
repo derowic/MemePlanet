@@ -149,7 +149,7 @@ const InfiniteScrollPosts = ({
                     dataLength={posts.length}
                     next={fetchPaginatedPost}
                     hasMore={hasMore}
-                    loader={<p>{translation.t("loading...")}</p>}
+                    //loader={<p>{translation.t("loading...")}</p>}
                     endMessage={<p>{translation.t("No more posts")}</p>}
                 >
                     {viewType ? (
