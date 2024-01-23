@@ -13,7 +13,7 @@ return [
     'Post added to favourite' => 'Post zapisano do ulubionych',
     'Post removed from favourites' => 'Post usunięto z ulubionych',
     'Success, post taken from page' => 'Sukces, post usunięty ze strony głównej',
-    'Sucess, post sended to main page' => 'Sukces, post wysłany na stronę główną',
+    'Success, post sended to main page' => 'Sukces, post wysłany na stronę główną',
     'Success, post hidden' => 'Sukces, post ukryty',
     'Success, post unhide' => 'Sukces, post odkryty',
     'Success, post deleted' => 'Sukces, post usunięty',
