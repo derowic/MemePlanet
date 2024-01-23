@@ -13,5 +13,8 @@
 
     "Post added, wait in fresh to accept by moderators": "Post dodany, czeka w oczekujących na zaakceptowanie przez moderatorów",
     "Image, title and category are required": "Zdjęcie, tytuł i kategoria musi zostać wypełnione",
-    "The image field has invalid image dimensions": "Zdjęcie jest za duże, maksymalna szerokość: 1000px"
+    "The image field has invalid image dimensions": "Zdjęcie jest za duże, maksymalna szerokość: 1000px",
+
+    "reply to your comment":"odpowiedział na twój komentarz",
+    "reply to your post":"odpowiedział na twój post"
 }

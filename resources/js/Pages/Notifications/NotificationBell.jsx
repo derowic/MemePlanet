@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import NotificationsList from "./NotificationsList";
 import AxiosGet from "../API/AxiosGet";
 import { Drawer } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const NotificationBell = () => {
+    const translation = useTranslation(["notification"]);
     const [notifications, setNotifications] = useState([]);
     const [page, setPage] = useState(1);
     const [unSeen, setUnSeen] = useState(null);
+    const [showNotifications, setShowNotifications] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const fetchNotification = async () => {
         try {
@@ -31,11 +35,13 @@ const NotificationBell = () => {
         }
     };
 
-    const [showNotifications, setShowNotifications] = useState(false);
-
     const toggleNotifications = () => {
         setShowNotifications(!showNotifications);
         togglePanel();
+    };
+
+    const togglePanel = () => {
+        setIsOpen(!isOpen);
     };
 
     useEffect(() => {
@@ -50,10 +56,7 @@ const NotificationBell = () => {
         };
     }, []);
 
-    const [isOpen, setIsOpen] = useState(false);
-    const togglePanel = () => {
-        setIsOpen(!isOpen);
-    };
+
 
     return (
         <div className="">
@@ -72,8 +75,8 @@ const NotificationBell = () => {
                 className="items-center justify-center "
             >
                 <div className="bg-meme_black h-[100vh]">
-                    <div></div>
-                    <NotificationsList notifications={notifications} />
+                {translation.t("reply to your comment")}
+                    <NotificationsList notifications={notifications} translation={translation}/>
                 </div>
             </Drawer>
         </div>
