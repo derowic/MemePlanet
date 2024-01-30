@@ -108,10 +108,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/report', [ReportController::class, 'index'])->name('report.index');
     });
 
-    Route::middleware(['checkModeratorRole'])->group(function () {
+    Route::put('/hdie/{post}/hide', [PostController::class, 'hidePost'])->name('post.hidePost');
+    Route::put('/hdie/{post}/unHide', [PostController::class, 'unHidePost'])->name('post.unHidePost');
 
-        Route::put('/hdie/{post}/hide', [PostController::class, 'hidePost'])->name('post.hidePost');
-        Route::put('/hdie/{post}/unHide', [PostController::class, 'unHidePost'])->name('post.unHidePost');
+    Route::middleware(['checkModeratorRole'])->group(function () {
 
         Route::middleware(['checkAdminRole'])->group(function () {
 
