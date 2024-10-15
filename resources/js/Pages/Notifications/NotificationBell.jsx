@@ -75,6 +75,7 @@ const NotificationBell = () => {
                 className="items-center justify-center "
             >
                 <div className="bg-meme_black h-[100vh]">
+                {translation.t("reply to your comment")}
                     <NotificationsList notifications={notifications} translation={translation}/>
                 </div>
             </Drawer>

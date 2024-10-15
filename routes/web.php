@@ -52,7 +52,7 @@ Route::get('/category', [CategoryController::class, 'index'])->name('category.in
 
 Route::get('/tag', [TagController::class, 'index'])->name('tag.index');
 
-Route::get('/tagList', [TagListController::class, 'index'])->name('tagListg.index');
+Route::get('/tagList', [TagController::class, 'index'])->name('tagList.index');
 
 Route::get('/api/roles', [RoleController::class, 'index'])->name('role.index');
 Route::get('/api/permissions', [PermissionController::class, 'index'])->name('permission.index');
@@ -108,10 +108,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/report', [ReportController::class, 'index'])->name('report.index');
     });
 
-    Route::put('/hdie/{post}/hide', [PostController::class, 'hidePost'])->name('post.hidePost');
-    Route::put('/hdie/{post}/unHide', [PostController::class, 'unHidePost'])->name('post.unHidePost');
-
     Route::middleware(['checkModeratorRole'])->group(function () {
+
+        Route::put('/hdie/{post}/hide', [PostController::class, 'hidePost'])->name('post.hidePost');
+        Route::put('/hdie/{post}/unHide', [PostController::class, 'unHidePost'])->name('post.unHidePost');
 
         Route::middleware(['checkAdminRole'])->group(function () {
 
